@@ -101,7 +101,6 @@
 #pragma mark 创建定时器
 -(NSTimer *)createTimer{
     return [NSTimer scheduledTimerWithTimeInterval:2.0f target:self selector:@selector(pageControlToNext:) userInfo:nil repeats:YES];
-    //return nil;
 }
 #pragma mark 关闭定时器
 -(void)stopTimer{
@@ -113,12 +112,15 @@
 -(void)pageControlToNext:(id)sender{
     CGRect rect = _scrollView.frame;
     CGSize viewSize = rect.size;
-    if(_pageControl.currentPage == _pageControl.numberOfPages - 1){//最后一页关闭定时器
-        [self stopTimer];
-    }else{
-        rect.origin.x = _pageControl.currentPage * viewSize.width;
-        [_scrollView scrollRectToVisible:rect animated:YES];
+    int index = (int)_pageControl.currentPage;
+    if([sender isKindOfClass:[NSTimer class]]){
+        index += 1;
+        if(index == _pageControl.numberOfPages - 1){
+            [self stopTimer];
+        }
     }
+    rect.origin.x = index * viewSize.width;
+    [_scrollView scrollRectToVisible:rect animated:YES];
     NSLog(@"pageControlToNext:%@", sender);
 }
 #pragma mark 按钮事件处理
@@ -141,9 +143,10 @@
 }
 #pragma mark 滚动
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    NSLog(@"DidScroll");
     CGFloat pageWidth = scrollView.bounds.size.width;
-    _pageControl.currentPage = floor((scrollView.contentOffset.x - pageWidth/2)/pageWidth) + 1;}
+    _pageControl.currentPage = floor((scrollView.contentOffset.x - pageWidth/2)/pageWidth) + 1;
+    NSLog(@"DidScroll");
+}
 #pragma mark 将结束滚动
 -(void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
     //创建定时器
