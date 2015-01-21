@@ -16,9 +16,9 @@
 @implementation AppDelegate
 //app开始运行时调用
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    LaunchViewController *launchViewController = (LaunchViewController *)self.window.rootViewController;
-    launchViewController.managedObjectContext = self.managedObjectContext;
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.rootViewController = [[LaunchViewController alloc] init];
+    [self.window makeKeyAndVisible];
     
 //    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
 //    MasterViewController *controller = (MasterViewController *)navigationController.topViewController;

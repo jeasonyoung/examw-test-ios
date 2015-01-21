@@ -11,8 +11,5 @@
 
 @interface LaunchViewController : UIViewController
 
-//数据管理上下文
-@property(nonatomic,strong) NSManagedObjectContext *managedObjectContext;
-
 
 @end
