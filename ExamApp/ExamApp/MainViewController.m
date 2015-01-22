@@ -5,26 +5,20 @@
 //  Created by jeasonyoung on 15/1/21.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 #import "MainViewController.h"
-//主菜单控制器成员变量
-@interface MainViewController (){
-    //导航控制器
-    UINavigationController *_navController;
+#import "HomeViewController.h"
+#import "SettingsViewController.h"
+//主视图控制器成员变量
+@interface MainViewController()<UITabBarControllerDelegate>{
+    
 }
 @end
-//主菜单控制器实现类
+//主视图控制器实现类
 @implementation MainViewController
-#pragma mark 初始化
--(id)init{
-    if(self = [super init]){
-        _navController = [[UINavigationController alloc] initWithRootViewController:self];//初始化导航控制器
-    }
-    return self;
-}
 #pragma mark 切换视图控制器
 -(void)gotoControllerWithParent:(UIViewController *)parent animated:(BOOL)isAnimate{
     if(parent != nil){
-        //_navController.modalTransitionStyle = UIModalTransitionStylePartialCurl;
-        [parent presentViewController:_navController animated:YES completion:^{
+        //self.modalTransitionStyle = UIModalTransitionStylePartialCurl;
+        [parent presentViewController:self animated:YES completion:^{
             NSLog(@" === === completion == ==");
         }];
     }
@@ -32,11 +26,22 @@
 #pragma mark 内容加载
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    self.title = @"考试产品名称";
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.delegate = self;
+    NSString *topTitle = @"产品名称";
+    //主页控制器
+    HomeViewController *home = [[HomeViewController alloc] init];
+    UITabBarItem *homeBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[UIImage imageNamed:@"tab_home_normal.png"] selectedImage:[UIImage imageNamed:@"tab_home_selected.png"]];
+    home.tabBarItem = homeBarItem;
+    home.navigationItem.title = topTitle;
+    //设置控制器
+    SettingsViewController *settings = [[SettingsViewController alloc] init];
+    UITabBarItem *settingsBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[UIImage imageNamed:@"tab_settings_normal.png"] selectedImage:[UIImage imageNamed:@"tab_settings_selected.png"]];
+    settings.tabBarItem =  settingsBarItem;
+    settings.navigationItem.title = topTitle;
+    //添加到TabBarController控制器中
+    self.viewControllers = @[home.navigationController, settings.navigationController];
     
-    _navController.navigationBarHidden = NO;
+    NSLog(@"TabBarController ====");
 }
 #pragma mark 内存警告
 - (void)didReceiveMemoryWarning {
@@ -44,4 +49,8 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark UITabBarControllerDelegate
+-(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
+    NSLog(@"didSelectViewController - %d", (int)tabBarController.selectedIndex);
+}
 @end

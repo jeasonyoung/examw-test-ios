@@ -19,6 +19,17 @@
 		A1910E8E1A6D3AC800377160 /* ExamAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E8D1A6D3AC800377160 /* ExamAppTests.m */; };
 		A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A1ED101A1A6F4EA9004DAD90 /* NSQueue.m */; };
 		A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1ED101F1A6F80BA004DAD90 /* MainViewController.m */; };
+		A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EE7DD71A70A52F0071C76D /* HomeViewController.m */; };
+		A1EE7DDB1A70A8B80071C76D /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EE7DDA1A70A8B80071C76D /* SettingsViewController.m */; };
+		A1EE7DDE1A70AA8C0071C76D /* TabBarViewTestControllerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EE7DDD1A70AA8C0071C76D /* TabBarViewTestControllerViewController.m */; };
+		A1EE7DEC1A70E01D0071C76D /* UserView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1EE7DEB1A70E01D0071C76D /* UserView.xib */; };
+		A1EE7E011A70E5A00071C76D /* tab_home_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE7DFD1A70E5A00071C76D /* tab_home_normal.png */; };
+		A1EE7E021A70E5A00071C76D /* tab_home_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE7DFE1A70E5A00071C76D /* tab_home_selected.png */; };
+		A1EE7E031A70E5A00071C76D /* tab_settings_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE7DFF1A70E5A00071C76D /* tab_settings_normal.png */; };
+		A1EE7E041A70E5A00071C76D /* tab_settings_selectd.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE7E001A70E5A00071C76D /* tab_settings_selectd.png */; };
+		A1EE7E071A70EA440071C76D /* user_username.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE7E061A70EA440071C76D /* user_username.png */; };
+		A1EE7E091A70EA5B0071C76D /* user_calculate.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE7E081A70EA5B0071C76D /* user_calculate.png */; };
+		A1EE7E121A70FC290071C76D /* UserBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EE7E111A70FC290071C76D /* UserBannerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +64,22 @@
 		A1ED101A1A6F4EA9004DAD90 /* NSQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSQueue.m; path = Utils/NSQueue.m; sourceTree = "<group>"; };
 		A1ED101E1A6F80BA004DAD90 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
 		A1ED101F1A6F80BA004DAD90 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
+		A1EE7DD61A70A52F0071C76D /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeViewController.h; sourceTree = "<group>"; };
+		A1EE7DD71A70A52F0071C76D /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeViewController.m; sourceTree = "<group>"; };
+		A1EE7DD91A70A8B80071C76D /* SettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsViewController.h; sourceTree = "<group>"; };
+		A1EE7DDA1A70A8B80071C76D /* SettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingsViewController.m; sourceTree = "<group>"; };
+		A1EE7DDC1A70AA8C0071C76D /* TabBarViewTestControllerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabBarViewTestControllerViewController.h; sourceTree = "<group>"; };
+		A1EE7DDD1A70AA8C0071C76D /* TabBarViewTestControllerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabBarViewTestControllerViewController.m; sourceTree = "<group>"; };
+		A1EE7DEB1A70E01D0071C76D /* UserView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserView.xib; sourceTree = "<group>"; };
+		A1EE7DFD1A70E5A00071C76D /* tab_home_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_home_normal.png; sourceTree = "<group>"; };
+		A1EE7DFE1A70E5A00071C76D /* tab_home_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_home_selected.png; sourceTree = "<group>"; };
+		A1EE7DFF1A70E5A00071C76D /* tab_settings_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_settings_normal.png; sourceTree = "<group>"; };
+		A1EE7E001A70E5A00071C76D /* tab_settings_selectd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_settings_selectd.png; sourceTree = "<group>"; };
+		A1EE7E061A70EA440071C76D /* user_username.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_username.png; sourceTree = "<group>"; };
+		A1EE7E081A70EA5B0071C76D /* user_calculate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_calculate.png; sourceTree = "<group>"; };
+		A1EE7E101A70FC290071C76D /* UserBannerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserBannerView.h; sourceTree = "<group>"; };
+		A1EE7E111A70FC290071C76D /* UserBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserBannerView.m; sourceTree = "<group>"; };
+		A1EE7E131A70FFB40071C76D /* UserBannerViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserBannerViewDelegate.h; sourceTree = "<group>"; };
 		B80650993975702DBACD81BE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -113,10 +140,15 @@
 				A1510F821A6DEF4C00FE59A9 /* LaunchViewController.m */,
 				A1ED101E1A6F80BA004DAD90 /* MainViewController.h */,
 				A1ED101F1A6F80BA004DAD90 /* MainViewController.m */,
+				A1EE7DD91A70A8B80071C76D /* SettingsViewController.h */,
+				A1EE7DDA1A70A8B80071C76D /* SettingsViewController.m */,
+				A1EE7DE71A70DF470071C76D /* Home */,
 				A1ED10181A6F4D34004DAD90 /* Utils */,
 				A1910E7E1A6D3AC800377160 /* Images.xcassets */,
 				A1910E721A6D3AC800377160 /* ExamApp.xcdatamodeld */,
 				A1910E6B1A6D3AC800377160 /* Supporting Files */,
+				A1EE7DDC1A70AA8C0071C76D /* TabBarViewTestControllerViewController.h */,
+				A1EE7DDD1A70AA8C0071C76D /* TabBarViewTestControllerViewController.m */,
 			);
 			path = ExamApp;
 			sourceTree = "<group>";
@@ -151,6 +183,12 @@
 		A1910E991A6D3B2700377160 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				A1EE7E081A70EA5B0071C76D /* user_calculate.png */,
+				A1EE7E061A70EA440071C76D /* user_username.png */,
+				A1EE7DFD1A70E5A00071C76D /* tab_home_normal.png */,
+				A1EE7DFE1A70E5A00071C76D /* tab_home_selected.png */,
+				A1EE7DFF1A70E5A00071C76D /* tab_settings_normal.png */,
+				A1EE7E001A70E5A00071C76D /* tab_settings_selectd.png */,
 				A15110291A6E4A7800FE59A9 /* guide_1.png */,
 				A151102A1A6E4A7800FE59A9 /* guide_2.png */,
 				A151102B1A6E4A7800FE59A9 /* guide_3.png */,
@@ -165,6 +203,19 @@
 				A1ED101A1A6F4EA9004DAD90 /* NSQueue.m */,
 			);
 			name = Utils;
+			sourceTree = "<group>";
+		};
+		A1EE7DE71A70DF470071C76D /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				A1EE7DD61A70A52F0071C76D /* HomeViewController.h */,
+				A1EE7DD71A70A52F0071C76D /* HomeViewController.m */,
+				A1EE7E101A70FC290071C76D /* UserBannerView.h */,
+				A1EE7E111A70FC290071C76D /* UserBannerView.m */,
+				A1EE7E131A70FFB40071C76D /* UserBannerViewDelegate.h */,
+				A1EE7DEB1A70E01D0071C76D /* UserView.xib */,
+			);
+			name = Home;
 			sourceTree = "<group>";
 		};
 		CC43A3C6D979D5B21B285140 /* Frameworks */ = {
@@ -258,9 +309,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				A151102E1A6E4A7800FE59A9 /* guide_3.png in Resources */,
+				A1EE7E031A70E5A00071C76D /* tab_settings_normal.png in Resources */,
+				A1EE7E071A70EA440071C76D /* user_username.png in Resources */,
+				A1EE7E021A70E5A00071C76D /* tab_home_selected.png in Resources */,
 				A151102C1A6E4A7800FE59A9 /* guide_1.png in Resources */,
 				A151102D1A6E4A7800FE59A9 /* guide_2.png in Resources */,
+				A1EE7DEC1A70E01D0071C76D /* UserView.xib in Resources */,
+				A1EE7E041A70E5A00071C76D /* tab_settings_selectd.png in Resources */,
+				A1EE7E091A70EA5B0071C76D /* user_calculate.png in Resources */,
 				A1910E7F1A6D3AC800377160 /* Images.xcassets in Resources */,
+				A1EE7E011A70E5A00071C76D /* tab_home_normal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -312,8 +370,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */,
+				A1EE7DDE1A70AA8C0071C76D /* TabBarViewTestControllerViewController.m in Sources */,
+				A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */,
 				A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */,
 				A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */,
+				A1EE7E121A70FC290071C76D /* UserBannerView.m in Sources */,
+				A1EE7DDB1A70A8B80071C76D /* SettingsViewController.m in Sources */,
 				A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */,
 				A1910E6E1A6D3AC800377160 /* main.m in Sources */,
 				A1510F831A6DEF4C00FE59A9 /* LaunchViewController.m in Sources */,
