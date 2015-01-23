@@ -9,6 +9,7 @@
 #import "NSString+Size.h"
 #import "NSString+Date.h"
 #import "UIColor+Hex.h"
+#import "NSDate+TimeZone.h"
 
 #define __k_banner_top 10//顶部间距
 #define __k_banner_left 10//左边间距
@@ -82,7 +83,7 @@
     NSLog(@"userView = %@", userView);
     
     //添加倒计时面板
-    UIView *cdView = [self createCountdownWithFont:font andExamDate:[@"2015-01-23" stringToDateWithFormat:@"yyyy-MM-dd"] andWidth:w];
+    UIView *cdView = [self createCountdownWithFont:font andExamDate:[@"2015-01-25" toDateWithFormat:@"yyyy-MM-dd"] andWidth:w];
     CGRect cdViewFrame = cdView.frame;
     cdViewFrame.origin.x += __k_banner_view_margin;//x坐标
     cdViewFrame.origin.y = userView.frame.origin.y + userView.frame.size.height + (__k_banner_view_margin * 2);//y坐标
@@ -166,12 +167,11 @@
     lbTitle.font = font;
     [cdView addSubview:lbTitle];
     //倒计时
-    NSDate *now = [NSDate date];
-    NSLog(@"===> %@", now);
-    NSLog(@"===> %@",[[NSString stringFromDate:now] stringToDateWithFormat:@"yyyy-MM-dd"]);
-    NSTimeInterval interval = [date timeIntervalSinceDate:[NSDate date]]/3600/24;
-    NSLog(@"interval => %f", interval);
-    NSString *text = interval >= 0 ? [NSString stringWithFormat:@"%d 天", (int)interval + 1] : @"本次考试已结束";
+    int interval = [date dayIntervalSinceDate:[NSDate currentLocalTime]];
+    NSString *text = interval >= 0 ? [NSString stringWithFormat:@"%d 天", (int)interval] : @"本次考试已结束";
+    if(interval == 0){
+        text = @"今日考试";
+    }
     CGSize textSize = [text sizeWithFont:font];
     CGRect tempFrame = lbTitle.frame;
     tempFrame.origin.x += tempFrame.size.width;

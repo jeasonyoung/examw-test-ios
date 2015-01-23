@@ -12,6 +12,7 @@
 		A151102C1A6E4A7800FE59A9 /* guide_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A15110291A6E4A7800FE59A9 /* guide_1.png */; };
 		A151102D1A6E4A7800FE59A9 /* guide_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A151102A1A6E4A7800FE59A9 /* guide_2.png */; };
 		A151102E1A6E4A7800FE59A9 /* guide_3.png in Resources */ = {isa = PBXBuildFile; fileRef = A151102B1A6E4A7800FE59A9 /* guide_3.png */; };
+		A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */ = {isa = PBXBuildFile; fileRef = A1647B611A728679007B12EA /* NSDate+TimeZone.m */; };
 		A1910E6E1A6D3AC800377160 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E6D1A6D3AC800377160 /* main.m */; };
 		A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E701A6D3AC800377160 /* AppDelegate.m */; };
 		A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A1910E721A6D3AC800377160 /* ExamApp.xcdatamodeld */; };
@@ -51,6 +52,8 @@
 		A15110291A6E4A7800FE59A9 /* guide_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guide_1.png; sourceTree = "<group>"; };
 		A151102A1A6E4A7800FE59A9 /* guide_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guide_2.png; sourceTree = "<group>"; };
 		A151102B1A6E4A7800FE59A9 /* guide_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guide_3.png; sourceTree = "<group>"; };
+		A1647B601A728679007B12EA /* NSDate+TimeZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+TimeZone.h"; path = "Utils/NSDate+TimeZone.h"; sourceTree = "<group>"; };
+		A1647B611A728679007B12EA /* NSDate+TimeZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+TimeZone.m"; path = "Utils/NSDate+TimeZone.m"; sourceTree = "<group>"; };
 		A1910E681A6D3AC800377160 /* ExamApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1910E6C1A6D3AC800377160 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1910E6D1A6D3AC800377160 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -208,6 +211,8 @@
 				A1D66D3A1A7217BA00F98206 /* NSString+Size.m */,
 				A1D66D3D1A723B7E00F98206 /* NSString+Date.h */,
 				A1D66D3E1A723B7E00F98206 /* NSString+Date.m */,
+				A1647B601A728679007B12EA /* NSDate+TimeZone.h */,
+				A1647B611A728679007B12EA /* NSDate+TimeZone.m */,
 				A1D66D371A72177200F98206 /* UIColor+Hex.h */,
 				A1D66D381A72177200F98206 /* UIColor+Hex.m */,
 			);
@@ -376,6 +381,7 @@
 				A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */,
 				A1D66D3F1A723B7E00F98206 /* NSString+Date.m in Sources */,
 				A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */,
+				A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */,
 				A1EE7DDE1A70AA8C0071C76D /* TabBarViewTestControllerViewController.m in Sources */,
 				A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */,
 				A1D66D3C1A7217BA00F98206 /* NSString+Size.m in Sources */,

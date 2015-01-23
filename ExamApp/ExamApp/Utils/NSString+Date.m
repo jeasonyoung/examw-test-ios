@@ -6,6 +6,7 @@
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
 #import "NSString+Date.h"
+#import "NSDate+TimeZone.h"
 
 #define __k_default_date_format "yyyy-MM-dd"
 //日期处理
@@ -13,6 +14,7 @@
 #pragma mark 将日期转为指定格式的字符串
 +(NSString *)stringFromDate:(NSDate *)date withDateFormat:(NSString *)format{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
     [dateFormatter setDateFormat:format];
     return [dateFormatter stringFromDate:date];
 }
@@ -21,9 +23,12 @@
     return [NSString stringFromDate:date withDateFormat:@__k_default_date_format];
 }
 #pragma mark 将日期格式的字符串转换为日期对象
--(NSDate *)stringToDateWithFormat:(NSString *)format{
+-(NSDate *)toDateWithFormat:(NSString *)format{
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:format];
-    return [dateFormatter dateFromString:self];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    [dateFormatter setDateFormat:(format == nil ? @__k_default_date_format : format)];
+    NSDate *target = [[dateFormatter dateFromString:self] localTime];
+    NSLog(@"self -format- target ===> %@  -> %@",self, target);
+    return target;
 }
 @end
