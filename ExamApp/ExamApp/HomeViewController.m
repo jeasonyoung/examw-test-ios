@@ -11,9 +11,9 @@
 #import "UIColor+Hex.h"
 #import "NSDate+TimeZone.h"
 
-#define __k_banner_top 10//顶部间距
-#define __k_banner_left 10//左边间距
-#define __k_banner_right 10//右边间距
+#define __k_banner_top 4//顶部间距
+#define __k_banner_left 4//左边间距
+#define __k_banner_right 4//右边间距
 #define __k_banner_view_margin 5//banner内View与边框的间距
 #define __k_banner_inner_margin 2 //内部间距
 #define __k_banner_icon_cal_with 29 //日历图标宽度
@@ -95,7 +95,7 @@
     bannerView.frame = CGRectMake(x, y, w, cdView.frame.origin.y + cdView.frame.size.height + (__k_banner_view_margin * 2));
     bannerView.backgroundColor = [UIColor colorWithHex:0xF8F8F8];
     bannerView.layer.masksToBounds = YES;
-    bannerView.layer.cornerRadius =YES;
+    bannerView.layer.cornerRadius = 8.5;
     bannerView.layer.borderWidth = 1.0;
     bannerView.layer.borderColor = [[UIColor colorWithHex:0xdedede] CGColor];
     
