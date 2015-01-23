@@ -17,6 +17,7 @@
 //app开始运行时调用
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    self.window.backgroundColor = [UIColor whiteColor];
     self.window.rootViewController = [[LaunchViewController alloc] init];
     [self.window makeKeyAndVisible];
     
