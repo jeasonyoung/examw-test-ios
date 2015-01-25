@@ -10,5 +10,5 @@
 //主视图控制器
 @interface MainViewController : UITabBarController
 //切换视图控制器
--(void)gotoControllerWithParent:(UIViewController *)parent animated:(BOOL)isAnimate;
+-(void)gotoController;
 @end

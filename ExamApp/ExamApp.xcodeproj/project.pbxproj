@@ -18,6 +18,7 @@
 		A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A1910E721A6D3AC800377160 /* ExamApp.xcdatamodeld */; };
 		A1910E7F1A6D3AC800377160 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1910E7E1A6D3AC800377160 /* Images.xcassets */; };
 		A1910E8E1A6D3AC800377160 /* ExamAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E8D1A6D3AC800377160 /* ExamAppTests.m */; };
+		A199C9FB1A73ADD400A31587 /* ETUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = A199C9FA1A73ADD400A31587 /* ETUserView.m */; };
 		A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D66D381A72177200F98206 /* UIColor+Hex.m */; };
 		A1D66D3C1A7217BA00F98206 /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D66D3A1A7217BA00F98206 /* NSString+Size.m */; };
 		A1D66D3F1A723B7E00F98206 /* NSString+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D66D3E1A723B7E00F98206 /* NSString+Date.m */; };
@@ -64,6 +65,9 @@
 		A1910E871A6D3AC800377160 /* ExamAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExamAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1910E8C1A6D3AC800377160 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1910E8D1A6D3AC800377160 /* ExamAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExamAppTests.m; sourceTree = "<group>"; };
+		A199C9F91A73ADD400A31587 /* ETUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETUserView.h; sourceTree = "<group>"; };
+		A199C9FA1A73ADD400A31587 /* ETUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETUserView.m; sourceTree = "<group>"; };
+		A199C9FC1A73B0E800A31587 /* ETUserViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETUserViewDelegate.h; sourceTree = "<group>"; };
 		A1D66D371A72177200F98206 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
 		A1D66D381A72177200F98206 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hex.m"; path = "Utils/UIColor+Hex.m"; sourceTree = "<group>"; };
 		A1D66D3A1A7217BA00F98206 /* NSString+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Size.m"; path = "Utils/NSString+Size.m"; sourceTree = "<group>"; };
@@ -224,6 +228,9 @@
 			children = (
 				A1EE7DD61A70A52F0071C76D /* HomeViewController.h */,
 				A1EE7DD71A70A52F0071C76D /* HomeViewController.m */,
+				A199C9F91A73ADD400A31587 /* ETUserView.h */,
+				A199C9FA1A73ADD400A31587 /* ETUserView.m */,
+				A199C9FC1A73B0E800A31587 /* ETUserViewDelegate.h */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -380,6 +387,7 @@
 			files = (
 				A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */,
 				A1D66D3F1A723B7E00F98206 /* NSString+Date.m in Sources */,
+				A199C9FB1A73ADD400A31587 /* ETUserView.m in Sources */,
 				A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */,
 				A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */,
 				A1EE7DDE1A70AA8C0071C76D /* TabBarViewTestControllerViewController.m in Sources */,

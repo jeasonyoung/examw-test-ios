@@ -134,7 +134,7 @@
 #pragma mark 按钮事件处理
 -(void)btnClick:(id)sender{
     NSLog(@"btnClick===== begin");
-    [[[MainViewController alloc] init] gotoControllerWithParent:self animated:YES];
+    [[[MainViewController alloc] init] gotoController];
     NSLog(@"btnClick===== end");
 }
 #pragma 内存警告处理

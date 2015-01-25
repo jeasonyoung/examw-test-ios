@@ -10,14 +10,14 @@
 #import <CoreData/CoreData.h>
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-//App UI
-@property (strong, nonatomic) UIWindow *window;
+//应该Window UI
+@property (nonatomic,strong) UIWindow *window;
 //被管理数据上下文
-@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (nonatomic, strong, readonly) NSManagedObjectContext *managedObjectContext;
 //被管理数据模型
-@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (nonatomic, strong, readonly) NSManagedObjectModel *managedObjectModel;
 //被管理数据持久化
-@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (nonatomic, strong, readonly) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 //保存数据
 - (void)saveContext;
 //应用程序文档目录URL

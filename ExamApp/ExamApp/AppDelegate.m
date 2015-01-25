@@ -8,17 +8,22 @@
 
 #import "AppDelegate.h"
 #import "LaunchViewController.h"
-
-@interface AppDelegate ()
-
+//应用代理成员
+@interface AppDelegate (){
+    
+}
 @end
-
+//应用代理实现类
 @implementation AppDelegate
 //app开始运行时调用
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //初始化Window
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    //设置Widow的背景颜色
     self.window.backgroundColor = [UIColor whiteColor];
+    //设置Window的根控制器
     self.window.rootViewController = [[LaunchViewController alloc] init];
+    //启动显示
     [self.window makeKeyAndVisible];
     
 //    UINavigationController *navigationController = (UINavigationController *)self.window.rootViewController;
@@ -52,21 +57,14 @@
 }
 
 #pragma mark - Core Data stack
-//数据管理上下文
-@synthesize managedObjectContext = _managedObjectContext;
-//数据管理模型
-@synthesize managedObjectModel = _managedObjectModel;
-//数据管理持久化
-@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
 //应用程序文档目录URL
 - (NSURL *)applicationDocumentsDirectory {
     // The directory the application uses to store the Core Data store file. This code uses a directory named "com.examw.test.ios.ExamApp" in the application's documents directory.
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
-//创建数据管理模型。
-- (NSManagedObjectModel *)managedObjectModel {
-    // The managed object model for the application. It is a fatal error for the application not to be able to find and load its model.
-    if (_managedObjectModel != nil) {
+//获取数据管理模型
+-(NSManagedObjectModel *)getManagedObjectModel{
+    if(_managedObjectModel != nil){
         return _managedObjectModel;
     }
     //数据模型文件
@@ -74,51 +72,43 @@
     _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return _managedObjectModel;
 }
-//创建数据持久化
-- (NSPersistentStoreCoordinator *)persistentStoreCoordinator {
-    // The persistent store coordinator for the application. This implementation creates and return a coordinator, having added the store for the application to it.
-    if (_persistentStoreCoordinator != nil) {
+//获取数据持久化
+-(NSPersistentStoreCoordinator *)getPersistentStoreCoordinator{
+    if(_persistentStoreCoordinator != nil){
         return _persistentStoreCoordinator;
     }
-    
-    // Create the coordinator and store
-    
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    //初始化数据持久对象
+    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self getManagedObjectModel]];
     //数据库文件
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"ExamApp.sqlite"];
-    NSError *error = nil;
+    NSError *err = nil;
     NSString *failureReason = @"There was an error creating or loading the application's saved data.";
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+    if(![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&err]){
         // Report any error we got.
         NSMutableDictionary *dict = [NSMutableDictionary dictionary];
         dict[NSLocalizedDescriptionKey] = @"Failed to initialize the application's saved data";
         dict[NSLocalizedFailureReasonErrorKey] = failureReason;
-        dict[NSUnderlyingErrorKey] = error;
-        error = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
+        dict[NSUnderlyingErrorKey] = err;
+        err = [NSError errorWithDomain:@"YOUR_ERROR_DOMAIN" code:9999 userInfo:dict];
         // Replace this with code to handle the error appropriately.
-        // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        NSLog(@"Unresolved error %@, %@", err, [err userInfo]);
         abort();
     }
-    
     return _persistentStoreCoordinator;
 }
-//创建数据管理上下文
-- (NSManagedObjectContext *)managedObjectContext {
-    // Returns the managed object context for the application (which is already bound to the persistent store coordinator for the application.)
-    if (_managedObjectContext != nil) {
+//获取数据管理上下文
+-(NSManagedObjectContext *)getManagedObjectContext{
+    if(_managedObjectContext != nil){
         return _managedObjectContext;
     }
-    
-    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
-    if (!coordinator) {
-        return nil;
-    }
+    NSPersistentStoreCoordinator *coordinator = [self getPersistentStoreCoordinator];
+    if(coordinator == nil) return nil;
+    //初始化数据管理上下文
     _managedObjectContext = [[NSManagedObjectContext alloc] init];
     [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+    
     return _managedObjectContext;
 }
-
 #pragma mark - Core Data Saving support
 //保存数据
 - (void)saveContext {

@@ -7,6 +7,7 @@
 #import "MainViewController.h"
 #import "HomeViewController.h"
 #import "SettingsViewController.h"
+#import "AppDelegate.h"
 //主视图控制器成员变量
 @interface MainViewController()<UITabBarControllerDelegate>{
     
@@ -15,13 +16,13 @@
 //主视图控制器实现类
 @implementation MainViewController
 #pragma mark 切换视图控制器
--(void)gotoControllerWithParent:(UIViewController *)parent animated:(BOOL)isAnimate{
-    if(parent != nil){
-        //self.modalTransitionStyle = UIModalTransitionStylePartialCurl;
-        [parent presentViewController:self animated:YES completion:^{
-            NSLog(@" === === completion == ==");
-        }];
-    }
+-(void)gotoController{
+    //获取应用代理
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    //将当前控制器设置为根控制器
+    app.window.rootViewController = self;
+    //显示当前
+    [app.window makeKeyAndVisible];
 }
 #pragma mark 内容加载
 - (void)viewDidLoad {
