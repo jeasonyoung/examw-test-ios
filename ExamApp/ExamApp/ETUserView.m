@@ -201,6 +201,7 @@
     UILabel *lbText = [[UILabel alloc] initWithFrame:tempFrame];
     lbText.text = text;
     lbText.font = textFont;
+    lbText.textColor = [UIColor colorWithHex:0xFE3200];
     [cdView addSubview:lbText];
     //倒计时面板
     CGRect cdViewFrame = lbText.frame;

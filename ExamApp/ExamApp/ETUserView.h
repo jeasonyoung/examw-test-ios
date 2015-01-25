@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ETUserViewDelegate.h"
 
-@protocol ETUserViewDelegate;
 //用户信息面板
 @interface ETUserView : UIView
-//用户信息面板数据源
+//用户信息面板代理
 @property(nonatomic,assign)id<ETUserViewDelegate> delegate;
 //创建面板
 -(void)createPanelWithFrame:(CGRect)frame;
