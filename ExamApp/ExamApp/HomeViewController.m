@@ -11,11 +11,13 @@
 #import "ETUserView.h"
 #import "ETHomePanelView.h"
 
+#import "DefaultViewController.h"
+
 #define __k_UserViewPanel_Top 4 //用户信息面板与顶部的间隔
 #define __k_UserViewPanel_Left 2 //用户信息面板与左边边界的间隔
 #define __k_UserViewPanel_Right 2 //用户信息面板与右边边界的间隔
 //主页控制器成员变量
-@interface HomeViewController ()<ETUserViewDelegate>
+@interface HomeViewController ()<ETUserViewDelegate,ETHomePanelViewDelegate>
 {
     //导航控制器
     UINavigationController *_navController;
@@ -66,7 +68,7 @@
     return [@"2015-01-26" toDateWithFormat:@"yyyy-MM-dd"];
 }
 
-#pragma mark 创建主界面
+#pragma mark 创建九宫格主界面
 -(void)createHomeViewPanelWithY:(CGFloat)y{
     CGRect tempFrame = self.view.frame;
     CGFloat bottomHeight = 48 + __k_UserViewPanel_Top;
@@ -76,9 +78,51 @@
     tempFrame.size.height -= (tempFrame.origin.y + bottomHeight);
     
     ETHomePanelView *home = [[ETHomePanelView alloc] initWithFrame:tempFrame];
-    //home.delegate = self;//设置代理
+    home.delegate = self;//设置代理
     [home createPanel];//创建面板
     [self.view addSubview:home];
+}
+#pragma mark 九宫格事件代理
+-(void)homePanelViewButtonClick:(ETHomePanelView *)homePanelView withTitle:(NSString *)title withValue:(NSString *)value{
+    NSLog(@"homePanelView => %@,  value = %@", homePanelView, value);
+    UIViewController *controller;
+    if([@"everyday" isEqualToString:value]){//1.每日知识
+        
+    }else if([@"practice" isEqualToString:value]){//2.章节练习
+        
+    }else if([@"collect" isEqualToString:value]){//3.我的收藏
+        
+    }else if([@"renewal" isEqualToString:value]){//4.错题重做
+        
+    }else if([@"imitate" isEqualToString:value]){//5.模拟考场
+        
+    }else if([@"notes" isEqualToString:value]){//6.我的笔记
+        
+    }else if([@"forum" isEqualToString:value]){//7.论坛交流
+        
+    }else if([@"record" isEqualToString:value]){//8.学习记录
+        
+    }else if([@"guide" isEqualToString:value]){//9.考试指南
+        
+    }
+    
+    if(controller == nil){
+        controller = [[DefaultViewController alloc] init];
+    }
+    if(controller && self.navigationController){
+        controller.navigationItem.title = title;
+        //设置动画效果
+        CATransition *animation = [CATransition animation];
+        animation.delegate = self;
+        animation.duration = 0.5;
+        animation.type = kCATransitionPush;
+        animation.subtype = kCATransitionFromRight;
+        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        
+        [self.navigationController.view.layer addAnimation:animation forKey:nil];
+        
+        [self.navigationController pushViewController:controller animated:NO];
+    }
 }
 
 #pragma mark 内存告警

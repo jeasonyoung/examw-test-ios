@@ -43,7 +43,6 @@
         [self addSubview:btn];
     }
 
-    //self.userInteractionEnabled = YES;
     self.backgroundColor = [UIColor clearColor];//设置背景色
     self.layer.masksToBounds = YES;
     self.layer.cornerRadius = 8.5;
@@ -52,9 +51,9 @@
 }
 #pragma mark 点击事件
 -(void)btnClick:(ETImageButton *)sender{
-    if(_delegate && [_delegate respondsToSelector:@selector(homePanelViewButtonClick:withValue:)]){
-        [_delegate homePanelViewButtonClick:self withValue:sender.value];
+    if(_delegate && [_delegate respondsToSelector:@selector(homePanelViewButtonClick:withTitle:withValue:)]){
+        [_delegate homePanelViewButtonClick:self withTitle:sender.title withValue:sender.value];
     }
-    NSLog(@"btnClick ===> %@", sender);
+    //NSLog(@"btnClick ===> %@", sender);
 }
 @end

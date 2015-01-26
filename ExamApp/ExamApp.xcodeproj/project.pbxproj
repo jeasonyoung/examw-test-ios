@@ -41,6 +41,8 @@
 		A199CA291A74CD8D00A31587 /* guide_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A199CA271A74CD8D00A31587 /* guide_selected.png */; };
 		A199CA2A1A74CD8D00A31587 /* guide_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A199CA281A74CD8D00A31587 /* guide_normal.png */; };
 		A199CA301A74CFBF00A31587 /* HomeData.m in Sources */ = {isa = PBXBuildFile; fileRef = A199CA2F1A74CFBF00A31587 /* HomeData.m */; };
+		A1C3B7631A75DB5F006EA38F /* DefaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */; };
+		A1C3B7681A75ED34006EA38F /* coming_soon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1C3B7671A75ED34006EA38F /* coming_soon.jpg */; };
 		A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D66D381A72177200F98206 /* UIColor+Hex.m */; };
 		A1D66D3C1A7217BA00F98206 /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D66D3A1A7217BA00F98206 /* NSString+Size.m */; };
 		A1D66D3F1A723B7E00F98206 /* NSString+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D66D3E1A723B7E00F98206 /* NSString+Date.m */; };
@@ -116,6 +118,9 @@
 		A199CA281A74CD8D00A31587 /* guide_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guide_normal.png; sourceTree = "<group>"; };
 		A199CA2E1A74CFBF00A31587 /* HomeData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeData.h; sourceTree = "<group>"; };
 		A199CA2F1A74CFBF00A31587 /* HomeData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeData.m; sourceTree = "<group>"; };
+		A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultViewController.h; sourceTree = "<group>"; };
+		A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultViewController.m; sourceTree = "<group>"; };
+		A1C3B7671A75ED34006EA38F /* coming_soon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = coming_soon.jpg; sourceTree = "<group>"; };
 		A1D66D371A72177200F98206 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
 		A1D66D381A72177200F98206 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hex.m"; path = "Utils/UIColor+Hex.m"; sourceTree = "<group>"; };
 		A1D66D3A1A7217BA00F98206 /* NSString+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Size.m"; path = "Utils/NSString+Size.m"; sourceTree = "<group>"; };
@@ -269,6 +274,7 @@
 				A199CA241A74CD1E00A31587 /* record_normal.png */,
 				A199CA271A74CD8D00A31587 /* guide_selected.png */,
 				A199CA281A74CD8D00A31587 /* guide_normal.png */,
+				A1C3B7671A75ED34006EA38F /* coming_soon.jpg */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -278,6 +284,8 @@
 			children = (
 				A1EE7DD61A70A52F0071C76D /* HomeViewController.h */,
 				A1EE7DD71A70A52F0071C76D /* HomeViewController.m */,
+				A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */,
+				A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -452,6 +460,7 @@
 				A1EE7E011A70E5A00071C76D /* tab_home_normal.png in Resources */,
 				A199CA0A1A74BF7400A31587 /* everyday_normal.png in Resources */,
 				A199CA0E1A74C2A700A31587 /* practice_normal.png in Resources */,
+				A1C3B7681A75ED34006EA38F /* coming_soon.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -518,6 +527,7 @@
 				A1EE7DDB1A70A8B80071C76D /* SettingsViewController.m in Sources */,
 				A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */,
 				A1910E6E1A6D3AC800377160 /* main.m in Sources */,
+				A1C3B7631A75DB5F006EA38F /* DefaultViewController.m in Sources */,
 				A1510F831A6DEF4C00FE59A9 /* LaunchViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

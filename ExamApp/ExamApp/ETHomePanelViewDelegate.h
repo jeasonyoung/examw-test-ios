@@ -13,5 +13,5 @@
 //可选
 @optional
 //图片被点击
--(void)homePanelViewButtonClick:(ETHomePanelView *)btn withValue:(NSString *)value;
+-(void)homePanelViewButtonClick:(ETHomePanelView *)homePanelView withTitle:(NSString *)title withValue:(NSString *)value;
 @end

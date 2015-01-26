@@ -37,7 +37,7 @@
     [self createPanelWithFrame:self.frame];
 }
 -(void)createPanelWithFrame:(CGRect)frame{
-    _defont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    _defont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];//UIFontTextStyleHeadline
     CGFloat x = __k_banner_left, y = __k_banner_top, w = frame.size.width - __k_banner_left - __k_banner_right;
     NSDate *current = [[NSDate date] localTime];
     if(_delegate && [_delegate respondsToSelector:@selector(dateInUserView:)]){

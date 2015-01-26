@@ -27,18 +27,19 @@
 #pragma mark 内容加载
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.delegate = self;
-    NSString *topTitle = @"产品名称";
+    //NSString *topTitle = @"产品名称";
     //主页控制器
     HomeViewController *home = [[HomeViewController alloc] init];
     UITabBarItem *homeBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[UIImage imageNamed:@"tab_home_normal.png"] selectedImage:[UIImage imageNamed:@"tab_home_selected.png"]];
     home.tabBarItem = homeBarItem;
-    home.navigationItem.title = topTitle;
+    home.navigationItem.title = @"首页";
     //设置控制器
     SettingsViewController *settings = [[SettingsViewController alloc] init];
     UITabBarItem *settingsBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[UIImage imageNamed:@"tab_settings_normal.png"] selectedImage:[UIImage imageNamed:@"tab_settings_selected.png"]];
     settings.tabBarItem =  settingsBarItem;
-    settings.navigationItem.title = topTitle;
+    settings.navigationItem.title = @"设置";
     //添加到TabBarController控制器中
     self.viewControllers = @[home.navigationController, settings.navigationController];
     
@@ -52,6 +53,14 @@
 
 #pragma mark UITabBarControllerDelegate
 -(void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController{
-    NSLog(@"didSelectViewController - %d", (int)tabBarController.selectedIndex);
+    //添加切换动画
+    CATransition *animation = [CATransition animation];
+    animation.duration = 0.9f;
+    animation.type = kCATransitionFade;
+    animation.subtype = kCATransitionFromRight;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    [self.view.layer addAnimation:animation forKey:@"switchView"];
+    
+    //NSLog(@"didSelectViewController - %d", (int)tabBarController.selectedIndex);
 }
 @end

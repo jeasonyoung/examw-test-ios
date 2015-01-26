@@ -14,6 +14,7 @@
 #define __k_image_lable_margin 5
 //图片按钮成员变量
 @interface ETImageButton(){
+    UIFont *_font;
     UIColor *_normalFontColor,*_highlightFontColor,*_normalBackgroundColor,*_highlightBackgroundColor,*_borderColor;
     CGSize _titleSize;
     CGPoint _titleCenter;
@@ -38,13 +39,14 @@
         //边框颜色
         _borderColor = [UIColor colorWithHex:0xDEDEDE];
         
-        NSLog(@"initWithFrame");
+        //NSLog(@"initWithFrame");
     }
     return self;
 }
 #pragma mark 创建面板
 -(void)createPanelWithData:(HomeData *)data{
     if(data == nil)return;
+    _title = data.title;
     _value = data.value;
     [self setBackgroundColor:_normalBackgroundColor];
     [self setTitle:data.title forState:UIControlStateNormal];
@@ -55,8 +57,9 @@
    
     _imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:data.normal] highlightedImage:[UIImage imageNamed:data.selected]];
     CGFloat width = self.bounds.size.width, height = self.bounds.size.height;
+    CGFloat imageWH = (width > height ? height : width) * 0.6;
     
-    CGSize imageSize = CGSizeMake(width * 0.6, width * 0.6);
+    CGSize imageSize = CGSizeMake(imageWH, imageWH);
     _imageView.frame = CGRectMake(0, 0, imageSize.width, imageSize.height);
     CGFloat marginHeight = (height - imageSize.height) / 2;
     if(data.title != nil){
@@ -77,7 +80,7 @@
     self.layer.borderWidth = 0.2;
     self.layer.borderColor = [_borderColor CGColor];
     
-    NSLog(@"createPanelWithData ....");
+    //NSLog(@"createPanelWithData ....");
 }
 -(void)layoutSubviews{
     [super layoutSubviews];
