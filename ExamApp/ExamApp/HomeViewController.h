@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 //主页控制器
-@interface HomeViewController : UIViewController
+@interface HomeViewController : BaseViewController
 
 @end

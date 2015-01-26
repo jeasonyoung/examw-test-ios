@@ -45,13 +45,9 @@
 }
 #pragma mark 创建用户信息面板
 -(CGFloat)createUserViewPanel{
-    CGRect tempFrame = self.view.frame;
-    CGFloat nav_height = self.navigationController.navigationBar.bounds.size.height;
-    if(!self.prefersStatusBarHidden){
-        nav_height += 20;
-    }
+    CGRect tempFrame = [self loadVisibleViewFrame];
     tempFrame.origin.x = __k_UserViewPanel_Left;
-    tempFrame.origin.y = nav_height + __k_UserViewPanel_Top;
+    tempFrame.origin.y += __k_UserViewPanel_Top;
     tempFrame.size.width -= (__k_UserViewPanel_Left + __k_UserViewPanel_Right);
     ETUserView *userView = [[ETUserView alloc] initWithFrame:tempFrame];
     userView.delegate = self;//设置代理对象
@@ -71,7 +67,7 @@
 #pragma mark 创建九宫格主界面
 -(void)createHomeViewPanelWithY:(CGFloat)y{
     CGRect tempFrame = self.view.frame;
-    CGFloat bottomHeight = 48 + __k_UserViewPanel_Top;
+    CGFloat bottomHeight = [self loadBottomHeight] + __k_UserViewPanel_Top;
     tempFrame.origin.x = __k_UserViewPanel_Left;
     tempFrame.origin.y = y + __k_UserViewPanel_Top;
     tempFrame.size.width -= (__k_UserViewPanel_Left + __k_UserViewPanel_Right);

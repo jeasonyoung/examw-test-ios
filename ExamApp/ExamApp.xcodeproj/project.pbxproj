@@ -43,6 +43,8 @@
 		A199CA301A74CFBF00A31587 /* HomeData.m in Sources */ = {isa = PBXBuildFile; fileRef = A199CA2F1A74CFBF00A31587 /* HomeData.m */; };
 		A1C3B7631A75DB5F006EA38F /* DefaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */; };
 		A1C3B7681A75ED34006EA38F /* coming_soon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1C3B7671A75ED34006EA38F /* coming_soon.jpg */; };
+		A1C3B76F1A7615F3006EA38F /* UIViewController+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C3B76E1A7615F3006EA38F /* UIViewController+Size.m */; };
+		A1C3B7721A7620CD006EA38F /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C3B7711A7620CD006EA38F /* BaseViewController.m */; };
 		A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D66D381A72177200F98206 /* UIColor+Hex.m */; };
 		A1D66D3C1A7217BA00F98206 /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D66D3A1A7217BA00F98206 /* NSString+Size.m */; };
 		A1D66D3F1A723B7E00F98206 /* NSString+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D66D3E1A723B7E00F98206 /* NSString+Date.m */; };
@@ -121,6 +123,10 @@
 		A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultViewController.h; sourceTree = "<group>"; };
 		A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultViewController.m; sourceTree = "<group>"; };
 		A1C3B7671A75ED34006EA38F /* coming_soon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = coming_soon.jpg; sourceTree = "<group>"; };
+		A1C3B76D1A7615F3006EA38F /* UIViewController+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Size.h"; path = "Utils/UIViewController+Size.h"; sourceTree = "<group>"; };
+		A1C3B76E1A7615F3006EA38F /* UIViewController+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Size.m"; path = "Utils/UIViewController+Size.m"; sourceTree = "<group>"; };
+		A1C3B7701A7620CD006EA38F /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
+		A1C3B7711A7620CD006EA38F /* BaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseViewController.m; sourceTree = "<group>"; };
 		A1D66D371A72177200F98206 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
 		A1D66D381A72177200F98206 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hex.m"; path = "Utils/UIColor+Hex.m"; sourceTree = "<group>"; };
 		A1D66D3A1A7217BA00F98206 /* NSString+Size.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Size.m"; path = "Utils/NSString+Size.m"; sourceTree = "<group>"; };
@@ -203,9 +209,10 @@
 				A1510F821A6DEF4C00FE59A9 /* LaunchViewController.m */,
 				A1ED101E1A6F80BA004DAD90 /* MainViewController.h */,
 				A1ED101F1A6F80BA004DAD90 /* MainViewController.m */,
-				A1EE7DD91A70A8B80071C76D /* SettingsViewController.h */,
-				A1EE7DDA1A70A8B80071C76D /* SettingsViewController.m */,
+				A1C3B7701A7620CD006EA38F /* BaseViewController.h */,
+				A1C3B7711A7620CD006EA38F /* BaseViewController.m */,
 				A1EE7DE71A70DF470071C76D /* Home */,
+				A1C3B7691A760E03006EA38F /* Settings */,
 				A1ED10181A6F4D34004DAD90 /* Utils */,
 				A1910E7E1A6D3AC800377160 /* Images.xcassets */,
 				A1910E721A6D3AC800377160 /* ExamApp.xcdatamodeld */,
@@ -314,6 +321,39 @@
 			name = models;
 			sourceTree = "<group>";
 		};
+		A1C3B7691A760E03006EA38F /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				A1C3B76A1A760E25006EA38F /* controllers */,
+				A1C3B76B1A760E33006EA38F /* views */,
+				A1C3B76C1A760E3C006EA38F /* models */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		A1C3B76A1A760E25006EA38F /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A1EE7DD91A70A8B80071C76D /* SettingsViewController.h */,
+				A1EE7DDA1A70A8B80071C76D /* SettingsViewController.m */,
+			);
+			name = controllers;
+			sourceTree = "<group>";
+		};
+		A1C3B76B1A760E33006EA38F /* views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = views;
+			sourceTree = "<group>";
+		};
+		A1C3B76C1A760E3C006EA38F /* models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = models;
+			sourceTree = "<group>";
+		};
 		A1ED10181A6F4D34004DAD90 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,6 +367,8 @@
 				A1647B611A728679007B12EA /* NSDate+TimeZone.m */,
 				A1D66D371A72177200F98206 /* UIColor+Hex.h */,
 				A1D66D381A72177200F98206 /* UIColor+Hex.m */,
+				A1C3B76D1A7615F3006EA38F /* UIViewController+Size.h */,
+				A1C3B76E1A7615F3006EA38F /* UIViewController+Size.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -512,6 +554,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */,
+				A1C3B7721A7620CD006EA38F /* BaseViewController.m in Sources */,
 				A1D66D3F1A723B7E00F98206 /* NSString+Date.m in Sources */,
 				A199C9FB1A73ADD400A31587 /* ETUserView.m in Sources */,
 				A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */,
@@ -520,6 +563,7 @@
 				A1EE7DDE1A70AA8C0071C76D /* TabBarViewTestControllerViewController.m in Sources */,
 				A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */,
 				A1D66D3C1A7217BA00F98206 /* NSString+Size.m in Sources */,
+				A1C3B76F1A7615F3006EA38F /* UIViewController+Size.m in Sources */,
 				A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */,
 				A199CA031A74A33500A31587 /* ETHomePanelView.m in Sources */,
 				A199C9FF1A74874A00A31587 /* ETImageButton.m in Sources */,

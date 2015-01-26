@@ -9,7 +9,8 @@
 #import <UIKit/UIKit.h>
 #import <CoreData/CoreData.h>
 
-@interface LaunchViewController : UIViewController
+#import "BaseViewController.h"
+@interface LaunchViewController : BaseViewController
 
 
 @end

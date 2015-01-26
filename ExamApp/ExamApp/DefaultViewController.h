@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "BaseViewController.h"
 //功能未实现的默认控制器
-@interface DefaultViewController : UIViewController
+@interface DefaultViewController : BaseViewController
 
 @end

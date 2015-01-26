@@ -27,8 +27,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //self.navigationItem.title = @"设置";
-    self.view.backgroundColor = [UIColor whiteColor];
-    NSLog(@"settings====");
+    //self.view.backgroundColor = [UIColor whiteColor];
+    NSLog(@"settings====tabBar height ==> %f", self.tabBarController.tabBar.bounds.size.height);
     // Do any additional setup after loading the view.
 }
 #pragma mark 内存告警

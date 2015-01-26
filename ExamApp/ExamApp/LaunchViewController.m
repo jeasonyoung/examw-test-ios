@@ -9,7 +9,7 @@
 #import "LaunchViewController.h"
 #import "MainViewController.h"
 
-#define __IMG_VIEW_COUNT 3
+#define __k_IMG_VIEW_COUNT 3//引导页
 
 @interface LaunchViewController ()<UIScrollViewDelegate>{
     //图片链接数组
@@ -37,10 +37,13 @@
     //初始化定时器
     _timer = [self createTimer];
 }
+-(BOOL)prefersStatusBarHidden{
+    return YES;
+}
 #pragma mark 初始化图片
 -(NSArray *)createImageUrls{
     NSMutableArray *images = [NSMutableArray array];
-    for(int i = 0; i < 3; i++){
+    for(int i = 0; i < __k_IMG_VIEW_COUNT; i++){
         [images addObject:[NSString stringWithFormat:@"guide_%d.png",i + 1]];
     }
     return images;
@@ -51,7 +54,7 @@
     CGFloat width = size.width,height = size.height;
     UIImageView * imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:[_imageUrls objectAtIndex:index]]];
     imageView.frame = CGRectMake(index * width, 0, width, height);//位置尺寸
-    imageView.contentMode = UIViewContentModeScaleAspectFit;//图片显示时的填充模式
+    imageView.contentMode = UIViewContentModeScaleAspectFill; //UIViewContentModeScaleAspectFit;//图片显示时的填充模式
     imageView.backgroundColor = [UIColor clearColor];//设置背景透明
     //最后一张图片
     if(index == _imageUrls.count - 1){
@@ -75,7 +78,7 @@
         _scrollView.showsHorizontalScrollIndicator = NO;//隐藏横向滚动条
         _scrollView.showsVerticalScrollIndicator = NO;//隐藏纵向滚动条
         _scrollView.delegate = self;
-        for(int i = 0; i < __IMG_VIEW_COUNT; i++){
+        for(int i = 0; i < __k_IMG_VIEW_COUNT; i++){
             UIImageView *view = [self createImageViewWithImageIndex:i];
             [_scrollView addSubview:view];
         }
