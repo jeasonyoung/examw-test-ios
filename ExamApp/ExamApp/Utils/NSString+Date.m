@@ -28,7 +28,7 @@
     [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     [dateFormatter setDateFormat:(format == nil ? @__k_default_date_format : format)];
     NSDate *target = [[dateFormatter dateFromString:self] localTime];
-    NSLog(@"self -format- target ===> %@  -> %@",self, target);
+    //NSLog(@"self -format- target ===> %@  -> %@",self, target);
     return target;
 }
 @end

@@ -21,5 +21,7 @@
 //初始化创建对象
 +(instancetype)settingDataWithDict:(NSDictionary *)dict;
 //加载对象集合
-+(NSArray *)loadSettingData;
++(NSDictionary *)settingDataGroups;
+//加载分组对象集合
++(NSArray *)settingDataWithGroups:(NSDictionary *)groups forGroup:(int)group;
 @end

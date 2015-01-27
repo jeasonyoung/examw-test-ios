@@ -41,6 +41,9 @@
 		A199CA291A74CD8D00A31587 /* guide_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A199CA271A74CD8D00A31587 /* guide_selected.png */; };
 		A199CA2A1A74CD8D00A31587 /* guide_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A199CA281A74CD8D00A31587 /* guide_normal.png */; };
 		A199CA301A74CFBF00A31587 /* HomeData.m in Sources */ = {isa = PBXBuildFile; fileRef = A199CA2F1A74CFBF00A31587 /* HomeData.m */; };
+		A199CB871A7761030094FE50 /* ScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199CB861A7761030094FE50 /* ScreenViewController.m */; };
+		A199CBBF1A7788EB0094FE50 /* slider-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = A199CBBD1A7788EB0094FE50 /* slider-bg.png */; };
+		A199CBC01A7788EB0094FE50 /* slider-knob.png in Resources */ = {isa = PBXBuildFile; fileRef = A199CBBE1A7788EB0094FE50 /* slider-knob.png */; };
 		A1C3B7631A75DB5F006EA38F /* DefaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */; };
 		A1C3B7681A75ED34006EA38F /* coming_soon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1C3B7671A75ED34006EA38F /* coming_soon.jpg */; };
 		A1C3B76F1A7615F3006EA38F /* UIViewController+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C3B76E1A7615F3006EA38F /* UIViewController+Size.m */; };
@@ -121,6 +124,10 @@
 		A199CA281A74CD8D00A31587 /* guide_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guide_normal.png; sourceTree = "<group>"; };
 		A199CA2E1A74CFBF00A31587 /* HomeData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeData.h; sourceTree = "<group>"; };
 		A199CA2F1A74CFBF00A31587 /* HomeData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeData.m; sourceTree = "<group>"; };
+		A199CB851A7761030094FE50 /* ScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenViewController.h; sourceTree = "<group>"; };
+		A199CB861A7761030094FE50 /* ScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenViewController.m; sourceTree = "<group>"; };
+		A199CBBD1A7788EB0094FE50 /* slider-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-bg.png"; sourceTree = "<group>"; };
+		A199CBBE1A7788EB0094FE50 /* slider-knob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-knob.png"; sourceTree = "<group>"; };
 		A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultViewController.h; sourceTree = "<group>"; };
 		A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultViewController.m; sourceTree = "<group>"; };
 		A1C3B7671A75ED34006EA38F /* coming_soon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = coming_soon.jpg; sourceTree = "<group>"; };
@@ -283,6 +290,8 @@
 				A199CA271A74CD8D00A31587 /* guide_selected.png */,
 				A199CA281A74CD8D00A31587 /* guide_normal.png */,
 				A1C3B7671A75ED34006EA38F /* coming_soon.jpg */,
+				A199CBBD1A7788EB0094FE50 /* slider-bg.png */,
+				A199CBBE1A7788EB0094FE50 /* slider-knob.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -337,6 +346,8 @@
 			children = (
 				A1EE7DD91A70A8B80071C76D /* SettingsViewController.h */,
 				A1EE7DDA1A70A8B80071C76D /* SettingsViewController.m */,
+				A199CB851A7761030094FE50 /* ScreenViewController.h */,
+				A199CB861A7761030094FE50 /* ScreenViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -500,7 +511,9 @@
 				A1EE7E091A70EA5B0071C76D /* user_calculate.png in Resources */,
 				A199CA261A74CD1E00A31587 /* record_normal.png in Resources */,
 				A199CA111A74C37C00A31587 /* collect_selected.png in Resources */,
+				A199CBC01A7788EB0094FE50 /* slider-knob.png in Resources */,
 				A199CA1E1A74CBE800A31587 /* notes_normal.png in Resources */,
+				A199CBBF1A7788EB0094FE50 /* slider-bg.png in Resources */,
 				A199CA151A74C77000A31587 /* renewal_selected.png in Resources */,
 				A1910E7F1A6D3AC800377160 /* Images.xcassets in Resources */,
 				A1EE7E011A70E5A00071C76D /* tab_home_normal.png in Resources */,
@@ -575,6 +588,7 @@
 				A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */,
 				A1C3B7771A763C05006EA38F /* SettingData.m in Sources */,
 				A1910E6E1A6D3AC800377160 /* main.m in Sources */,
+				A199CB871A7761030094FE50 /* ScreenViewController.m in Sources */,
 				A1C3B7631A75DB5F006EA38F /* DefaultViewController.m in Sources */,
 				A1510F831A6DEF4C00FE59A9 /* LaunchViewController.m in Sources */,
 			);
