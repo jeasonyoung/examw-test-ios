@@ -1,14 +1,14 @@
 //
-//  UIViewController+Size.h
+//  UIViewController+VisibleView.h
 //  ExamApp
 //
-//  Created by jeasonyoung on 15/1/26.
+//  Created by jeasonyoung on 15/1/28.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
-//尺寸处理分类
-@interface UIViewController (Size)
+//可视视图控制器分类
+@interface UIViewController (VisibleView)
 //加载顶部高度
 -(CGFloat)loadTopHeight;
 //加载底部高度

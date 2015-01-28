@@ -17,7 +17,6 @@
 #pragma mark 启动入口
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.hiddenTabBar = YES;
     //创建默认图片面板
     [self createDefaultImageView];
 }

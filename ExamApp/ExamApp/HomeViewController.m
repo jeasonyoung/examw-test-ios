@@ -19,20 +19,10 @@
 //主页控制器成员变量
 @interface HomeViewController ()<ETUserViewDelegate,ETHomePanelViewDelegate>
 {
-    //导航控制器
-    UINavigationController *_navController;
 }
 @end
 //主页控制器实现类
 @implementation HomeViewController
-#pragma mark 初始化重载
--(id)init{
-    if(self = [super init]){
-        //初始化导航控制器，并将当前控制器设为根控制器
-        _navController = [[UINavigationController alloc] initWithRootViewController:self];
-    }
-    return self;
-}
 #pragma mark 加载入口
 - (void)viewDidLoad {
     [super viewDidLoad];

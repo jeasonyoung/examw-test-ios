@@ -24,16 +24,6 @@
 			<key>data</key>
 			<string></string>
 		</dict>
-		<dict>
-			<key>key</key>
-			<string>share</string>
-			<key>title</key>
-			<string>分享好友</string>
-			<key>type</key>
-			<string>cell_data</string>
-			<key>data</key>
-			<string></string>
-		</dict>
 	</array>
 	<key>group-1</key>
 	<array>
@@ -58,17 +48,7 @@
 			<key>type</key>
 			<string>cell_data</string>
 			<key>data</key>
-			<string></string>
-		</dict>
-		<dict>
-			<key>key</key>
-			<string>clean</string>
-			<key>title</key>
-			<string>清除缓存</string>
-			<key>type</key>
-			<string>cell_data</string>
-			<key>data</key>
-			<string></string>
+			<string>http://m.examw.com</string>
 		</dict>
 	</array>
 	<key>group-3</key>

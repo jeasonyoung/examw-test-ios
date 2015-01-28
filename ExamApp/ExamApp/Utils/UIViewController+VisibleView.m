@@ -1,14 +1,14 @@
 //
-//  UIViewController+Size.m
+//  UIViewController+VisibleView.m
 //  ExamApp
 //
-//  Created by jeasonyoung on 15/1/26.
+//  Created by jeasonyoung on 15/1/28.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
 
-#import "UIViewController+Size.h"
-//尺寸处理分类实现类
-@implementation UIViewController (Size)
+#import "UIViewController+VisibleView.h"
+//可视视图控制器分类实现
+@implementation UIViewController (VisibleView)
 #pragma mark 加载顶部高度
 -(CGFloat)loadTopHeight{
     CGFloat h = 0;
@@ -23,8 +23,8 @@
 #pragma mark 加载底部高度
 -(CGFloat)loadBottomHeight{
     CGFloat h = 0;
-    if(self.tabBarController != nil && !self.tabBarController.tabBar.isHidden){
-        h += self.tabBarController.tabBar.bounds.size.height;
+    if(!self.hidesBottomBarWhenPushed){
+        h += 49;
     }
     return h;
 }
@@ -45,4 +45,5 @@
     }
     return center;
 }
+
 @end

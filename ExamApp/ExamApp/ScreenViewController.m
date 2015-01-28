@@ -25,7 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //隐藏底部Tab菜单栏
-    self.hiddenTabBar = YES;
+    //self.hiddenTabBar = YES;
     //滑动图片
     UIImage *streth = [[UIImage imageNamed:@"slider-bg.png"] stretchableImageWithLeftCapWidth:10.0 topCapHeight:0.0];
     

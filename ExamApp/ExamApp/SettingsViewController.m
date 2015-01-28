@@ -8,28 +8,18 @@
 
 #import "SettingsViewController.h"
 #import "SettingData.h"
-#import "BaseViewController.h"
+#import "UIViewController+VisibleView.h"
 #import "DefaultViewController.h"
 
 #import "ScreenViewController.h"
 //设置页控制器成员变量
 @interface SettingsViewController ()<UITableViewDataSource,UITableViewDelegate>{
-    //导航控制器
-    UINavigationController *_navController;
     //设置分组数据
     NSDictionary *_groups;
 }
 @end
 //设置页控制器实现类
 @implementation SettingsViewController
-#pragma mark 初始化重载
--(id)init{
-    if(self = [super init]){
-        //初始化导航控制器，并将当前控制器设为根控制器
-        _navController = [[UINavigationController alloc] initWithRootViewController:self];
-    }
-    return self;
-}
 #pragma mark 加载入口
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -87,7 +77,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     SettingData *data = [self loadSettingDataWithIndexPath:indexPath];
     NSString *value = data.key;
-    BaseViewController *controller;
+    UIViewController *controller;
     if([@"date" isEqualToString:value]){//1.考试日期设置
         
     }else if([@"sync" isEqualToString:value]){//2.同步与更新
@@ -97,8 +87,16 @@
     }else if([@"screen" isEqualToString:value]){//4.屏幕亮度
         controller = [[ScreenViewController alloc] initWithSetting:data];
     }else if([@"website" isEqualToString:value]){//5.访问主站
-        
+        if(data.data == nil || data.data.length == 0){
+            UIAlertView *alterView = [[UIAlertView alloc] initWithTitle:data.title message:@"站点地址不存在！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
+            [alterView show];
+        }else{
+            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:data.data]];
+        }
+        return;
     }else if([@"clean" isEqualToString:value]){//6.清除缓存
+        
+        
         
     }else if([@"feedback" isEqualToString:value]){//7.意见反馈
         

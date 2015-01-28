@@ -51,7 +51,7 @@
     calView.frame = calViewFrame;
     //添加到面板
     [self addSubview:calView];
-    NSLog(@"calView => %@", calView);
+    //NSLog(@"calView => %@", calView);
     
     //添加用户面板
     CGFloat userViewWidth = w - calViewFrame.size.width -__k_banner_view_margin;
@@ -63,7 +63,7 @@
     y += userViewFrame.size.height;
     //添加到面板
     [self addSubview:userView];
-    NSLog(@"userView = %@", userView);
+    //NSLog(@"userView = %@", userView);
     
     //添加倒计时面板
     UIView *cdView = [self createCountdownWithWidth:w andCurrentDate:current];
@@ -73,7 +73,7 @@
     cdView.frame = cdViewFrame;
     //添加到面板
     [self addSubview:cdView];
-    NSLog(@"cdView = %@", cdView);
+    //NSLog(@"cdView = %@", cdView);
     
     //面板设置
     CGFloat minHeight = cdViewFrame.origin.y + cdViewFrame.size.height + __k_banner_top;
@@ -85,7 +85,7 @@
     self.layer.borderWidth = 1.0;
     self.layer.borderColor = [[UIColor colorWithHex:0xDEDEDE] CGColor];
     
-    NSLog(@"ETUserView => %@",self);
+    //NSLog(@"ETUserView => %@",self);
 }
 #pragma mark 创建日历面板
 -(UIView *)createCalcuateWithCalDate:(NSDate *)cal{

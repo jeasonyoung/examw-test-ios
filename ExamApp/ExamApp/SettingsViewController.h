@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "BaseViewController.h"
+#import "UIViewController+VisibleView.h"
 //设置页控制器
-@interface SettingsViewController : BaseViewController
+@interface SettingsViewController : UIViewController
 
 @end

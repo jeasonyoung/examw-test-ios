@@ -5,6 +5,7 @@
 //  Created by jeasonyoung on 15/1/21.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 #import "MainViewController.h"
+#import "ETNavigationController.h"
 #import "HomeViewController.h"
 #import "SettingsViewController.h"
 #import "AppDelegate.h"
@@ -27,23 +28,41 @@
 #pragma mark 内容加载
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    //设置代理
     self.delegate = self;
-    //NSString *topTitle = @"产品名称";
     //主页控制器
-    HomeViewController *home = [[HomeViewController alloc] init];
-    UITabBarItem *homeBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[UIImage imageNamed:@"tab_home_normal.png"] selectedImage:[UIImage imageNamed:@"tab_home_selected.png"]];
-    home.tabBarItem = homeBarItem;
-    home.navigationItem.title = @"首页";
+    HomeViewController *homeVC = [[HomeViewController alloc] init];
+    [self addChildViewController:homeVC
+                           title:@"首页"
+                  tabNormalImage:@"tab_home_normal.png"
+               tabHighlightImage:@"tab_home_selected.png"];
     //设置控制器
-    SettingsViewController *settings = [[SettingsViewController alloc] init];
-    UITabBarItem *settingsBarItem = [[UITabBarItem alloc] initWithTitle:nil image:[UIImage imageNamed:@"tab_settings_normal.png"] selectedImage:[UIImage imageNamed:@"tab_settings_selected.png"]];
-    settings.tabBarItem =  settingsBarItem;
-    settings.navigationItem.title = @"设置";
-    //添加到TabBarController控制器中
-    self.viewControllers = @[home.navigationController, settings.navigationController];
+    SettingsViewController *settingsVC = [[SettingsViewController alloc] init];
+    [self addChildViewController:settingsVC
+                           title:@"设置"
+                  tabNormalImage:@"tab_settings_normal.png"
+               tabHighlightImage:@"tab_settings_selected.png"];
+}
+-(void)addChildViewController:(UIViewController *)childController title:(NSString *)title tabNormalImage:(NSString *)normalImageName tabHighlightImage:(NSString *) highlightImageName{
+    //添加为tabbar控制的子控制器
+    ETNavigationController *nav = [[ETNavigationController alloc] initWithRootViewController:childController];
+    //设置背景色
+    childController.view.backgroundColor = [UIColor clearColor];
+    //设置标题
+    //childController.title = title;
+    //设置Nav标题
+    childController.navigationItem.title = title;
+    //设置tabBar图标
+    childController.tabBarItem = [[UITabBarItem alloc] initWithTitle:nil
+                                                               image:[UIImage imageNamed:normalImageName]
+                                                       selectedImage:[UIImage imageNamed:highlightImageName]];
     
-    NSLog(@"TabBarController ====");
+    //设置图标
+    //childController.tabBarItem.image = [UIImage imageNamed:normalImageName];
+    //设置选中图标
+    //childController.tabBarItem.selectedImage = [UIImage imageNamed:highlightImageName];
+    
+    [self addChildViewController:nav];
 }
 #pragma mark 内存警告
 - (void)didReceiveMemoryWarning {
