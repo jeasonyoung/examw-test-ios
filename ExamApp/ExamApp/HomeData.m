@@ -13,10 +13,9 @@
 +(instancetype)homeDataWithDict:(NSDictionary *)dict{
     if(dict == nil || dict.count == 0) return nil;
     HomeData *data = [[HomeData alloc] init];
-    data.title = (NSString *)[dict objectForKey:@"title"];
-    data.value = (NSString *)[dict objectForKey:@"value"];
-    data.normal = (NSString *)[dict objectForKey:@"img_normal"];
-    data.selected = (NSString *)[dict objectForKey:@"img_selected"];
+    for(NSString *key in dict.allKeys){
+        [data setValue:[dict objectForKey:key] forKey:key];
+    }
     return data;
 }
 #pragma mark 从文件加载数据集合

@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		0B8EBF44A44FCE0D15DB6C22 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5107C5451C2BCF444822DEFD /* libPods.a */; };
+		A140418D1A78E61B00669D46 /* ETextView.m in Sources */ = {isa = PBXBuildFile; fileRef = A140418C1A78E61B00669D46 /* ETextView.m */; };
 		A1510F831A6DEF4C00FE59A9 /* LaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1510F821A6DEF4C00FE59A9 /* LaunchViewController.m */; };
 		A151102C1A6E4A7800FE59A9 /* guide_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A15110291A6E4A7800FE59A9 /* guide_1.png */; };
 		A151102D1A6E4A7800FE59A9 /* guide_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A151102A1A6E4A7800FE59A9 /* guide_2.png */; };
 		A151102E1A6E4A7800FE59A9 /* guide_3.png in Resources */ = {isa = PBXBuildFile; fileRef = A151102B1A6E4A7800FE59A9 /* guide_3.png */; };
 		A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */ = {isa = PBXBuildFile; fileRef = A1647B611A728679007B12EA /* NSDate+TimeZone.m */; };
+		A18995951A79EC4200D591FF /* feedback_post_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A18995931A79EC4200D591FF /* feedback_post_normal.png */; };
+		A18995961A79EC4200D591FF /* feedback_post_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A18995941A79EC4200D591FF /* feedback_post_selected.png */; };
 		A1910E6E1A6D3AC800377160 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E6D1A6D3AC800377160 /* main.m */; };
 		A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E701A6D3AC800377160 /* AppDelegate.m */; };
 		A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A1910E721A6D3AC800377160 /* ExamApp.xcdatamodeld */; };
@@ -53,6 +56,8 @@
 		A1D66D3F1A723B7E00F98206 /* NSString+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D66D3E1A723B7E00F98206 /* NSString+Date.m */; };
 		A1E279001A7887B000F23A20 /* ETNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E278FF1A7887B000F23A20 /* ETNavigationController.m */; };
 		A1E279051A78BC8B00F23A20 /* UIViewController+VisibleView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E279041A78BC8B00F23A20 /* UIViewController+VisibleView.m */; };
+		A1E279071A78D7D600F23A20 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E279061A78D7D600F23A20 /* libsqlite3.dylib */; };
+		A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E279091A78DFED00F23A20 /* FeedbackViewController.m */; };
 		A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A1ED101A1A6F4EA9004DAD90 /* NSQueue.m */; };
 		A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1ED101F1A6F80BA004DAD90 /* MainViewController.m */; };
 		A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EE7DD71A70A52F0071C76D /* HomeViewController.m */; };
@@ -78,6 +83,8 @@
 /* Begin PBXFileReference section */
 		5107C5451C2BCF444822DEFD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		546409C18EB0DA5FBE4F4AF6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		A140418B1A78E61B00669D46 /* ETextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETextView.h; path = Utils/ETextView.h; sourceTree = "<group>"; };
+		A140418C1A78E61B00669D46 /* ETextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETextView.m; path = Utils/ETextView.m; sourceTree = "<group>"; };
 		A1510F811A6DEF4C00FE59A9 /* LaunchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchViewController.h; sourceTree = "<group>"; };
 		A1510F821A6DEF4C00FE59A9 /* LaunchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LaunchViewController.m; sourceTree = "<group>"; };
 		A15110291A6E4A7800FE59A9 /* guide_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guide_1.png; sourceTree = "<group>"; };
@@ -85,6 +92,8 @@
 		A151102B1A6E4A7800FE59A9 /* guide_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guide_3.png; sourceTree = "<group>"; };
 		A1647B601A728679007B12EA /* NSDate+TimeZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+TimeZone.h"; path = "Utils/NSDate+TimeZone.h"; sourceTree = "<group>"; };
 		A1647B611A728679007B12EA /* NSDate+TimeZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+TimeZone.m"; path = "Utils/NSDate+TimeZone.m"; sourceTree = "<group>"; };
+		A18995931A79EC4200D591FF /* feedback_post_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = feedback_post_normal.png; path = "../../../examw-test-android/examw-test-app-core/res/drawable-hdpi/feedback_post_normal.png"; sourceTree = "<group>"; };
+		A18995941A79EC4200D591FF /* feedback_post_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = feedback_post_selected.png; path = "../../../examw-test-android/examw-test-app-core/res/drawable-hdpi/feedback_post_selected.png"; sourceTree = "<group>"; };
 		A1910E681A6D3AC800377160 /* ExamApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1910E6C1A6D3AC800377160 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1910E6D1A6D3AC800377160 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -144,6 +153,9 @@
 		A1E278FF1A7887B000F23A20 /* ETNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETNavigationController.m; sourceTree = "<group>"; };
 		A1E279031A78BC8B00F23A20 /* UIViewController+VisibleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+VisibleView.h"; path = "Utils/UIViewController+VisibleView.h"; sourceTree = "<group>"; };
 		A1E279041A78BC8B00F23A20 /* UIViewController+VisibleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+VisibleView.m"; path = "Utils/UIViewController+VisibleView.m"; sourceTree = "<group>"; };
+		A1E279061A78D7D600F23A20 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		A1E279081A78DFED00F23A20 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		A1E279091A78DFED00F23A20 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		A1ED10191A6F4EA9004DAD90 /* NSQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSQueue.h; path = Utils/NSQueue.h; sourceTree = "<group>"; };
 		A1ED101A1A6F4EA9004DAD90 /* NSQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSQueue.m; path = Utils/NSQueue.m; sourceTree = "<group>"; };
 		A1ED101E1A6F80BA004DAD90 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
@@ -166,6 +178,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1E279071A78D7D600F23A20 /* libsqlite3.dylib in Frameworks */,
 				0B8EBF44A44FCE0D15DB6C22 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -292,6 +305,8 @@
 				A1C3B7671A75ED34006EA38F /* coming_soon.jpg */,
 				A199CBBD1A7788EB0094FE50 /* slider-bg.png */,
 				A199CBBE1A7788EB0094FE50 /* slider-knob.png */,
+				A18995931A79EC4200D591FF /* feedback_post_normal.png */,
+				A18995941A79EC4200D591FF /* feedback_post_selected.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -316,8 +331,6 @@
 				A199CA011A74A33500A31587 /* ETHomePanelView.h */,
 				A199CA021A74A33500A31587 /* ETHomePanelView.m */,
 				A199CA001A7487AB00A31587 /* ETHomePanelViewDelegate.h */,
-				A199C9FD1A74874A00A31587 /* ETImageButton.h */,
-				A199C9FE1A74874A00A31587 /* ETImageButton.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -348,6 +361,8 @@
 				A1EE7DDA1A70A8B80071C76D /* SettingsViewController.m */,
 				A199CB851A7761030094FE50 /* ScreenViewController.h */,
 				A199CB861A7761030094FE50 /* ScreenViewController.m */,
+				A1E279081A78DFED00F23A20 /* FeedbackViewController.h */,
+				A1E279091A78DFED00F23A20 /* FeedbackViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -383,6 +398,10 @@
 				A1D66D381A72177200F98206 /* UIColor+Hex.m */,
 				A1E279031A78BC8B00F23A20 /* UIViewController+VisibleView.h */,
 				A1E279041A78BC8B00F23A20 /* UIViewController+VisibleView.m */,
+				A199C9FD1A74874A00A31587 /* ETImageButton.h */,
+				A199C9FE1A74874A00A31587 /* ETImageButton.m */,
+				A140418B1A78E61B00669D46 /* ETextView.h */,
+				A140418C1A78E61B00669D46 /* ETextView.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -400,6 +419,7 @@
 		CC43A3C6D979D5B21B285140 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A1E279061A78D7D600F23A20 /* libsqlite3.dylib */,
 				5107C5451C2BCF444822DEFD /* libPods.a */,
 			);
 			name = Frameworks;
@@ -490,9 +510,11 @@
 				A199CA2A1A74CD8D00A31587 /* guide_normal.png in Resources */,
 				A199CA161A74C77000A31587 /* renewal_normal.png in Resources */,
 				A151102E1A6E4A7800FE59A9 /* guide_3.png in Resources */,
+				A18995961A79EC4200D591FF /* feedback_post_selected.png in Resources */,
 				A199CA1D1A74CBE800A31587 /* notes_selected.png in Resources */,
 				A199CA221A74CCB600A31587 /* forum_normal.png in Resources */,
 				A1C3B7741A7633EE006EA38F /* settings_panel.plist in Resources */,
+				A18995951A79EC4200D591FF /* feedback_post_normal.png in Resources */,
 				A1EE7E031A70E5A00071C76D /* tab_settings_normal.png in Resources */,
 				A199CA211A74CCB600A31587 /* forum_selected.png in Resources */,
 				A199CA051A74BDE200A31587 /* home_panel.plist in Resources */,
@@ -575,8 +597,10 @@
 				A1E279051A78BC8B00F23A20 /* UIViewController+VisibleView.m in Sources */,
 				A199C9FB1A73ADD400A31587 /* ETUserView.m in Sources */,
 				A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */,
+				A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */,
 				A199CA301A74CFBF00A31587 /* HomeData.m in Sources */,
 				A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */,
+				A140418D1A78E61B00669D46 /* ETextView.m in Sources */,
 				A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */,
 				A1E279001A7887B000F23A20 /* ETNavigationController.m in Sources */,
 				A1D66D3C1A7217BA00F98206 /* NSString+Size.m in Sources */,

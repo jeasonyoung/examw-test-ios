@@ -78,6 +78,7 @@
         _scrollView.showsHorizontalScrollIndicator = NO;//隐藏横向滚动条
         _scrollView.showsVerticalScrollIndicator = NO;//隐藏纵向滚动条
         _scrollView.delegate = self;
+        //_scrollView.bounces = NO;//关闭弹簧效果
         for(int i = 0; i < __k_IMG_VIEW_COUNT; i++){
             UIImageView *view = [self createImageViewWithImageIndex:i];
             [_scrollView addSubview:view];

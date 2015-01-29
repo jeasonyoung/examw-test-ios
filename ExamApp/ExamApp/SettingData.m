@@ -13,10 +13,9 @@
 +(instancetype)settingDataWithDict:(NSDictionary *)dict{
     if(dict == nil || dict.count == 0) return nil;
     SettingData *data = [[SettingData alloc] init];
-    data.key = [dict objectForKey:@"key"];
-    data.title = [dict objectForKey:@"title"];
-    data.type = [dict objectForKey:@"type"];
-    data.data = [dict objectForKey:@"data"];
+    for(NSString *key in dict.allKeys){
+        [data setValue:[dict objectForKey:key] forKey:key];
+    }
     return data;
 }
 #pragma mark 加载对象集合

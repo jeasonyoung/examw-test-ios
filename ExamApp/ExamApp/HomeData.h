@@ -14,9 +14,9 @@
 //值
 @property(nonatomic,copy)NSString *value;
 //显示图片
-@property(nonatomic,copy)NSString *normal;
+@property(nonatomic,copy)NSString *normalImage;
 //选中时的图片
-@property(nonatomic,copy)NSString *selected;
+@property(nonatomic,copy)NSString *selectedImage;
 //创建对象
 +(instancetype)homeDataWithDict:(NSDictionary *)dict;
 //加载对象集合

@@ -12,6 +12,7 @@
 #import "DefaultViewController.h"
 
 #import "ScreenViewController.h"
+#import "FeedbackViewController.h"
 //设置页控制器成员变量
 @interface SettingsViewController ()<UITableViewDataSource,UITableViewDelegate>{
     //设置分组数据
@@ -82,9 +83,9 @@
         
     }else if([@"sync" isEqualToString:value]){//2.同步与更新
         
-    }else if([@"share" isEqualToString:value]){//3.分享好友
+    }/*else if([@"share" isEqualToString:value]){//3.分享好友
         
-    }else if([@"screen" isEqualToString:value]){//4.屏幕亮度
+    }*/else if([@"screen" isEqualToString:value]){//4.屏幕亮度
         controller = [[ScreenViewController alloc] initWithSetting:data];
     }else if([@"website" isEqualToString:value]){//5.访问主站
         if(data.data == nil || data.data.length == 0){
@@ -94,12 +95,10 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:data.data]];
         }
         return;
-    }else if([@"clean" isEqualToString:value]){//6.清除缓存
-        
-        
-        
-    }else if([@"feedback" isEqualToString:value]){//7.意见反馈
-        
+    }/*else if([@"clean" isEqualToString:value]){//6.清除缓存
+      
+    }*/else if([@"feedback" isEqualToString:value]){//7.意见反馈
+        controller = [[FeedbackViewController alloc] init];
     }else if([@"protocol" isEqualToString:value]){//8.隐私协议
         
     }else if([@"about" isEqualToString:value]){//9.关于应用

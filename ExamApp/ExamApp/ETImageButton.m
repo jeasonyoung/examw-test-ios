@@ -55,7 +55,8 @@
     [self setTitleColor:_highlightFontColor forState:UIControlStateHighlighted];
     
    
-    _imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:data.normal] highlightedImage:[UIImage imageNamed:data.selected]];
+    _imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:data.normalImage]
+                                   highlightedImage:[UIImage imageNamed:data.selectedImage]];
     CGFloat width = self.bounds.size.width, height = self.bounds.size.height;
     CGFloat imageWH = (width > height ? height : width) * 0.6;
     
