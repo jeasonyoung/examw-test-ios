@@ -16,6 +16,8 @@
 		A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */ = {isa = PBXBuildFile; fileRef = A1647B611A728679007B12EA /* NSDate+TimeZone.m */; };
 		A18995951A79EC4200D591FF /* feedback_post_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A18995931A79EC4200D591FF /* feedback_post_normal.png */; };
 		A18995961A79EC4200D591FF /* feedback_post_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A18995941A79EC4200D591FF /* feedback_post_selected.png */; };
+		A18995991A7A2F5E00D591FF /* ProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18995981A7A2F5E00D591FF /* ProtocolViewController.m */; };
+		A189959D1A7A381700D591FF /* privacy in Resources */ = {isa = PBXBuildFile; fileRef = A189959C1A7A381700D591FF /* privacy */; };
 		A1910E6E1A6D3AC800377160 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E6D1A6D3AC800377160 /* main.m */; };
 		A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E701A6D3AC800377160 /* AppDelegate.m */; };
 		A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A1910E721A6D3AC800377160 /* ExamApp.xcdatamodeld */; };
@@ -94,6 +96,9 @@
 		A1647B611A728679007B12EA /* NSDate+TimeZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+TimeZone.m"; path = "Utils/NSDate+TimeZone.m"; sourceTree = "<group>"; };
 		A18995931A79EC4200D591FF /* feedback_post_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = feedback_post_normal.png; path = "../../../examw-test-android/examw-test-app-core/res/drawable-hdpi/feedback_post_normal.png"; sourceTree = "<group>"; };
 		A18995941A79EC4200D591FF /* feedback_post_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = feedback_post_selected.png; path = "../../../examw-test-android/examw-test-app-core/res/drawable-hdpi/feedback_post_selected.png"; sourceTree = "<group>"; };
+		A18995971A7A2F5E00D591FF /* ProtocolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolViewController.h; sourceTree = "<group>"; };
+		A18995981A7A2F5E00D591FF /* ProtocolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolViewController.m; sourceTree = "<group>"; };
+		A189959C1A7A381700D591FF /* privacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = privacy; path = "../../../examw-test-android/examw-test-app-core/assets/privacy"; sourceTree = "<group>"; };
 		A1910E681A6D3AC800377160 /* ExamApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1910E6C1A6D3AC800377160 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1910E6D1A6D3AC800377160 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -250,6 +255,7 @@
 				A1910E6C1A6D3AC800377160 /* Info.plist */,
 				A199CA041A74BDE200A31587 /* home_panel.plist */,
 				A1C3B7731A7633EE006EA38F /* settings_panel.plist */,
+				A189959C1A7A381700D591FF /* privacy */,
 				A1910E6D1A6D3AC800377160 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -363,6 +369,8 @@
 				A199CB861A7761030094FE50 /* ScreenViewController.m */,
 				A1E279081A78DFED00F23A20 /* FeedbackViewController.h */,
 				A1E279091A78DFED00F23A20 /* FeedbackViewController.m */,
+				A18995971A7A2F5E00D591FF /* ProtocolViewController.h */,
+				A18995981A7A2F5E00D591FF /* ProtocolViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -540,6 +548,7 @@
 				A1910E7F1A6D3AC800377160 /* Images.xcassets in Resources */,
 				A1EE7E011A70E5A00071C76D /* tab_home_normal.png in Resources */,
 				A199CA0A1A74BF7400A31587 /* everyday_normal.png in Resources */,
+				A189959D1A7A381700D591FF /* privacy in Resources */,
 				A199CA0E1A74C2A700A31587 /* practice_normal.png in Resources */,
 				A1C3B7681A75ED34006EA38F /* coming_soon.jpg in Resources */,
 			);
@@ -604,6 +613,7 @@
 				A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */,
 				A1E279001A7887B000F23A20 /* ETNavigationController.m in Sources */,
 				A1D66D3C1A7217BA00F98206 /* NSString+Size.m in Sources */,
+				A18995991A7A2F5E00D591FF /* ProtocolViewController.m in Sources */,
 				A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */,
 				A199CA031A74A33500A31587 /* ETHomePanelView.m in Sources */,
 				A199C9FF1A74874A00A31587 /* ETImageButton.m in Sources */,

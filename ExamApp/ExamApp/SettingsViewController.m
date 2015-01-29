@@ -13,6 +13,7 @@
 
 #import "ScreenViewController.h"
 #import "FeedbackViewController.h"
+#import "ProtocolViewController.h"
 //设置页控制器成员变量
 @interface SettingsViewController ()<UITableViewDataSource,UITableViewDelegate>{
     //设置分组数据
@@ -100,7 +101,7 @@
     }*/else if([@"feedback" isEqualToString:value]){//7.意见反馈
         controller = [[FeedbackViewController alloc] init];
     }else if([@"protocol" isEqualToString:value]){//8.隐私协议
-        
+        controller = [[ProtocolViewController alloc] init];
     }else if([@"about" isEqualToString:value]){//9.关于应用
         
     }else if([@"account" isEqualToString:value]){//10.当前账号
