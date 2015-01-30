@@ -7,13 +7,16 @@
 //
 
 #import "SettingsViewController.h"
-#import "SettingData.h"
 #import "UIViewController+VisibleView.h"
-#import "DefaultViewController.h"
 
-#import "ScreenViewController.h"
-#import "FeedbackViewController.h"
-#import "ProtocolViewController.h"
+#import "SettingData.h"
+
+#import "DefaultViewController.h"//默认控制器
+#import "ScreenViewController.h"//屏幕亮度控制器
+#import "FeedbackViewController.h"//意见反馈控制器
+#import "ProtocolViewController.h"//隐私协议控制器
+#import "AboutViewController.h"//关于应用控制器
+
 //设置页控制器成员变量
 @interface SettingsViewController ()<UITableViewDataSource,UITableViewDelegate>{
     //设置分组数据
@@ -103,7 +106,7 @@
     }else if([@"protocol" isEqualToString:value]){//8.隐私协议
         controller = [[ProtocolViewController alloc] init];
     }else if([@"about" isEqualToString:value]){//9.关于应用
-        
+        controller = [[AboutViewController alloc] init];
     }else if([@"account" isEqualToString:value]){//10.当前账号
         
     }
