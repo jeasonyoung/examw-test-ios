@@ -16,6 +16,7 @@
 #import "FeedbackViewController.h"//意见反馈控制器
 #import "ProtocolViewController.h"//隐私协议控制器
 #import "AboutViewController.h"//关于应用控制器
+#import "AccountViewController.h"//当前账号控制器
 
 //设置页控制器成员变量
 @interface SettingsViewController ()<UITableViewDataSource,UITableViewDelegate>{
@@ -90,14 +91,9 @@
     }/*else if([@"share" isEqualToString:value]){//3.分享好友
         
     }*/else if([@"screen" isEqualToString:value]){//4.屏幕亮度
-        controller = [[ScreenViewController alloc] initWithSetting:data];
+        controller = [[ScreenViewController alloc] init];
     }else if([@"website" isEqualToString:value]){//5.访问主站
-        if(data.data == nil || data.data.length == 0){
-            UIAlertView *alterView = [[UIAlertView alloc] initWithTitle:data.title message:@"站点地址不存在！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
-            [alterView show];
-        }else{
-            [[UIApplication sharedApplication] openURL:[NSURL URLWithString:data.data]];
-        }
+        [self createWebsiteControllerWithTitle:data.title Url:data.data];
         return;
     }/*else if([@"clean" isEqualToString:value]){//6.清除缓存
       
@@ -108,28 +104,25 @@
     }else if([@"about" isEqualToString:value]){//9.关于应用
         controller = [[AboutViewController alloc] init];
     }else if([@"account" isEqualToString:value]){//10.当前账号
-        
+        controller = [[AccountViewController alloc] init];
     }
-    
     if(controller == nil){
         controller = [[DefaultViewController alloc] init];
     }
     if(controller && self.navigationController){
         controller.navigationItem.title = data.title;
-        //设置动画效果
-        CATransition *animation = [CATransition animation];
-        animation.delegate = self;
-        animation.duration = 0.5;
-        animation.type = kCATransitionPush;
-        animation.subtype = kCATransitionFromRight;
-        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        
-        [self.navigationController.view.layer addAnimation:animation forKey:nil];
-        
         [self.navigationController pushViewController:controller animated:NO];
     }
 }
-
+#pragma mark 访问主站
+-(void)createWebsiteControllerWithTitle:(NSString *)title Url:(NSString *)url{
+    if(url  == nil || url.length == 0){
+         UIAlertView *alterView = [[UIAlertView alloc] initWithTitle:title message:@"站点地址不存在！" delegate:nil cancelButtonTitle:@"取消" otherButtonTitles:nil, nil];
+        [alterView show];
+        return;
+    }
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+}
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

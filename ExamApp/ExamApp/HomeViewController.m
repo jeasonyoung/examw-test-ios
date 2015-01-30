@@ -97,16 +97,6 @@
     }
     if(controller && self.navigationController){
         controller.navigationItem.title = title;
-        //设置动画效果
-        CATransition *animation = [CATransition animation];
-        animation.delegate = self;
-        animation.duration = 0.5;
-        animation.type = kCATransitionPush;
-        animation.subtype = kCATransitionFromRight;
-        animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-        
-        [self.navigationController.view.layer addAnimation:animation forKey:nil];
-        
         [self.navigationController pushViewController:controller animated:NO];
     }
 }

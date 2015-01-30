@@ -10,6 +10,4 @@
 #import "SettingData.h"
 //屏幕亮度控制器
 @interface ScreenViewController : UIViewController
-//初始化
--(instancetype)initWithSetting:(SettingData *)data;
 @end

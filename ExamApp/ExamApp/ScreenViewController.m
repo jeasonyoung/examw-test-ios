@@ -9,18 +9,10 @@
 #import "ScreenViewController.h"
 //屏幕亮度控制器成员变量
 @interface ScreenViewController (){
-    SettingData *_data;
 }
 @end
 //屏幕亮度控制器实现类
 @implementation ScreenViewController
-#pragma mark 初始化
--(instancetype)initWithSetting:(SettingData *)data{
-    if(self = [self init]){
-        _data = data;
-    }
-    return self;
-}
 #pragma mark 入口函数
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -60,6 +52,5 @@
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 @end

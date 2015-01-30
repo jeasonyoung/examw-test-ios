@@ -7,6 +7,7 @@
 //
 
 #import "ETNavigationController.h"
+#import "UINavigationController+Animation.h"
 //自定义向导控制器成员变量
 @interface ETNavigationController ()
 
@@ -18,6 +19,14 @@
     //如果现在push的不是栈顶的控制器，那么就隐藏tabber工具条
     if(self.viewControllers.count > 0){
         viewController.hidesBottomBarWhenPushed = YES;
+    }
+    if(!animated){
+        //设置动画效果
+        CATransition *animation = [self createTransitionAnimation];
+        if(animation != nil){
+            //设置转场动画
+            [self.view.layer addAnimation:animation forKey:nil];
+        }
     }
     //调用父类方法
     [super pushViewController:viewController animated:animated];
