@@ -8,6 +8,7 @@
 
 #import "ETNavigationController.h"
 #import "UINavigationController+Animation.h"
+#import "UIViewController+Animation.h"
 //自定义向导控制器成员变量
 @interface ETNavigationController ()
 
@@ -20,14 +21,12 @@
     if(self.viewControllers.count > 0){
         viewController.hidesBottomBarWhenPushed = YES;
     }
-    if(!animated){
-        //设置动画效果
+    if(!animated && viewController.enableTransitionAnimation){
         CATransition *animation = [self createTransitionAnimation];
-        if(animation != nil){
-            //设置转场动画
-            [self.view.layer addAnimation:animation forKey:nil];
-        }
+        //设置转场动画
+        [self.view.layer addAnimation:animation forKey:nil];
     }
+    NSLog(@"pushViewController => %d <=> %@",viewController.enableTransitionAnimation,viewController);
     //调用父类方法
     [super pushViewController:viewController animated:animated];
 }

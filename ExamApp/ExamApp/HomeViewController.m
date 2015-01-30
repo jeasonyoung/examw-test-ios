@@ -10,7 +10,6 @@
 #import "UIColor+Hex.h"
 #import "ETUserView.h"
 #import "ETHomePanelView.h"
-
 #import "DefaultViewController.h"
 
 #define __k_UserViewPanel_Top 4 //用户信息面板与顶部的间隔
@@ -18,8 +17,7 @@
 #define __k_UserViewPanel_Right 2 //用户信息面板与右边边界的间隔
 //主页控制器成员变量
 @interface HomeViewController ()<ETUserViewDelegate,ETHomePanelViewDelegate>
-{
-}
+
 @end
 //主页控制器实现类
 @implementation HomeViewController
