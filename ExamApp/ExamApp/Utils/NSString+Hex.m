@@ -23,4 +23,23 @@
     }
     return data;
 }
+#pragma mark 将字符串反转
+-(NSString *)reversed{
+    if(self.length <= 1) return self;
+    long i = 0, j = self.length - 1;
+    unichar *characters = malloc(sizeof([self characterAtIndex:0]) * self.length);
+    while(i < j){
+        characters[j] = [self characterAtIndex:i];
+        characters[i] = [self characterAtIndex:j];
+        i++;
+        j--;
+    }
+    if(i == j){
+        characters[i] = [self characterAtIndex:i];
+    }
+    NSString *result = [NSString stringWithCharacters:characters length:self.length];
+    free(characters);
+    NSLog(@"reversed> %@ <=> %@", self, result);
+    return result;
+}
 @end

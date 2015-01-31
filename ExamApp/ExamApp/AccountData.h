@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 //账号数据
 @interface AccountData : NSObject
+//软件版本值
+@property(nonatomic,assign)float version;
 //账号ID
 @property(nonatomic,copy)NSString *accountId;
 //账号
@@ -18,9 +20,11 @@
 //注册码
 @property(nonatomic,copy)NSString *registerCode;
 //校验码
-@property(nonatomic,copy)NSString *checkCode;
+@property(nonatomic,copy,readonly)NSString *checkCode;
 //当前用户
 +(instancetype)currentUser;
 //保存用户数据
 -(void)save;
+//验证数据合法性
+-(BOOL)validation;
 @end

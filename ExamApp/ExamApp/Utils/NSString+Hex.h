@@ -11,4 +11,6 @@
 @interface NSString (Hex)
 //将16进制的字符串转换为NSData数据
 -(NSData *)hexToBytes;
+//将字符串反转
+-(NSString *)reversed;
 @end
