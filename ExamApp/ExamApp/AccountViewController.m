@@ -13,6 +13,7 @@
 #import "UIColor+Hex.h"
 
 #import "MainViewController.h"
+#import "LoginViewController.h"
 
 #define __k_account_view_margin_top 10//顶部间距
 #define __k_account_view_margin_bottom 10//底部间距
@@ -51,10 +52,12 @@
     [super viewDidLoad];
     //加载当前用户信息
     _userAccount = [UserAccountData currentUser];
-//    if(_userAccount == nil || ![_userAccount validation]){//当前用户不存在或者验证不通过都弹出登录界面
-//        
-//        return;
-//    }
+    //当前用户不存在或者验证不通过都弹出登录界面
+    if(_userAccount == nil || ![_userAccount validation]){
+        LoginViewController *lvc = [[LoginViewController alloc] init];
+        [self.navigationController pushViewController:lvc animated:NO];
+        return;
+    }
     //设置字体
     _font = [UIFont systemFontOfSize:__k_account_view_font_size];
     //创建用户信息

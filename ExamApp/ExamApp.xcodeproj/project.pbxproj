@@ -24,6 +24,7 @@
 		A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A1910E721A6D3AC800377160 /* ExamApp.xcdatamodeld */; };
 		A1910E7F1A6D3AC800377160 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1910E7E1A6D3AC800377160 /* Images.xcassets */; };
 		A1910E8E1A6D3AC800377160 /* ExamAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E8D1A6D3AC800377160 /* ExamAppTests.m */; };
+		A1959F931A7FABBB00C1F563 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1959F921A7FABBB00C1F563 /* LoginViewController.m */; };
 		A199C9FB1A73ADD400A31587 /* ETUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = A199C9FA1A73ADD400A31587 /* ETUserView.m */; };
 		A199C9FF1A74874A00A31587 /* ETImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A199C9FE1A74874A00A31587 /* ETImageButton.m */; };
 		A199CA031A74A33500A31587 /* ETHomePanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = A199CA021A74A33500A31587 /* ETHomePanelView.m */; };
@@ -122,6 +123,8 @@
 		A1910E871A6D3AC800377160 /* ExamAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExamAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1910E8C1A6D3AC800377160 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1910E8D1A6D3AC800377160 /* ExamAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExamAppTests.m; sourceTree = "<group>"; };
+		A1959F911A7FABBB00C1F563 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		A1959F921A7FABBB00C1F563 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		A199C9F91A73ADD400A31587 /* ETUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETUserView.h; sourceTree = "<group>"; };
 		A199C9FA1A73ADD400A31587 /* ETUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETUserView.m; sourceTree = "<group>"; };
 		A199C9FC1A73B0E800A31587 /* ETUserViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETUserViewDelegate.h; sourceTree = "<group>"; };
@@ -408,6 +411,8 @@
 				A1D02EF41A7B1208004C484D /* AboutViewController.m */,
 				A1D02EFD1A7B5BD1004C484D /* AccountViewController.h */,
 				A1D02EFE1A7B5BD1004C484D /* AccountViewController.m */,
+				A1959F911A7FABBB00C1F563 /* LoginViewController.h */,
+				A1959F921A7FABBB00C1F563 /* LoginViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -678,6 +683,7 @@
 				A199CA031A74A33500A31587 /* ETHomePanelView.m in Sources */,
 				A199C9FF1A74874A00A31587 /* ETImageButton.m in Sources */,
 				A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */,
+				A1959F931A7FABBB00C1F563 /* LoginViewController.m in Sources */,
 				A1D02F021A7B6588004C484D /* UserAccountData.m in Sources */,
 				A1EE7DDB1A70A8B80071C76D /* SettingsViewController.m in Sources */,
 				A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */,
