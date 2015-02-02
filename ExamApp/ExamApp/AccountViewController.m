@@ -7,7 +7,7 @@
 //
 
 #import "AccountViewController.h"
-#import "AccountData.h"
+#import "UserAccountData.h"
 //账号信息控制器成员变量
 @interface AccountViewController ()
 {
@@ -35,15 +35,15 @@
     [self.view addSubview:btnSave];
 }
 -(void)btnLoadClick:(id)sender{
-    AccountData *data = [AccountData currentUser];
+    UserAccountData *data = [UserAccountData currentUser];
     NSLog(@"加载数据：%@",data);
     NSLog(@"validation -> %d", [data validation]);
 }
 
 -(void)btnSaveClick:(id)sender{
-    AccountData *account = [AccountData currentUser];
+    UserAccountData *account = [UserAccountData currentUser];
     if(account == nil){
-        account = [[AccountData alloc] init];
+        account = [[UserAccountData alloc] init];
         account.accountId = @"111-2222-333";
     }
     account.account = @"jeasonyoung";

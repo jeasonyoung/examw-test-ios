@@ -59,7 +59,7 @@
 		A1D02EFA1A7B1723004C484D /* about_panel.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1D02EF91A7B1723004C484D /* about_panel.plist */; };
 		A1D02EFC1A7B1926004C484D /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = A1D02EFB1A7B1926004C484D /* logo.png */; };
 		A1D02EFF1A7B5BD1004C484D /* AccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D02EFE1A7B5BD1004C484D /* AccountViewController.m */; };
-		A1D02F021A7B6588004C484D /* AccountData.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D02F011A7B6588004C484D /* AccountData.m */; };
+		A1D02F021A7B6588004C484D /* UserAccountData.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D02F011A7B6588004C484D /* UserAccountData.m */; };
 		A1D02F051A7B70F9004C484D /* AESCrypt.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D02F041A7B70F9004C484D /* AESCrypt.m */; };
 		A1D02F081A7B7E37004C484D /* NSString+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D02F071A7B7E37004C484D /* NSString+Hex.m */; };
 		A1D02F0B1A7B8A85004C484D /* NSData+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D02F0A1A7B8A85004C484D /* NSData+Hex.m */; };
@@ -169,8 +169,8 @@
 		A1D02EFB1A7B1926004C484D /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		A1D02EFD1A7B5BD1004C484D /* AccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountViewController.h; sourceTree = "<group>"; };
 		A1D02EFE1A7B5BD1004C484D /* AccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountViewController.m; sourceTree = "<group>"; };
-		A1D02F001A7B6588004C484D /* AccountData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccountData.h; sourceTree = "<group>"; };
-		A1D02F011A7B6588004C484D /* AccountData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AccountData.m; sourceTree = "<group>"; };
+		A1D02F001A7B6588004C484D /* UserAccountData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserAccountData.h; sourceTree = "<group>"; };
+		A1D02F011A7B6588004C484D /* UserAccountData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserAccountData.m; sourceTree = "<group>"; };
 		A1D02F031A7B70F9004C484D /* AESCrypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AESCrypt.h; path = Utils/AESCrypt.h; sourceTree = "<group>"; };
 		A1D02F041A7B70F9004C484D /* AESCrypt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AESCrypt.m; path = Utils/AESCrypt.m; sourceTree = "<group>"; };
 		A1D02F061A7B7E37004C484D /* NSString+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Hex.h"; path = "Utils/NSString+Hex.h"; sourceTree = "<group>"; };
@@ -426,8 +426,8 @@
 				A1C3B7761A763C05006EA38F /* SettingData.m */,
 				A1D02EF61A7B13D6004C484D /* AboutData.h */,
 				A1D02EF71A7B13D6004C484D /* AboutData.m */,
-				A1D02F001A7B6588004C484D /* AccountData.h */,
-				A1D02F011A7B6588004C484D /* AccountData.m */,
+				A1D02F001A7B6588004C484D /* UserAccountData.h */,
+				A1D02F011A7B6588004C484D /* UserAccountData.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -678,7 +678,7 @@
 				A199CA031A74A33500A31587 /* ETHomePanelView.m in Sources */,
 				A199C9FF1A74874A00A31587 /* ETImageButton.m in Sources */,
 				A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */,
-				A1D02F021A7B6588004C484D /* AccountData.m in Sources */,
+				A1D02F021A7B6588004C484D /* UserAccountData.m in Sources */,
 				A1EE7DDB1A70A8B80071C76D /* SettingsViewController.m in Sources */,
 				A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */,
 				A1C3B7771A763C05006EA38F /* SettingData.m in Sources */,

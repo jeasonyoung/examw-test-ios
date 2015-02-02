@@ -39,7 +39,7 @@
     }
     NSString *result = [NSString stringWithCharacters:characters length:self.length];
     free(characters);
-    NSLog(@"reversed> %@ <=> %@", self, result);
+    //NSLog(@"reversed> %@ <=> %@", self, result);
     return result;
 }
 @end
