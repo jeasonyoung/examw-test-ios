@@ -126,7 +126,6 @@ static UserAccountData *_current_account;
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     [dict setObject:[NSNumber numberWithFloat:self.version] forKey:@"version"];
     [dict setObject:self.account forKey:@"account"];
-    if(self.name)[dict setObject:self.name forKey:@"name"];
     if(self.accountId)[dict setObject:self.accountId forKey:@"accountId"];
     if(self.password)[dict setObject:self.password forKey:@"password"];
     if(self.registerCode)[dict setObject:self.registerCode forKey:@"registerCode"];
@@ -161,11 +160,10 @@ static UserAccountData *_current_account;
 }
 //拼接字符串
 -(NSString *)joinPropertyToString{
-    return [NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@",
+    return [NSString stringWithFormat:@"%@:%@:%@:%@:%@",
                     [NSNumber numberWithFloat:self.version],
                     self.accountId,
                     self.account,
-                    self.name,
                     self.password,
                     self.registerCode];
 }

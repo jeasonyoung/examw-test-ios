@@ -15,8 +15,6 @@
 @property(nonatomic,copy)NSString *accountId;
 //账号
 @property(nonatomic,copy)NSString *account;
-//用户姓名
-@property(nonatomic,copy)NSString *name;
 //密码
 @property(nonatomic,copy)NSString *password;
 //注册码
