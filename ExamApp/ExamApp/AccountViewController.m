@@ -56,6 +56,7 @@
     if(_userAccount == nil || ![_userAccount validation]){
         LoginViewController *lvc = [[LoginViewController alloc] init];
         [self.navigationController pushViewController:lvc animated:NO];
+        //[self presentViewController:lvc animated:YES completion:nil];
         return;
     }
     //设置字体

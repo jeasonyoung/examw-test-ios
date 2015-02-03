@@ -17,13 +17,13 @@
 #define __k_feedback_margin_bottom 15//底部间距
 #define __k_feedback_margin_inner 10//内部各空间间距
 #define __k_feedback_btn_height 46//提交按钮高度
-#define __k_feedback_btn_title "提交"//
+#define __k_feedback_btn_title @"提交"//
 #define __k_feedback_content_total 1000//内容长度
-#define __k_feedback_count_format "已输入%d/%d"//字数统计字符串
-#define __k_feedback_placehoder "请写入您的意见或者建议"//占位字符串
-#define __k_feedback_alter_title "提示"//
-#define __k_feedback_alter_message "字符个数不能大于%d"//
-#define __k_feedback_alter_cancal "确定"//
+#define __k_feedback_count_format @"已输入%d/%d"//字数统计字符串
+#define __k_feedback_placehoder @"请写入您的意见或者建议"//占位字符串
+#define __k_feedback_alter_title @"提示"//
+#define __k_feedback_alter_message @"字符个数不能大于%d"//
+#define __k_feedback_alter_cancal @"确定"//
 
 //意见反馈控制器成员变量
 @interface FeedbackViewController ()<UITextViewDelegate>{
@@ -50,7 +50,7 @@
     _containerView = [[UIView alloc] initWithFrame:[self loadVisibleViewFrame]];
     //添加提交按钮
     _btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_btn setTitle:@__k_feedback_btn_title forState:UIControlStateNormal];
+    [_btn setTitle:__k_feedback_btn_title forState:UIControlStateNormal];
     [_btn setBackgroundImage:[UIImage imageNamed:@"feedback_post_normal.png"] forState:UIControlStateNormal];
     [_btn setBackgroundImage:[UIImage imageNamed:@"feedback_post_selected.png"] forState:UIControlStateHighlighted];
     [_btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -69,7 +69,7 @@
     
     //添加输入框
     _contentView = [[ETextView alloc] init];
-    _contentView.placehoder = @__k_feedback_placehoder;
+    _contentView.placehoder = __k_feedback_placehoder;
     _contentView.delegate = self;
     [_containerView addSubview:_contentView];
     
@@ -110,7 +110,7 @@
 }
 #pragma mark 格式化内容字符串统计
 -(NSString *)formatContentCharatersTotal:(int)count{
-   return [NSString stringWithFormat:@__k_feedback_count_format,count,__k_feedback_content_total];
+   return [NSString stringWithFormat:__k_feedback_count_format,count,__k_feedback_content_total];
 }
 #pragma mark 键盘即将弹出
 -(void)keyboradWillShow:(NSNotification *)note{
@@ -126,6 +126,7 @@
         [self layoutContainerSubViewFrames];
     }];
 }
+#pragma mark 关闭键盘
 -(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     [self.view endEditing:YES];//关闭键盘
     [super touchesBegan:touches withEvent:event];
@@ -150,11 +151,11 @@
 -(void)textViewDidChange:(UITextView *)textView{
     NSInteger count = textView.text.length;
     if(count > __k_feedback_content_total){
-        NSString *msg = [NSString stringWithFormat:@__k_feedback_alter_message,__k_feedback_content_total];
-        UIAlertView *alterView = [[UIAlertView alloc] initWithTitle:@__k_feedback_alter_title
+        NSString *msg = [NSString stringWithFormat:__k_feedback_alter_message,__k_feedback_content_total];
+        UIAlertView *alterView = [[UIAlertView alloc] initWithTitle:__k_feedback_alter_title
                                                             message:msg
                                                            delegate:self
-                                                  cancelButtonTitle:@__k_feedback_alter_cancal
+                                                  cancelButtonTitle:__k_feedback_alter_cancal
                                                   otherButtonTitles:nil, nil];
         [alterView show];
         textView.text = [textView.text substringToIndex:__k_feedback_content_total];
