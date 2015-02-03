@@ -38,9 +38,10 @@
 #define __k_login_view_register_phone @"手机："//
 #define __k_login_view_register_phone_placeholder @"请输入本人手机号码"//
 #define __k_login_view_register_btn_title @"立即注册"//
+#define __k_login_view_register_title @"学员注册"//
 #define __k_login_view_register_btn_height 46//提交按钮高度
 
-#define __k_login_view_register_per 0.8//
+#define __k_login_view_register_per 1.0//
 //登录视图控制器成员变量
 @interface LoginViewController ()<UITextFieldDelegate>{
     UIAlertAction *_btnLogin;
@@ -61,7 +62,7 @@
     self.navigationItem.leftBarButtonItem = leftButton;
     [self createAlterLoginViewWithMessage:nil Account:nil];
     //添加注册UI
-    self.navigationItem.title = __k_login_view_register_btn_title;
+    self.navigationItem.title = __k_login_view_register_title;
     [self createRegisterPanel];
     
     //注册监视键盘消息通知
@@ -300,9 +301,10 @@
         CGFloat keyboard_height = CGRectGetHeight(keyboardSize);
         //
         _offset_y = 0;
-        if(block_panel_y + (block_panel_height * __k_login_view_register_per) + keyboard_height > CGRectGetHeight(self.view.frame)){
-            CGFloat height = CGRectGetHeight(_currentBlockPanel.superview.frame);
-            _offset_y = height - CGRectGetMidY(_currentBlockPanel.frame);
+        if(block_panel_y + (block_panel_height * __k_login_view_register_per) + keyboard_height >= CGRectGetHeight(self.view.frame)){
+            CGFloat keyboard_y = CGRectGetHeight(self.view.frame) - keyboard_height;
+            _offset_y = CGRectGetMaxY(_currentBlockPanel.superview.frame) -keyboard_y;
+            //NSLog(@"_offset_y => %f",_offset_y);
             CGFloat duration = [notification.userInfo [UIKeyboardAnimationDurationUserInfoKey] doubleValue];
             CGRect tempFrame = self.view.frame;
             tempFrame.origin.y -= _offset_y;
