@@ -10,12 +10,13 @@
 #import "UIViewController+VisibleView.h"
 #import "NSString+Size.h"
 
+#import "LoginData.h"
 #import "RegisterData.h"
 
 #define __k_login_view_title @"用户登录"//登录窗口
 #define __k_login_view_account @"用户名"//
+#define __k_login_view_account_len 4//用户名长度（4-20）
 #define __k_login_view_password @"密码"//
-#define __k_login_view_password_len 5//密码长度
 #define __k_login_view_btn_login_title @"登录"//登录标题
 #define __k_login_view_btn_register_title @"注册"//注册标题
 
@@ -44,6 +45,9 @@
 #define __k_login_view_register_btn_height 46//提交按钮高度
 
 #define __k_login_view_register_per 1.0//
+
+#define __k_login_view_alter_error_account @"请输入用户名！"//
+#define __k_login_view_alter_error_password @"请输入密码"//
 //登录视图控制器成员变量
 @interface LoginViewController ()<UITextFieldDelegate>{
     UIAlertAction *_btnLogin;
@@ -106,17 +110,32 @@
     UIAlertAction *btnRegister = [UIAlertAction actionWithTitle:__k_login_view_btn_register_title
                                                           style:UIAlertActionStyleCancel
                                                         handler:^(UIAlertAction *action) {//注册
-                                                            
+                                                            //移除用户名输入框的监听
+                                                            [self removeAccountTextFieldObserver];
                                                             [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-                                                            NSLog(@"注册...");
+                                                             //NSLog(@"注册...");
                                                         }];
     //登录按钮
     _btnLogin = [UIAlertAction actionWithTitle:__k_login_view_btn_login_title
                                         style:UIAlertActionStyleDefault
                                       handler:^(UIAlertAction *action) {//登录
-                                          [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                                                          name:UITextFieldTextDidChangeNotification
-                                                                                        object:nil];
+                                          //移除用户名输入框的监听
+                                          [self removeAccountTextFieldObserver];
+                                          //登录验证
+                                          UITextField *tfAccount = [alterController.textFields objectAtIndex:0],
+                                                     *tfPassword = [alterController.textFields objectAtIndex:1];
+                                          LoginData *login = [[LoginData alloc] init];
+                                          login.account = [tfAccount.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                                          login.password = [tfPassword.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                                          if(login.account.length == 0){//账号为空
+                                              [self createAlterLoginViewWithMessage:__k_login_view_alter_error_account Account:nil];
+                                              return;
+                                          }
+                                          if(login.password.length == 0){//密码为空
+                                              [self createAlterLoginViewWithMessage:__k_login_view_alter_error_password Account:login.account];
+                                              return;
+                                          }
+                                          
                                           //
                                           [self createAlterLoginViewWithMessage:@"密码错误！" Account:@"acc"];
                                       }];
@@ -130,9 +149,15 @@
 //处理监听用户名内容的变化
 -(void)accountTextFieldTextDidChangeNotification:(NSNotification *)notification{
     UITextField *tf = notification.object;
-    if(tf && _btnLogin){
-        _btnLogin.enabled = tf.text.length >= __k_login_view_password_len;
+    if(tf && _btnLogin){//用户名长度
+        _btnLogin.enabled = tf.text.length >= __k_login_view_account_len;
     }
+}
+//移除用户名输入框的监听
+-(void)removeAccountTextFieldObserver{
+    [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                    name:UITextFieldTextDidChangeNotification
+                                                  object:nil];
 }
 //取消按钮事件
 -(void)selectLeftAction:(id)sender{

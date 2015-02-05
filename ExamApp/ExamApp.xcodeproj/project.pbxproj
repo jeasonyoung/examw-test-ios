@@ -52,6 +52,7 @@
 		A199CBBF1A7788EB0094FE50 /* slider-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = A199CBBD1A7788EB0094FE50 /* slider-bg.png */; };
 		A199CBC01A7788EB0094FE50 /* slider-knob.png in Resources */ = {isa = PBXBuildFile; fileRef = A199CBBE1A7788EB0094FE50 /* slider-knob.png */; };
 		A19DCE741A82F5DF0019856D /* AppClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A19DCE731A82F5DF0019856D /* AppClient.m */; };
+		A19DCE781A83442C0019856D /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A19DCE771A83442C0019856D /* HttpUtils.m */; };
 		A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AA7CC51A81B336003A5137 /* RegisterData.m */; };
 		A1AA7CCC1A81F761003A5137 /* LoginData.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AA7CCB1A81F761003A5137 /* LoginData.m */; };
 		A1C3B7631A75DB5F006EA38F /* DefaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */; };
@@ -164,6 +165,8 @@
 		A19DCE721A82F5DF0019856D /* AppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppClient.h; sourceTree = "<group>"; };
 		A19DCE731A82F5DF0019856D /* AppClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppClient.m; sourceTree = "<group>"; };
 		A19DCE751A82F7EB0019856D /* JSONSerialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONSerialize.h; sourceTree = "<group>"; };
+		A19DCE761A83442C0019856D /* HttpUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpUtils.h; sourceTree = "<group>"; };
+		A19DCE771A83442C0019856D /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUtils.m; sourceTree = "<group>"; };
 		A1AA7CC41A81B336003A5137 /* RegisterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterData.h; sourceTree = "<group>"; };
 		A1AA7CC51A81B336003A5137 /* RegisterData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterData.m; sourceTree = "<group>"; };
 		A1AA7CC71A81D3AD003A5137 /* AppConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConstant.h; sourceTree = "<group>"; };
@@ -463,6 +466,8 @@
 				A1ED101A1A6F4EA9004DAD90 /* NSQueue.m */,
 				A1D02F031A7B70F9004C484D /* AESCrypt.h */,
 				A1D02F041A7B70F9004C484D /* AESCrypt.m */,
+				A19DCE761A83442C0019856D /* HttpUtils.h */,
+				A19DCE771A83442C0019856D /* HttpUtils.m */,
 				A1D66D3B1A7217BA00F98206 /* NSString+Size.h */,
 				A1D66D3A1A7217BA00F98206 /* NSString+Size.m */,
 				A1D66D3D1A723B7E00F98206 /* NSString+Date.h */,
@@ -713,6 +718,7 @@
 				A1D02EFF1A7B5BD1004C484D /* AccountViewController.m in Sources */,
 				A1910E6E1A6D3AC800377160 /* main.m in Sources */,
 				A199CB871A7761030094FE50 /* ScreenViewController.m in Sources */,
+				A19DCE781A83442C0019856D /* HttpUtils.m in Sources */,
 				A1C3B7631A75DB5F006EA38F /* DefaultViewController.m in Sources */,
 				A1510F831A6DEF4C00FE59A9 /* LaunchViewController.m in Sources */,
 			);
