@@ -51,6 +51,9 @@
 		A199CB871A7761030094FE50 /* ScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A199CB861A7761030094FE50 /* ScreenViewController.m */; };
 		A199CBBF1A7788EB0094FE50 /* slider-bg.png in Resources */ = {isa = PBXBuildFile; fileRef = A199CBBD1A7788EB0094FE50 /* slider-bg.png */; };
 		A199CBC01A7788EB0094FE50 /* slider-knob.png in Resources */ = {isa = PBXBuildFile; fileRef = A199CBBE1A7788EB0094FE50 /* slider-knob.png */; };
+		A19DCE741A82F5DF0019856D /* AppClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A19DCE731A82F5DF0019856D /* AppClient.m */; };
+		A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AA7CC51A81B336003A5137 /* RegisterData.m */; };
+		A1AA7CCC1A81F761003A5137 /* LoginData.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AA7CCB1A81F761003A5137 /* LoginData.m */; };
 		A1C3B7631A75DB5F006EA38F /* DefaultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */; };
 		A1C3B7681A75ED34006EA38F /* coming_soon.jpg in Resources */ = {isa = PBXBuildFile; fileRef = A1C3B7671A75ED34006EA38F /* coming_soon.jpg */; };
 		A1C3B7741A7633EE006EA38F /* settings_panel.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1C3B7731A7633EE006EA38F /* settings_panel.plist */; };
@@ -158,6 +161,14 @@
 		A199CB861A7761030094FE50 /* ScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenViewController.m; sourceTree = "<group>"; };
 		A199CBBD1A7788EB0094FE50 /* slider-bg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-bg.png"; sourceTree = "<group>"; };
 		A199CBBE1A7788EB0094FE50 /* slider-knob.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "slider-knob.png"; sourceTree = "<group>"; };
+		A19DCE721A82F5DF0019856D /* AppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppClient.h; sourceTree = "<group>"; };
+		A19DCE731A82F5DF0019856D /* AppClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppClient.m; sourceTree = "<group>"; };
+		A19DCE751A82F7EB0019856D /* JSONSerialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONSerialize.h; sourceTree = "<group>"; };
+		A1AA7CC41A81B336003A5137 /* RegisterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterData.h; sourceTree = "<group>"; };
+		A1AA7CC51A81B336003A5137 /* RegisterData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterData.m; sourceTree = "<group>"; };
+		A1AA7CC71A81D3AD003A5137 /* AppConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConstant.h; sourceTree = "<group>"; };
+		A1AA7CCA1A81F761003A5137 /* LoginData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginData.h; sourceTree = "<group>"; };
+		A1AA7CCB1A81F761003A5137 /* LoginData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginData.m; sourceTree = "<group>"; };
 		A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultViewController.h; sourceTree = "<group>"; };
 		A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultViewController.m; sourceTree = "<group>"; };
 		A1C3B7671A75ED34006EA38F /* coming_soon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = coming_soon.jpg; sourceTree = "<group>"; };
@@ -266,12 +277,14 @@
 			children = (
 				A1910E6F1A6D3AC800377160 /* AppDelegate.h */,
 				A1910E701A6D3AC800377160 /* AppDelegate.m */,
+				A1AA7CC71A81D3AD003A5137 /* AppConstant.h */,
 				A1510F811A6DEF4C00FE59A9 /* LaunchViewController.h */,
 				A1510F821A6DEF4C00FE59A9 /* LaunchViewController.m */,
 				A1ED101E1A6F80BA004DAD90 /* MainViewController.h */,
 				A1ED101F1A6F80BA004DAD90 /* MainViewController.m */,
 				A1E278FE1A7887B000F23A20 /* ETNavigationController.h */,
 				A1E278FF1A7887B000F23A20 /* ETNavigationController.m */,
+				A19DCE751A82F7EB0019856D /* JSONSerialize.h */,
 				A1EE7DE71A70DF470071C76D /* Home */,
 				A1C3B7691A760E03006EA38F /* Settings */,
 				A1ED10181A6F4D34004DAD90 /* Utils */,
@@ -433,6 +446,12 @@
 				A1D02EF71A7B13D6004C484D /* AboutData.m */,
 				A1D02F001A7B6588004C484D /* UserAccountData.h */,
 				A1D02F011A7B6588004C484D /* UserAccountData.m */,
+				A19DCE721A82F5DF0019856D /* AppClient.h */,
+				A19DCE731A82F5DF0019856D /* AppClient.m */,
+				A1AA7CC41A81B336003A5137 /* RegisterData.h */,
+				A1AA7CC51A81B336003A5137 /* RegisterData.m */,
+				A1AA7CCA1A81F761003A5137 /* LoginData.h */,
+				A1AA7CCB1A81F761003A5137 /* LoginData.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -660,6 +679,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1D02F0B1A7B8A85004C484D /* NSData+Hex.m in Sources */,
+				A19DCE741A82F5DF0019856D /* AppClient.m in Sources */,
 				A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */,
 				A1D02F0E1A7B8C95004C484D /* UINavigationController+Animation.m in Sources */,
 				A1D66D3F1A723B7E00F98206 /* NSString+Date.m in Sources */,
@@ -668,6 +688,7 @@
 				A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */,
 				A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */,
 				A199CA301A74CFBF00A31587 /* HomeData.m in Sources */,
+				A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */,
 				A1D02F081A7B7E37004C484D /* NSString+Hex.m in Sources */,
 				A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */,
 				A140418D1A78E61B00669D46 /* ETextView.m in Sources */,
@@ -679,6 +700,7 @@
 				A1D66D3C1A7217BA00F98206 /* NSString+Size.m in Sources */,
 				A18995991A7A2F5E00D591FF /* ProtocolViewController.m in Sources */,
 				A1D02F051A7B70F9004C484D /* AESCrypt.m in Sources */,
+				A1AA7CCC1A81F761003A5137 /* LoginData.m in Sources */,
 				A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */,
 				A199CA031A74A33500A31587 /* ETHomePanelView.m in Sources */,
 				A199C9FF1A74874A00A31587 /* ETImageButton.m in Sources */,

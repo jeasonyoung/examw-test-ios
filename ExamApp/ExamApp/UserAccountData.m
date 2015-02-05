@@ -9,6 +9,7 @@
 #import "AESCrypt.h"
 #import "NSString+Hex.h"
 #define __k_account_current_user_key @"current_user"//首选项存储当前用户信息主键
+
 //账号数据私有成员变量
 @interface UserAccountData(){
     NSString *_save_defaults_key;
@@ -36,7 +37,10 @@
         if(dict.count == 0)return nil;
         //KVC数据插入
         for(NSString *key in dict.allKeys){
-            [self setValue:[dict objectForKey:key] forKey:[NSString stringWithFormat:@"_%@",key]];
+            id obj_value = [dict objectForKey:key];
+            if(obj_value == [NSNull null]) continue;
+            
+            [self setValue:obj_value forKey:[NSString stringWithFormat:@"_%@",key]];
         }
         //验证数据存储的完整性
          NSString *new_verify_code = [self createVerifyCodeWithKey:_save_defaults_key];
@@ -84,11 +88,11 @@ static UserAccountData *_current_account;
     //校验码不一致才保存数据
     if(![new_check_code isEqualToString:self.checkCode]){
         //如果密码不为空，对称加密密码
-        if(self.password != nil && self.password.length > 0){
+        if(self.password && self.password.length > 0){
             self.password = [self encrypt:self.password Key:self.account];
         }
         //如果注册码不为空，对称加密注册码
-        if(self.registerCode != nil && self.registerCode.length > 0){
+        if(self.registerCode && self.registerCode.length > 0){
             self.registerCode = [self encrypt:self.registerCode Key:self.account];
         }
         //更新数据校验码
@@ -123,15 +127,13 @@ static UserAccountData *_current_account;
 }
 //创建
 -(NSDictionary *)createJsonDict{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:[NSNumber numberWithFloat:self.version] forKey:@"version"];
-    [dict setObject:self.account forKey:@"account"];
-    if(self.accountId)[dict setObject:self.accountId forKey:@"accountId"];
-    if(self.password)[dict setObject:self.password forKey:@"password"];
-    if(self.registerCode)[dict setObject:self.registerCode forKey:@"registerCode"];
-    if(self.checkCode)[dict setObject:self.checkCode forKey:@"checkCode"];
-    if(self.verifyCode)[dict setObject:self.verifyCode forKey:@"verifyCode"];
-    return dict;
+    return @{@"version":[NSNumber numberWithFloat:self.version],
+             @"account":self.account,
+             @"accountId":self.accountId,
+             @"password":self.password,
+             @"registerCode":self.registerCode,
+             @"checkCode":self.checkCode,
+             @"verifyCode":self.verifyCode};
 }
 #pragma mark 验证数据合法性
 -(BOOL)validation{

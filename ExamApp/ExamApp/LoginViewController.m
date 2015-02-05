@@ -10,6 +10,8 @@
 #import "UIViewController+VisibleView.h"
 #import "NSString+Size.h"
 
+#import "RegisterData.h"
+
 #define __k_login_view_title @"用户登录"//登录窗口
 #define __k_login_view_account @"用户名"//
 #define __k_login_view_password @"密码"//
@@ -48,6 +50,8 @@
     UIFont *_regfont;
     UIView *_currentBlockPanel;
     CGFloat _offset_y;
+    
+    RegisterData *_registerData;
 }
 @end
 //登录视图控制器实现类
