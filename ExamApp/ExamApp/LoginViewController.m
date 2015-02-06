@@ -12,6 +12,8 @@
 
 #import "LoginData.h"
 #import "RegisterData.h"
+#import "HttpUtils.h"
+#import <MBProgressHUD/MBProgressHUD.h>
 
 #define __k_login_view_title @"用户登录"//登录窗口
 #define __k_login_view_account @"用户名"//
@@ -68,7 +70,7 @@
     //添加左边的取消按钮
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(selectLeftAction:)];
     self.navigationItem.leftBarButtonItem = leftButton;
-    [self createAlterLoginViewWithMessage:nil Account:nil];
+    [self createAlterLoginViewWithMessage:nil Account:@"fw121fw41"];
     //添加注册UI
     self.navigationItem.title = __k_login_view_register_title;
     [self createRegisterPanel];
@@ -135,9 +137,28 @@
                                               [self createAlterLoginViewWithMessage:__k_login_view_alter_error_password Account:login.account];
                                               return;
                                           }
-                                          
+                                          //启动进度条
+                                          MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+                                          hud.mode = MBProgressHUDModeAnnularDeterminate;
+                                          hud.labelText = @"loading...";
                                           //
-                                          [self createAlterLoginViewWithMessage:@"密码错误！" Account:@"acc"];
+                                          [HttpUtils JSONDataDigestWithUrl:_kAppClientUserLoginUrl
+                                                                    Method:HttpUtilsMethodPOST
+                                                                Parameters:[login serializeJSON]
+                                                                  Username:_kAppClientUserName
+                                                                  Password:_kAppClientPassword
+                                                                   Success:^(NSDictionary *json) {
+                                                                       [hud hide:YES];
+                                                                        NSLog(@"ok=>:%@",json);
+                                                                       NSLog(@"success=>%ld",[[json objectForKey:@"success"] integerValue]);
+                                                                       NSLog(@"msg=>%@",[json objectForKey:@"msg"]);
+                                                                       
+                                                                  } Fail:^(NSString *error) {
+                                                                       [hud hide:YES];
+                                                                      NSLog(@"error=>:%@",error);
+                                                                  }];
+                                          
+                                          [self createAlterLoginViewWithMessage:@"test=>密码错误！" Account:@"fw121fw41"];
                                       }];
     _btnLogin.enabled = (account && account.length > 0);
     //添加到alert

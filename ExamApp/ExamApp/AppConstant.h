@@ -8,19 +8,19 @@
 //应用常量
 
 //客户端唯一标示
-#define _kAppClientID @"ios-"
+#define _kAppClientID @"357070005327186"
 //客户端名称，版本
 #define _kAppClientName @"焚题库 ios v1.0"
 //软件版本
 #define _kAppClientVersion @"1.0"
 //频道(固定值 根据考试来填写)
-#define _kAppClientChannel @""
+#define _kAppClientChannel @"jzs1"
 //访问用户名
 #define _kAppClientUserName @"admin"
 //访问密码
 #define _kAppClientPassword @"123456"
 
 //注册提交URL
-#define _kAppClientUserRegisterUrl @"http://127.0.0.1/api/m/user/register"
+#define _kAppClientUserRegisterUrl @"http://localhost:8080/examw-test/api/m/user/register"
 //登录URL
-#define _kAppClientUserLoginUrl @"http://127.0.0.1/api/m/user/login"
+#define _kAppClientUserLoginUrl @"http://localhost:8080/examw-test/api/m/user/login"

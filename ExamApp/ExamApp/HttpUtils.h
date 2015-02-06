@@ -20,14 +20,14 @@ typedef NS_ENUM(NSInteger, HttpUtilsMethod){
 +(void)JSONDataWithUrl:(NSString *)url
                 Method:(HttpUtilsMethod)method
             Parameters:(NSDictionary *)parameters
-               Success:(void(^)(id json))success
-                  Fail:(void(^)(NSError *error))fail;
+               Success:(void(^)(NSDictionary *))success
+                  Fail:(void(^)(NSString *))fail;
 //JSON摘要认证数据请求
 +(void)JSONDataDigestWithUrl:(NSString *)url
                       Method:(HttpUtilsMethod)method
                   Parameters:(NSDictionary *)parameters
                     Username:(NSString *)username
                     Password:(NSString *)password
-                     Success:(void(^)(id json))success
-                        Fail:(void(^)(NSError *error))fail;
+                     Success:(void(^)(NSDictionary *))success
+                        Fail:(void(^)(NSString *))fail;
 @end

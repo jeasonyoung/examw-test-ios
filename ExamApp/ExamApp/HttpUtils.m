@@ -38,17 +38,25 @@
 +(void)JSONDataWithUrl:(NSString *)url
                 Method:(HttpUtilsMethod)method
             Parameters:(NSDictionary *)parameters
-               Success:(void (^)(id))success
-                  Fail:(void (^)(NSError *))fail{
-    [self JSONDataWithUrl:url Method:method Headers:nil Parameters:parameters Username:nil Password:nil Counters:0 Success:^(id json) {
-        if(success){
-            success(json);
-        }
-    } Fail:^(NSError * error) {
-        if(fail){
-            fail(error);
-        }
-    }];
+               Success:(void (^)(NSDictionary *))success
+                  Fail:(void (^)(NSString *))fail{
+    [self JSONDataWithUrl:url
+                   Method:method
+                  Headers:nil
+               Parameters:parameters
+                 Username:nil
+                 Password:nil
+                 Counters:0
+                  Success:^(NSDictionary *json) {
+                        if(success){
+                          success(json);
+                        }
+                     }
+                     Fail:^(NSString * error) {
+                         if(fail){
+                             fail(error);
+                         }
+                     }];
 }
 #pragma mark JSON摘要认证数据请求
 +(void)JSONDataDigestWithUrl:(NSString *)url
@@ -56,17 +64,25 @@
                   Parameters:(NSDictionary *)parameters
                     Username:(NSString *)username
                     Password:(NSString *)password
-                     Success:(void (^)(id))success
-                        Fail:(void (^)(NSError *))fail{
-    [self JSONDataWithUrl:url Method:method Headers:nil Parameters:parameters Username:username Password:password Counters:0 Success:^(id json) {
-        if(success){
-            success(json);
-        }
-    } Fail:^(NSError *error) {
-        if(fail){
-            fail(error);
-        }
-    }];
+                     Success:(void (^)(NSDictionary *))success
+                        Fail:(void (^)(NSString *))fail{
+    [self JSONDataWithUrl:url
+                   Method:method
+                  Headers:nil
+               Parameters:parameters
+                 Username:username
+                 Password:password
+                 Counters:0
+                  Success:^(NSDictionary *json) {
+                      if(success){
+                          success(json);
+                      }
+                     }
+                     Fail:^(NSString *error) {
+                         if(fail){
+                             fail(error);
+                         }
+                     }];
 };
 //数据处理
 +(void)JSONDataWithUrl:(NSString *)url
@@ -76,10 +92,12 @@
               Username:(NSString *)username
               Password:(NSString *)password
               Counters:(int)counters
-               Success:(void (^)(id))success
-                  Fail:(void (^)(NSError *))fail{
+               Success:(void (^)(NSDictionary *))success
+                  Fail:(void (^)(NSString *))fail{
     //URL为空时退出；
     if(url && url.length == 0)return;
+    //URL转成UTF-8
+    url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     //初始化AF网络请求
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     if(method == HttpUtilsMethodPOST){//POST请求时JSON的设置
@@ -95,14 +113,16 @@
         }
     }
     //设置返回信息的JSON格式
-    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
+    responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json", @"text/javascript", nil];
+    manager.responseSerializer = responseSerializer;//[AFHTTPResponseSerializer serializer];//[AFJSONResponseSerializer serializer];
     //请求方式
     switch(method){
         case HttpUtilsMethodGET:{//GET请求方式
             [manager GET:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 //请求成功
                 if(success){
-                    success(responseObject);
+                    success([self responseToDictionary:operation.responseString]);
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 //请求失败
@@ -118,7 +138,7 @@
                                     Success:success
                                        Fail:fail];
                 }else if(fail){//失败处理
-                    fail(error);
+                    fail([self createStringWithError:error]);
                 }
             }];
             break;
@@ -127,7 +147,7 @@
             [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
                 //请求成功
                 if(success){
-                    success(responseObject);
+                    success([self responseToDictionary:operation.responseString]);
                 }
             } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
                 //请求失败
@@ -143,12 +163,23 @@
                                     Success:success
                                        Fail:fail];
                 }else if(fail){//失败处理
-                    fail(error);
+                    fail([self createStringWithError:error]);
                 }
             }];
             break;
         }
     }
+}
++(NSDictionary *)responseToDictionary:(NSString *)response{
+    NSLog(@"response=>%@",response);
+    NSError *error;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithData:[response dataUsingEncoding:NSUTF8StringEncoding]]
+                                                         options:NSJSONReadingAllowFragments
+                                                           error:&error];
+    if(error){
+        NSLog(@"反馈数据转换为JSON时发生异常[%@]=>json:%@",response,error);
+    }
+    return [dict mutableCopy];
 }
 //摘要处理
 +(void)httpDigestHandler:(AFHTTPRequestOperation *)operation
@@ -160,12 +191,12 @@
                 Password:(NSString *)password
                 Counters:(int)counters
                  Success:(void (^)(id))success
-                    Fail:(void (^)(NSError *))fail{
+                    Fail:(void (^)(NSString *))fail{
     //失败代码:401
     if(401 == [error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] statusCode]){
         if(counters > __k_httputils_digest_max_count){
             if(fail){
-                fail(error);
+                fail([self createStringWithError:error]);
             }
             return;
         }
@@ -175,9 +206,9 @@
             NSLog(@"authc => %@", authc);
             NSString *realm = [self loadParameterWithAuthenticate:authc FieldName:__k_httputils_digest_realm],
             *nonce = [self loadParameterWithAuthenticate:authc FieldName:__k_httputils_digest_nonce],
-            *cnonce = [NSString stringWithFormat:@"%08d",arc4random()],
+            *cnonce = [NSString stringWithFormat:@"%08d",abs(arc4random())],
             *opaque = [self loadParameterWithAuthenticate:authc FieldName:__k_httputils_digest_opaque];
-            NSString *nc = [NSString stringWithFormat:@"%08d",counters];
+            NSString *nc = [NSString stringWithFormat:@"%08d",(counters + 1)];
             NSString *ha1 = [AESCrypt md5SumFromString:[NSString stringWithFormat:@"%@:%@:%@",username,realm,password]],
             *ha2 = [AESCrypt md5SumFromString:[NSString stringWithFormat:@"%@:%@",(method == HttpUtilsMethodGET ? __k_httputils_digest_get : __k_httputils_digest_post),url]],
             *response = [AESCrypt md5SumFromString:[NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@",ha1,nonce,nc,cnonce,__k_httputils_digest_qop,ha2]];
@@ -207,18 +238,47 @@
     }
     //失败处理
     if(fail){
-        fail(error);
+        fail([self createStringWithError:error]);
     }
+}
+//创建错误信息
++(NSString *)createStringWithError:(NSError *)error{
+    return [NSString stringWithFormat:@"%@", error.userInfo[NSLocalizedDescriptionKey]];
 }
 //从Authc中获取字段的内容
 +(NSString *)loadParameterWithAuthenticate:(NSString *)authc FieldName:(NSString *)name{
     if(!authc || authc.length == 0 || !name || name.length == 0)return nil;
-    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:[NSString stringWithFormat:@"%@=((.+?,)|((.+?)$))", name]
-                                                                           options:(NSRegularExpressionCaseInsensitive | NSRegularExpressionDotMatchesLineSeparators)
-                                                                             error:nil];
-    NSArray *matches = [regex matchesInString:authc options:0 range:NSMakeRange(0, authc.length)];
-    if(matches.count > 0){
-        return matches[0];
+    NSString *pattern = [NSString stringWithFormat:@"%@=((.+?,)|((.+?)$))", name];
+    NSError *error;
+    NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:pattern
+                                                                           options:NSRegularExpressionCaseInsensitive
+                                                                             error:&error];
+    if(regex){
+        NSTextCheckingResult *firstMatch = [regex firstMatchInString:authc options:NSMatchingWithoutAnchoringBounds range:NSMakeRange(0, authc.length)];
+        if(firstMatch && firstMatch.numberOfRanges > 0){
+            NSRange resultRange = [firstMatch rangeAtIndex:1];
+            if(!NSEqualRanges(resultRange, NSMakeRange(NSNotFound, 0))){
+                NSString *result = [authc substringWithRange:resultRange];
+                //NSLog(@"regex-pattern:%@  => %@",pattern, result);
+                if(result && result.length > 0){
+                    if([result hasSuffix:@","]){//是否以，号结尾
+                        result = [result substringToIndex:(result.length - 1)];
+                        //NSLog(@"=>%@",result);
+                    }
+                    if(result.length > 1 && [result hasPrefix:@"\""]){
+                        result = [result substringFromIndex:1];
+                        //NSLog(@"=>%@",result);
+                    }
+                    if(result.length > 0 && [result hasSuffix:@"\""]){
+                        result = [result substringToIndex:(result.length - 1)];
+                        //NSLog(@"=>%@",result);
+                    }
+                    return result;
+                }
+            }
+        }
+    }else{
+        NSLog(@"regex-error:%@",error);
     }
     return nil;
 }
