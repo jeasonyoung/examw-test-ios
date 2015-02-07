@@ -6,14 +6,13 @@
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
 #import "LoginViewController.h"
+#import "LoginViewController+UserLogin.h"
 #import "SettingsViewController.h"
 #import "UIViewController+VisibleView.h"
 #import "NSString+Size.h"
 
 #import "LoginData.h"
 #import "RegisterData.h"
-#import "HttpUtils.h"
-#import <MBProgressHUD/MBProgressHUD.h>
 
 #define __k_login_view_title @"用户登录"//登录窗口
 #define __k_login_view_account @"用户名"//
@@ -68,7 +67,7 @@
     //设置注册字体
     _regfont = [UIFont systemFontOfSize:__k_login_view_register_font_size];
     //添加左边的取消按钮
-    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(selectLeftAction:)];
+    UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(goToRootViewController)];
     self.navigationItem.leftBarButtonItem = leftButton;
     [self createAlterLoginViewWithMessage:nil Account:@"fw121fw41"];
     //添加注册UI
@@ -87,6 +86,7 @@
                                                  name:UIKeyboardWillHideNotification
                                                object:nil];
 }
+#pragma mark 创建登录界面
 -(void)createAlterLoginViewWithMessage:(NSString *)msg Account:(NSString *)account{
     UIAlertController *alterController = [UIAlertController alertControllerWithTitle:__k_login_view_title
                                                                              message:msg
@@ -115,7 +115,7 @@
                                                             //移除用户名输入框的监听
                                                             [self removeAccountTextFieldObserver];
                                                             [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-                                                             //NSLog(@"注册...");
+                                                             NSLog(@"注册...");
                                                         }];
     //登录按钮
     _btnLogin = [UIAlertAction actionWithTitle:__k_login_view_btn_login_title
@@ -137,28 +137,8 @@
                                               [self createAlterLoginViewWithMessage:__k_login_view_alter_error_password Account:login.account];
                                               return;
                                           }
-                                          //启动进度条
-                                          MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-                                          hud.mode = MBProgressHUDModeAnnularDeterminate;
-                                          hud.labelText = @"loading...";
-                                          //
-                                          [HttpUtils JSONDataDigestWithUrl:_kAppClientUserLoginUrl
-                                                                    Method:HttpUtilsMethodPOST
-                                                                Parameters:[login serializeJSON]
-                                                                  Username:_kAppClientUserName
-                                                                  Password:_kAppClientPassword
-                                                                   Success:^(NSDictionary *json) {
-                                                                       [hud hide:YES];
-                                                                        NSLog(@"ok=>:%@",json);
-                                                                       NSLog(@"success=>%ld",[[json objectForKey:@"success"] integerValue]);
-                                                                       NSLog(@"msg=>%@",[json objectForKey:@"msg"]);
-                                                                       
-                                                                  } Fail:^(NSString *error) {
-                                                                       [hud hide:YES];
-                                                                      NSLog(@"error=>:%@",error);
-                                                                  }];
-                                          
-                                          [self createAlterLoginViewWithMessage:@"test=>密码错误！" Account:@"fw121fw41"];
+                                          //验证
+                                          [self authentication:login];
                                       }];
     _btnLogin.enabled = (account && account.length > 0);
     //添加到alert
@@ -180,11 +160,7 @@
                                                     name:UITextFieldTextDidChangeNotification
                                                   object:nil];
 }
-//取消按钮事件
--(void)selectLeftAction:(id)sender{
-    [self goToRootViewController];
-}
-//调整的根视图
+#pragma mark 跳转到根视图控制器.
 -(void)goToRootViewController{
     [self.navigationController popToRootViewControllerAnimated:YES];
 }

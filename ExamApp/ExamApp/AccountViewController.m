@@ -55,8 +55,7 @@
     //当前用户不存在或者验证不通过都弹出登录界面
     if(_userAccount == nil || ![_userAccount validation]){
         LoginViewController *lvc = [[LoginViewController alloc] init];
-        [self.navigationController pushViewController:lvc animated:NO];
-        //[self presentViewController:lvc animated:YES completion:nil];
+        [self.navigationController pushViewController:lvc animated:nil];
         return;
     }
     //设置字体

@@ -115,7 +115,7 @@
     //设置返回信息的JSON格式
     AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
     responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json", @"text/javascript", nil];
-    manager.responseSerializer = responseSerializer;//[AFHTTPResponseSerializer serializer];//[AFJSONResponseSerializer serializer];
+    manager.responseSerializer = responseSerializer;
     //请求方式
     switch(method){
         case HttpUtilsMethodGET:{//GET请求方式
@@ -224,7 +224,7 @@
             [authz appendFormat:@"response=\"%@\",",response];
             [authz appendFormat:@"opaque=\"%@\"",opaque];
             
-            NSLog(@"authz=>%@",authz);
+            //NSLog(@"authz=>%@",authz);
             [self JSONDataWithUrl:url
                            Method:method
                           Headers:@{__k_httputils_authorization_header:[authz copy]}
@@ -235,9 +235,7 @@
                           Success:success
                              Fail:fail];
         }
-    }
-    //失败处理
-    if(fail){
+    }else if(fail){//非401失败处理
         fail([self createStringWithError:error]);
     }
 }

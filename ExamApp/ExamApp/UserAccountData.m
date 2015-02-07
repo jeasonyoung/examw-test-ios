@@ -86,7 +86,7 @@ static UserAccountData *_current_account;
     //重新生成校验码(数据为明文时生成校验码)
     NSString *new_check_code = [self createCheckCode];
     //校验码不一致才保存数据
-    if(![new_check_code isEqualToString:self.checkCode]){
+    if((![new_check_code isEqualToString:self.checkCode]) || (![account isEqualToString:_save_defaults_key])){
         //如果密码不为空，对称加密密码
         if(self.password && self.password.length > 0){
             self.password = [self encrypt:self.password Key:self.account];
@@ -117,7 +117,7 @@ static UserAccountData *_current_account;
         //更新数据
         [defaults synchronize];
         //保存当前用户成功后必须将静态变量重置，否则加密数据会出问题
-        if([account isEqualToString:__k_account_current_user_key]){
+        if(_current_account && [account isEqualToString:__k_account_current_user_key]){
             _current_account = nil;
         }
         //清空验证缓存
@@ -128,12 +128,12 @@ static UserAccountData *_current_account;
 //创建
 -(NSDictionary *)createJsonDict{
     return @{@"version":[NSNumber numberWithFloat:self.version],
-             @"account":self.account,
-             @"accountId":self.accountId,
-             @"password":self.password,
-             @"registerCode":self.registerCode,
-             @"checkCode":self.checkCode,
-             @"verifyCode":self.verifyCode};
+             @"account":(self.account ? self.account : @""),
+             @"accountId":(self.accountId ? self.accountId : @""),
+             @"password":(self.password ? self.password : @""),
+             @"registerCode":(self.registerCode ? self.registerCode : @""),
+             @"checkCode":(self.checkCode ? self.checkCode : @""),
+             @"verifyCode":(self.verifyCode ? self.verifyCode : @"")};
 }
 #pragma mark 验证数据合法性
 -(BOOL)validation{
@@ -164,10 +164,10 @@ static UserAccountData *_current_account;
 -(NSString *)joinPropertyToString{
     return [NSString stringWithFormat:@"%@:%@:%@:%@:%@",
                     [NSNumber numberWithFloat:self.version],
-                    self.accountId,
-                    self.account,
-                    self.password,
-                    self.registerCode];
+                    (self.accountId ? self.accountId : @""),
+                    (self.account ? self.account : @""),
+                    (self.password ? self.password : @""),
+                    (self.registerCode ? self.registerCode : @"")];
 }
 //创建校验码
 //md5(account +":"+ md5(accountId+account+password+registerCode))

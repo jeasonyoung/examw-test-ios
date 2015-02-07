@@ -8,11 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		0B8EBF44A44FCE0D15DB6C22 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5107C5451C2BCF444822DEFD /* libPods.a */; };
+		A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */; };
 		A140418D1A78E61B00669D46 /* ETextView.m in Sources */ = {isa = PBXBuildFile; fileRef = A140418C1A78E61B00669D46 /* ETextView.m */; };
 		A1510F831A6DEF4C00FE59A9 /* LaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1510F821A6DEF4C00FE59A9 /* LaunchViewController.m */; };
 		A151102C1A6E4A7800FE59A9 /* guide_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A15110291A6E4A7800FE59A9 /* guide_1.png */; };
 		A151102D1A6E4A7800FE59A9 /* guide_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A151102A1A6E4A7800FE59A9 /* guide_2.png */; };
 		A151102E1A6E4A7800FE59A9 /* guide_3.png in Resources */ = {isa = PBXBuildFile; fileRef = A151102B1A6E4A7800FE59A9 /* guide_3.png */; };
+		A15EB7A71A84EC8B009199D1 /* JSONCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = A15EB7A61A84EC8B009199D1 /* JSONCallback.m */; };
+		A15EB7AA1A84FCF0009199D1 /* LoginViewController+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = A15EB7A91A84FCF0009199D1 /* LoginViewController+Register.m */; };
 		A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */ = {isa = PBXBuildFile; fileRef = A1647B611A728679007B12EA /* NSDate+TimeZone.m */; };
 		A18995951A79EC4200D591FF /* feedback_post_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A18995931A79EC4200D591FF /* feedback_post_normal.png */; };
 		A18995961A79EC4200D591FF /* feedback_post_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A18995941A79EC4200D591FF /* feedback_post_selected.png */; };
@@ -101,6 +104,8 @@
 /* Begin PBXFileReference section */
 		5107C5451C2BCF444822DEFD /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		546409C18EB0DA5FBE4F4AF6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		A10187C51A84B568002D2F37 /* LoginViewController+UserLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginViewController+UserLogin.h"; sourceTree = "<group>"; };
+		A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginViewController+UserLogin.m"; sourceTree = "<group>"; };
 		A140418B1A78E61B00669D46 /* ETextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETextView.h; path = Utils/ETextView.h; sourceTree = "<group>"; };
 		A140418C1A78E61B00669D46 /* ETextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETextView.m; path = Utils/ETextView.m; sourceTree = "<group>"; };
 		A1510F811A6DEF4C00FE59A9 /* LaunchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchViewController.h; sourceTree = "<group>"; };
@@ -108,6 +113,10 @@
 		A15110291A6E4A7800FE59A9 /* guide_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guide_1.png; sourceTree = "<group>"; };
 		A151102A1A6E4A7800FE59A9 /* guide_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guide_2.png; sourceTree = "<group>"; };
 		A151102B1A6E4A7800FE59A9 /* guide_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guide_3.png; sourceTree = "<group>"; };
+		A15EB7A51A84EC8B009199D1 /* JSONCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONCallback.h; sourceTree = "<group>"; };
+		A15EB7A61A84EC8B009199D1 /* JSONCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONCallback.m; sourceTree = "<group>"; };
+		A15EB7A81A84FCF0009199D1 /* LoginViewController+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginViewController+Register.h"; sourceTree = "<group>"; };
+		A15EB7A91A84FCF0009199D1 /* LoginViewController+Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginViewController+Register.m"; sourceTree = "<group>"; };
 		A1647B601A728679007B12EA /* NSDate+TimeZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+TimeZone.h"; path = "Utils/NSDate+TimeZone.h"; sourceTree = "<group>"; };
 		A1647B611A728679007B12EA /* NSDate+TimeZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+TimeZone.m"; path = "Utils/NSDate+TimeZone.m"; sourceTree = "<group>"; };
 		A18995931A79EC4200D591FF /* feedback_post_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = feedback_post_normal.png; path = "../../../examw-test-android/examw-test-app-core/res/drawable-hdpi/feedback_post_normal.png"; sourceTree = "<group>"; };
@@ -429,6 +438,10 @@
 				A1D02EFE1A7B5BD1004C484D /* AccountViewController.m */,
 				A1959F911A7FABBB00C1F563 /* LoginViewController.h */,
 				A1959F921A7FABBB00C1F563 /* LoginViewController.m */,
+				A10187C51A84B568002D2F37 /* LoginViewController+UserLogin.h */,
+				A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */,
+				A15EB7A81A84FCF0009199D1 /* LoginViewController+Register.h */,
+				A15EB7A91A84FCF0009199D1 /* LoginViewController+Register.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -455,6 +468,8 @@
 				A1AA7CC51A81B336003A5137 /* RegisterData.m */,
 				A1AA7CCA1A81F761003A5137 /* LoginData.h */,
 				A1AA7CCB1A81F761003A5137 /* LoginData.m */,
+				A15EB7A51A84EC8B009199D1 /* JSONCallback.h */,
+				A15EB7A61A84EC8B009199D1 /* JSONCallback.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -691,6 +706,7 @@
 				A1E279051A78BC8B00F23A20 /* UIViewController+VisibleView.m in Sources */,
 				A199C9FB1A73ADD400A31587 /* ETUserView.m in Sources */,
 				A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */,
+				A15EB7A71A84EC8B009199D1 /* JSONCallback.m in Sources */,
 				A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */,
 				A199CA301A74CFBF00A31587 /* HomeData.m in Sources */,
 				A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */,
@@ -714,6 +730,8 @@
 				A1D02F021A7B6588004C484D /* UserAccountData.m in Sources */,
 				A1EE7DDB1A70A8B80071C76D /* SettingsViewController.m in Sources */,
 				A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */,
+				A15EB7AA1A84FCF0009199D1 /* LoginViewController+Register.m in Sources */,
+				A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */,
 				A1C3B7771A763C05006EA38F /* SettingData.m in Sources */,
 				A1D02EFF1A7B5BD1004C484D /* AccountViewController.m in Sources */,
 				A1910E6E1A6D3AC800377160 /* main.m in Sources */,
