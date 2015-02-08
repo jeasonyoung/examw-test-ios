@@ -18,7 +18,7 @@
     if(self = [super init]){
         [self setClientId:_kAppClientID];
         [self setClientName:_kAppClientName];
-        [self setClientVersion:_kAppClientVersion];
+        [self setClientVersion:[[NSNumber numberWithDouble:_kAppClientVersion] stringValue]];
     }
     return self;
 }

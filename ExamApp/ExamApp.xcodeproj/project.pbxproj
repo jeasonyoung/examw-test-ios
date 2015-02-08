@@ -21,6 +21,8 @@
 		A18995961A79EC4200D591FF /* feedback_post_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A18995941A79EC4200D591FF /* feedback_post_selected.png */; };
 		A18995991A7A2F5E00D591FF /* ProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18995981A7A2F5E00D591FF /* ProtocolViewController.m */; };
 		A189959D1A7A381700D591FF /* privacy in Resources */ = {isa = PBXBuildFile; fileRef = A189959C1A7A381700D591FF /* privacy */; };
+		A18CCF351A85BD2A00C20555 /* TextFieldValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = A18CCF331A85BD2A00C20555 /* TextFieldValidator.m */; };
+		A18CCF371A85BD6E00C20555 /* error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A18CCF361A85BD6E00C20555 /* error@2x.png */; };
 		A18CD2B31A7BBEC700B90FF0 /* UIViewController+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = A18CD2B21A7BBEC700B90FF0 /* UIViewController+Animation.m */; };
 		A1910E6E1A6D3AC800377160 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E6D1A6D3AC800377160 /* main.m */; };
 		A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E701A6D3AC800377160 /* AppDelegate.m */; };
@@ -124,6 +126,9 @@
 		A18995971A7A2F5E00D591FF /* ProtocolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolViewController.h; sourceTree = "<group>"; };
 		A18995981A7A2F5E00D591FF /* ProtocolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolViewController.m; sourceTree = "<group>"; };
 		A189959C1A7A381700D591FF /* privacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = privacy; path = "../../../examw-test-android/examw-test-app-core/assets/privacy"; sourceTree = "<group>"; };
+		A18CCF331A85BD2A00C20555 /* TextFieldValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextFieldValidator.m; path = Utils/TextFieldValidator.m; sourceTree = "<group>"; };
+		A18CCF341A85BD2A00C20555 /* TextFieldValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextFieldValidator.h; path = Utils/TextFieldValidator.h; sourceTree = "<group>"; };
+		A18CCF361A85BD6E00C20555 /* error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "error@2x.png"; sourceTree = "<group>"; };
 		A18CD2B11A7BBEC700B90FF0 /* UIViewController+Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+Animation.h"; path = "Utils/UIViewController+Animation.h"; sourceTree = "<group>"; };
 		A18CD2B21A7BBEC700B90FF0 /* UIViewController+Animation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIViewController+Animation.m"; path = "Utils/UIViewController+Animation.m"; sourceTree = "<group>"; };
 		A1910E681A6D3AC800377160 /* ExamApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -341,6 +346,7 @@
 		A1910E991A6D3B2700377160 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				A18CCF361A85BD6E00C20555 /* error@2x.png */,
 				A1D02EFB1A7B1926004C484D /* logo.png */,
 				A1EE7E081A70EA5B0071C76D /* user_calculate.png */,
 				A1EE7E061A70EA440071C76D /* user_username.png */,
@@ -505,6 +511,8 @@
 				A199C9FE1A74874A00A31587 /* ETImageButton.m */,
 				A140418B1A78E61B00669D46 /* ETextView.h */,
 				A140418C1A78E61B00669D46 /* ETextView.m */,
+				A18CCF341A85BD2A00C20555 /* TextFieldValidator.h */,
+				A18CCF331A85BD2A00C20555 /* TextFieldValidator.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -622,6 +630,7 @@
 				A199CA211A74CCB600A31587 /* forum_selected.png in Resources */,
 				A199CA051A74BDE200A31587 /* home_panel.plist in Resources */,
 				A1EE7E071A70EA440071C76D /* user_username.png in Resources */,
+				A18CCF371A85BD6E00C20555 /* error@2x.png in Resources */,
 				A199CA121A74C37C00A31587 /* collect_normal.png in Resources */,
 				A199CA1A1A74C86800A31587 /* imitate_normal.png in Resources */,
 				A1EE7E021A70E5A00071C76D /* tab_home_selected.png in Resources */,
@@ -714,6 +723,7 @@
 				A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */,
 				A140418D1A78E61B00669D46 /* ETextView.m in Sources */,
 				A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */,
+				A18CCF351A85BD2A00C20555 /* TextFieldValidator.m in Sources */,
 				A1E279001A7887B000F23A20 /* ETNavigationController.m in Sources */,
 				A18CD2B31A7BBEC700B90FF0 /* UIViewController+Animation.m in Sources */,
 				A1D02EF81A7B13D6004C484D /* AboutData.m in Sources */,

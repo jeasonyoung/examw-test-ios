@@ -7,7 +7,11 @@
 //
 
 #import "LoginViewController.h"
+@class RegisterData;
 //用户注册
-@interface LoginViewController (Register)
-
+@interface LoginViewController (Register)<UITextFieldDelegate>
+//安装注册面板
+-(void)setupRegisterPanel;
+//注册数据
+-(void)registerWithUser:(RegisterData *)user;
 @end

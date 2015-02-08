@@ -23,5 +23,5 @@
 //手机号码
 @property(nonatomic,copy)NSString *phone;
 //根据Tag值设置值
--(void)setValue:(NSString *)value forTag:(int)tag;
+-(void)setValue:(NSString *)value forTag:(NSInteger)tag;
 @end

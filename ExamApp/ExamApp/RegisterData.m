@@ -29,8 +29,9 @@
     return self;
 }
 #pragma mark 根据Tag值设置值
--(void)setValue:(NSString *)value forTag:(int)tag{
+-(void)setValue:(NSString *)value forTag:(NSInteger)tag{
     if(tag <= _fieldKeys.count && tag > 0){
+        if([value isEqual:[NSNull null]])return;
         [self setValue:value forKey:[_fieldKeys objectAtIndex:(tag - 1)]];
     }
 }

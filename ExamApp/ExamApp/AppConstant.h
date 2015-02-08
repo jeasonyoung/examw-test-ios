@@ -12,7 +12,7 @@
 //客户端名称，版本
 #define _kAppClientName @"焚题库 ios v1.0"
 //软件版本
-#define _kAppClientVersion @"1.0"
+#define _kAppClientVersion 1.0//
 //频道(固定值 根据考试来填写)
 #define _kAppClientChannel @"jzs1"
 //访问用户名
