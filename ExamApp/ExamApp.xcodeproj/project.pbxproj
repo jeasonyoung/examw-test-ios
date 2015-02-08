@@ -17,6 +17,8 @@
 		A15EB7A71A84EC8B009199D1 /* JSONCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = A15EB7A61A84EC8B009199D1 /* JSONCallback.m */; };
 		A15EB7AA1A84FCF0009199D1 /* LoginViewController+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = A15EB7A91A84FCF0009199D1 /* LoginViewController+Register.m */; };
 		A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */ = {isa = PBXBuildFile; fileRef = A1647B611A728679007B12EA /* NSDate+TimeZone.m */; };
+		A1762B261A873FB1008E5656 /* AccountViewController+RegisterCode.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762B251A873FB1008E5656 /* AccountViewController+RegisterCode.m */; };
+		A1762B291A874428008E5656 /* AccountViewController+Logout.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762B281A874428008E5656 /* AccountViewController+Logout.m */; };
 		A18995951A79EC4200D591FF /* feedback_post_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A18995931A79EC4200D591FF /* feedback_post_normal.png */; };
 		A18995961A79EC4200D591FF /* feedback_post_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A18995941A79EC4200D591FF /* feedback_post_selected.png */; };
 		A18995991A7A2F5E00D591FF /* ProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18995981A7A2F5E00D591FF /* ProtocolViewController.m */; };
@@ -121,6 +123,10 @@
 		A15EB7A91A84FCF0009199D1 /* LoginViewController+Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginViewController+Register.m"; sourceTree = "<group>"; };
 		A1647B601A728679007B12EA /* NSDate+TimeZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+TimeZone.h"; path = "Utils/NSDate+TimeZone.h"; sourceTree = "<group>"; };
 		A1647B611A728679007B12EA /* NSDate+TimeZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+TimeZone.m"; path = "Utils/NSDate+TimeZone.m"; sourceTree = "<group>"; };
+		A1762B241A873FB1008E5656 /* AccountViewController+RegisterCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AccountViewController+RegisterCode.h"; sourceTree = "<group>"; };
+		A1762B251A873FB1008E5656 /* AccountViewController+RegisterCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AccountViewController+RegisterCode.m"; sourceTree = "<group>"; };
+		A1762B271A874428008E5656 /* AccountViewController+Logout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AccountViewController+Logout.h"; sourceTree = "<group>"; };
+		A1762B281A874428008E5656 /* AccountViewController+Logout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AccountViewController+Logout.m"; sourceTree = "<group>"; };
 		A18995931A79EC4200D591FF /* feedback_post_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = feedback_post_normal.png; path = "../../../examw-test-android/examw-test-app-core/res/drawable-hdpi/feedback_post_normal.png"; sourceTree = "<group>"; };
 		A18995941A79EC4200D591FF /* feedback_post_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = feedback_post_selected.png; path = "../../../examw-test-android/examw-test-app-core/res/drawable-hdpi/feedback_post_selected.png"; sourceTree = "<group>"; };
 		A18995971A7A2F5E00D591FF /* ProtocolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolViewController.h; sourceTree = "<group>"; };
@@ -442,6 +448,10 @@
 				A1D02EF41A7B1208004C484D /* AboutViewController.m */,
 				A1D02EFD1A7B5BD1004C484D /* AccountViewController.h */,
 				A1D02EFE1A7B5BD1004C484D /* AccountViewController.m */,
+				A1762B271A874428008E5656 /* AccountViewController+Logout.h */,
+				A1762B281A874428008E5656 /* AccountViewController+Logout.m */,
+				A1762B241A873FB1008E5656 /* AccountViewController+RegisterCode.h */,
+				A1762B251A873FB1008E5656 /* AccountViewController+RegisterCode.m */,
 				A1959F911A7FABBB00C1F563 /* LoginViewController.h */,
 				A1959F921A7FABBB00C1F563 /* LoginViewController.m */,
 				A10187C51A84B568002D2F37 /* LoginViewController+UserLogin.h */,
@@ -707,6 +717,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1762B261A873FB1008E5656 /* AccountViewController+RegisterCode.m in Sources */,
 				A1D02F0B1A7B8A85004C484D /* NSData+Hex.m in Sources */,
 				A19DCE741A82F5DF0019856D /* AppClient.m in Sources */,
 				A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */,
@@ -716,6 +727,7 @@
 				A199C9FB1A73ADD400A31587 /* ETUserView.m in Sources */,
 				A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */,
 				A15EB7A71A84EC8B009199D1 /* JSONCallback.m in Sources */,
+				A1762B291A874428008E5656 /* AccountViewController+Logout.m in Sources */,
 				A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */,
 				A199CA301A74CFBF00A31587 /* HomeData.m in Sources */,
 				A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */,
