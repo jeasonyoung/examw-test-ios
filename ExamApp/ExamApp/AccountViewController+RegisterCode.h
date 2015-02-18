@@ -9,7 +9,7 @@
 #import "AccountViewController.h"
 @class UserAccountData;
 //注册码
-@interface AccountViewController (RegisterCode)
+@interface AccountViewController (RegisterCode)<UITextFieldDelegate>
 //注册码处理。
 -(void)registerWithAccount:(UserAccountData *)account;
 @end

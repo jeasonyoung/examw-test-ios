@@ -11,10 +11,13 @@
 #import "ETUserView.h"
 #import "ETHomePanelView.h"
 #import "DefaultViewController.h"
+#import "UserAccountData.h"
 
 #define __k_UserViewPanel_Top 4 //用户信息面板与顶部的间隔
 #define __k_UserViewPanel_Left 2 //用户信息面板与左边边界的间隔
 #define __k_UserViewPanel_Right 2 //用户信息面板与右边边界的间隔
+
+#define __k_UserViewPanel_current @"未登录"//默认当前用户
 //主页控制器成员变量
 @interface HomeViewController ()<ETUserViewDelegate,ETHomePanelViewDelegate>
 
@@ -51,7 +54,11 @@
 -(NSDate *)countDownTargetDateInUserView:(ETUserView *)userView{
     return [@"2015-01-26" toDateWithFormat:@"yyyy-MM-dd"];
 }
-
+#pragma mark 当前用户名
+-(NSString *)userNameInUserView:(ETUserView *)userView{
+    UserAccountData *current = [UserAccountData currentUser];
+    return (current ? current.account : __k_UserViewPanel_current);
+}
 #pragma mark 创建九宫格主界面
 -(void)createHomeViewPanelWithY:(CGFloat)y{
     CGRect tempFrame = self.view.frame;

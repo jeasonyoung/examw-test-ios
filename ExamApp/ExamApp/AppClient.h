@@ -17,4 +17,10 @@
 @property(nonatomic,copy)NSString *clientName;
 //客户端版本
 @property(nonatomic,copy)NSString *clientVersion;
+//客户端类型代码
+@property(nonatomic,copy)NSString *clientTypeCode;
+//客户端机器码
+@property(nonatomic,copy)NSString *clientMachine;
+//产品ID
+@property(nonatomic,copy)NSString *productId;
 @end

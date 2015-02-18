@@ -43,7 +43,8 @@
             [self setValue:obj_value forKey:[NSString stringWithFormat:@"_%@",key]];
         }
         //验证数据存储的完整性
-         NSString *new_verify_code = [self createVerifyCodeWithKey:_save_defaults_key];
+        NSString *new_verify_code = [self createVerifyCodeWithKey:_save_defaults_key];
+        //NSLog(@"verifyCode=> %@ = %@",self.verifyCode, new_verify_code);
         //数据完整性验证通过才能进行AES解密
         if([new_verify_code isEqualToString:self.verifyCode]){
             //密码解密
@@ -54,7 +55,7 @@
             if(self.registerCode != nil && self.registerCode.length > 0){
                 self.registerCode = [self decrypt:self.registerCode Key:self.account];
             }
-        }
+       }
     }
     return self;
 }
@@ -80,8 +81,19 @@ static UserAccountData *_current_account;
 -(void)saveForCurrent{
     [self saveForAccount:__k_account_current_user_key];
 }
-//保存用户
+//保存用户数据
 -(void)saveForAccount:(NSString *)account{
+    [self saveForAccount:account Block:^(NSData *json_data) {
+        //初始化数据持久化
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        //设置数据
+        [defaults setObject:json_data forKey:account];
+        //更新数据
+        [defaults synchronize];
+    }];
+}
+//保存用户数据
+-(void)saveForAccount:(NSString *)account Block:(void(^)(NSData *))block{
     if(self.account == nil || self.account.length == 0 || account == nil || account.length == 0) return;
     //重新生成校验码(数据为明文时生成校验码)
     NSString *new_check_code = [self createCheckCode];
@@ -110,12 +122,10 @@ static UserAccountData *_current_account;
             NSLog(@"create_json_error:%@", err);
             return;
         }
-        //初始化数据持久化
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        //设置数据
-        [defaults setObject:json_Data forKey:account];
-        //更新数据
-        [defaults synchronize];
+        //数据保存
+        if(block){
+            block(json_Data);
+        }
         //保存当前用户成功后必须将静态变量重置，否则加密数据会出问题
         if(_current_account && [account isEqualToString:__k_account_current_user_key]){
             _current_account = nil;
@@ -123,6 +133,15 @@ static UserAccountData *_current_account;
         //清空验证缓存
         [self cleanValidationCache];
         NSLog(@"account json : %@",[[NSString alloc] initWithData:json_Data encoding:NSUTF8StringEncoding]);
+        //数据解密
+        //密码解密
+        if(self.password != nil && self.password.length > 0){
+            self.password = [self decrypt:self.password Key:self.account];
+        }
+        //解密注册码
+        if(self.registerCode != nil && self.registerCode.length > 0){
+            self.registerCode = [self decrypt:self.registerCode Key:self.account];
+        }
     }
 }
 //创建
@@ -193,10 +212,10 @@ static UserAccountData *_current_account;
     //如果清空当前用户，则将当前用户以账号另存
     if([_save_defaults_key isEqualToString:__k_account_current_user_key]){
         //将当前用户以用户账号为主键存储
-        NSData *json_data = [defaults dataForKey:_save_defaults_key];
-        if(json_data != nil){
-            [defaults setObject:json_data forKey:self.account];
-        }
+        [self saveForAccount:self.account Block:^(NSData *json) {
+            //设置数据
+            [defaults setObject:json forKey:self.account];
+        }];
         //将当前用户重置
         _current_account = nil;
     }

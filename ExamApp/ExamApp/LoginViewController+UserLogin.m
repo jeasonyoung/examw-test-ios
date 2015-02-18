@@ -38,76 +38,78 @@ UIAlertController *_alterController;
 
 #pragma mark 登录界面
 -(void)alterLoginViewWithMessage:(NSString *)msg Account:(NSString *)account{
-    _alterController = [UIAlertController alertControllerWithTitle:__k_login_auth_alter_title
-                                                           message:msg
-                                                    preferredStyle:UIAlertControllerStyleAlert];
-    //用户名
-    [_alterController addTextFieldWithConfigurationHandler:^(UITextField *textField){
-        textField.placeholder = __k_login_auth_alter_account;
-        //添加通知，监听的用户名内容的变化
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(accountTextFieldTextDidChangeNotification:)
-                                                     name:UITextFieldTextDidChangeNotification
-                                                   object:textField];
-        if(account && account.length > 0){ textField.text = account; }
-     }];
-    //密码
-    [_alterController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = __k_login_auth_alter_password;
-        textField.secureTextEntry = YES;
-    }];
-    //注册按钮
-    UIAlertAction *btnRegister = [UIAlertAction actionWithTitle:__k_login_auth_alter_btn_register_title
-                                                          style:UIAlertActionStyleCancel
-                                                        handler:^(UIAlertAction *action) {//注册
-                                                                //移除用户名输入框的监听
-                                                                [self removeAccountTextFieldObserver];
-                                                                [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-                                                                NSLog(@"注册...");
-                                                         }];
-    //登录按钮
-    UIAlertAction *btnLogin = [UIAlertAction actionWithTitle:__k_login_auth_alter_btn_login_title
-                                                       style:UIAlertActionStyleDefault
-                                                     handler:^(UIAlertAction *action){//登录
-                                                            //启动等待动画
-                                                            if(!_authenWaitHud){//惰性加载
-                                                                _authenWaitHud = [[MBProgressHUD alloc] init];
-                                                                _authenWaitHud.labelText = @"正在登录...";
-                                                                _authenWaitHud.dimBackground = YES;//使背景成黑灰色，让MBProgressHUD成高亮显示
-                                                                _authenWaitHud.square = YES;//设置显示框的高度和宽度一样
-                                                                //_authenWaitHud.mode = MBProgressHUDModeAnnularDeterminate;
-                                                                [self.view addSubview:_authenWaitHud];
-                                                            }
-                                                            [_authenWaitHud show:YES];
-                                                            //移除用户名输入框的监听
-                                                            [self removeAccountTextFieldObserver];
-                                                            //登录验证
-                                                            UITextField *tfAccount = [_alterController.textFields objectAtIndex:0],
+    if(!_alterController){//惰性加载
+        _alterController = [UIAlertController alertControllerWithTitle:__k_login_auth_alter_title
+                                                               message:msg
+                                                        preferredStyle:UIAlertControllerStyleAlert];
+        //用户名
+        [_alterController addTextFieldWithConfigurationHandler:^(UITextField *textField){
+            textField.placeholder = __k_login_auth_alter_account;
+            //添加通知，监听的用户名内容的变化
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(accountTextFieldTextDidChangeNotification:)
+                                                         name:UITextFieldTextDidChangeNotification
+                                                       object:textField];
+            if(account && account.length > 0){ textField.text = account; }
+        }];
+        //密码
+        [_alterController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+            textField.placeholder = __k_login_auth_alter_password;
+            textField.secureTextEntry = YES;
+        }];
+        //注册按钮
+        UIAlertAction *btnRegister = [UIAlertAction actionWithTitle:__k_login_auth_alter_btn_register_title
+                                                              style:UIAlertActionStyleCancel
+                                                            handler:^(UIAlertAction *action) {//注册
+                                                                    //移除用户名输入框的监听
+                                                                    [self removeAccountTextFieldObserver];
+                                                                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
+                                                                    NSLog(@"注册...");
+                                                            }];
+        //登录按钮
+        UIAlertAction *btnLogin = [UIAlertAction actionWithTitle:__k_login_auth_alter_btn_login_title
+                                                           style:UIAlertActionStyleDefault
+                                                         handler:^(UIAlertAction *action){//登录
+                                                             //启动等待动画
+                                                             if(!_authenWaitHud){//惰性加载
+                                                                 _authenWaitHud = [[MBProgressHUD alloc] init];
+                                                                 _authenWaitHud.labelText = @"正在登录...";
+                                                                 _authenWaitHud.dimBackground = YES;//使背景成黑灰色，让MBProgressHUD成高亮显示
+                                                                 _authenWaitHud.square = YES;//设置显示框的高度和宽度一样
+                                                                 //_authenWaitHud.mode = MBProgressHUDModeAnnularDeterminate;
+                                                                 [self.view addSubview:_authenWaitHud];
+                                                             }
+                                                             [_authenWaitHud show:YES];
+                                                             //移除用户名输入框的监听
+                                                             [self removeAccountTextFieldObserver];
+                                                             //登录验证
+                                                             UITextField *tfAccount = [_alterController.textFields objectAtIndex:0],
                                                                         *tfPassword = [_alterController.textFields objectAtIndex:1];
-                                                            LoginData *login = [[LoginData alloc] init];
-                                                            login.account = [tfAccount.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-                                                            login.password = [tfPassword.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-                                                            if(login.account.length == 0){//账号为空
-                                                                //关闭等待动画
-                                                                [_authenWaitHud hide:YES];
-                                                                //弹出登录框
-                                                                [self alterLoginViewWithMessage:__k_login_auth_alter_error_account Account:nil];
-                                                                return;
-                                                            }
-                                                            if(login.password.length == 0){//密码为空
-                                                                //关闭等待动画
-                                                                [_authenWaitHud hide:YES];
-                                                                //弹出登录框
-                                                                [self alterLoginViewWithMessage:__k_login_auth_alter_error_password Account:login.account];
+                                                             LoginData *login = [[LoginData alloc] init];
+                                                             login.account = [tfAccount.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                                                             login.password = [tfPassword.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+                                                             if(login.account.length == 0){//账号为空
+                                                                 //关闭等待动画
+                                                                 [_authenWaitHud hide:YES];
+                                                                 //弹出登录框
+                                                                 [self alterLoginViewWithMessage:__k_login_auth_alter_error_account Account:nil];
+                                                                 return;
+                                                             }
+                                                             if(login.password.length == 0){//密码为空
+                                                                 //关闭等待动画
+                                                                 [_authenWaitHud hide:YES];
+                                                                 //弹出登录框
+                                                                 [self alterLoginViewWithMessage:__k_login_auth_alter_error_password Account:login.account];
                                                                 return;
                                                             }
                                                             //验证
                                                             [self authentication:login];
                                                         }];
-    btnLogin.enabled = (account && account.length > 0);
-    //添加到alert
-    [_alterController addAction:btnRegister];
-    [_alterController addAction:btnLogin];
+        btnLogin.enabled = (account && account.length > 0);
+        //添加到alert
+        [_alterController addAction:btnRegister];
+        [_alterController addAction:btnLogin];
+    }
     //弹出
     [self presentViewController:_alterController animated:YES completion:nil];
 }

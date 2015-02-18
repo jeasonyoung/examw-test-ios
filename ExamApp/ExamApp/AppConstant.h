@@ -24,3 +24,5 @@
 #define _kAppClientUserRegisterUrl @"http://localhost:8080/examw-test/api/m/user/register"
 //登录URL
 #define _kAppClientUserLoginUrl @"http://localhost:8080/examw-test/api/m/user/login"
+//注册码验证URL
+#define _kAppClientRegisterCodeUrl @"http://localhost:8080/examw-test/api/m/app/register"
