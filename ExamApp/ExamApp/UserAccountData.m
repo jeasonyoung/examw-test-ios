@@ -8,8 +8,13 @@
 #import "UserAccountData.h"
 #import "AESCrypt.h"
 #import "NSString+Hex.h"
-#define __k_account_current_user_key @"current_user"//首选项存储当前用户信息主键
 
+#define __k_useraccountdata_current_user_key @"current_user"//首选项存储当前用户信息主键
+
+#define __k_useraccountdata_databaseFileName @"exam-XXX-default.sqlite"//产品数据库文件名称
+#define __k_useraccountdata_defaultUserId @"_nologin__"//未登录用户ID
+
+#define __k_useraccountdata_database_error_defaultFileError @"产品数据库文件文件不存在！"
 //账号数据私有成员变量
 @interface UserAccountData(){
     NSString *_save_defaults_key;
@@ -69,9 +74,60 @@
 static UserAccountData *_current_account;
 +(instancetype)currentUser{
     if(!_current_account){//惰性加载
-        _current_account = [[self alloc] initWithAccount:__k_account_current_user_key];
+        _current_account = [[self alloc] initWithAccount:__k_useraccountdata_current_user_key];
     }
     return _current_account;
+}
+#pragma mark 加载数据库路径
+static NSMutableDictionary *_dbPathCache;
++(NSString *)loadDatabasePath:(NSError *__autoreleasing *)err{
+    if(!_dbPathCache){//初始化数据库缓存
+        _dbPathCache = [NSMutableDictionary dictionary];
+    }
+    NSString *userId;
+    //加载当前用户
+    UserAccountData *current = [self currentUser];
+    if(current){
+        userId =  current.accountId;
+    }
+    //当前用户为空（未登录）
+    if(!userId || userId.length == 0){
+        userId = __k_useraccountdata_defaultUserId;
+    }
+    //从缓存中加载路径
+    NSString *path = [_dbPathCache objectForKey:userId];
+    if(!path){//缓存中没有
+        //默认封装的原始数据库路径
+        NSString *def_db_path = [[NSBundle mainBundle] pathForResource:__k_useraccountdata_databaseFileName ofType:nil];
+        NSFileManager *fileMgr = [NSFileManager defaultManager];
+        if(![fileMgr fileExistsAtPath:def_db_path]){
+            *err = [NSError errorWithDomain:@"UserAccountData.loadDatabasePath"
+                                      code:-1
+                                  userInfo:@{NSLocalizedDescriptionKey:__k_useraccountdata_database_error_defaultFileError,
+                                             NSLocalizedFailureReasonErrorKey:def_db_path}];
+            return nil;
+        }
+        //当前用户的数据库文件名称
+        NSString *dbFilename = [NSString stringWithFormat:@"%@$%@",userId,__k_useraccountdata_databaseFileName];
+        //根路径
+        NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        //当前用户数据库文件路径
+        path = [doc stringByAppendingPathComponent:dbFilename];
+        //判断数据库文件是否存在
+        if(![fileMgr fileExistsAtPath:path]){
+            //数据库文件不存在则从默认原始库中拷贝一份
+            NSError *error;
+            if(![fileMgr copyItemAtPath:def_db_path toPath:path error:&error]){
+                //复制文件失败
+                *err = error;
+                return nil;
+            }
+            //加入用户缓存
+            [_dbPathCache setObject:path forKey:userId];
+        }
+    }
+    NSLog(@"数据库文件路径:%@",path);
+    return path;
 }
 #pragma mark 保存用户
 -(void)save{
@@ -79,7 +135,7 @@ static UserAccountData *_current_account;
 }
 #pragma mark 保存为当前用户
 -(void)saveForCurrent{
-    [self saveForAccount:__k_account_current_user_key];
+    [self saveForAccount:__k_useraccountdata_current_user_key];
 }
 //保存用户数据
 -(void)saveForAccount:(NSString *)account{
@@ -127,7 +183,7 @@ static UserAccountData *_current_account;
             block(json_Data);
         }
         //保存当前用户成功后必须将静态变量重置，否则加密数据会出问题
-        if(_current_account && [account isEqualToString:__k_account_current_user_key]){
+        if(_current_account && [account isEqualToString:__k_useraccountdata_current_user_key]){
             _current_account = nil;
         }
         //清空验证缓存
@@ -210,7 +266,7 @@ static UserAccountData *_current_account;
     //加载持久化数据
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     //如果清空当前用户，则将当前用户以账号另存
-    if([_save_defaults_key isEqualToString:__k_account_current_user_key]){
+    if([_save_defaults_key isEqualToString:__k_useraccountdata_current_user_key]){
         //将当前用户以用户账号为主键存储
         [self saveForAccount:self.account Block:^(NSData *json) {
             //设置数据

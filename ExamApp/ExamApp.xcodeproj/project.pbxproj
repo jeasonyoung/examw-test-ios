@@ -14,6 +14,9 @@
 		A151102C1A6E4A7800FE59A9 /* guide_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A15110291A6E4A7800FE59A9 /* guide_1.png */; };
 		A151102D1A6E4A7800FE59A9 /* guide_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A151102A1A6E4A7800FE59A9 /* guide_2.png */; };
 		A151102E1A6E4A7800FE59A9 /* guide_3.png in Resources */ = {isa = PBXBuildFile; fileRef = A151102B1A6E4A7800FE59A9 /* guide_3.png */; };
+		A1580A491A95A20D0082C1E2 /* ImitateSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1580A481A95A20D0082C1E2 /* ImitateSubjectViewController.m */; };
+		A1580A4C1A95D56A0082C1E2 /* SubjectData.m in Sources */ = {isa = PBXBuildFile; fileRef = A1580A4B1A95D56A0082C1E2 /* SubjectData.m */; };
+		A1580A4F1A960B370082C1E2 /* ExamData.m in Sources */ = {isa = PBXBuildFile; fileRef = A1580A4E1A960B370082C1E2 /* ExamData.m */; };
 		A15EB7A71A84EC8B009199D1 /* JSONCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = A15EB7A61A84EC8B009199D1 /* JSONCallback.m */; };
 		A15EB7AA1A84FCF0009199D1 /* LoginViewController+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = A15EB7A91A84FCF0009199D1 /* LoginViewController+Register.m */; };
 		A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */ = {isa = PBXBuildFile; fileRef = A1647B611A728679007B12EA /* NSDate+TimeZone.m */; };
@@ -32,6 +35,10 @@
 		A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A1910E721A6D3AC800377160 /* ExamApp.xcdatamodeld */; };
 		A1910E7F1A6D3AC800377160 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1910E7E1A6D3AC800377160 /* Images.xcassets */; };
 		A1910E8E1A6D3AC800377160 /* ExamAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E8D1A6D3AC800377160 /* ExamAppTests.m */; };
+		A1936A911A9EC4E300A0F45C /* ExamDataDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A901A9EC4E300A0F45C /* ExamDataDao.m */; };
+		A1936A961A9EE01800A0F45C /* SubjectDataDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A951A9EE01800A0F45C /* SubjectDataDao.m */; };
+		A1936A9B1A9EF61000A0F45C /* ImitateSubjectService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A9A1A9EF61000A0F45C /* ImitateSubjectService.m */; };
+		A1936A9D1A9F195000A0F45C /* exam-XXX-default.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A1936A9C1A9F195000A0F45C /* exam-XXX-default.sqlite */; };
 		A1959F931A7FABBB00C1F563 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1959F921A7FABBB00C1F563 /* LoginViewController.m */; };
 		A199C9FB1A73ADD400A31587 /* ETUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = A199C9FA1A73ADD400A31587 /* ETUserView.m */; };
 		A199C9FF1A74874A00A31587 /* ETImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A199C9FE1A74874A00A31587 /* ETImageButton.m */; };
@@ -118,6 +125,12 @@
 		A15110291A6E4A7800FE59A9 /* guide_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guide_1.png; sourceTree = "<group>"; };
 		A151102A1A6E4A7800FE59A9 /* guide_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guide_2.png; sourceTree = "<group>"; };
 		A151102B1A6E4A7800FE59A9 /* guide_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = guide_3.png; sourceTree = "<group>"; };
+		A1580A471A95A20D0082C1E2 /* ImitateSubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImitateSubjectViewController.h; sourceTree = "<group>"; };
+		A1580A481A95A20D0082C1E2 /* ImitateSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImitateSubjectViewController.m; sourceTree = "<group>"; };
+		A1580A4A1A95D56A0082C1E2 /* SubjectData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectData.h; sourceTree = "<group>"; };
+		A1580A4B1A95D56A0082C1E2 /* SubjectData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectData.m; sourceTree = "<group>"; };
+		A1580A4D1A960B370082C1E2 /* ExamData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamData.h; sourceTree = "<group>"; };
+		A1580A4E1A960B370082C1E2 /* ExamData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamData.m; sourceTree = "<group>"; };
 		A15EB7A51A84EC8B009199D1 /* JSONCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONCallback.h; sourceTree = "<group>"; };
 		A15EB7A61A84EC8B009199D1 /* JSONCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONCallback.m; sourceTree = "<group>"; };
 		A15EB7A81A84FCF0009199D1 /* LoginViewController+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginViewController+Register.h"; sourceTree = "<group>"; };
@@ -150,6 +163,13 @@
 		A1910E871A6D3AC800377160 /* ExamAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExamAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1910E8C1A6D3AC800377160 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1910E8D1A6D3AC800377160 /* ExamAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExamAppTests.m; sourceTree = "<group>"; };
+		A1936A8F1A9EC4E300A0F45C /* ExamDataDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamDataDao.h; sourceTree = "<group>"; };
+		A1936A901A9EC4E300A0F45C /* ExamDataDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamDataDao.m; sourceTree = "<group>"; };
+		A1936A941A9EE01800A0F45C /* SubjectDataDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectDataDao.h; sourceTree = "<group>"; };
+		A1936A951A9EE01800A0F45C /* SubjectDataDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectDataDao.m; sourceTree = "<group>"; };
+		A1936A991A9EF61000A0F45C /* ImitateSubjectService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImitateSubjectService.h; sourceTree = "<group>"; };
+		A1936A9A1A9EF61000A0F45C /* ImitateSubjectService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImitateSubjectService.m; sourceTree = "<group>"; };
+		A1936A9C1A9F195000A0F45C /* exam-XXX-default.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "exam-XXX-default.sqlite"; sourceTree = "<group>"; };
 		A1959F911A7FABBB00C1F563 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		A1959F921A7FABBB00C1F563 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		A199C9F91A73ADD400A31587 /* ETUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETUserView.h; sourceTree = "<group>"; };
@@ -324,6 +344,7 @@
 		A1910E6B1A6D3AC800377160 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A1936A9C1A9F195000A0F45C /* exam-XXX-default.sqlite */,
 				A1910E991A6D3B2700377160 /* images */,
 				A1910E6C1A6D3AC800377160 /* Info.plist */,
 				A199CA041A74BDE200A31587 /* home_panel.plist */,
@@ -393,11 +414,33 @@
 			name = images;
 			sourceTree = "<group>";
 		};
+		A1936A8E1A9EC4AE00A0F45C /* dao */ = {
+			isa = PBXGroup;
+			children = (
+				A1936A8F1A9EC4E300A0F45C /* ExamDataDao.h */,
+				A1936A901A9EC4E300A0F45C /* ExamDataDao.m */,
+				A1936A941A9EE01800A0F45C /* SubjectDataDao.h */,
+				A1936A951A9EE01800A0F45C /* SubjectDataDao.m */,
+			);
+			name = dao;
+			sourceTree = "<group>";
+		};
+		A1936A981A9EF57600A0F45C /* service */ = {
+			isa = PBXGroup;
+			children = (
+				A1936A991A9EF61000A0F45C /* ImitateSubjectService.h */,
+				A1936A9A1A9EF61000A0F45C /* ImitateSubjectService.m */,
+			);
+			name = service;
+			sourceTree = "<group>";
+		};
 		A199CA2B1A74CDF000A31587 /* controllers */ = {
 			isa = PBXGroup;
 			children = (
 				A1EE7DD61A70A52F0071C76D /* HomeViewController.h */,
 				A1EE7DD71A70A52F0071C76D /* HomeViewController.m */,
+				A1580A471A95A20D0082C1E2 /* ImitateSubjectViewController.h */,
+				A1580A481A95A20D0082C1E2 /* ImitateSubjectViewController.m */,
 				A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */,
 				A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */,
 			);
@@ -422,6 +465,10 @@
 			children = (
 				A199CA2E1A74CFBF00A31587 /* HomeData.h */,
 				A199CA2F1A74CFBF00A31587 /* HomeData.m */,
+				A1580A4D1A960B370082C1E2 /* ExamData.h */,
+				A1580A4E1A960B370082C1E2 /* ExamData.m */,
+				A1580A4A1A95D56A0082C1E2 /* SubjectData.h */,
+				A1580A4B1A95D56A0082C1E2 /* SubjectData.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -538,6 +585,8 @@
 				A199CA2B1A74CDF000A31587 /* controllers */,
 				A199CA2C1A74CE0600A31587 /* views */,
 				A199CA2D1A74CE2100A31587 /* models */,
+				A1936A8E1A9EC4AE00A0F45C /* dao */,
+				A1936A981A9EF57600A0F45C /* service */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -666,6 +715,7 @@
 				A199CBBF1A7788EB0094FE50 /* slider-bg.png in Resources */,
 				A199CA151A74C77000A31587 /* renewal_selected.png in Resources */,
 				A1910E7F1A6D3AC800377160 /* Images.xcassets in Resources */,
+				A1936A9D1A9F195000A0F45C /* exam-XXX-default.sqlite in Resources */,
 				A1EE7E011A70E5A00071C76D /* tab_home_normal.png in Resources */,
 				A199CA0A1A74BF7400A31587 /* everyday_normal.png in Resources */,
 				A189959D1A7A381700D591FF /* privacy in Resources */,
@@ -724,17 +774,21 @@
 			files = (
 				A1762B261A873FB1008E5656 /* AccountViewController+RegisterCode.m in Sources */,
 				A1D02F0B1A7B8A85004C484D /* NSData+Hex.m in Sources */,
+				A1580A4C1A95D56A0082C1E2 /* SubjectData.m in Sources */,
 				A19DCE741A82F5DF0019856D /* AppClient.m in Sources */,
+				A1580A491A95A20D0082C1E2 /* ImitateSubjectViewController.m in Sources */,
 				A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */,
 				A1D02F0E1A7B8C95004C484D /* UINavigationController+Animation.m in Sources */,
 				A1D66D3F1A723B7E00F98206 /* NSString+Date.m in Sources */,
 				A1E279051A78BC8B00F23A20 /* UIViewController+VisibleView.m in Sources */,
 				A199C9FB1A73ADD400A31587 /* ETUserView.m in Sources */,
+				A1580A4F1A960B370082C1E2 /* ExamData.m in Sources */,
 				A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */,
 				A15EB7A71A84EC8B009199D1 /* JSONCallback.m in Sources */,
 				A1762B291A874428008E5656 /* AccountViewController+Logout.m in Sources */,
 				A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */,
 				A199CA301A74CFBF00A31587 /* HomeData.m in Sources */,
+				A1936A911A9EC4E300A0F45C /* ExamDataDao.m in Sources */,
 				A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */,
 				A1D02F081A7B7E37004C484D /* NSString+Hex.m in Sources */,
 				A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */,
@@ -746,11 +800,13 @@
 				A1D02EF81A7B13D6004C484D /* AboutData.m in Sources */,
 				A1D02EF51A7B1208004C484D /* AboutViewController.m in Sources */,
 				A1D66D3C1A7217BA00F98206 /* NSString+Size.m in Sources */,
+				A1936A9B1A9EF61000A0F45C /* ImitateSubjectService.m in Sources */,
 				A18995991A7A2F5E00D591FF /* ProtocolViewController.m in Sources */,
 				A1D02F051A7B70F9004C484D /* AESCrypt.m in Sources */,
 				A1AA7CCC1A81F761003A5137 /* LoginData.m in Sources */,
 				A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */,
 				A199CA031A74A33500A31587 /* ETHomePanelView.m in Sources */,
+				A1936A961A9EE01800A0F45C /* SubjectDataDao.m in Sources */,
 				A199C9FF1A74874A00A31587 /* ETImageButton.m in Sources */,
 				A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */,
 				A1959F931A7FABBB00C1F563 /* LoginViewController.m in Sources */,
