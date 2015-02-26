@@ -39,6 +39,7 @@
 		A1936A961A9EE01800A0F45C /* SubjectDataDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A951A9EE01800A0F45C /* SubjectDataDao.m */; };
 		A1936A9B1A9EF61000A0F45C /* ImitateSubjectService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A9A1A9EF61000A0F45C /* ImitateSubjectService.m */; };
 		A1936A9D1A9F195000A0F45C /* exam-XXX-default.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A1936A9C1A9F195000A0F45C /* exam-XXX-default.sqlite */; };
+		A1936AA01A9F1A6200A0F45C /* WaitForAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A9F1A9F1A6200A0F45C /* WaitForAnimation.m */; };
 		A1959F931A7FABBB00C1F563 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1959F921A7FABBB00C1F563 /* LoginViewController.m */; };
 		A199C9FB1A73ADD400A31587 /* ETUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = A199C9FA1A73ADD400A31587 /* ETUserView.m */; };
 		A199C9FF1A74874A00A31587 /* ETImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A199C9FE1A74874A00A31587 /* ETImageButton.m */; };
@@ -170,6 +171,8 @@
 		A1936A991A9EF61000A0F45C /* ImitateSubjectService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImitateSubjectService.h; sourceTree = "<group>"; };
 		A1936A9A1A9EF61000A0F45C /* ImitateSubjectService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImitateSubjectService.m; sourceTree = "<group>"; };
 		A1936A9C1A9F195000A0F45C /* exam-XXX-default.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "exam-XXX-default.sqlite"; sourceTree = "<group>"; };
+		A1936A9E1A9F1A6200A0F45C /* WaitForAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaitForAnimation.h; path = Utils/WaitForAnimation.h; sourceTree = "<group>"; };
+		A1936A9F1A9F1A6200A0F45C /* WaitForAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaitForAnimation.m; path = Utils/WaitForAnimation.m; sourceTree = "<group>"; };
 		A1959F911A7FABBB00C1F563 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		A1959F921A7FABBB00C1F563 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		A199C9F91A73ADD400A31587 /* ETUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETUserView.h; sourceTree = "<group>"; };
@@ -575,6 +578,8 @@
 				A140418C1A78E61B00669D46 /* ETextView.m */,
 				A18CCF341A85BD2A00C20555 /* TextFieldValidator.h */,
 				A18CCF331A85BD2A00C20555 /* TextFieldValidator.m */,
+				A1936A9E1A9F1A6200A0F45C /* WaitForAnimation.h */,
+				A1936A9F1A9F1A6200A0F45C /* WaitForAnimation.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -788,6 +793,7 @@
 				A1762B291A874428008E5656 /* AccountViewController+Logout.m in Sources */,
 				A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */,
 				A199CA301A74CFBF00A31587 /* HomeData.m in Sources */,
+				A1936AA01A9F1A6200A0F45C /* WaitForAnimation.m in Sources */,
 				A1936A911A9EC4E300A0F45C /* ExamDataDao.m in Sources */,
 				A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */,
 				A1D02F081A7B7E37004C484D /* NSString+Hex.m in Sources */,

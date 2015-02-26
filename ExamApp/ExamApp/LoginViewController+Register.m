@@ -8,11 +8,11 @@
 
 #import "LoginViewController+Register.h"
 #import "UIViewController+VisibleView.h"
-#import <MBProgressHUD/MBProgressHUD.h>
 #import "TextFieldValidator.h"
 #import "RegisterData.h"
 #import "JSONCallback.h"
 #import "HttpUtils.h"
+#import "WaitForAnimation.h"
 
 #define __k_login_register_font_size 13.0//注册字体
 #define __k_login_register_margin_top 10//顶部间距
@@ -80,7 +80,7 @@ CGFloat _current_textField_y,_current_offset_y;
 //注册面板
 UIView *_regPanel;
 //等待动画
-MBProgressHUD *_regWaitHud;
+WaitForAnimation *_regWaitHud;
 #pragma mark 安装注册面板
 -(void)setupRegisterPanel{
     _textFields = [NSMutableArray array];
@@ -136,24 +136,19 @@ MBProgressHUD *_regWaitHud;
     if(_textFields && _textFields.count > 0){
         //创建等待动画
         if(!_regWaitHud){
-            _regWaitHud = [[MBProgressHUD alloc] init];
-            _regWaitHud.labelText = @"正在注册...";
-            _regWaitHud.dimBackground = YES;//使背景成黑灰色，让MBProgressHUD成高亮显示
-            _regWaitHud.square = YES;//设置显示框的高度和宽度一样
-            //_authenWaitHud.mode = MBProgressHUDModeAnnularDeterminate;
-            [self.view addSubview:_regWaitHud];
+            _regWaitHud = [[WaitForAnimation alloc] initWithView:self.view WaitTitle:@"正在注册..."];
         }
         //退出输入法
         [_regPanel endEditing:YES];
         //显示等待动画
-        [_regWaitHud show:YES];
+        [_regWaitHud show];
         //准备数据
         RegisterData *reg_data = [[RegisterData alloc] init];
         for(TextFieldValidator *tf in _textFields){
             if(tf){
                 if(![tf validate]){//数据验证
                     //关闭等待动画
-                    [_regWaitHud hide:YES];
+                    [_regWaitHud hide];
                     return;
                 }
                 [reg_data setValue:tf.text forTag:tf.tag];
@@ -383,7 +378,7 @@ MBProgressHUD *_regWaitHud;
     [HttpUtils netWorkStatus:^(BOOL statusValue) {
         if(!statusValue){//没有网络
             //关闭等待动画
-            [_regWaitHud hide:YES];
+            [_regWaitHud hide];
             //提示
             [self alterViewWithMessage:__k_login_register_alter_msg];
             return;
@@ -397,7 +392,7 @@ MBProgressHUD *_regWaitHud;
                                  Success:^(NSDictionary *json) {//网路正常
                                      JSONCallback *callback = [[JSONCallback alloc] initWithDictionary:json];
                                      //关闭等待动画
-                                     [_regWaitHud hide:YES];
+                                     [_regWaitHud hide];
                                      if(!callback.success){//注册失败
                                          [self alterViewWithMessage:callback.msg];
                                          return;
@@ -407,7 +402,7 @@ MBProgressHUD *_regWaitHud;
                                     }
                                     Fail:^(NSString *error) {//网络错误
                                         //关闭等待动画
-                                        [_regWaitHud hide:YES];
+                                        [_regWaitHud hide];
                                         //提示
                                         [self alterViewWithMessage:error];
                                         return;

@@ -5,15 +5,14 @@
 //  Created by jeasonyoung on 15/2/6.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
-
 #import "LoginViewController+UserLogin.h"
-#import <MBProgressHUD/MBProgressHUD.h>
 
 #import "HttpUtils.h"
 #import "LoginData.h"
 #import "UserAccountData.h"
 #import "JSONCallback.h"
 #import "MainViewController.h"
+#import "WaitForAnimation.h"
 
 #define __k_login_auth_alter_title @"用户登录"//登录窗口
 #define __k_login_auth_alter_account @"用户名"//
@@ -33,15 +32,14 @@
 //用户登录验证实现类
 @implementation LoginViewController (UserLogin)
 
-MBProgressHUD *_authenWaitHud;
+WaitForAnimation *_authenWaitHud;
 UIAlertController *_alterController;
 
 #pragma mark 登录界面
 -(void)alterLoginViewWithMessage:(NSString *)msg Account:(NSString *)account{
-    if(!_alterController){//惰性加载
-        _alterController = [UIAlertController alertControllerWithTitle:__k_login_auth_alter_title
-                                                               message:msg
-                                                        preferredStyle:UIAlertControllerStyleAlert];
+    _alterController = [UIAlertController alertControllerWithTitle:__k_login_auth_alter_title
+                                                           message:msg
+                                                    preferredStyle:UIAlertControllerStyleAlert];
         //用户名
         [_alterController addTextFieldWithConfigurationHandler:^(UITextField *textField){
             textField.placeholder = __k_login_auth_alter_account;
@@ -72,14 +70,9 @@ UIAlertController *_alterController;
                                                          handler:^(UIAlertAction *action){//登录
                                                              //启动等待动画
                                                              if(!_authenWaitHud){//惰性加载
-                                                                 _authenWaitHud = [[MBProgressHUD alloc] init];
-                                                                 _authenWaitHud.labelText = @"正在登录...";
-                                                                 _authenWaitHud.dimBackground = YES;//使背景成黑灰色，让MBProgressHUD成高亮显示
-                                                                 _authenWaitHud.square = YES;//设置显示框的高度和宽度一样
-                                                                 //_authenWaitHud.mode = MBProgressHUDModeAnnularDeterminate;
-                                                                 [self.view addSubview:_authenWaitHud];
+                                                                 _authenWaitHud = [[WaitForAnimation alloc] initWithView:self.view WaitTitle:@"正在登录..."];
                                                              }
-                                                             [_authenWaitHud show:YES];
+                                                             [_authenWaitHud show];
                                                              //移除用户名输入框的监听
                                                              [self removeAccountTextFieldObserver];
                                                              //登录验证
@@ -90,14 +83,14 @@ UIAlertController *_alterController;
                                                              login.password = [tfPassword.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
                                                              if(login.account.length == 0){//账号为空
                                                                  //关闭等待动画
-                                                                 [_authenWaitHud hide:YES];
+                                                                 [_authenWaitHud hide];
                                                                  //弹出登录框
                                                                  [self alterLoginViewWithMessage:__k_login_auth_alter_error_account Account:nil];
                                                                  return;
                                                              }
                                                              if(login.password.length == 0){//密码为空
                                                                  //关闭等待动画
-                                                                 [_authenWaitHud hide:YES];
+                                                                 [_authenWaitHud hide];
                                                                  //弹出登录框
                                                                  [self alterLoginViewWithMessage:__k_login_auth_alter_error_password Account:login.account];
                                                                 return;
@@ -105,11 +98,10 @@ UIAlertController *_alterController;
                                                             //验证
                                                             [self authentication:login];
                                                         }];
-        btnLogin.enabled = (account && account.length > 0);
-        //添加到alert
-        [_alterController addAction:btnRegister];
-        [_alterController addAction:btnLogin];
-    }
+    btnLogin.enabled = (account && account.length > 0);
+    //添加到alert
+    [_alterController addAction:btnRegister];
+    [_alterController addAction:btnLogin];
     //弹出
     [self presentViewController:_alterController animated:YES completion:nil];
 }
@@ -170,18 +162,18 @@ UIAlertController *_alterController;
                                      //保存为当前用户
                                      [userAccount saveForCurrent];
                                      //关闭等待动画
-                                     [_authenWaitHud hide:YES];
+                                     [_authenWaitHud hide];
                                      //跳转到入口控制器
                                      [self goToMainViewController];
                                  }else{//验证失败
-                                     [_authenWaitHud hide:YES];//关闭等待动画
+                                     [_authenWaitHud hide];//关闭等待动画
                                      //[self createAlterLoginViewWithMessage:callback.msg Account:login.account];
                                      [self alterLoginViewWithMessage:callback.msg Account:login.account];
                                  }
                                 }
                                 Fail:^(NSString *error) {//网络故障
                                     NSLog(@"发生网络故障=>%@",error);
-                                    [_authenWaitHud hide:YES];//关闭等待动画
+                                    [_authenWaitHud hide];//关闭等待动画
                                     [self alterLoginViewWithMessage:[NSString stringWithFormat:@"%@%@",__k_login_auth_net_error,error]
                                                                   Account:login.account];//弹出登录
                                 }];
@@ -191,12 +183,12 @@ UIAlertController *_alterController;
     //加载本地存储的用户信息
     UserAccountData *userAccount = [UserAccountData userWithAcount:login.account];
     if(!userAccount){//用户名不存在
-        [_authenWaitHud hide:YES];//关闭等待动画
+        [_authenWaitHud hide];//关闭等待动画
         [self alterLoginViewWithMessage:__k_login_auth_local_account_error Account:login.account];//弹出登录
         return;
     }
     if(![userAccount.password isEqualToString:login.password]){//密码错误
-        [_authenWaitHud hide:YES];//关闭等待动画
+        [_authenWaitHud hide];//关闭等待动画
         [self alterLoginViewWithMessage:__k_login_auth_local_password_error Account:login.account];//弹出登录
         return;
     }
@@ -204,7 +196,7 @@ UIAlertController *_alterController;
     //保存为当前用户
     [userAccount saveForCurrent];
     //关闭等待动画
-    [_authenWaitHud hide:YES];
+    [_authenWaitHud hide];
     //跳转到入口控制器
     [self goToMainViewController];
 }

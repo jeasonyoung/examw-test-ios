@@ -8,10 +8,10 @@
 
 #import "AccountViewController+RegisterCode.h"
 #import "UserAccountData.h"
-#import <MBProgressHUD/MBProgressHUD.h>
 #import "HttpUtils.h"
 #import "AppRegisterCode.h"
 #import "JSONCallback.h"
+#import "WaitForAnimation.h"
 
 #define __k_account_view_register_title @"软件注册码"//
 #define __k_account_view_register_msg @"请输入软件注册码"//
@@ -24,7 +24,7 @@
 
 //注册码处理分类
 @implementation AccountViewController (RegisterCode)
-MBProgressHUD *_registerWaitHud;
+WaitForAnimation *_registerWaitHud;
 UIAlertController *_registerAlterController,*_showAlterController;
 //注册码处理。
 -(void)registerWithAccount:(UserAccountData *)account{
@@ -71,19 +71,15 @@ UIAlertController *_registerAlterController,*_showAlterController;
 //保存注册码
 -(void)saveRegisterCodeWithAccount:(UserAccountData *)account{
     if(!_registerWaitHud){//初始化等待动画
-        _registerWaitHud = [[MBProgressHUD alloc] init];
-        _registerWaitHud.labelText = @"正在注册...";
-        _registerWaitHud.dimBackground = YES;
-        _registerWaitHud.square = YES;
-        [self.view addSubview:_registerWaitHud];
+        _registerWaitHud = [[WaitForAnimation alloc] initWithView:self.view WaitTitle:@"正在注册..."];
     }
-    [_registerWaitHud show:YES];//开启等待动画
+    [_registerWaitHud show];//开启等待动画
     if(account && _registerAlterController){
        NSString *regCode = [((UITextField *)_registerAlterController.textFields[0]).text stringByTrimmingCharactersInSet :[NSCharacterSet whitespaceCharacterSet]];
         [HttpUtils netWorkStatus:^(BOOL statusValue) {
             if(!statusValue){
                 //关闭等待动画
-                [_registerWaitHud hide:YES];
+                [_registerWaitHud hide];
                 //显示提示信息
                 [self showAlterWithTitle:__k_account_view_register_alter_title
                                  Message:__k_account_view_register_alter_error];
@@ -111,10 +107,10 @@ UIAlertController *_registerAlterController,*_showAlterController;
                                                               Message:callback.msg];
                                          }
                                          //关闭等待动画
-                                         [_registerWaitHud hide:YES];
+                                         [_registerWaitHud hide];
                                      } Fail:^(NSString *err) {
                                          //关闭等待动画
-                                         [_registerWaitHud hide:YES];
+                                         [_registerWaitHud hide];
                                          //显示错误信息
                                          [self showAlterWithTitle:__k_account_view_register_alter_title
                                                           Message:err];
@@ -122,7 +118,7 @@ UIAlertController *_registerAlterController,*_showAlterController;
         }];
     }else{
         //关闭等待动画
-        [_registerWaitHud hide:YES];
+        [_registerWaitHud hide];
     }
 }
 //显示提示信息
