@@ -97,34 +97,33 @@ static NSMutableDictionary *_dbPathCache;
     //从缓存中加载路径
     NSString *path = [_dbPathCache objectForKey:userId];
     if(!path){//缓存中没有
-        //默认封装的原始数据库路径
-        NSString *def_db_path = [[NSBundle mainBundle] pathForResource:__k_useraccountdata_databaseFileName ofType:nil];
-        NSFileManager *fileMgr = [NSFileManager defaultManager];
-        if(![fileMgr fileExistsAtPath:def_db_path]){
-            *err = [NSError errorWithDomain:@"UserAccountData.loadDatabasePath"
-                                      code:-1
-                                  userInfo:@{NSLocalizedDescriptionKey:__k_useraccountdata_database_error_defaultFileError,
-                                             NSLocalizedFailureReasonErrorKey:def_db_path}];
-            return nil;
-        }
         //当前用户的数据库文件名称
         NSString *dbFilename = [NSString stringWithFormat:@"%@$%@",userId,__k_useraccountdata_databaseFileName];
         //根路径
         NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         //当前用户数据库文件路径
         path = [doc stringByAppendingPathComponent:dbFilename];
-        //判断数据库文件是否存在
-        if(![fileMgr fileExistsAtPath:path]){
-            //数据库文件不存在则从默认原始库中拷贝一份
+        //文件管理器
+        NSFileManager *fileMgr = [NSFileManager defaultManager];
+        if(![fileMgr fileExistsAtPath:path]){//用户数据库文件不存在
+            //默认封装的原始数据库路径
+            NSString *def_db_path = [[NSBundle mainBundle] pathForResource:__k_useraccountdata_databaseFileName ofType:nil];
+            if(![fileMgr fileExistsAtPath:def_db_path]){//原始数据库文件也不存在
+                *err = [NSError errorWithDomain:@"UserAccountData.loadDatabasePath"
+                                           code:-1
+                                       userInfo:@{NSLocalizedDescriptionKey:__k_useraccountdata_database_error_defaultFileError,
+                                                  NSLocalizedFailureReasonErrorKey:def_db_path}];
+                return nil;
+            }
+            //从默认原始库中拷贝一份为当前用户数据库文件
             NSError *error;
-            if(![fileMgr copyItemAtPath:def_db_path toPath:path error:&error]){
-                //复制文件失败
+            if(![fileMgr copyItemAtPath:def_db_path toPath:path error:&error]){//复制文件失败
                 *err = error;
                 return nil;
             }
-            //加入用户缓存
-            [_dbPathCache setObject:path forKey:userId];
         }
+        //加入用户缓存
+        [_dbPathCache setObject:path forKey:userId];
     }
     NSLog(@"数据库文件路径:%@",path);
     return path;

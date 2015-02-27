@@ -18,6 +18,18 @@
 #import "AboutViewController.h"//关于应用控制器
 #import "AccountViewController.h"//当前账号控制器
 
+#import "ETAlert.h"
+#import "WaitForAnimation.h"
+#import "DataSyncService.h"
+
+#define __k_settingsviewcontroller_alert_sync_title @"同步确认"
+#define __k_settingsviewcontroller_alert_sync_msg @"是否确定从服务器同步数据?"
+#define __k_settingsviewcontroller_alert_sync_btn_cancel @"取消"
+#define __k_settingsviewcontroller_alert_sync_btn_submit @"确定"
+#define __k_settingsviewcontroller_alert_sync_waiting @"正在同步数据，请稍后..."
+#define __k_settingsviewcontroller_alert_sync_success @"同步成功!"
+#define __k_settingsviewcontroller_alert_sync_failure @"同步失败!"
+
 //设置页控制器成员变量
 @interface SettingsViewController ()<UITableViewDataSource,UITableViewDelegate>{
     //设置分组数据
@@ -87,7 +99,8 @@
     if([@"date" isEqualToString:value]){//1.考试日期设置
         
     }else if([@"sync" isEqualToString:value]){//2.同步与更新
-        
+        [self syncDataAlter];
+        return;
     }/*else if([@"share" isEqualToString:value]){//3.分享好友
         
     }*/else if([@"screen" isEqualToString:value]){//4.屏幕亮度
@@ -122,6 +135,37 @@
         return;
     }
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:url]];
+}
+#pragma mark 同步数据
+-(void)syncDataAlter{
+    //初始化弹出框
+    ETAlert *alert = [[ETAlert alloc] initWithTitle:__k_settingsviewcontroller_alert_sync_title
+                                            Message:__k_settingsviewcontroller_alert_sync_msg];
+    //添加取消按钮
+    [alert addCancelActionWithTitle:__k_settingsviewcontroller_alert_sync_btn_cancel Handler:nil];
+    //添加确定按钮
+    [alert addConfirmActionWithTitle:__k_settingsviewcontroller_alert_sync_btn_submit
+                             Handler:^(UIAlertAction *action) {
+                                 [WaitForAnimation animationWithView:self.view
+                                                           WaitTitle:__k_settingsviewcontroller_alert_sync_waiting
+                                                               Block:^{
+                                                                   NSLog(@"确定同步...");
+                                                                   [[[DataSyncService alloc] init] sync:^(NSString * result) {
+                                                                       ETAlert *resultAlert;
+                                                                       if(result){
+                                                                           resultAlert = [[ETAlert alloc] initWithTitle:__k_settingsviewcontroller_alert_sync_failure
+                                                                                                                Message:result];
+                                                                       }else{
+                                                                           resultAlert = [[ETAlert alloc] initWithTitle:__k_settingsviewcontroller_alert_sync_success
+                                                                                                                Message:nil];
+                                                                       }
+                                                                       [resultAlert addCancelActionWithTitle:__k_settingsviewcontroller_alert_sync_btn_submit Handler:nil];
+                                                                       [resultAlert showWithController:self];
+                                                                   }];
+                                                               }];
+                             }];
+    //显示弹出框
+    [alert showWithController:self];
 }
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {

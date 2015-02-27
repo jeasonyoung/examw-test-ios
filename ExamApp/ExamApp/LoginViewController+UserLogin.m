@@ -61,8 +61,6 @@ UIAlertController *_alterController;
                                                             handler:^(UIAlertAction *action) {//注册
                                                                     //移除用户名输入框的监听
                                                                     [self removeAccountTextFieldObserver];
-                                                                    [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-                                                                    NSLog(@"注册...");
                                                             }];
         //登录按钮
         UIAlertAction *btnLogin = [UIAlertAction actionWithTitle:__k_login_auth_alter_btn_login_title

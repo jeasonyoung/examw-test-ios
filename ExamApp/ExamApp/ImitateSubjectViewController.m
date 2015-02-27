@@ -9,8 +9,12 @@
 #import "ImitateSubjectViewController.h"
 #import "SubjectData.h"
 #import "ImitateSubjectService.h"
+#import "WaitForAnimation.h"
 
-#define __k_imitateSubjectView_title @"选择科目"
+#define __k_imitatesubjectview_title @"选择科目"
+#define __k_imitatesubjectview_waiting @"正在加载数据..."
+#define __k_imitatesubjectview_cell_identifier @"cell_identifier"
+
 //模拟考场科目视图控制器成员变量。
 @interface ImitateSubjectViewController ()<UITableViewDelegate,UITableViewDataSource>{
     ImitateSubjectService *_service;
@@ -22,7 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //标题处理
-    self.title = __k_imitateSubjectView_title;
+    self.title = __k_imitatesubjectview_title;
     //初始化服务类
     _service = [[ImitateSubjectService alloc] init];
     //添加列表
@@ -34,36 +38,49 @@
 #pragma mark tableView数据
 //分组总数
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return [_service loadAllExamTotal];
+    __block NSInteger sections = 0;
+    [WaitForAnimation animationWithView:self.view WaitTitle:__k_imitatesubjectview_waiting Block:^{
+         sections = [_service loadAllExamTotal];
+    }];
+    return sections;
 }
 //显示每个分组的数据
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return [_service loadSubjectTotalWithExamIndex:section];
+    __block NSInteger rows = 0;
+    [WaitForAnimation animationWithView:self.view WaitTitle:__k_imitatesubjectview_waiting Block:^{
+        rows = [_service loadSubjectTotalWithExamIndex:section];
+    }];
+    return rows;
 }
 //显示分组名称
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    return [_service loadExamTitleWithIndex:section];
+    __block NSString *title;
+    [WaitForAnimation animationWithView:self.view WaitTitle:__k_imitatesubjectview_waiting Block:^{
+        title = [_service loadExamTitleWithIndex:section];
+    }];
+    return title;
 }
 //具体数据
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *cell_identifier = @"cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cell_identifier];
-    if(cell == nil){
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cell_identifier];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-    }
-    SubjectData *subject = [_service loadSubjectWithExamIndex:indexPath.section andSubjectRow:indexPath.row];
-    if(subject){
-        cell.textLabel.text = subject.name;
-    }
+    __block UITableViewCell *cell;
+    [WaitForAnimation animationWithView:self.view WaitTitle:__k_imitatesubjectview_waiting Block:^{
+        cell = [tableView dequeueReusableCellWithIdentifier:__k_imitatesubjectview_cell_identifier];
+        if(cell == nil){
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:__k_imitatesubjectview_cell_identifier];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
+        SubjectData *subject = [_service loadSubjectWithExamIndex:indexPath.section andSubjectRow:indexPath.row];
+        if(subject){
+            cell.textLabel.text = subject.name;
+        }
+    }];
     return cell;
 }
 #pragma mark tableView代理
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 30.0f;
-}
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"click:%ld,%ld",indexPath.section, indexPath.row);
+    SubjectData *subject = [_service loadSubjectWithExamIndex:indexPath.section andSubjectRow:indexPath.row];
+    
+    NSLog(@"click:%ld,%ld => %@",indexPath.section, indexPath.row, [subject serializeJSON]);
 }
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {

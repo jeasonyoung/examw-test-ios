@@ -7,6 +7,8 @@
 //
 
 #import "AppClient.h"
+#import <UIKit/UIKit.h>
+#import <AdSupport/AdSupport.h>
 
 #define __k_appclient_parameters_id @"clientId"
 #define __k_appclient_parameters_name @"clientName"
@@ -20,17 +22,29 @@
 #pragma mark 初始化函数
 -(instancetype)init{
     if(self = [super init]){
-        [self setClientId:_kAppClientID];
-        [self setClientName:_kAppClientName];
-        [self setClientVersion:[[NSNumber numberWithDouble:_kAppClientVersion] stringValue]];
+        //客户端唯一标示
+        self.clientId = _kAppClientID;
+        //客户端名称
+        self.clientName = _kAppClientName;
+        //软件版本
+        self.clientVersion = [[NSNumber numberWithDouble:_kAppClientVersion] stringValue];
+        //客户端类型代码
+        self.clientTypeCode = [[NSNumber numberWithInt:_kAppClientTypeCode] stringValue];
+        //产品ID
+        self.productId = _kAppClientProductId;
+        //设备唯一标示(先获取广告标示)
+        self.clientMachine = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
+        if(!self.clientMachine){//当无法获取广告标示时使用idfv
+            self.clientMachine = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        }
     }
     return self;
 }
 #pragma mark 序列化
 -(NSDictionary *)serializeJSON{
-    return @{__k_appclient_parameters_id:self.clientId,
-             __k_appclient_parameters_name:self.clientName,
-             __k_appclient_parameters_version:self.clientVersion,
+    return @{__k_appclient_parameters_id:self.clientId ? self.clientId : @"",
+             __k_appclient_parameters_name:self.clientName ? self.clientName : @"",
+             __k_appclient_parameters_version:self.clientVersion ? self.clientVersion : [NSNumber numberWithInt:0],
              __k_appclient_parameters_typeCode:(self.clientTypeCode ? self.clientTypeCode : @""),
              __k_appclient_parameters_machine:(self.clientMachine ? self.clientMachine : @""),
              __k_appclient_parameters_productId:(self.productId ? self.productId : @"")};
