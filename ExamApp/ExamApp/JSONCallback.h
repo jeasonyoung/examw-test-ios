@@ -13,9 +13,11 @@
 //是否成功。
 @property(nonatomic,assign)BOOL success;
 //数据。
-@property(nonatomic,copy)NSString* data;
+@property(nonatomic,copy)NSString *data;
 //消息。
 @property(nonatomic,copy)NSString *msg;
 //初始化
 -(instancetype)initWithDictionary:(NSDictionary *)dict;
+//反馈数据反JSON格式化
++(instancetype)callbackWithDictionary:(NSDictionary *)dict;
 @end

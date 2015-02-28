@@ -27,8 +27,10 @@
 +(instancetype)userWithAcount:(NSString *)account;
 //当前用户
 +(instancetype)currentUser;
+//当前用户是否有效
+-(BOOL)userIsValid;
 //加载数据库文件路径
-+(NSString *)loadDatabasePath:(NSError **)err;
+-(NSString *)loadDatabasePath:(NSError **)err;
 //保存用户数据
 -(void)save;
 //保存为当前用户

@@ -59,7 +59,7 @@
 #pragma mark 当前用户名
 -(NSString *)userNameInUserView:(ETUserView *)userView{
     UserAccountData *current = [UserAccountData currentUser];
-    return (current ? current.account : __k_UserViewPanel_current);
+    return ([current userIsValid] ? current.account : __k_UserViewPanel_current);
 }
 #pragma mark 创建九宫格主界面
 -(void)createHomeViewPanelWithY:(CGFloat)y{

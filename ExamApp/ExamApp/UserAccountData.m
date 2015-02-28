@@ -17,6 +17,7 @@
 #define __k_useraccountdata_database_error_defaultFileError @"产品数据库文件文件不存在！"
 //账号数据私有成员变量
 @interface UserAccountData(){
+    BOOL _currentUserIsValid;
     NSString *_save_defaults_key;
     NSMutableDictionary *_validation_cache;
 }
@@ -26,10 +27,11 @@
 //初始化
 -(instancetype)initWithAccount:(NSString *)account{
     if(self = [super init]){
+        _currentUserIsValid = NO;
         _save_defaults_key = account;
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];//初始化用户存储
         NSData *json_data = [defaults dataForKey:_save_defaults_key];//加载账号下的数据
-        if(json_data == nil)return nil;
+        if(json_data == nil)return self;
         NSError *err = nil;
         //反JSON处理
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:json_data
@@ -37,9 +39,9 @@
                                                                error:&err];
         if(err){//JSON异常
             NSLog(@"currentUser—json-err:%@",err);
-            return nil;
+            return self;
         }
-        if(dict.count == 0)return nil;
+        if(dict.count == 0)return self;
         //KVC数据插入
         for(NSString *key in dict.allKeys){
             id obj_value = [dict objectForKey:key];
@@ -60,6 +62,8 @@
             if(self.registerCode != nil && self.registerCode.length > 0){
                 self.registerCode = [self decrypt:self.registerCode Key:self.account];
             }
+            //当前用户有效
+            _currentUserIsValid = YES;
        }
     }
     return self;
@@ -78,17 +82,20 @@ static UserAccountData *_current_account;
     }
     return _current_account;
 }
+#pragma mark 当前用户是否有效
+-(BOOL)userIsValid{
+    return _currentUserIsValid;
+}
 #pragma mark 加载数据库路径
 static NSMutableDictionary *_dbPathCache;
-+(NSString *)loadDatabasePath:(NSError *__autoreleasing *)err{
+-(NSString *)loadDatabasePath:(NSError *__autoreleasing *)err{
     if(!_dbPathCache){//初始化数据库缓存
         _dbPathCache = [NSMutableDictionary dictionary];
     }
     NSString *userId;
     //加载当前用户
-    UserAccountData *current = [self currentUser];
-    if(current){
-        userId =  current.accountId;
+    if(self.accountId){
+        userId =  self.accountId;
     }
     //当前用户为空（未登录）
     if(!userId || userId.length == 0){

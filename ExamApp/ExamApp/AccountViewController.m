@@ -42,6 +42,7 @@
 @interface AccountViewController ()
 {
     UserAccountData *_userAccount;
+    BOOL _isRegUserAccountObserver;
     UILabel *_lbRegCode;
 }
 @end
@@ -50,10 +51,12 @@
 #pragma mark 程序入口
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //初始化
+    _isRegUserAccountObserver = NO;
     //加载当前用户信息
     _userAccount = [UserAccountData currentUser];
     //当前用户不存在或者验证不通过都弹出登录界面
-    if(_userAccount == nil || ![_userAccount validation]){
+    if(![_userAccount userIsValid] || ![_userAccount validation]){
         LoginViewController *lvc = [[LoginViewController alloc] init];
         [self.navigationController pushViewController:lvc animated:nil];
         return;
@@ -102,6 +105,7 @@
                    forKeyPath:__k_account_view_observer_forkeypath
                       options:(NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld)
                       context:nil];
+    _isRegUserAccountObserver = YES;
     //重置高度
     y = [ty floatValue];
     //添加按钮
@@ -231,7 +235,9 @@
 #pragma mark 重载内存释放
 -(void)dealloc{
     //移除观察着
-    [_userAccount removeObserver:self forKeyPath:__k_account_view_observer_forkeypath];
+    if(_userAccount && _isRegUserAccountObserver){
+        [_userAccount removeObserver:self forKeyPath:__k_account_view_observer_forkeypath];
+    }
 }
 #pragma mark 内存告急
 - (void)didReceiveMemoryWarning {

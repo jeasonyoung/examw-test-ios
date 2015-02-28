@@ -43,4 +43,48 @@
     [rs close];
     return [array mutableCopy];
 }
+#pragma mark 同步数据
+-(void)syncWithExamCode:(NSString *)examCode Data:(NSArray *)data{
+    if(!examCode || (!data) || data.count == 0)return;
+    if(!_db || ![_db tableExists:__k_subjectdatadao_tableName]) return;
+    //重置原始数据
+    NSString *reset_sql = [NSString stringWithFormat:@"update %@ set %@ = ?",
+                           __k_subjectdatadao_tableName,__k_subjectdata_fields_status];
+    [_db executeUpdate:reset_sql,[NSNumber numberWithBool:NO]];
+    //同步科目
+    for (NSDictionary *dict in data) {
+        if(!dict || dict.count == 0) continue;
+        SubjectData *subject = [[SubjectData alloc] init];
+        subject.code = [dict objectForKey:__k_subjectdata_fields_code];
+        subject.name = [dict objectForKey:__k_subjectdata_fields_name];
+        subject.examCode = examCode;
+        //同步具体科目
+        [self syncWithSubject:subject];
+    }
+}
+//同步科目
+-(void)syncWithSubject:(SubjectData *)subject{
+    if(!subject)return;
+    //查询数据是否存在
+    NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ = ?",
+                           __k_subjectdatadao_tableName,__k_subjectdata_fields_code];
+    long total = [_db longForQuery:query_sql,subject.code];
+    if(total > 0){//更新数据
+        NSString *update_sql = [NSString stringWithFormat:@"update %@ set %@ = ?,%@ = ?,%@ = ? where %@ = ?",
+                                __k_subjectdatadao_tableName,
+                                __k_subjectdata_fields_name,
+                                __k_subjectdata_fields_exam_code,
+                                __k_subjectdata_fields_status,
+                                __k_subjectdata_fields_code];
+        [_db executeUpdate:update_sql,subject.name,subject.examCode,[NSNumber numberWithBool:YES],subject.code];
+    }else{//新增数据
+        NSString *insert_sql = [NSString stringWithFormat:@"insert into %@(%@,%@,%@,%@) values(?,?,?,?)",
+                                __k_subjectdatadao_tableName,
+                                __k_subjectdata_fields_code,
+                                __k_subjectdata_fields_name,
+                                __k_subjectdata_fields_exam_code,
+                                __k_subjectdata_fields_status];
+        [_db executeUpdate:insert_sql,subject.code,subject.name,subject.examCode,[NSNumber numberWithBool:YES]];
+    }
+}
 @end

@@ -25,7 +25,7 @@
 -(instancetype)init{
     if(self = [super init]){
         NSError *err;
-        NSString *dbPath = [UserAccountData loadDatabasePath:&err];
+        NSString *dbPath = [[UserAccountData currentUser] loadDatabasePath:&err];
         if(!dbPath){
             NSLog(@"加载数据库文件路径时错误:%@",err);
         }else{

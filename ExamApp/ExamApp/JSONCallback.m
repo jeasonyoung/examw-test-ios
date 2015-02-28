@@ -35,4 +35,8 @@
              __k_jsoncallback_field_msg:self.msg,
              __k_jsoncallback_field_data:self.data};
 }
+#pragma mark 静态化处理
++(instancetype)callbackWithDictionary:(NSDictionary *)dict{
+    return [[self alloc] initWithDictionary:dict];
+}
 @end

@@ -13,4 +13,6 @@
 -(instancetype)initWithDb:(FMDatabase *)db;
 //从数据库中加载全部数据
 -(NSArray *)loadAll;
+//同步数据。
+-(void)syncWithData:(NSDictionary *)data;
 @end
