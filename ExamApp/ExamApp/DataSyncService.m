@@ -15,13 +15,14 @@
 
 #import <FMDB/FMDatabaseQueue.h>
 #import "ExamDataDao.h"
+#import "PaperDataDao.h"
 
 #define __k_datasyncservice_err_user @"未登录不能同步数据!"
 #define __k_datasyncservice_err_code @"未注册不能同步数据!"
 #define __k_datasyncservice_err_dbPath @"加载本地数据库异常:"
 //数据同步服务成员变量
 @interface DataSyncService(){
-    NSString *_dbPath;
+    FMDatabaseQueue *_queue;
 }
 @end
 //数据同步服务实现
@@ -38,8 +39,8 @@
         return;
     }
     NSError *err;
-    _dbPath = [current loadDatabasePath:&err];
-    if(!_dbPath && err){
+    NSString *dbPath = [current loadDatabasePath:&err];
+    if(!dbPath && err){
         if(result){
             result([NSString stringWithFormat:@"%@ %@",__k_datasyncservice_err_dbPath, err]);
         }
@@ -47,17 +48,21 @@
     }
     AppClientSync *syncReq = [[AppClientSync alloc] init];
     syncReq.code = current.registerCode;
+    if(!_queue){
+        _queue = [FMDatabaseQueue databaseQueueWithPath:dbPath];
+    }
     //同步考试科目数据
     [self syncExamsWithReq:syncReq Result:^(NSString *r) {
-        if(result){
-            result(r);
+        if(r){
+            if(result)result(r);
+            return;
         }
-    }];
-    //同步试卷数据
-    [self syncPapersWithReq:syncReq Result:^(NSString *r) {
-        if(result){
-            result(r);
-        }
+        //同步试卷数据
+        [self syncPapersWithReq:syncReq Result:^(NSString *r) {
+            if(result){
+                result(r);
+            }
+        }];
     }];
 }
 #pragma mark 同步考试科目数据
@@ -78,7 +83,11 @@
                                  //NSLog(@"success => %d",[callback.data isKindOfClass:[NSDictionary class]]);
                                  if([callback.data isKindOfClass:[NSDictionary class]]){
                                      @try {
-                                         [self syncExamsToLocalDbWithData:(NSDictionary *)callback.data];
+                                         //数据库操作
+                                         [_queue inDatabase:^(FMDatabase *db) {
+                                             //同步数据到本地数据库
+                                             [[[ExamDataDao alloc] initWithDb:db] syncWithData:(NSDictionary *)callback.data];
+                                         }];
                                          if(result){
                                              result(nil);
                                          }
@@ -95,54 +104,56 @@
                                  }
                              }];
 }
-#pragma mark 数据存储到本地Sqlite数据库
--(void)syncExamsToLocalDbWithData:(NSDictionary *)data{
-    FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:_dbPath];
-    [queue inDatabase:^(FMDatabase *db) {
-        //同步数据到本地数据库
-        [[[ExamDataDao alloc] initWithDb:db] syncWithData:data];
-    }];
-}
 #pragma mark 同步试卷数据
 -(void)syncPapersWithReq:(AppClientSync *)req Result:(void(^)(NSString *))result{
-    [HttpUtils JSONDataDigestWithUrl:_kAppClientSyncPapersUrl
-                              Method:HttpUtilsMethodPOST
-                          Parameters:[req serializeJSON]
-                            Username:_kAppClientUserName
-                            Password:_kAppClientPassword
-                             Success:^(NSDictionary *data) {
-                                 JSONCallback *callback = [JSONCallback callbackWithDictionary:data];
-                                 if(!callback.success){
-                                     if(result){
-                                         result(callback.msg);
-                                     }
-                                     return;
-                                 }
-                                 //NSLog(@"同步试卷数据=>%@",callback.data);
-                                 if([callback.data isKindOfClass:[NSArray class]]){
-                                     NSDictionary *dict = [(NSArray *)callback.data objectAtIndex:0];
-                                     if(dict){
-//                                         PaperData *paper_data = [[PaperData alloc] initWithDictionary:dict];
-//                                         NSLog(@"paperData:%@", paper_data);
-//                                         NSLog(@"paperData-serial:%@",paper_data.content);
-//                                         PaperReview *view = [[PaperReview alloc] initWithJSON:paper_data.content];
-//                                         NSLog(@"PaperReview => %@",view);
-//                                         //NSLog(@"PaperReview ->serial dict => %@",[view serializeJSON]);
-//                                         NSString *json = [view serialize];
-//                                         NSLog(@"PaperReview ->serial string => %@", json);
-//                                         //
-//                                         PaperReview *pview = [[PaperReview alloc] initWithJSON:json];
-//                                         NSLog(@"deserial obj=> %@", pview);
-//                                         NSLog(@" === > %@",pview.name);
-                                     }
-                                 }
-                                 if(result){
-                                     result(nil);
-                                 }
-                             } Fail:^(NSString * fail) {
-                                 if(result){
-                                     result(fail);
-                                 }
-                             }];
+    if(_queue){//数据库队列
+        [_queue inDatabase:^(FMDatabase *db) {
+            //初始化试卷数据操作对象
+            PaperDataDao *paperDao = [[PaperDataDao alloc] initWithDb:db];
+            //加载更新起始时间
+            req.startTime = [paperDao loadLastSyncTime];
+            //从服务器获取数据
+            [HttpUtils JSONDataDigestWithUrl:_kAppClientSyncPapersUrl
+                                      Method:HttpUtilsMethodPOST
+                                  Parameters:[req serializeJSON]
+                                    Username:_kAppClientUserName
+                                    Password:_kAppClientPassword
+                                     Success:^(NSDictionary *data) {
+                                         //反馈数据反序列化
+                                         JSONCallback *callback = [JSONCallback callbackWithDictionary:data];
+                                         if(!callback.success){//下载数据发生异常
+                                             if(result)result(callback.msg);
+                                             return;
+                                         }
+                                         if([callback.data isKindOfClass:[NSArray class]]){//反馈数据格式为数组集合
+                                            [_queue inDatabase:^(FMDatabase *db){
+                                                NSString *err;
+                                                @try {
+                                                    //数据存储到本地数据库
+                                                    PaperDataDao *dao = [[PaperDataDao alloc] initWithDb:db];
+                                                    [dao syncWithData:(NSArray *)callback.data];
+                                                }
+                                                @catch (NSException *exception) {
+                                                    err = [exception description];
+                                                }
+                                                @finally{
+                                                    if(result)result(err);
+                                                }
+                                            }];
+                                         }
+                                        }
+                                        Fail:^(NSString *err) {
+                                            if(err && result){
+                                                result(err);
+                                            }
+                                        }];
+        }];
+    }
+}
+#pragma mark 释放内存
+-(void)dealloc{
+    if(_queue){
+        [_queue close];
+    }
 }
 @end

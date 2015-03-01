@@ -64,7 +64,7 @@
 }
 //同步科目
 -(void)syncWithSubject:(SubjectData *)subject{
-    if(!subject)return;
+    if(!subject || !subject.code)return;
     //查询数据是否存在
     NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ = ?",
                            __k_subjectdatadao_tableName,__k_subjectdata_fields_code];

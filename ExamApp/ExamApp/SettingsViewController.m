@@ -34,6 +34,8 @@
 @interface SettingsViewController ()<UITableViewDataSource,UITableViewDelegate>{
     //设置分组数据
     NSDictionary *_groups;
+    //同步数据等待动画
+    WaitForAnimation *_syncWaiting;
 }
 @end
 //设置页控制器实现类
@@ -146,23 +148,16 @@
     //添加确定按钮
     [alert addConfirmActionWithTitle:__k_settingsviewcontroller_alert_sync_btn_submit
                              Handler:^(UIAlertAction *action) {
-                                 [WaitForAnimation animationWithView:self.view
-                                                           WaitTitle:__k_settingsviewcontroller_alert_sync_waiting
-                                                               Block:^{
-                                                                   NSLog(@"确定同步...");
-                                                                   [[[DataSyncService alloc] init] sync:^(NSString * result) {
-                                                                       ETAlert *resultAlert;
-                                                                       if(result){
-                                                                           resultAlert = [[ETAlert alloc] initWithTitle:__k_settingsviewcontroller_alert_sync_failure
-                                                                                                                Message:result];
-                                                                       }else{
-                                                                           resultAlert = [[ETAlert alloc] initWithTitle:__k_settingsviewcontroller_alert_sync_success
-                                                                                                                Message:nil];
-                                                                       }
-                                                                       [resultAlert addCancelActionWithTitle:__k_settingsviewcontroller_alert_sync_btn_submit Handler:nil];
-                                                                       [resultAlert showWithController:self];
-                                                                   }];
-                                                               }];
+                                 NSLog(@"确定同步...");
+                                 _syncWaiting = [[WaitForAnimation alloc] initWithView:self.view WaitTitle:__k_settingsviewcontroller_alert_sync_waiting];
+                                 [_syncWaiting show];
+                                 [[[DataSyncService alloc] init] sync:^(NSString *msg) {
+                                     [_syncWaiting hide];
+                                     [ETAlert alertWithTitle:(msg ? __k_settingsviewcontroller_alert_sync_failure : __k_settingsviewcontroller_alert_sync_success)
+                                                     Message:msg
+                                                 ButtonTitle:__k_settingsviewcontroller_alert_sync_btn_submit
+                                                  Controller:self];
+                                 }];
                              }];
     //显示弹出框
     [alert showWithController:self];
@@ -170,6 +165,5 @@
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 @end

@@ -19,6 +19,7 @@
 		A1580A4F1A960B370082C1E2 /* ExamData.m in Sources */ = {isa = PBXBuildFile; fileRef = A1580A4E1A960B370082C1E2 /* ExamData.m */; };
 		A15DFF431AA1857200C8A7B7 /* PaperData.m in Sources */ = {isa = PBXBuildFile; fileRef = A15DFF421AA1857200C8A7B7 /* PaperData.m */; };
 		A15DFF461AA1AC5D00C8A7B7 /* PaperReview.m in Sources */ = {isa = PBXBuildFile; fileRef = A15DFF451AA1AC5D00C8A7B7 /* PaperReview.m */; };
+		A15DFF491AA2D5B000C8A7B7 /* PaperDataDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A15DFF481AA2D5B000C8A7B7 /* PaperDataDao.m */; };
 		A15EB7A71A84EC8B009199D1 /* JSONCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = A15EB7A61A84EC8B009199D1 /* JSONCallback.m */; };
 		A15EB7AA1A84FCF0009199D1 /* LoginViewController+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = A15EB7A91A84FCF0009199D1 /* LoginViewController+Register.m */; };
 		A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */ = {isa = PBXBuildFile; fileRef = A1647B611A728679007B12EA /* NSDate+TimeZone.m */; };
@@ -141,6 +142,8 @@
 		A15DFF421AA1857200C8A7B7 /* PaperData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperData.m; sourceTree = "<group>"; };
 		A15DFF441AA1AC5D00C8A7B7 /* PaperReview.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperReview.h; sourceTree = "<group>"; };
 		A15DFF451AA1AC5D00C8A7B7 /* PaperReview.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperReview.m; sourceTree = "<group>"; };
+		A15DFF471AA2D5B000C8A7B7 /* PaperDataDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperDataDao.h; sourceTree = "<group>"; };
+		A15DFF481AA2D5B000C8A7B7 /* PaperDataDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperDataDao.m; sourceTree = "<group>"; };
 		A15EB7A51A84EC8B009199D1 /* JSONCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONCallback.h; sourceTree = "<group>"; };
 		A15EB7A61A84EC8B009199D1 /* JSONCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONCallback.m; sourceTree = "<group>"; };
 		A15EB7A81A84FCF0009199D1 /* LoginViewController+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginViewController+Register.h"; sourceTree = "<group>"; };
@@ -448,6 +451,8 @@
 				A1936A901A9EC4E300A0F45C /* ExamDataDao.m */,
 				A1936A941A9EE01800A0F45C /* SubjectDataDao.h */,
 				A1936A951A9EE01800A0F45C /* SubjectDataDao.m */,
+				A15DFF471AA2D5B000C8A7B7 /* PaperDataDao.h */,
+				A15DFF481AA2D5B000C8A7B7 /* PaperDataDao.m */,
 			);
 			name = dao;
 			sourceTree = "<group>";
@@ -845,6 +850,7 @@
 				A15DFF431AA1857200C8A7B7 /* PaperData.m in Sources */,
 				A1D02F051A7B70F9004C484D /* AESCrypt.m in Sources */,
 				A1AA7CCC1A81F761003A5137 /* LoginData.m in Sources */,
+				A15DFF491AA2D5B000C8A7B7 /* PaperDataDao.m in Sources */,
 				A18827741AA053E5008C734D /* ETAlert.m in Sources */,
 				A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */,
 				A199CA031A74A33500A31587 /* ETHomePanelView.m in Sources */,
