@@ -11,4 +11,6 @@
 @interface AppClientSync : AppClient
 //注册码
 @property(nonatomic,copy)NSString *code;
+//同步起始时间
+@property(nonatomic,copy)NSString *startTime;
 @end

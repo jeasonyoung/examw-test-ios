@@ -173,7 +173,7 @@
 +(NSDictionary *)responseToDictionary:(NSString *)response{
     NSLog(@"response=>%@",response);
     NSError *error;
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithData:[response dataUsingEncoding:NSUTF8StringEncoding]]
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[response dataUsingEncoding:NSUTF8StringEncoding]
                                                          options:NSJSONReadingAllowFragments
                                                            error:&error];
     if(error){

@@ -16,7 +16,7 @@
 //客户端类型代码
 #define _kAppClientTypeCode 7
 //产品ID
-#define _kAppClientProductId @"c4a7b24f-0c0b-47bf-a1e4-1b85e31a9eaa"//
+#define _kAppClientProductId @"f2cf162c-acd6-4e14-8ca7-2ed220d9d9fb"//@"c4a7b24f-0c0b-47bf-a1e4-1b85e31a9eaa"//
 
 //频道(固定值 根据考试来填写)
 #define _kAppClientChannel @"jzs1"
@@ -37,3 +37,5 @@
 #define _kAppClientRegisterCodeUrl [NSString stringWithFormat:@"%@%@",_kAppHostUrlPrefix,@"/api/m/app/register"]
 //同步产品下的考试科目
 #define _kAppClientSyncExamsUrl [NSString stringWithFormat:@"%@%@",_kAppHostUrlPrefix,@"/api/m/sync/exams"]
+//同步产品下的试卷数据
+#define _kAppClientSyncPapersUrl [NSString stringWithFormat:@"%@%@",_kAppHostUrlPrefix,@"/api/m/sync/papers"]
