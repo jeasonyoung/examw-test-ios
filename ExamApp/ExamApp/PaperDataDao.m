@@ -55,16 +55,19 @@
 #pragma mark 根据科目ID和试卷类型加载试卷数据集合
 -(NSArray *)loadPapersWithSubjectCode:(NSString *)subjectCode PaperType:(PaperTypes)type{
     if(!_db || !subjectCode)return nil;
-    NSString *query_sql = [NSString stringWithFormat:@"select %@,%@,%@,%@,%@ from %@ where %@ = ? and %@ = ?",
+    NSString *query_sql = [NSString stringWithFormat:@"select %@,%@,%@,%@,%@,%@ from %@ where %@ = ? and %@ = ? order by %@ desc",
                            __k_paperdata_fields_code,
                            __k_paperdata_fields_title,
                            __k_paperdata_fields_type,
                            __k_paperdata_fields_total,
+                           __k_paperdata_fields_subjectCode,
                            __k_paperdata_fields_createTime,
                            
                            __k_paperdatadao_tableName,
                            __k_paperdata_fields_subjectCode,
-                           __k_paperdata_fields_type];
+                           __k_paperdata_fields_type,
+                           
+                           __k_paperdata_fields_createTime];
     NSMutableArray *arrys = [NSMutableArray array];
     FMResultSet *rs = [_db executeQuery:query_sql,subjectCode,[NSNumber numberWithInteger:type]];
     while ([rs next]) {
@@ -73,6 +76,7 @@
         data.title = [rs stringForColumn:__k_paperdata_fields_title];
         data.type = [rs intForColumn:__k_paperdata_fields_type];
         data.total = [rs intForColumn:__k_paperdata_fields_total];
+        data.subjectCode = [rs stringForColumn:__k_paperdata_fields_subjectCode];
         data.createTime = [[rs stringForColumn:__k_paperdata_fields_createTime] toDateWithFormat:@"yyyy-MM-dd HH:mm:ss"];
         [arrys addObject:data];
     }

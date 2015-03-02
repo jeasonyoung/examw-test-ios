@@ -11,6 +11,8 @@
 #import "ImitateSubjectService.h"
 #import "WaitForAnimation.h"
 
+#import "PaperListViewController.h"
+
 #define __k_imitatesubjectview_title @"选择科目"
 #define __k_imitatesubjectview_waiting @"正在加载数据..."
 #define __k_imitatesubjectview_cell_identifier @"cell_identifier"
@@ -79,12 +81,13 @@
 #pragma mark tableView代理
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     SubjectData *subject = [_service loadSubjectWithExamIndex:indexPath.section andSubjectRow:indexPath.row];
-    
-    NSLog(@"click:%ld,%ld => %@",indexPath.section, indexPath.row, [subject serializeJSON]);
+    //NSLog(@"click:%ld,%ld => %@",indexPath.section, indexPath.row, [subject serializeJSON]);
+    PaperListViewController *plc = [[PaperListViewController alloc] initWithSubjectCode:subject.code];
+    plc.title = subject.name;
+    [self.navigationController pushViewController:plc animated:NO];
 }
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 @end
