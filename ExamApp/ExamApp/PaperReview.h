@@ -26,8 +26,10 @@
 @property(nonatomic,assign)NSInteger time;
 //使用年份
 @property(nonatomic,assign)NSInteger year;
+//试题数
+@property(nonatomic,assign)NSInteger total;
 //试卷总分
-@property(nonatomic,copy)NSDecimalNumber *score;
+@property(nonatomic,copy)NSNumber *score;
 //试卷结构
 @property(nonatomic,copy)NSArray *structures;
 //初始化

@@ -82,9 +82,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     SubjectData *subject = [_service loadSubjectWithExamIndex:indexPath.section andSubjectRow:indexPath.row];
     //NSLog(@"click:%ld,%ld => %@",indexPath.section, indexPath.row, [subject serializeJSON]);
-    PaperListViewController *plc = [[PaperListViewController alloc] initWithSubjectCode:subject.code];
-    plc.title = subject.name;
-    [self.navigationController pushViewController:plc animated:NO];
+    if(subject){
+        PaperListViewController *plc = [[PaperListViewController alloc] initWithSubjectCode:subject.code];
+        plc.title = subject.name;
+        [self.navigationController pushViewController:plc animated:NO];
+    }
 }
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {

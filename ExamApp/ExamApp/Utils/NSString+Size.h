@@ -11,4 +11,6 @@
 @interface NSString (Size)
 //计算字符串尺寸头文件
 -(CGSize)sizeWithFont:(UIFont *)font;
+//计算字符串尺寸
+-(CGSize)sizeWithFont:(UIFont *)font constrainedToSize:(CGSize)size lineBreakMode:(NSLineBreakMode)lineBreakMode;
 @end

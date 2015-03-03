@@ -42,15 +42,28 @@
 #pragma mark 根据试卷ID加载试卷内容
 -(PaperReview *)loadPaperContentWithCode:(NSString *)code{
     if(!_db || !code || code.length == 0)return nil;
-    NSString *query_sql = [NSString stringWithFormat:@"select %@ from %@ where %@ = ?",
-                           __k_paperdata_fields_content,__k_paperdatadao_tableName,__k_paperdata_fields_code];
+    NSString *query_sql = [NSString stringWithFormat:@"select %@,%@ from %@ where %@ = ?",
+                           __k_paperdata_fields_content,__k_paperdata_fields_total,
+                           __k_paperdatadao_tableName,__k_paperdata_fields_code];
     //加载加密的试卷内容
-    NSString *encrypt_content = [_db stringForQuery:query_sql, code];
+    NSString *encrypt_content;
+    NSNumber *totalNum;
+    FMResultSet *rs = [_db executeQuery:query_sql, code];
+    while ([rs next]) {
+        encrypt_content = [rs stringForColumn:__k_paperdata_fields_content];
+        totalNum = [NSNumber numberWithInteger:[rs intForColumn:__k_paperdata_fields_total]];
+        break;
+    }
+    [rs close];
     if(!encrypt_content || encrypt_content.length == 0) return nil;
     //解密试卷内容
     NSString *json = [self decryptPaperContentWithEncrypt:encrypt_content Password:code];
     //反序列化试卷内容
-    return [[PaperReview alloc] initWithJSON:json];
+    PaperReview *review = [[PaperReview alloc] initWithJSON:json];
+    if(review && totalNum){
+        review.total = totalNum.integerValue;
+    }
+    return review;
 }
 #pragma mark 根据科目ID和试卷类型加载试卷数据集合
 -(NSArray *)loadPapersWithSubjectCode:(NSString *)subjectCode PaperType:(PaperTypes)type{
@@ -145,7 +158,7 @@
     if(![encryptContent hasPrefix:__k_paperdatadao_encryptprefix]){//未加密数据
         return encryptContent;
     }
-    //NSString *encryContent = [paper.content substringFromIndex:(__k_paperdatadao_encryptprefix.length - 1)];
-    return [AESCrypt decryptFromString:encryptContent password:pwd];
+    NSString *content = [encryptContent substringFromIndex:(__k_paperdatadao_encryptprefix.length)];
+    return [AESCrypt decryptFromString:content password:pwd];
 }
 @end

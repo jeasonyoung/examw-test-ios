@@ -58,7 +58,7 @@
     //当前用户不存在或者验证不通过都弹出登录界面
     if(![_userAccount userIsValid] || ![_userAccount validation]){
         LoginViewController *lvc = [[LoginViewController alloc] init];
-        [self.navigationController pushViewController:lvc animated:nil];
+        [self.navigationController pushViewController:lvc animated:NO];
         return;
     }
     //创建账号信息面板

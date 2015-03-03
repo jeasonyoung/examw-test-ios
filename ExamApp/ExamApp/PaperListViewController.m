@@ -14,6 +14,8 @@
 #import "PaperService.h"
 #import "WaitForAnimation.h"
 
+#import "PaperDetailViewController.h"
+
 #define __k_paperlist_margin_min 2//控件之间的最小间距
 #define __k_paperlist_segment_margin_top 5//顶部间隔
 #define __k_paperlist_segment_margin_left 20//左边间隔
@@ -24,6 +26,8 @@
 #define __k_paperlist_table_cellIdentifier @"cell"
 #define __k_paperlist_cell_textLabel_font_size 13//字体大小
 #define __k_paperlist_waiting @"加载数据..."//等待信息
+
+#define __k_paperlist_detail_title @"试卷详情"
 //试卷列表视图控制器成员变量
 @interface PaperListViewController ()<UITableViewDataSource,UITableViewDelegate>{
     NSString *_subjectCode;
@@ -128,7 +132,7 @@
                                                                                         Row:indexPath.row];
                                       if(paper){
                                           cell.textLabel.text = paper.title;
-                                          cell.detailTextLabel.text = [NSString stringWithFormat:@"试题:%ld  发布时间:%@",paper.total,
+                                          cell.detailTextLabel.text = [NSString stringWithFormat:@"试题:%ld  发布时间:%@",(long)paper.total,
                                                                        [NSString stringFromDate:paper.createTime withDateFormat:@"yyyy-MM-dd"]];
                                       }
                                   }];
@@ -139,11 +143,12 @@
     PaperData *paper = [_service loadPaperWithSubjectCode:_subjectCode
                                            PaperTypeValue:_paperTypeValue
                                                       Row:indexPath.row];
-    
-    NSLog(@"click:%ld,%ld => %@",indexPath.section, indexPath.row, [paper serializeJSON]);
-//    PaperListViewController *plc = [[PaperListViewController alloc] initWithSubjectCode:subject.code];
-//    plc.title = subject.name;
-//    [self.navigationController pushViewController:plc animated:NO];
+    NSLog(@"click:%ld,%ld => %@",(long)indexPath.section, (long)indexPath.row, [paper serializeJSON]);
+    if(paper){
+        PaperDetailViewController *pdc = [[PaperDetailViewController alloc] initWithPaperCode:paper.code];
+        pdc.title = __k_paperlist_detail_title;//paper.title;
+        [self.navigationController pushViewController:pdc animated:NO];
+    }
 }
 #pragma mark 内存
 - (void)didReceiveMemoryWarning {

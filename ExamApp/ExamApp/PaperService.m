@@ -10,10 +10,11 @@
 #import <FMDB/FMDatabaseQueue.h>
 #import "UserAccountData.h"
 #import "PaperData.h"
+#import "PaperReview.h"
 #import "PaperDataDao.h"
 //试卷服务类成员变量
 @interface PaperService (){
-    NSMutableDictionary *_papersCache;
+    NSMutableDictionary *_papersCache,*_papersContentCache;
     FMDatabaseQueue *_dbQueue;
 }
 @end
@@ -72,7 +73,29 @@
 }
 //加载缓存键名
 -(NSString *)loadCacheKeyWithSubjectCode:(NSString *)subjectCode PaperTypeValue:(NSInteger)typeValue{
-    return [NSString stringWithFormat:@"%@-%ld",subjectCode,typeValue];
+    return [NSString stringWithFormat:@"%@-%ld",subjectCode,(long)typeValue];
+}
+#pragma mark 根据试卷ID加载试卷内容对象
+-(PaperReview *)loadPaperWithCode:(NSString *)code{
+    if(!code || code.length == 0) return nil;
+    if(!_papersContentCache){//惰性加载缓存对象
+        _papersContentCache = [NSMutableDictionary dictionary];
+    }
+    __block PaperReview *paper = [_papersContentCache objectForKey:code];
+    if(!paper && _dbQueue){
+        //数据库操作队列
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            //初始化数据操作对象
+            PaperDataDao *dao = [[PaperDataDao alloc] initWithDb:db];
+            //加载试卷对象
+            paper = [dao loadPaperContentWithCode:code];
+            if(paper){
+                //添加到缓存
+                [_papersContentCache setObject:paper forKey:code];
+            }
+        }];
+    }
+    return paper;
 }
 #pragma mark 内存回收
 -(void)dealloc{

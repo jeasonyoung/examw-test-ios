@@ -43,6 +43,7 @@
 		A1910E7F1A6D3AC800377160 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1910E7E1A6D3AC800377160 /* Images.xcassets */; };
 		A1910E8E1A6D3AC800377160 /* ExamAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E8D1A6D3AC800377160 /* ExamAppTests.m */; };
 		A1913F8C1AA40107003BFEA0 /* PaperService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1913F8B1AA40107003BFEA0 /* PaperService.m */; };
+		A1913F8F1AA42F2A003BFEA0 /* PaperDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1913F8E1AA42F2A003BFEA0 /* PaperDetailViewController.m */; };
 		A1936A911A9EC4E300A0F45C /* ExamDataDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A901A9EC4E300A0F45C /* ExamDataDao.m */; };
 		A1936A961A9EE01800A0F45C /* SubjectDataDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A951A9EE01800A0F45C /* SubjectDataDao.m */; };
 		A1936A9B1A9EF61000A0F45C /* ImitateSubjectService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A9A1A9EF61000A0F45C /* ImitateSubjectService.m */; };
@@ -188,6 +189,8 @@
 		A1910E8D1A6D3AC800377160 /* ExamAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExamAppTests.m; sourceTree = "<group>"; };
 		A1913F8A1AA40107003BFEA0 /* PaperService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperService.h; sourceTree = "<group>"; };
 		A1913F8B1AA40107003BFEA0 /* PaperService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperService.m; sourceTree = "<group>"; };
+		A1913F8D1AA42F2A003BFEA0 /* PaperDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperDetailViewController.h; sourceTree = "<group>"; };
+		A1913F8E1AA42F2A003BFEA0 /* PaperDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperDetailViewController.m; sourceTree = "<group>"; };
 		A1936A8F1A9EC4E300A0F45C /* ExamDataDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamDataDao.h; sourceTree = "<group>"; };
 		A1936A901A9EC4E300A0F45C /* ExamDataDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamDataDao.m; sourceTree = "<group>"; };
 		A1936A941A9EE01800A0F45C /* SubjectDataDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectDataDao.h; sourceTree = "<group>"; };
@@ -483,6 +486,8 @@
 				A1580A481A95A20D0082C1E2 /* ImitateSubjectViewController.m */,
 				A18962E41AA33D970065B70C /* PaperListViewController.h */,
 				A18962E51AA33D970065B70C /* PaperListViewController.m */,
+				A1913F8D1AA42F2A003BFEA0 /* PaperDetailViewController.h */,
+				A1913F8E1AA42F2A003BFEA0 /* PaperDetailViewController.m */,
 				A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */,
 				A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */,
 			);
@@ -840,6 +845,7 @@
 				A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */,
 				A15EB7A71A84EC8B009199D1 /* JSONCallback.m in Sources */,
 				A1762B291A874428008E5656 /* AccountViewController+Logout.m in Sources */,
+				A1913F8F1AA42F2A003BFEA0 /* PaperDetailViewController.m in Sources */,
 				A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */,
 				A199CA301A74CFBF00A31587 /* HomeData.m in Sources */,
 				A1936AA01A9F1A6200A0F45C /* WaitForAnimation.m in Sources */,
