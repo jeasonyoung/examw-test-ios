@@ -62,19 +62,25 @@
 #pragma mark 加载入口
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //可视顶部的Y
-    CGFloat topY = [self loadTopHeight];
     //加载试卷内容
     [self setupLoadPaperContent];
+    //外包滚动容器
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:[self loadVisibleViewFrame]];
     //加载试卷标题
-    NSNumber *outY = [NSNumber numberWithFloat:topY];
-    [self setupLoadPaperTitleWithY: &outY];
+    NSNumber *outY = [NSNumber numberWithFloat:0];
+    [self setupLoadPaperTitleWithView:scrollView OutY:&outY];
     //加载考试按钮
-    [self setupStartButtonWithY:&outY];
+    [self setupStartButtonWithView:scrollView OutY:&outY];
     //加载试卷信息
-    [self setupPaperInfoWithY:&outY];
+    [self setupPaperInfoWithView:scrollView OutY:&outY];
     //加载试卷结构
-    [self setupPaperStructruesWithY:&outY];
+    [self setupPaperStructruesWithView:scrollView OutY:&outY];
+    //计算滚动条出现
+    if(CGRectGetHeight(scrollView.frame) < outY.floatValue){
+        scrollView.contentSize = CGSizeMake(CGRectGetWidth(scrollView.frame), outY.floatValue);
+    }
+    //添加到界面
+    [self.view addSubview:scrollView];
 }
 #pragma mark 加载试卷内容
 -(void)setupLoadPaperContent{
@@ -85,7 +91,7 @@
                                   }];
 }
 //加载试卷标题
--(void)setupLoadPaperTitleWithY:(NSNumber **)outY{
+-(void)setupLoadPaperTitleWithView:(UIView *)view OutY:(NSNumber **)outY{
     if(_paperReview){
         CGRect tempFrame = self.view.frame;
         tempFrame.origin.x = __k_paperdetailviewcontroller_left;
@@ -108,14 +114,15 @@
                               BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_border_color]
                           BackgroundColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_bg_color]];
             //添加到界面
-            [self.view addSubview:lbTitle];
+            //[self.view addSubview:lbTitle];
+            [view addSubview:lbTitle];
             //输出Y坐标
             *outY = [NSNumber numberWithFloat:CGRectGetMaxY(tempFrame)];
         }
     }
 }
 //加载考试考试按钮
--(void)setupStartButtonWithY:(NSNumber **)outY{
+-(void)setupStartButtonWithView:(UIView *)view OutY:(NSNumber **)outY{
     if(_paperReview){
         CGRect tempFrame = self.view.frame;
         tempFrame.origin.x = __k_paperdetailviewcontroller_left;
@@ -136,7 +143,8 @@
         //设置边框圆角
         [self addBoundsRadiusWithView:btn BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_btn_border] BackgroundColor:nil];
         //添加到界面
-        [self.view addSubview:btn];
+        //[self.view addSubview:btn];
+        [view addSubview:btn];
         //输出Y坐标
         *outY = [NSNumber numberWithFloat:CGRectGetMaxY(tempFrame)];
     }
@@ -147,7 +155,7 @@
     
 }
 //加载试卷信息
--(void)setupPaperInfoWithY:(NSNumber **)outY{
+-(void)setupPaperInfoWithView:(UIView *)view OutY:(NSNumber **)outY{
     if(_paperReview){
         //定义frame
         CGRect viewFrame = self.view.frame;
@@ -186,7 +194,7 @@
         }
         
         //初始化容器面板
-        UIView *view = [[UIView alloc] initWithFrame:viewFrame];
+        UIView *viewPanel = [[UIView alloc] initWithFrame:viewFrame];
         //**1行1列
         CGFloat col1X = __k_paperdetailviewcontroller_left;
         //大题数
@@ -197,10 +205,11 @@
         UILabel *lbStructures = [[UILabel alloc] initWithFrame:tempFrame];
         lbStructures.font = _font;
         lbStructures.text = structuresText;
-        [view addSubview:lbStructures];
+        [viewPanel addSubview:lbStructures];
         //宽度的一半
         CGFloat halfWith = CGRectGetWidth(viewFrame)/2;
         CGFloat col2X = (maxWidth > halfWith ? maxWidth : halfWith) + __k_paperdetailviewcontroller_margin_min;
+        
         //**1行2列
         //试题数
         tempFrame.origin.x = col2X;
@@ -208,9 +217,7 @@
         UILabel *lbItem = [[UILabel alloc] initWithFrame:tempFrame];
         lbItem.font = _font;
         lbItem.text = itemsText;
-        [view addSubview:lbItem];
-        
-        //viewFrame.size.height = CGRectGetMinY(tempFrame) + CGRectGetHeight(tempFrame);
+        [viewPanel addSubview:lbItem];
         
         //**2行1列
         //卷面总分
@@ -220,7 +227,7 @@
         UILabel *lbScore = [[UILabel alloc] initWithFrame:tempFrame];
         lbScore.font = _font;
         lbScore.text = scoresText;
-        [view addSubview:lbScore];
+        [viewPanel addSubview:lbScore];
         
         //**2行2列
         //考试时长
@@ -229,23 +236,24 @@
         UILabel *lbTime = [[UILabel alloc] initWithFrame:tempFrame];
         lbTime.font = _font;
         lbTime.text = timesText;
-        [view addSubview:lbTime];
+        [viewPanel addSubview:lbTime];
         
         //重载frame
         viewFrame.size.height = tempFrame.origin.y + tempFrame.size.height + __k_paperdetailviewcontroller_margin_min;
-        view.frame = viewFrame;
+        viewPanel.frame = viewFrame;
         //添加圆角
-        [self addBoundsRadiusWithView:view
+        [self addBoundsRadiusWithView:viewPanel
                           BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_border_color]
                       BackgroundColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_bg_color]];
         //添加到界面
-        [self.view addSubview:view];
+        //[self.view addSubview:view];
+        [view addSubview:viewPanel];
         //输出Y坐标
         *outY = [NSNumber numberWithFloat:CGRectGetMaxY(viewFrame)];
     }
 }
 //加载试卷结构信息
--(void)setupPaperStructruesWithY:(NSNumber **)outY{
+-(void)setupPaperStructruesWithView:(UIView *)view OutY:(NSNumber **)outY{
     if(_paperReview && _paperReview.structures && _paperReview.structures.count > 0){
         //定义frame
         CGRect viewFrame = self.view.frame;
@@ -253,7 +261,8 @@
         viewFrame.origin.y = (*outY).floatValue + __k_paperdetailviewcontroller_margin_max;
         viewFrame.size.width -= (__k_paperdetailviewcontroller_left + __k_paperdetailviewcontroller_right);
         //初始化容器面板
-        UIScrollView *viewPanel = [[UIScrollView alloc] initWithFrame:viewFrame];
+        //UIScrollView *viewPanel = [[UIScrollView alloc] initWithFrame:viewFrame];
+        UIView *viewPanel = [[UIView alloc] initWithFrame:viewFrame];
         //设置高度
         CGFloat x = __k_paperdetailviewcontroller_margin_min,
                 y = 0,
@@ -301,23 +310,17 @@
             }
         }
         //重置高度
-        CGFloat contentHeight = y + x;
-        //屏幕剩余高度
-        CGFloat screenHeight = CGRectGetHeight(self.view.frame) - CGRectGetMinY(viewFrame) - __k_paperdetailviewcontroller_margin_max;
-        viewFrame.size.height = contentHeight;
-        if(contentHeight > screenHeight){
-            viewFrame.size.height = screenHeight;
-            viewPanel.contentSize = CGSizeMake(CGRectGetWidth(viewFrame), contentHeight);
-        }
+        viewFrame.size.height = y + x;
         viewPanel.frame = viewFrame;
         //添加圆角
         [self addBoundsRadiusWithView:viewPanel
                           BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_border_color]
                       BackgroundColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_bg_color]];
         //添加到界面
-        [self.view addSubview:viewPanel];
+        //[self.view addSubview:viewPanel];
+        [view addSubview:viewPanel];
         //输出Y坐标
-        *outY = [NSNumber numberWithFloat:CGRectGetMaxY(viewFrame)];
+        *outY = [NSNumber numberWithFloat:CGRectGetMaxY(viewFrame) + __k_paperdetailviewcontroller_margin_max];
     }
 }
 
