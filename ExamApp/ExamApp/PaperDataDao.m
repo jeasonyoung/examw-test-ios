@@ -33,7 +33,7 @@
 #pragma mark 加载最新的数据同步时间
 -(NSString *)loadLastSyncTime{
     if(_db && [_db tableExists:__k_paperdatadao_tableName]){
-        NSString *query_sql = [NSString stringWithFormat:@"select %@ from %@ order by %@ desc",
+        NSString *query_sql = [NSString stringWithFormat:@"select %@ from %@ order by %@ desc limit 0,1",
                                __k_paperdata_fields_createTime,__k_paperdatadao_tableName,__k_paperdata_fields_createTime];
         return [_db stringForQuery:query_sql];
     }
@@ -90,7 +90,10 @@
         data.type = [rs intForColumn:__k_paperdata_fields_type];
         data.total = [rs intForColumn:__k_paperdata_fields_total];
         data.subjectCode = [rs stringForColumn:__k_paperdata_fields_subjectCode];
-        data.createTime = [[rs stringForColumn:__k_paperdata_fields_createTime] toDateWithFormat:@"yyyy-MM-dd HH:mm:ss"];
+        NSString *strCreateTime = [rs stringForColumn:__k_paperdata_fields_createTime];
+        if(strCreateTime && strCreateTime.length > 0){
+            data.createTime = [strCreateTime toDateWithFormat:@"yyyy-MM-dd HH:mm:ss"];
+        }
         [arrys addObject:data];
     }
     [rs close];

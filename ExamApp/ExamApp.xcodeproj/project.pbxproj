@@ -25,6 +25,10 @@
 		A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */ = {isa = PBXBuildFile; fileRef = A1647B611A728679007B12EA /* NSDate+TimeZone.m */; };
 		A1762B261A873FB1008E5656 /* AccountViewController+RegisterCode.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762B251A873FB1008E5656 /* AccountViewController+RegisterCode.m */; };
 		A1762B291A874428008E5656 /* AccountViewController+Logout.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762B281A874428008E5656 /* AccountViewController+Logout.m */; };
+		A17F78D31AA55D1400C671A9 /* PaperRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = A17F78D21AA55D1400C671A9 /* PaperRecord.m */; };
+		A17F78D61AA5695700C671A9 /* PaperItemRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = A17F78D51AA5695700C671A9 /* PaperItemRecord.m */; };
+		A182E4731AA596DE00730ECC /* PaperItemFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = A182E4721AA596DE00730ECC /* PaperItemFavorite.m */; };
+		A182E4761AA5A58F00730ECC /* PaperRecordDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A182E4751AA5A58F00730ECC /* PaperRecordDao.m */; };
 		A18827741AA053E5008C734D /* ETAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = A18827731AA053E5008C734D /* ETAlert.m */; };
 		A188277A1AA064AD008C734D /* DataSyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = A18827791AA064AD008C734D /* DataSyncService.m */; };
 		A188277D1AA06CE0008C734D /* AppClientSync.m in Sources */ = {isa = PBXBuildFile; fileRef = A188277C1AA06CE0008C734D /* AppClientSync.m */; };
@@ -33,6 +37,8 @@
 		A18995961A79EC4200D591FF /* feedback_post_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A18995941A79EC4200D591FF /* feedback_post_selected.png */; };
 		A18995991A7A2F5E00D591FF /* ProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18995981A7A2F5E00D591FF /* ProtocolViewController.m */; };
 		A189959D1A7A381700D591FF /* privacy in Resources */ = {isa = PBXBuildFile; fileRef = A189959C1A7A381700D591FF /* privacy */; };
+		A18B9F671AA6997B00C135DB /* PaperItemRecordDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A18B9F661AA6997B00C135DB /* PaperItemRecordDao.m */; };
+		A18B9F6A1AA6CF9F00C135DB /* PaperItemFavoriteDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A18B9F691AA6CF9F00C135DB /* PaperItemFavoriteDao.m */; };
 		A18CCF351A85BD2A00C20555 /* TextFieldValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = A18CCF331A85BD2A00C20555 /* TextFieldValidator.m */; };
 		A18CCF371A85BD6E00C20555 /* error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A18CCF361A85BD6E00C20555 /* error@2x.png */; };
 		A18CD2B31A7BBEC700B90FF0 /* UIViewController+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = A18CD2B21A7BBEC700B90FF0 /* UIViewController+Animation.m */; };
@@ -157,6 +163,14 @@
 		A1762B251A873FB1008E5656 /* AccountViewController+RegisterCode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AccountViewController+RegisterCode.m"; sourceTree = "<group>"; };
 		A1762B271A874428008E5656 /* AccountViewController+Logout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AccountViewController+Logout.h"; sourceTree = "<group>"; };
 		A1762B281A874428008E5656 /* AccountViewController+Logout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AccountViewController+Logout.m"; sourceTree = "<group>"; };
+		A17F78D11AA55D1400C671A9 /* PaperRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperRecord.h; sourceTree = "<group>"; };
+		A17F78D21AA55D1400C671A9 /* PaperRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperRecord.m; sourceTree = "<group>"; };
+		A17F78D41AA5695700C671A9 /* PaperItemRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperItemRecord.h; sourceTree = "<group>"; };
+		A17F78D51AA5695700C671A9 /* PaperItemRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperItemRecord.m; sourceTree = "<group>"; };
+		A182E4711AA596DE00730ECC /* PaperItemFavorite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperItemFavorite.h; sourceTree = "<group>"; };
+		A182E4721AA596DE00730ECC /* PaperItemFavorite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperItemFavorite.m; sourceTree = "<group>"; };
+		A182E4741AA5A58F00730ECC /* PaperRecordDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperRecordDao.h; sourceTree = "<group>"; };
+		A182E4751AA5A58F00730ECC /* PaperRecordDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperRecordDao.m; sourceTree = "<group>"; };
 		A18827721AA053E5008C734D /* ETAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETAlert.h; path = Utils/ETAlert.h; sourceTree = "<group>"; };
 		A18827731AA053E5008C734D /* ETAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETAlert.m; path = Utils/ETAlert.m; sourceTree = "<group>"; };
 		A18827781AA064AD008C734D /* DataSyncService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSyncService.h; sourceTree = "<group>"; };
@@ -170,6 +184,10 @@
 		A18995971A7A2F5E00D591FF /* ProtocolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProtocolViewController.h; sourceTree = "<group>"; };
 		A18995981A7A2F5E00D591FF /* ProtocolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProtocolViewController.m; sourceTree = "<group>"; };
 		A189959C1A7A381700D591FF /* privacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = privacy; path = "../../../examw-test-android/examw-test-app-core/assets/privacy"; sourceTree = "<group>"; };
+		A18B9F651AA6997B00C135DB /* PaperItemRecordDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperItemRecordDao.h; sourceTree = "<group>"; };
+		A18B9F661AA6997B00C135DB /* PaperItemRecordDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperItemRecordDao.m; sourceTree = "<group>"; };
+		A18B9F681AA6CF9F00C135DB /* PaperItemFavoriteDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperItemFavoriteDao.h; sourceTree = "<group>"; };
+		A18B9F691AA6CF9F00C135DB /* PaperItemFavoriteDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperItemFavoriteDao.m; sourceTree = "<group>"; };
 		A18CCF331A85BD2A00C20555 /* TextFieldValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextFieldValidator.m; path = Utils/TextFieldValidator.m; sourceTree = "<group>"; };
 		A18CCF341A85BD2A00C20555 /* TextFieldValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextFieldValidator.h; path = Utils/TextFieldValidator.h; sourceTree = "<group>"; };
 		A18CCF361A85BD6E00C20555 /* error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "error@2x.png"; sourceTree = "<group>"; };
@@ -462,6 +480,12 @@
 				A1936A951A9EE01800A0F45C /* SubjectDataDao.m */,
 				A15DFF471AA2D5B000C8A7B7 /* PaperDataDao.h */,
 				A15DFF481AA2D5B000C8A7B7 /* PaperDataDao.m */,
+				A182E4741AA5A58F00730ECC /* PaperRecordDao.h */,
+				A182E4751AA5A58F00730ECC /* PaperRecordDao.m */,
+				A18B9F651AA6997B00C135DB /* PaperItemRecordDao.h */,
+				A18B9F661AA6997B00C135DB /* PaperItemRecordDao.m */,
+				A18B9F681AA6CF9F00C135DB /* PaperItemFavoriteDao.h */,
+				A18B9F691AA6CF9F00C135DB /* PaperItemFavoriteDao.m */,
 			);
 			name = dao;
 			sourceTree = "<group>";
@@ -520,6 +544,12 @@
 				A15DFF421AA1857200C8A7B7 /* PaperData.m */,
 				A15DFF441AA1AC5D00C8A7B7 /* PaperReview.h */,
 				A15DFF451AA1AC5D00C8A7B7 /* PaperReview.m */,
+				A17F78D11AA55D1400C671A9 /* PaperRecord.h */,
+				A17F78D21AA55D1400C671A9 /* PaperRecord.m */,
+				A17F78D41AA5695700C671A9 /* PaperItemRecord.h */,
+				A17F78D51AA5695700C671A9 /* PaperItemRecord.m */,
+				A182E4711AA596DE00730ECC /* PaperItemFavorite.h */,
+				A182E4721AA596DE00730ECC /* PaperItemFavorite.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -837,6 +867,7 @@
 				A1580A491A95A20D0082C1E2 /* ImitateSubjectViewController.m in Sources */,
 				A188277D1AA06CE0008C734D /* AppClientSync.m in Sources */,
 				A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */,
+				A182E4761AA5A58F00730ECC /* PaperRecordDao.m in Sources */,
 				A1D02F0E1A7B8C95004C484D /* UINavigationController+Animation.m in Sources */,
 				A1D66D3F1A723B7E00F98206 /* NSString+Date.m in Sources */,
 				A1E279051A78BC8B00F23A20 /* UIViewController+VisibleView.m in Sources */,
@@ -848,6 +879,7 @@
 				A1913F8F1AA42F2A003BFEA0 /* PaperDetailViewController.m in Sources */,
 				A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */,
 				A199CA301A74CFBF00A31587 /* HomeData.m in Sources */,
+				A18B9F671AA6997B00C135DB /* PaperItemRecordDao.m in Sources */,
 				A1936AA01A9F1A6200A0F45C /* WaitForAnimation.m in Sources */,
 				A1936A911A9EC4E300A0F45C /* ExamDataDao.m in Sources */,
 				A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */,
@@ -855,6 +887,7 @@
 				A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */,
 				A140418D1A78E61B00669D46 /* ETextView.m in Sources */,
 				A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */,
+				A17F78D31AA55D1400C671A9 /* PaperRecord.m in Sources */,
 				A18CCF351A85BD2A00C20555 /* TextFieldValidator.m in Sources */,
 				A1E279001A7887B000F23A20 /* ETNavigationController.m in Sources */,
 				A18CD2B31A7BBEC700B90FF0 /* UIViewController+Animation.m in Sources */,
@@ -876,11 +909,14 @@
 				A188277A1AA064AD008C734D /* DataSyncService.m in Sources */,
 				A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */,
 				A1959F931A7FABBB00C1F563 /* LoginViewController.m in Sources */,
+				A17F78D61AA5695700C671A9 /* PaperItemRecord.m in Sources */,
 				A1D02F021A7B6588004C484D /* UserAccountData.m in Sources */,
 				A1EE7DDB1A70A8B80071C76D /* SettingsViewController.m in Sources */,
 				A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */,
+				A18B9F6A1AA6CF9F00C135DB /* PaperItemFavoriteDao.m in Sources */,
 				A1904FA81A94E36900541B9E /* AppRegisterCode.m in Sources */,
 				A15EB7AA1A84FCF0009199D1 /* LoginViewController+Register.m in Sources */,
+				A182E4731AA596DE00730ECC /* PaperItemFavorite.m in Sources */,
 				A1913F8C1AA40107003BFEA0 /* PaperService.m in Sources */,
 				A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */,
 				A1C3B7771A763C05006EA38F /* SettingData.m in Sources */,

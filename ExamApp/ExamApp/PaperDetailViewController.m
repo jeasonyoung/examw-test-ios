@@ -114,7 +114,6 @@
                               BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_border_color]
                           BackgroundColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_bg_color]];
             //添加到界面
-            //[self.view addSubview:lbTitle];
             [view addSubview:lbTitle];
             //输出Y坐标
             *outY = [NSNumber numberWithFloat:CGRectGetMaxY(tempFrame)];
@@ -143,7 +142,6 @@
         //设置边框圆角
         [self addBoundsRadiusWithView:btn BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_btn_border] BackgroundColor:nil];
         //添加到界面
-        //[self.view addSubview:btn];
         [view addSubview:btn];
         //输出Y坐标
         *outY = [NSNumber numberWithFloat:CGRectGetMaxY(tempFrame)];
@@ -246,7 +244,6 @@
                           BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_border_color]
                       BackgroundColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_bg_color]];
         //添加到界面
-        //[self.view addSubview:view];
         [view addSubview:viewPanel];
         //输出Y坐标
         *outY = [NSNumber numberWithFloat:CGRectGetMaxY(viewFrame)];
@@ -261,7 +258,6 @@
         viewFrame.origin.y = (*outY).floatValue + __k_paperdetailviewcontroller_margin_max;
         viewFrame.size.width -= (__k_paperdetailviewcontroller_left + __k_paperdetailviewcontroller_right);
         //初始化容器面板
-        //UIScrollView *viewPanel = [[UIScrollView alloc] initWithFrame:viewFrame];
         UIView *viewPanel = [[UIView alloc] initWithFrame:viewFrame];
         //设置高度
         CGFloat x = __k_paperdetailviewcontroller_margin_min,
@@ -317,7 +313,6 @@
                           BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_border_color]
                       BackgroundColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_bg_color]];
         //添加到界面
-        //[self.view addSubview:viewPanel];
         [view addSubview:viewPanel];
         //输出Y坐标
         *outY = [NSNumber numberWithFloat:CGRectGetMaxY(viewFrame) + __k_paperdetailviewcontroller_margin_max];
