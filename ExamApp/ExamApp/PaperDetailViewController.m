@@ -16,6 +16,8 @@
 #import "PaperReview.h"
 #import "PaperService.h"
 
+#import "ItemViewController.h"
+
 #define __k_paperdetailviewcontroller_waiting @"加载数据..."
 
 #define __k_paperdetailviewcontroller_margin_min 5//组件间隔最小间距
@@ -45,6 +47,7 @@
     NSString *_paperCode;
     UIFont *_font;
     PaperReview *_paperReview;
+    PaperRecord *_paperRecord;
     PaperService *_service;
 }
 @end
@@ -123,34 +126,46 @@
 //加载考试考试按钮
 -(void)setupStartButtonWithView:(UIView *)view OutY:(NSNumber **)outY{
     if(_paperReview){
-        CGRect tempFrame = self.view.frame;
-        tempFrame.origin.x = __k_paperdetailviewcontroller_left;
-        tempFrame.origin.y = (*outY).floatValue + __k_paperdetailviewcontroller_margin_max;
-        tempFrame.size.width -= (__k_paperdetailviewcontroller_left + __k_paperdetailviewcontroller_right);
-        tempFrame.size.height =  __k_paperdetailviewcontroller_btn_height;
-        
-        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-        btn.frame = tempFrame;
-        btn.titleLabel.font = _font;
-        UIColor *normal_color = [UIColor colorWithHex:__k_paperdetailviewcontroller_btn_normal_bg],
-                *highlight_color = [UIColor colorWithHex:__k_paperdetailviewcontroller_btn_highlight_bg];
-        [btn setTitle:__k_paperdetailviewcontroller_btn_start forState:UIControlStateNormal];
-        [btn setTitleColor:highlight_color forState:UIControlStateNormal];
-        [btn setTitleColor:normal_color forState:UIControlStateHighlighted];
-        //注册点击事件
-        [btn addTarget:self action:@selector(btnStartClick:) forControlEvents:UIControlEventTouchUpInside];
-        //设置边框圆角
-        [self addBoundsRadiusWithView:btn BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_btn_border] BackgroundColor:nil];
-        //添加到界面
-        [view addSubview:btn];
-        //输出Y坐标
-        *outY = [NSNumber numberWithFloat:CGRectGetMaxY(tempFrame)];
+        _paperRecord = [_service loadRecordWithPaperCode:_paperReview.code];
+        if(!_paperRecord){//没有做题记录
+            [self setupSignButtonWithView:view OutY:outY];
+            return;
+        }
+        ///TODO:存在未完成的做题记录
+        NSLog(@"==存在未完成的做题记录:");
     }
+}
+//单个开始按钮
+-(void)setupSignButtonWithView:(UIView *)view OutY:(NSNumber **)outY{
+    CGRect tempFrame = self.view.frame;
+    tempFrame.origin.x = __k_paperdetailviewcontroller_left;
+    tempFrame.origin.y = (*outY).floatValue + __k_paperdetailviewcontroller_margin_max;
+    tempFrame.size.width -= (__k_paperdetailviewcontroller_left + __k_paperdetailviewcontroller_right);
+    tempFrame.size.height =  __k_paperdetailviewcontroller_btn_height;
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = tempFrame;
+    btn.titleLabel.font = _font;
+    UIColor *normal_color = [UIColor colorWithHex:__k_paperdetailviewcontroller_btn_normal_bg],
+    *highlight_color = [UIColor colorWithHex:__k_paperdetailviewcontroller_btn_highlight_bg];
+    [btn setTitle:__k_paperdetailviewcontroller_btn_start forState:UIControlStateNormal];
+    [btn setTitleColor:highlight_color forState:UIControlStateNormal];
+    [btn setTitleColor:normal_color forState:UIControlStateHighlighted];
+    //注册点击事件
+    [btn addTarget:self action:@selector(btnStartClick:) forControlEvents:UIControlEventTouchUpInside];
+    //设置边框圆角
+    [self addBoundsRadiusWithView:btn BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_btn_border] BackgroundColor:nil];
+    //添加到界面
+    [view addSubview:btn];
+    //输出Y坐标
+    *outY = [NSNumber numberWithFloat:CGRectGetMaxY(tempFrame)];
 }
 //开始按钮点击事件
 -(void)btnStartClick:(UIButton *)sender{
-    NSLog(@"==click %@==> %@",sender,_paperCode);
-    
+    //NSLog(@"==click %@==> %@",sender,_paperCode);
+    ItemViewController *ivc = [[ItemViewController alloc] initWithPaper:_paperReview andRecord:_paperRecord];
+    ivc.navigationItem.title = __k_paperdetailviewcontroller_btn_start;
+    [self.navigationController pushViewController:ivc animated:NO];
 }
 //加载试卷信息
 -(void)setupPaperInfoWithView:(UIView *)view OutY:(NSNumber **)outY{

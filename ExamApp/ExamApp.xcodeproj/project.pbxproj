@@ -39,6 +39,8 @@
 		A189959D1A7A381700D591FF /* privacy in Resources */ = {isa = PBXBuildFile; fileRef = A189959C1A7A381700D591FF /* privacy */; };
 		A18B9F671AA6997B00C135DB /* PaperItemRecordDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A18B9F661AA6997B00C135DB /* PaperItemRecordDao.m */; };
 		A18B9F6A1AA6CF9F00C135DB /* PaperItemFavoriteDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A18B9F691AA6CF9F00C135DB /* PaperItemFavoriteDao.m */; };
+		A18B9F6D1AA700B200C135DB /* PaperRecordService.m in Sources */ = {isa = PBXBuildFile; fileRef = A18B9F6C1AA700B200C135DB /* PaperRecordService.m */; };
+		A18B9F701AA70A2400C135DB /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18B9F6F1AA70A2400C135DB /* ItemViewController.m */; };
 		A18CCF351A85BD2A00C20555 /* TextFieldValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = A18CCF331A85BD2A00C20555 /* TextFieldValidator.m */; };
 		A18CCF371A85BD6E00C20555 /* error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A18CCF361A85BD6E00C20555 /* error@2x.png */; };
 		A18CD2B31A7BBEC700B90FF0 /* UIViewController+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = A18CD2B21A7BBEC700B90FF0 /* UIViewController+Animation.m */; };
@@ -188,6 +190,10 @@
 		A18B9F661AA6997B00C135DB /* PaperItemRecordDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperItemRecordDao.m; sourceTree = "<group>"; };
 		A18B9F681AA6CF9F00C135DB /* PaperItemFavoriteDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperItemFavoriteDao.h; sourceTree = "<group>"; };
 		A18B9F691AA6CF9F00C135DB /* PaperItemFavoriteDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperItemFavoriteDao.m; sourceTree = "<group>"; };
+		A18B9F6B1AA700B200C135DB /* PaperRecordService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperRecordService.h; sourceTree = "<group>"; };
+		A18B9F6C1AA700B200C135DB /* PaperRecordService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperRecordService.m; sourceTree = "<group>"; };
+		A18B9F6E1AA70A2400C135DB /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
+		A18B9F6F1AA70A2400C135DB /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
 		A18CCF331A85BD2A00C20555 /* TextFieldValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextFieldValidator.m; path = Utils/TextFieldValidator.m; sourceTree = "<group>"; };
 		A18CCF341A85BD2A00C20555 /* TextFieldValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextFieldValidator.h; path = Utils/TextFieldValidator.h; sourceTree = "<group>"; };
 		A18CCF361A85BD6E00C20555 /* error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "error@2x.png"; sourceTree = "<group>"; };
@@ -497,6 +503,8 @@
 				A1936A9A1A9EF61000A0F45C /* ImitateSubjectService.m */,
 				A1913F8A1AA40107003BFEA0 /* PaperService.h */,
 				A1913F8B1AA40107003BFEA0 /* PaperService.m */,
+				A18B9F6B1AA700B200C135DB /* PaperRecordService.h */,
+				A18B9F6C1AA700B200C135DB /* PaperRecordService.m */,
 			);
 			name = service;
 			sourceTree = "<group>";
@@ -512,6 +520,8 @@
 				A18962E51AA33D970065B70C /* PaperListViewController.m */,
 				A1913F8D1AA42F2A003BFEA0 /* PaperDetailViewController.h */,
 				A1913F8E1AA42F2A003BFEA0 /* PaperDetailViewController.m */,
+				A18B9F6E1AA70A2400C135DB /* ItemViewController.h */,
+				A18B9F6F1AA70A2400C135DB /* ItemViewController.m */,
 				A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */,
 				A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */,
 			);
@@ -882,6 +892,7 @@
 				A18B9F671AA6997B00C135DB /* PaperItemRecordDao.m in Sources */,
 				A1936AA01A9F1A6200A0F45C /* WaitForAnimation.m in Sources */,
 				A1936A911A9EC4E300A0F45C /* ExamDataDao.m in Sources */,
+				A18B9F701AA70A2400C135DB /* ItemViewController.m in Sources */,
 				A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */,
 				A1D02F081A7B7E37004C484D /* NSString+Hex.m in Sources */,
 				A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */,
@@ -923,6 +934,7 @@
 				A1D02EFF1A7B5BD1004C484D /* AccountViewController.m in Sources */,
 				A1910E6E1A6D3AC800377160 /* main.m in Sources */,
 				A199CB871A7761030094FE50 /* ScreenViewController.m in Sources */,
+				A18B9F6D1AA700B200C135DB /* PaperRecordService.m in Sources */,
 				A19DCE781A83442C0019856D /* HttpUtils.m in Sources */,
 				A1C3B7631A75DB5F006EA38F /* DefaultViewController.m in Sources */,
 				A1510F831A6DEF4C00FE59A9 /* LaunchViewController.m in Sources */,

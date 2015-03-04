@@ -143,7 +143,7 @@
     PaperData *paper = [_service loadPaperWithSubjectCode:_subjectCode
                                            PaperTypeValue:_paperTypeValue
                                                       Row:indexPath.row];
-    NSLog(@"click:%ld,%ld => %@",(long)indexPath.section, (long)indexPath.row, [paper serializeJSON]);
+    //NSLog(@"click:%ld,%ld => %@",(long)indexPath.section, (long)indexPath.row, [paper serializeJSON]);
     if(paper){
         PaperDetailViewController *pdc = [[PaperDetailViewController alloc] initWithPaperCode:paper.code];
         pdc.title = __k_paperlist_detail_title;//paper.title;
