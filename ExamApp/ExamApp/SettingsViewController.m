@@ -126,6 +126,7 @@
     }
     if(controller && self.navigationController){
         controller.navigationItem.title = data.title;
+        controller.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:controller animated:NO];
     }
 }

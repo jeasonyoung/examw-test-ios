@@ -147,6 +147,7 @@
     if(paper){
         PaperDetailViewController *pdc = [[PaperDetailViewController alloc] initWithPaperCode:paper.code];
         pdc.title = __k_paperlist_detail_title;//paper.title;
+        pdc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:pdc animated:NO];
     }
 }

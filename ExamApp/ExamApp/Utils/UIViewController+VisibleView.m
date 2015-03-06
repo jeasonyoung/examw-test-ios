@@ -23,7 +23,7 @@
 #pragma mark 加载底部高度
 -(CGFloat)loadBottomHeight{
     CGFloat h = 0;
-    if(!self.hidesBottomBarWhenPushed){
+    if(!self.hidesBottomBarWhenPushed || (self.navigationController && !self.navigationController.toolbarHidden)){
         h += 49;
     }
     return h;

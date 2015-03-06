@@ -18,6 +18,8 @@
 
 #import "ItemViewController.h"
 
+#import "UIViewUtils.h"
+
 #define __k_paperdetailviewcontroller_waiting @"加载数据..."
 
 #define __k_paperdetailviewcontroller_margin_min 5//组件间隔最小间距
@@ -113,9 +115,9 @@
             lbTitle.text = title;
             lbTitle.textAlignment = NSTextAlignmentCenter;
             //添加圆角边框
-            [self addBoundsRadiusWithView:lbTitle
-                              BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_border_color]
-                          BackgroundColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_bg_color]];
+            [UIViewUtils addBoundsRadiusWithView:lbTitle
+                                     BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_border_color]
+                                 BackgroundColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_bg_color]];
             //添加到界面
             [view addSubview:lbTitle];
             //输出Y坐标
@@ -154,7 +156,9 @@
     //注册点击事件
     [btn addTarget:self action:@selector(btnStartClick:) forControlEvents:UIControlEventTouchUpInside];
     //设置边框圆角
-    [self addBoundsRadiusWithView:btn BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_btn_border] BackgroundColor:nil];
+    [UIViewUtils addBoundsRadiusWithView:btn
+                             BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_btn_border]
+                         BackgroundColor:nil];
     //添加到界面
     [view addSubview:btn];
     //输出Y坐标
@@ -165,6 +169,7 @@
     //NSLog(@"==click %@==> %@",sender,_paperCode);
     ItemViewController *ivc = [[ItemViewController alloc] initWithPaper:_paperReview andRecord:_paperRecord];
     ivc.navigationItem.title = __k_paperdetailviewcontroller_btn_start;
+    ivc.hidesBottomBarWhenPushed = NO;
     [self.navigationController pushViewController:ivc animated:NO];
 }
 //加载试卷信息
@@ -255,9 +260,9 @@
         viewFrame.size.height = tempFrame.origin.y + tempFrame.size.height + __k_paperdetailviewcontroller_margin_min;
         viewPanel.frame = viewFrame;
         //添加圆角
-        [self addBoundsRadiusWithView:viewPanel
-                          BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_border_color]
-                      BackgroundColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_bg_color]];
+        [UIViewUtils addBoundsRadiusWithView:viewPanel
+                                 BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_border_color]
+                             BackgroundColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_bg_color]];
         //添加到界面
         [view addSubview:viewPanel];
         //输出Y坐标
@@ -324,29 +329,13 @@
         viewFrame.size.height = y + x;
         viewPanel.frame = viewFrame;
         //添加圆角
-        [self addBoundsRadiusWithView:viewPanel
-                          BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_border_color]
-                      BackgroundColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_bg_color]];
+        [UIViewUtils addBoundsRadiusWithView:viewPanel
+                                 BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_border_color]
+                             BackgroundColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_bg_color]];
         //添加到界面
         [view addSubview:viewPanel];
         //输出Y坐标
         *outY = [NSNumber numberWithFloat:CGRectGetMaxY(viewFrame) + __k_paperdetailviewcontroller_margin_max];
-    }
-}
-
-//添加边框圆角和背景设
--(void)addBoundsRadiusWithView:(UIView *)view BorderColor:(UIColor *)borderColor BackgroundColor:(UIColor *)bgColor{
-    if(view){
-        //设置边框圆角
-        view.layer.masksToBounds = YES;
-        view.layer.cornerRadius = 8.5;
-        if(borderColor){//边框颜色
-            view.layer.borderWidth = 0.8;
-            view.layer.borderColor = [borderColor CGColor];
-        }
-        if(bgColor){//添加背景色
-            view.backgroundColor = bgColor;
-        }
     }
 }
 #pragma mark 内存告警

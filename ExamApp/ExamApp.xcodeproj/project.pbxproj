@@ -57,7 +57,12 @@
 		A1936A9B1A9EF61000A0F45C /* ImitateSubjectService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A9A1A9EF61000A0F45C /* ImitateSubjectService.m */; };
 		A1936A9D1A9F195000A0F45C /* exam-XXX-default.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = A1936A9C1A9F195000A0F45C /* exam-XXX-default.sqlite */; };
 		A1936AA01A9F1A6200A0F45C /* WaitForAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A9F1A9F1A6200A0F45C /* WaitForAnimation.m */; };
+		A194935D1AA7F64900A7791E /* favorite_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A194935B1AA7F64900A7791E /* favorite_normal.png */; };
+		A194935E1AA7F64900A7791E /* favorite_highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = A194935C1AA7F64900A7791E /* favorite_highlight.png */; };
+		A19493671AA8242800A7791E /* ETTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A19493661AA8242800A7791E /* ETTimerView.m */; };
 		A1959F931A7FABBB00C1F563 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1959F921A7FABBB00C1F563 /* LoginViewController.m */; };
+		A195EFAE1AA94BF9002695A9 /* AnswersheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A195EFAD1AA94BF9002695A9 /* AnswersheetViewController.m */; };
+		A195EFB11AA970E3002695A9 /* UIViewUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A195EFB01AA970E3002695A9 /* UIViewUtils.m */; };
 		A199C9FB1A73ADD400A31587 /* ETUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = A199C9FA1A73ADD400A31587 /* ETUserView.m */; };
 		A199C9FF1A74874A00A31587 /* ETImageButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A199C9FE1A74874A00A31587 /* ETImageButton.m */; };
 		A199CA031A74A33500A31587 /* ETHomePanelView.m in Sources */ = {isa = PBXBuildFile; fileRef = A199CA021A74A33500A31587 /* ETHomePanelView.m */; };
@@ -119,6 +124,7 @@
 		A1EE7E041A70E5A00071C76D /* tab_settings_selectd.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE7E001A70E5A00071C76D /* tab_settings_selectd.png */; };
 		A1EE7E071A70EA440071C76D /* user_username.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE7E061A70EA440071C76D /* user_username.png */; };
 		A1EE7E091A70EA5B0071C76D /* user_calculate.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE7E081A70EA5B0071C76D /* user_calculate.png */; };
+		A1F1D50B1AA9F57B003B2B4C /* ItemAnswersheet.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F1D50A1AA9F57B003B2B4C /* ItemAnswersheet.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -224,8 +230,16 @@
 		A1936A9C1A9F195000A0F45C /* exam-XXX-default.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = "exam-XXX-default.sqlite"; sourceTree = "<group>"; };
 		A1936A9E1A9F1A6200A0F45C /* WaitForAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WaitForAnimation.h; path = Utils/WaitForAnimation.h; sourceTree = "<group>"; };
 		A1936A9F1A9F1A6200A0F45C /* WaitForAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = WaitForAnimation.m; path = Utils/WaitForAnimation.m; sourceTree = "<group>"; };
+		A194935B1AA7F64900A7791E /* favorite_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite_normal.png; sourceTree = "<group>"; };
+		A194935C1AA7F64900A7791E /* favorite_highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = favorite_highlight.png; sourceTree = "<group>"; };
+		A19493651AA8242800A7791E /* ETTimerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETTimerView.h; path = Utils/ETTimerView.h; sourceTree = "<group>"; };
+		A19493661AA8242800A7791E /* ETTimerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETTimerView.m; path = Utils/ETTimerView.m; sourceTree = "<group>"; };
 		A1959F911A7FABBB00C1F563 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		A1959F921A7FABBB00C1F563 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		A195EFAC1AA94BF9002695A9 /* AnswersheetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnswersheetViewController.h; sourceTree = "<group>"; };
+		A195EFAD1AA94BF9002695A9 /* AnswersheetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AnswersheetViewController.m; sourceTree = "<group>"; };
+		A195EFAF1AA970E3002695A9 /* UIViewUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIViewUtils.h; path = Utils/UIViewUtils.h; sourceTree = "<group>"; };
+		A195EFB01AA970E3002695A9 /* UIViewUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIViewUtils.m; path = Utils/UIViewUtils.m; sourceTree = "<group>"; };
 		A199C9F91A73ADD400A31587 /* ETUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETUserView.h; sourceTree = "<group>"; };
 		A199C9FA1A73ADD400A31587 /* ETUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETUserView.m; sourceTree = "<group>"; };
 		A199C9FC1A73B0E800A31587 /* ETUserViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETUserViewDelegate.h; sourceTree = "<group>"; };
@@ -320,6 +334,8 @@
 		A1EE7E001A70E5A00071C76D /* tab_settings_selectd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_settings_selectd.png; sourceTree = "<group>"; };
 		A1EE7E061A70EA440071C76D /* user_username.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_username.png; sourceTree = "<group>"; };
 		A1EE7E081A70EA5B0071C76D /* user_calculate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_calculate.png; sourceTree = "<group>"; };
+		A1F1D5091AA9F57B003B2B4C /* ItemAnswersheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemAnswersheet.h; sourceTree = "<group>"; };
+		A1F1D50A1AA9F57B003B2B4C /* ItemAnswersheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemAnswersheet.m; sourceTree = "<group>"; };
 		B80650993975702DBACD81BE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -473,6 +489,8 @@
 				A199CBBE1A7788EB0094FE50 /* slider-knob.png */,
 				A18995931A79EC4200D591FF /* feedback_post_normal.png */,
 				A18995941A79EC4200D591FF /* feedback_post_selected.png */,
+				A194935B1AA7F64900A7791E /* favorite_normal.png */,
+				A194935C1AA7F64900A7791E /* favorite_highlight.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -522,6 +540,8 @@
 				A1913F8E1AA42F2A003BFEA0 /* PaperDetailViewController.m */,
 				A18B9F6E1AA70A2400C135DB /* ItemViewController.h */,
 				A18B9F6F1AA70A2400C135DB /* ItemViewController.m */,
+				A195EFAC1AA94BF9002695A9 /* AnswersheetViewController.h */,
+				A195EFAD1AA94BF9002695A9 /* AnswersheetViewController.m */,
 				A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */,
 				A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */,
 			);
@@ -537,6 +557,10 @@
 				A199CA011A74A33500A31587 /* ETHomePanelView.h */,
 				A199CA021A74A33500A31587 /* ETHomePanelView.m */,
 				A199CA001A7487AB00A31587 /* ETHomePanelViewDelegate.h */,
+				A19493651AA8242800A7791E /* ETTimerView.h */,
+				A19493661AA8242800A7791E /* ETTimerView.m */,
+				A1F1D5091AA9F57B003B2B4C /* ItemAnswersheet.h */,
+				A1F1D50A1AA9F57B003B2B4C /* ItemAnswersheet.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -673,6 +697,8 @@
 				A1936A9F1A9F1A6200A0F45C /* WaitForAnimation.m */,
 				A18827721AA053E5008C734D /* ETAlert.h */,
 				A18827731AA053E5008C734D /* ETAlert.m */,
+				A195EFAF1AA970E3002695A9 /* UIViewUtils.h */,
+				A195EFB01AA970E3002695A9 /* UIViewUtils.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -790,8 +816,10 @@
 				A18995951A79EC4200D591FF /* feedback_post_normal.png in Resources */,
 				A1EE7E031A70E5A00071C76D /* tab_settings_normal.png in Resources */,
 				A199CA211A74CCB600A31587 /* forum_selected.png in Resources */,
+				A194935D1AA7F64900A7791E /* favorite_normal.png in Resources */,
 				A199CA051A74BDE200A31587 /* home_panel.plist in Resources */,
 				A1EE7E071A70EA440071C76D /* user_username.png in Resources */,
+				A194935E1AA7F64900A7791E /* favorite_highlight.png in Resources */,
 				A18CCF371A85BD6E00C20555 /* error@2x.png in Resources */,
 				A199CA121A74C37C00A31587 /* collect_normal.png in Resources */,
 				A199CA1A1A74C86800A31587 /* imitate_normal.png in Resources */,
@@ -892,10 +920,12 @@
 				A18B9F671AA6997B00C135DB /* PaperItemRecordDao.m in Sources */,
 				A1936AA01A9F1A6200A0F45C /* WaitForAnimation.m in Sources */,
 				A1936A911A9EC4E300A0F45C /* ExamDataDao.m in Sources */,
+				A1F1D50B1AA9F57B003B2B4C /* ItemAnswersheet.m in Sources */,
 				A18B9F701AA70A2400C135DB /* ItemViewController.m in Sources */,
 				A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */,
 				A1D02F081A7B7E37004C484D /* NSString+Hex.m in Sources */,
 				A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */,
+				A195EFB11AA970E3002695A9 /* UIViewUtils.m in Sources */,
 				A140418D1A78E61B00669D46 /* ETextView.m in Sources */,
 				A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */,
 				A17F78D31AA55D1400C671A9 /* PaperRecord.m in Sources */,
@@ -907,6 +937,7 @@
 				A1D66D3C1A7217BA00F98206 /* NSString+Size.m in Sources */,
 				A1936A9B1A9EF61000A0F45C /* ImitateSubjectService.m in Sources */,
 				A18995991A7A2F5E00D591FF /* ProtocolViewController.m in Sources */,
+				A19493671AA8242800A7791E /* ETTimerView.m in Sources */,
 				A15DFF431AA1857200C8A7B7 /* PaperData.m in Sources */,
 				A1D02F051A7B70F9004C484D /* AESCrypt.m in Sources */,
 				A1AA7CCC1A81F761003A5137 /* LoginData.m in Sources */,
@@ -937,6 +968,7 @@
 				A18B9F6D1AA700B200C135DB /* PaperRecordService.m in Sources */,
 				A19DCE781A83442C0019856D /* HttpUtils.m in Sources */,
 				A1C3B7631A75DB5F006EA38F /* DefaultViewController.m in Sources */,
+				A195EFAE1AA94BF9002695A9 /* AnswersheetViewController.m in Sources */,
 				A1510F831A6DEF4C00FE59A9 /* LaunchViewController.m in Sources */,
 				A15DFF461AA1AC5D00C8A7B7 /* PaperReview.m in Sources */,
 			);

@@ -85,6 +85,7 @@
     if(subject){
         PaperListViewController *plc = [[PaperListViewController alloc] initWithSubjectCode:subject.code];
         plc.title = subject.name;
+        plc.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:plc animated:NO];
     }
 }
