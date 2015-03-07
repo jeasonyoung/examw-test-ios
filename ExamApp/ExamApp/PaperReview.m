@@ -85,7 +85,7 @@
                                                    options:NSJSONWritingPrettyPrinted
                                                      error:&err];
         if(err){
-            NSLog(@"PaperReviewSerializeError:%@",err);
+            NSLog(@"PaperReview SerializeError:%@",err);
             return nil;
         }
         if(data && data.length > 0){
@@ -143,6 +143,14 @@
     }
     return self;
 }
+#pragma mark 根据JSON字符串初始化
+-(instancetype)initWithJSON:(NSString *)json{
+    if(!json || json.length == 0)return nil;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
+                                                         options:NSJSONReadingAllowFragments
+                                                           error:nil];
+    return [self initWithDictionary:dict];
+}
 #pragma mark 序列化
 -(NSDictionary *)serializeJSON{
     NSMutableArray *itemSerialArrays = [NSMutableArray array],*childSerialArrays = [NSMutableArray array];
@@ -184,6 +192,24 @@
         }
     }
     return [structureArrays mutableCopy];
+}
+#pragma mark 序列化为JSON字符串
+-(NSString *)serialize{
+    NSDictionary *dict = [self serializeJSON];
+    NSError *err;
+    if([NSJSONSerialization isValidJSONObject:dict]){
+        NSData *data = [NSJSONSerialization dataWithJSONObject:dict
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&err];
+        if(err){
+            NSLog(@"PaperStructure SerializeError:%@",err);
+            return nil;
+        }
+        if(data && data.length > 0){
+            return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        }
+    }
+    return nil;
 }
 @end
 //试卷试题字段
@@ -230,6 +256,14 @@
     }
     return self;
 }
+#pragma mark 初始化
+-(instancetype)initWithJSON:(NSString *)json{
+    if(!json || json.length == 0) return nil;
+    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:[json dataUsingEncoding:NSUTF8StringEncoding]
+                                                         options:NSJSONReadingAllowFragments
+                                                           error:nil];
+    return [self initWithDictionary:dict];
+}
 #pragma mark 序列化
 -(NSDictionary *)serializeJSON{
     NSMutableArray *childSerialArrays = [NSMutableArray array];
@@ -263,5 +297,23 @@
         }
     }
     return [itemArrays mutableCopy];
+}
+#pragma mark 序列化为JSON字符串
+-(NSString *)serialize{
+    NSDictionary *dict = [self serializeJSON];
+    NSError *err;
+    if([NSJSONSerialization isValidJSONObject:dict]){
+        NSData *data = [NSJSONSerialization dataWithJSONObject:dict
+                                                       options:NSJSONWritingPrettyPrinted
+                                                         error:&err];
+        if(err){
+            NSLog(@"PaperItem SerializeError:%@",err);
+            return nil;
+        }
+        if(data && data.length > 0){
+            return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        }
+    }
+    return nil;
 }
 @end

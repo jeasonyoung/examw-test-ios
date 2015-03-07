@@ -152,9 +152,11 @@
     //添加试题
     NSNumber *itemOutY = [NSNumber numberWithFloat:0];
     if(_review && _review.structures && _review.structures.count > 0){
+        NSNumber *total = [NSNumber numberWithInteger:0];
         for(PaperStructure *structure in _review.structures){
             if(structure){
-                [self createTitleWithViewPanel:viewPanel Structure:structure OutY:&itemOutY];
+                //NSLog(@"total=>%d",total.integerValue);
+                [self createTitleWithViewPanel:viewPanel Structure:structure OutY:&itemOutY Total:&total];
             }
         }
     }
@@ -171,7 +173,7 @@
     [self.view addSubview:viewPanel];
 }
 //创建大题
--(void)createTitleWithViewPanel:(UIView *)viewPanel Structure:(PaperStructure *)structure OutY:(NSNumber **)outY{
+-(void)createTitleWithViewPanel:(UIView *)viewPanel Structure:(PaperStructure *)structure OutY:(NSNumber **)outY Total:(NSNumber **)total{
     NSString *title = structure.title;
     if(!title || title.length == 0) return;
     CGFloat y = 0;
@@ -192,69 +194,94 @@
     [viewPanel addSubview:lbTitle];
     y = CGRectGetMaxY(tempFrame);
     
-    CGFloat y1 = y;
     //试题集合
-    UIView *contentView = [self createViewWithItems:structure.items With:CGRectGetWidth(tempFrame) - __k_answersheetviewcontroller_margin_min *2];
+    CGFloat content_with = CGRectGetWidth(tempFrame) - __k_answersheetviewcontroller_margin_min *2;
+    UIView *contentView = [self createViewWithStructureCode:structure.code Items:structure.items With:content_with Total:total];
     if(contentView){
         tempFrame = contentView.frame;
         tempFrame.origin.x = __k_answersheetviewcontroller_margin_min;
         tempFrame.origin.y = y + __k_answersheetviewcontroller_margin_max;
         
         contentView.frame = tempFrame;
-        //[UIViewUtils addBorderWithView:contentView BorderColor:[UIColor redColor] BackgroundColor:nil];
         
         y +=  CGRectGetHeight(contentView.frame) + __k_answersheetviewcontroller_margin_max;
-        NSLog(@"y1 = %f,y2 = %f,y2 - y1 = %f",y1,y,y-y1);
+        //NSLog(@"y1 = %f,y2 = %f,y2 - y1 = %f",y1,y,y-y1);
         [viewPanel addSubview:contentView];
     }
     //高度
     *outY = [NSNumber numberWithFloat:y];
 }
--(UIView *)createViewWithItems:(NSArray *)items With:(CGFloat)w{
-    int count = 0;
-    if(items && (count = items.count) > 0){
-        UIColor *borderColor = [UIColor colorWithHex:__k_answersheetviewcontroller_item_borderColor],
-                *itemTextColor = [UIColor colorWithHex:__k_answersheetviewcontroller_item_font_color];
-        UIFont *itemFont = [UIFont systemFontOfSize:__k_answersheetviewcontroller_item_font_size];
-        CGFloat item_width = (w - (__k_answersheetviewcontroller_item_cols + 1) * __k_answersheetviewcontroller_item_space)/__k_answersheetviewcontroller_item_cols;
-        
+//创建题号
+-(UIView *)createViewWithStructureCode:(NSString *)structureCode Items:(NSArray *)items With:(CGFloat)w Total:(NSNumber **)total{
+    if(items && items.count > 0){
         UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, w, 0)];
-        CGRect contentFrame;
-        for(int i = 0; i < count; i++){
-            PaperItem *item = [items objectAtIndex:i];
-            if(!item)continue;
-            int col = i % __k_answersheetviewcontroller_item_cols;//列
-            int row = i /__k_answersheetviewcontroller_item_cols;//行
-            contentFrame = CGRectMake((item_width +__k_answersheetviewcontroller_item_space) * col + __k_answersheetviewcontroller_item_space,
-                                      (__k_answersheetviewcontroller_item_height + __k_answersheetviewcontroller_item_space) * row + __k_answersheetviewcontroller_item_space,
-                                      item_width,
-                                      __k_answersheetviewcontroller_item_height);
-            ItemAnswersheet *btnTitle = [ItemAnswersheet buttonWithType:UIButtonTypeCustom];
-            btnTitle.frame = contentFrame;
-            btnTitle.titleLabel.font = itemFont;
-            //btnTitle.item = item;
-            [btnTitle setTitleColor:itemTextColor forState:UIControlStateNormal];
-            [btnTitle setTitleColor:_hasBgColor forState:UIControlStateHighlighted];
-            [btnTitle setTitle:[NSString stringWithFormat:@"%d",item.orderNo] forState:UIControlStateNormal];
-            
-            [btnTitle setBackgroundColor:(arc4random_uniform(10)/2 == 0 ? _hasBgColor : _todoBgColor)];
-            
-            [UIViewUtils addBorderWithView:btnTitle BorderColor:borderColor BackgroundColor:nil];
-            [btnTitle addTarget:self action:@selector(itemAnswersheetClick:) forControlEvents:UIControlEventTouchUpInside];
-            //
-            [contentView addSubview:btnTitle];
+        NSNumber *index = [NSNumber numberWithInteger:0], *y = [NSNumber numberWithInteger:0];
+        //NSLog(@"structure-index=>%d",index.intValue);
+        for(PaperItem *item in items){
+            if(!item) continue;
+            [self createItemOrderWithContentView:contentView
+                                   StructureCode:structureCode
+                                            Item:item
+                                           Index:&index
+                                           Total:total
+                                            OutY:&y];
         }
         //重置尺寸
         CGRect tempFrame = contentView.frame;
-        tempFrame.size.height = CGRectGetMaxY(contentFrame) + __k_answersheetviewcontroller_item_space;
+        tempFrame.size.height = y.floatValue + __k_answersheetviewcontroller_item_space;
         contentView.frame = tempFrame;
         return contentView;
     }
     return nil;
 }
+//创建试题序号
+-(void)createItemOrderWithContentView:(UIView *)contentView
+                        StructureCode:(NSString *)structureCode
+                                 Item:(PaperItem *)item
+                                Index:(NSNumber **)index
+                                Total:(NSNumber **)total
+                                 OutY:(NSNumber **)outY{
+    if(!item || item.count == 0)return;
+    CGRect contentFrame = contentView.frame;
+    int item_index = (*index).integerValue;
+    //NSLog(@"total_index => %d,item_index => %d", total_index,item_index);
+    UIColor *borderColor = [UIColor colorWithHex:__k_answersheetviewcontroller_item_borderColor],
+            *itemTextColor = [UIColor colorWithHex:__k_answersheetviewcontroller_item_font_color];
+    UIFont *itemFont = [UIFont systemFontOfSize:__k_answersheetviewcontroller_item_font_size];
+    CGFloat item_width = (CGRectGetWidth(contentFrame) - (__k_answersheetviewcontroller_item_cols + 1) * __k_answersheetviewcontroller_item_space)/__k_answersheetviewcontroller_item_cols;
+    for(int i = 0; i < item.count;i++){
+        int col = item_index % __k_answersheetviewcontroller_item_cols;//列
+        int row = item_index /__k_answersheetviewcontroller_item_cols;//行
+        
+        contentFrame.origin.x = (item_width +__k_answersheetviewcontroller_item_space) * col + __k_answersheetviewcontroller_item_space;
+        contentFrame.origin.y = (__k_answersheetviewcontroller_item_height + __k_answersheetviewcontroller_item_space) * row + __k_answersheetviewcontroller_item_space;
+        contentFrame.size.width = item_width;
+        contentFrame.size.height = __k_answersheetviewcontroller_item_height;
+        
+        ItemAnswersheet *btnTitle = [ItemAnswersheet buttonWithType:UIButtonTypeCustom];
+        btnTitle.frame = contentFrame;
+        btnTitle.titleLabel.font = itemFont;
+        btnTitle.structureCode = structureCode;
+        btnTitle.itemCode = [NSString stringWithFormat:@"%@$%d",item.code,i];// item.code;
+        btnTitle.itemJSON = [item serialize];
+        [btnTitle setTitleColor:itemTextColor forState:UIControlStateNormal];
+        [btnTitle setTitleColor:_hasBgColor forState:UIControlStateHighlighted];
+        [btnTitle setTitle:[NSString stringWithFormat:@"%d",((*total).integerValue + i + 1)] forState:UIControlStateNormal];
+        [btnTitle setBackgroundColor:(arc4random_uniform(10)/2 == 0 ? _hasBgColor : _todoBgColor)];
+        [UIViewUtils addBorderWithView:btnTitle BorderColor:borderColor BackgroundColor:nil];
+        [btnTitle addTarget:self action:@selector(itemAnswersheetClick:) forControlEvents:UIControlEventTouchUpInside];
+        [contentView addSubview:btnTitle];
+        
+        item_index += 1;
+    }
+    *outY = [NSNumber numberWithFloat:CGRectGetMaxY(contentFrame)];
+    *index = [NSNumber numberWithInteger:item_index];
+    *total = [NSNumber numberWithInteger:((*total).integerValue + item.count)];
+    //NSLog(@"total=>%d,index=>%d,total-index=>%d",(*total).integerValue,item_index,(*total).integerValue - item_index);
+}
 //点击
 -(void)itemAnswersheetClick:(ItemAnswersheet *)sender{
-    NSLog(@"itemAnswersheetClick==>");
+    NSLog(@"itemAnswersheetClick==>%@",sender.itemCode);
 }
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {

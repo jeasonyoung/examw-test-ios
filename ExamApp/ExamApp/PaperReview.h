@@ -67,9 +67,30 @@
 @property(nonatomic,copy)NSArray *children;
 //初始化
 -(instancetype)initWithDictionary:(NSDictionary *)dict;
+//初始化
+-(instancetype)initWithJSON:(NSString *)json;
 //反序列化
 +(NSArray *)deSerializeWithArray:(NSArray *)array;
+//序列化为JSON字符串
+-(NSString *)serialize;
 @end
+//试题题型
+typedef NS_ENUM(NSInteger,PaperItemType){
+    //单选
+    SINGLE = 0x01,
+    //多选
+    MULTY = 0x02,
+    //不定向选
+    UNCERTAIN = 0x03,
+    //判断题
+    JUDGE = 0x04,
+    //问答题
+    QANDA = 0x05,
+    //共享题干题
+    SHARE_TITLE = 0x06,
+    //共享答案题
+    SHARE_ANSWER = 0x07
+};
 //试卷试题
 @interface PaperItem : NSObject<JSONSerialize>
 //试题ID
@@ -94,6 +115,10 @@
 @property(nonatomic,copy)NSArray *children;
 //初始化
 -(instancetype)initWithDictionary:(NSDictionary *)dict;
+//初始化
+-(instancetype)initWithJSON:(NSString *)json;
 //反序列化
 +(NSArray *)deSerializeWithArray:(NSArray *)array;
+//序列化为JSON字符串
+-(NSString *)serialize;
 @end

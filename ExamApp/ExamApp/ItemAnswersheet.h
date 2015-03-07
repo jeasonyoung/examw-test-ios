@@ -7,9 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "PaperReview.h"
 //试题答题卡
 @interface ItemAnswersheet : UIButton
-//所属试题
-@property(nonatomic,copy)PaperItem *item;
+//所属试卷结构ID
+@property(nonatomic,copy)NSString *structureCode;
+//所属试题ID
+@property(nonatomic,copy)NSString *itemCode;
+//所属试题JSON
+@property(nonatomic,copy)NSString *itemJSON;
 @end
