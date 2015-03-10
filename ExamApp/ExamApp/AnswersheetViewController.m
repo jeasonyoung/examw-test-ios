@@ -87,13 +87,13 @@
     UIFont *font = [UIFont systemFontOfSize:__k_answersheetviewcontroller_legend_font_size];
     //已做
     NSString *hasText = __k_answersheetviewcontroller_legend_has_title;
-    CGSize hasTextSize = [hasText sizeWithFont:font constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame)/2, 1000.0f) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize hasTextSize = [hasText sizeWithFont:font constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame)/2, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     if(maxHeight < hasTextSize.height){
         maxHeight = hasTextSize.height;
     }
     //未做
     NSString *todoText = __k_answersheetviewcontroller_legend_todo_title;
-    CGSize todoTextSize = [todoText sizeWithFont:font constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame)/2, 1000.0f) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize todoTextSize = [todoText sizeWithFont:font constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame)/2, CGFLOAT_MAX) lineBreakMode:NSLineBreakByWordWrapping];
     if(maxHeight < todoTextSize.height){
         maxHeight = todoTextSize.height;
     }

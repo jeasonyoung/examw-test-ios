@@ -20,6 +20,8 @@
 #import "AnswersheetViewController.h"
 #import "PaperListViewController.h"
 
+#import "ItemTestView.h"
+
 #import "UIViewUtils.h"
 
 #define __k_itemviewcontroller_left_alert_title @"退出"//
@@ -68,13 +70,11 @@
     //加载底部工具栏
     [self setupFootBar];
     //加载试题内容
-    
-    NSLog(@"     frame => %@",NSStringFromCGRect(self.view.frame));
-    NSLog(@"view frame => %@",NSStringFromCGRect([self loadVisibleViewFrame]));
-    
-    self.view.backgroundColor = [UIColor redColor];
-    
-    NSLog(@"%d == %f",self.hidesBottomBarWhenPushed, [self loadBottomHeight]);
+    [self setupItemContentView];
+    //NSLog(@"     frame => %@",NSStringFromCGRect(self.view.frame));
+    //NSLog(@"view frame => %@",NSStringFromCGRect([self loadVisibleViewFrame]));
+    //self.view.backgroundColor = [UIColor redColor];
+    //NSLog(@"%d == %f",self.hidesBottomBarWhenPushed, [self loadBottomHeight]);
 }
 -(void)viewWillAppear:(BOOL)animated{
    // NSLog(@"=======viewWillAppear=====");
@@ -216,6 +216,21 @@
 -(void)btnSubmitClick:(UIBarButtonItem *)sender{
     
     NSLog(@"submit:%@,useTimes:%d",sender,[_timerView stop]);
+}
+//加载试题内容
+-(void)setupItemContentView{
+    CGRect itemFrame = self.view.frame;
+    itemFrame.size.height -= [self loadBottomHeight];
+    NSLog(@"itemFrame => %@", NSStringFromCGRect(itemFrame));
+    if(_review.structures && _review.structures.count > 0){
+        PaperStructure * structure = [_review.structures objectAtIndex:0];
+        if(structure && structure.items && structure.items.count > 0){
+            PaperItem *item = [structure.items objectAtIndex:0];
+            ItemTestView *itemView = [[ItemTestView alloc] initWithFrame:itemFrame Item:item Order:1 Index:0];
+            //itemView.backgroundColor = [UIColor redColor];
+            [self.view addSubview:itemView];
+        }
+    }
 }
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {

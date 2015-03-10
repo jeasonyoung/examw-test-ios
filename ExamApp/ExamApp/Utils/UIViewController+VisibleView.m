@@ -24,7 +24,9 @@
 -(CGFloat)loadBottomHeight{
     CGFloat h = 0;
     if(!self.hidesBottomBarWhenPushed || (self.navigationController && !self.navigationController.toolbarHidden)){
-        h += 49;
+        UIToolbar *bar = self.navigationController.toolbar;
+        h += CGRectGetHeight(bar.frame);
+        //h += 49;
     }
     return h;
 }

@@ -11,7 +11,7 @@
 
 //字段描述
 #define __k_paperrecord_fields_code @"id"//试卷记录ID
-#define __k_paperrecord_fields_paperCode @"paperCode"//所属试卷ID
+#define __k_paperrecord_fields_paperCode @"paperId"//所属试卷ID
 #define __k_paperrecord_fields_status @"status"//做题状态
 #define __k_paperrecord_fields_score @"score"//得分
 #define __k_paperrecord_fields_rights @"rights"//做对的题目数

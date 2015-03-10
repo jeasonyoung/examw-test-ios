@@ -7,15 +7,7 @@
 //
 
 #import "ItemAnswersheet.h"
-
+//试题答题卡
 @implementation ItemAnswersheet
-
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

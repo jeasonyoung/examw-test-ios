@@ -77,19 +77,19 @@
 //试题题型
 typedef NS_ENUM(NSInteger,PaperItemType){
     //单选
-    SINGLE = 0x01,
+    PaperItemTypeSingle = 0x01,
     //多选
-    MULTY = 0x02,
+    PaperItemTypeMulty = 0x02,
     //不定向选
-    UNCERTAIN = 0x03,
+    PaperItemTypeUncertain = 0x03,
     //判断题
-    JUDGE = 0x04,
+    PaperItemTypeJudge = 0x04,
     //问答题
-    QANDA = 0x05,
+    PaperItemTypeQanda = 0x05,
     //共享题干题
-    SHARE_TITLE = 0x06,
+    PaperItemTypeShareTitle = 0x06,
     //共享答案题
-    SHARE_ANSWER = 0x07
+    PaperItemTypeShareAnswer = 0x07
 };
 //试卷试题
 @interface PaperItem : NSObject<JSONSerialize>

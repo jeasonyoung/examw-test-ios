@@ -9,6 +9,13 @@
 /* Begin PBXBuildFile section */
 		0B8EBF44A44FCE0D15DB6C22 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5107C5451C2BCF444822DEFD /* libPods.a */; };
 		A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */; };
+		A135278D1AAE864D00630C72 /* ETOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A135278C1AAE864D00630C72 /* ETOptionView.m */; };
+		A13527911AAE94E000630C72 /* option_multy_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A135278F1AAE94E000630C72 /* option_multy_normal.png */; };
+		A13527921AAE94E000630C72 /* option_multy_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A13527901AAE94E000630C72 /* option_multy_selected.png */; };
+		A13527971AAE94ED00630C72 /* option_single_error.png in Resources */ = {isa = PBXBuildFile; fileRef = A13527931AAE94ED00630C72 /* option_single_error.png */; };
+		A13527981AAE94ED00630C72 /* option_single_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A13527941AAE94ED00630C72 /* option_single_normal.png */; };
+		A13527991AAE94ED00630C72 /* option_single_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A13527951AAE94ED00630C72 /* option_single_selected.png */; };
+		A135279A1AAE94ED00630C72 /* option_single_right.png in Resources */ = {isa = PBXBuildFile; fileRef = A13527961AAE94ED00630C72 /* option_single_right.png */; };
 		A140418D1A78E61B00669D46 /* ETextView.m in Sources */ = {isa = PBXBuildFile; fileRef = A140418C1A78E61B00669D46 /* ETextView.m */; };
 		A1510F831A6DEF4C00FE59A9 /* LaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1510F821A6DEF4C00FE59A9 /* LaunchViewController.m */; };
 		A151102C1A6E4A7800FE59A9 /* guide_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A15110291A6E4A7800FE59A9 /* guide_1.png */; };
@@ -114,6 +121,7 @@
 		A1E279051A78BC8B00F23A20 /* UIViewController+VisibleView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E279041A78BC8B00F23A20 /* UIViewController+VisibleView.m */; };
 		A1E279071A78D7D600F23A20 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E279061A78D7D600F23A20 /* libsqlite3.dylib */; };
 		A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E279091A78DFED00F23A20 /* FeedbackViewController.m */; };
+		A1EC0A941AAAC9E000167B83 /* ItemTestView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EC0A931AAAC9E000167B83 /* ItemTestView.m */; };
 		A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A1ED101A1A6F4EA9004DAD90 /* NSQueue.m */; };
 		A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1ED101F1A6F80BA004DAD90 /* MainViewController.m */; };
 		A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EE7DD71A70A52F0071C76D /* HomeViewController.m */; };
@@ -142,6 +150,14 @@
 		546409C18EB0DA5FBE4F4AF6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A10187C51A84B568002D2F37 /* LoginViewController+UserLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginViewController+UserLogin.h"; sourceTree = "<group>"; };
 		A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginViewController+UserLogin.m"; sourceTree = "<group>"; };
+		A135278B1AAE864D00630C72 /* ETOptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETOptionView.h; path = Utils/ETOptionView.h; sourceTree = "<group>"; };
+		A135278C1AAE864D00630C72 /* ETOptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETOptionView.m; path = Utils/ETOptionView.m; sourceTree = "<group>"; };
+		A135278F1AAE94E000630C72 /* option_multy_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = option_multy_normal.png; sourceTree = "<group>"; };
+		A13527901AAE94E000630C72 /* option_multy_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = option_multy_selected.png; sourceTree = "<group>"; };
+		A13527931AAE94ED00630C72 /* option_single_error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = option_single_error.png; sourceTree = "<group>"; };
+		A13527941AAE94ED00630C72 /* option_single_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = option_single_normal.png; sourceTree = "<group>"; };
+		A13527951AAE94ED00630C72 /* option_single_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = option_single_selected.png; sourceTree = "<group>"; };
+		A13527961AAE94ED00630C72 /* option_single_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = option_single_right.png; sourceTree = "<group>"; };
 		A140418B1A78E61B00669D46 /* ETextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETextView.h; path = Utils/ETextView.h; sourceTree = "<group>"; };
 		A140418C1A78E61B00669D46 /* ETextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETextView.m; path = Utils/ETextView.m; sourceTree = "<group>"; };
 		A1510F811A6DEF4C00FE59A9 /* LaunchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LaunchViewController.h; sourceTree = "<group>"; };
@@ -320,6 +336,8 @@
 		A1E279061A78D7D600F23A20 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A1E279081A78DFED00F23A20 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
 		A1E279091A78DFED00F23A20 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
+		A1EC0A921AAAC9E000167B83 /* ItemTestView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemTestView.h; sourceTree = "<group>"; };
+		A1EC0A931AAAC9E000167B83 /* ItemTestView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemTestView.m; sourceTree = "<group>"; };
 		A1ED10191A6F4EA9004DAD90 /* NSQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSQueue.h; path = Utils/NSQueue.h; sourceTree = "<group>"; };
 		A1ED101A1A6F4EA9004DAD90 /* NSQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSQueue.m; path = Utils/NSQueue.m; sourceTree = "<group>"; };
 		A1ED101E1A6F80BA004DAD90 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
@@ -366,6 +384,19 @@
 				B80650993975702DBACD81BE /* Pods.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		A135278E1AAE94AC00630C72 /* option_images */ = {
+			isa = PBXGroup;
+			children = (
+				A13527941AAE94ED00630C72 /* option_single_normal.png */,
+				A13527951AAE94ED00630C72 /* option_single_selected.png */,
+				A13527961AAE94ED00630C72 /* option_single_right.png */,
+				A13527931AAE94ED00630C72 /* option_single_error.png */,
+				A135278F1AAE94E000630C72 /* option_multy_normal.png */,
+				A13527901AAE94E000630C72 /* option_multy_selected.png */,
+			);
+			name = option_images;
 			sourceTree = "<group>";
 		};
 		A18827711AA04C9E008C734D /* service */ = {
@@ -424,6 +455,7 @@
 			isa = PBXGroup;
 			children = (
 				A1936A9C1A9F195000A0F45C /* exam-XXX-default.sqlite */,
+				A135278E1AAE94AC00630C72 /* option_images */,
 				A1910E991A6D3B2700377160 /* images */,
 				A1910E6C1A6D3AC800377160 /* Info.plist */,
 				A199CA041A74BDE200A31587 /* home_panel.plist */,
@@ -559,8 +591,12 @@
 				A199CA001A7487AB00A31587 /* ETHomePanelViewDelegate.h */,
 				A19493651AA8242800A7791E /* ETTimerView.h */,
 				A19493661AA8242800A7791E /* ETTimerView.m */,
+				A135278B1AAE864D00630C72 /* ETOptionView.h */,
+				A135278C1AAE864D00630C72 /* ETOptionView.m */,
 				A1F1D5091AA9F57B003B2B4C /* ItemAnswersheet.h */,
 				A1F1D50A1AA9F57B003B2B4C /* ItemAnswersheet.m */,
+				A1EC0A921AAAC9E000167B83 /* ItemTestView.h */,
+				A1EC0A931AAAC9E000167B83 /* ItemTestView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -811,6 +847,7 @@
 				A151102E1A6E4A7800FE59A9 /* guide_3.png in Resources */,
 				A18995961A79EC4200D591FF /* feedback_post_selected.png in Resources */,
 				A199CA1D1A74CBE800A31587 /* notes_selected.png in Resources */,
+				A13527981AAE94ED00630C72 /* option_single_normal.png in Resources */,
 				A199CA221A74CCB600A31587 /* forum_normal.png in Resources */,
 				A1C3B7741A7633EE006EA38F /* settings_panel.plist in Resources */,
 				A18995951A79EC4200D591FF /* feedback_post_normal.png in Resources */,
@@ -818,17 +855,21 @@
 				A199CA211A74CCB600A31587 /* forum_selected.png in Resources */,
 				A194935D1AA7F64900A7791E /* favorite_normal.png in Resources */,
 				A199CA051A74BDE200A31587 /* home_panel.plist in Resources */,
+				A13527991AAE94ED00630C72 /* option_single_selected.png in Resources */,
 				A1EE7E071A70EA440071C76D /* user_username.png in Resources */,
 				A194935E1AA7F64900A7791E /* favorite_highlight.png in Resources */,
 				A18CCF371A85BD6E00C20555 /* error@2x.png in Resources */,
 				A199CA121A74C37C00A31587 /* collect_normal.png in Resources */,
+				A13527971AAE94ED00630C72 /* option_single_error.png in Resources */,
 				A199CA1A1A74C86800A31587 /* imitate_normal.png in Resources */,
+				A13527921AAE94E000630C72 /* option_multy_selected.png in Resources */,
 				A1EE7E021A70E5A00071C76D /* tab_home_selected.png in Resources */,
 				A151102C1A6E4A7800FE59A9 /* guide_1.png in Resources */,
 				A151102D1A6E4A7800FE59A9 /* guide_2.png in Resources */,
 				A199CA0D1A74C2A700A31587 /* practice_selected.png in Resources */,
 				A199CA191A74C86800A31587 /* imitate_selected.png in Resources */,
 				A199CA251A74CD1E00A31587 /* record_selected.png in Resources */,
+				A13527911AAE94E000630C72 /* option_multy_normal.png in Resources */,
 				A199CA091A74BF7400A31587 /* everyday_selected.png in Resources */,
 				A199CA291A74CD8D00A31587 /* guide_selected.png in Resources */,
 				A1EE7E041A70E5A00071C76D /* tab_settings_selectd.png in Resources */,
@@ -844,6 +885,7 @@
 				A1936A9D1A9F195000A0F45C /* exam-XXX-default.sqlite in Resources */,
 				A1EE7E011A70E5A00071C76D /* tab_home_normal.png in Resources */,
 				A199CA0A1A74BF7400A31587 /* everyday_normal.png in Resources */,
+				A135279A1AAE94ED00630C72 /* option_single_right.png in Resources */,
 				A189959D1A7A381700D591FF /* privacy in Resources */,
 				A199CA0E1A74C2A700A31587 /* practice_normal.png in Resources */,
 				A1C3B7681A75ED34006EA38F /* coming_soon.jpg in Resources */,
@@ -904,6 +946,7 @@
 				A19DCE741A82F5DF0019856D /* AppClient.m in Sources */,
 				A1580A491A95A20D0082C1E2 /* ImitateSubjectViewController.m in Sources */,
 				A188277D1AA06CE0008C734D /* AppClientSync.m in Sources */,
+				A135278D1AAE864D00630C72 /* ETOptionView.m in Sources */,
 				A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */,
 				A182E4761AA5A58F00730ECC /* PaperRecordDao.m in Sources */,
 				A1D02F0E1A7B8C95004C484D /* UINavigationController+Animation.m in Sources */,
@@ -951,6 +994,7 @@
 				A188277A1AA064AD008C734D /* DataSyncService.m in Sources */,
 				A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */,
 				A1959F931A7FABBB00C1F563 /* LoginViewController.m in Sources */,
+				A1EC0A941AAAC9E000167B83 /* ItemTestView.m in Sources */,
 				A17F78D61AA5695700C671A9 /* PaperItemRecord.m in Sources */,
 				A1D02F021A7B6588004C484D /* UserAccountData.m in Sources */,
 				A1EE7DDB1A70A8B80071C76D /* SettingsViewController.m in Sources */,
