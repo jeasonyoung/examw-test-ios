@@ -190,7 +190,7 @@
     tempFrame.size.height = titleSize.height;
     UILabel *lbTitle = [[UILabel alloc] initWithFrame:tempFrame];
     lbTitle.font = titleFont;
-    lbTitle.text = [NSString stringWithFormat:@"%@[%d]",title, structure.total];
+    lbTitle.text = [NSString stringWithFormat:@"%@[%d]",title,[NSNumber numberWithFloat:structure.total].intValue];
     [viewPanel addSubview:lbTitle];
     y = CGRectGetMaxY(tempFrame);
     
@@ -243,7 +243,7 @@
                                  OutY:(NSNumber **)outY{
     if(!item || item.count == 0)return;
     CGRect contentFrame = contentView.frame;
-    int item_index = (*index).integerValue;
+    int item_index = (*index).intValue;
     //NSLog(@"total_index => %d,item_index => %d", total_index,item_index);
     UIColor *borderColor = [UIColor colorWithHex:__k_answersheetviewcontroller_item_borderColor],
             *itemTextColor = [UIColor colorWithHex:__k_answersheetviewcontroller_item_font_color];
@@ -266,7 +266,7 @@
         btnTitle.itemJSON = [item serialize];
         [btnTitle setTitleColor:itemTextColor forState:UIControlStateNormal];
         [btnTitle setTitleColor:_hasBgColor forState:UIControlStateHighlighted];
-        [btnTitle setTitle:[NSString stringWithFormat:@"%d",((*total).integerValue + i + 1)] forState:UIControlStateNormal];
+        [btnTitle setTitle:[NSString stringWithFormat:@"%d",((*total).intValue + i + 1)] forState:UIControlStateNormal];
         [btnTitle setBackgroundColor:(arc4random_uniform(10)/2 == 0 ? _hasBgColor : _todoBgColor)];
         [UIViewUtils addBorderWithView:btnTitle BorderColor:borderColor BackgroundColor:nil];
         [btnTitle addTarget:self action:@selector(itemAnswersheetClick:) forControlEvents:UIControlEventTouchUpInside];

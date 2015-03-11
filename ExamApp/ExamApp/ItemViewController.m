@@ -20,7 +20,7 @@
 #import "AnswersheetViewController.h"
 #import "PaperListViewController.h"
 
-#import "ItemTestView.h"
+#import "ItemContentView.h"
 
 #import "UIViewUtils.h"
 
@@ -215,7 +215,7 @@
 //交卷
 -(void)btnSubmitClick:(UIBarButtonItem *)sender{
     
-    NSLog(@"submit:%@,useTimes:%d",sender,[_timerView stop]);
+    NSLog(@"submit:%@,useTimes:%d",sender, [NSNumber numberWithInteger:([_timerView stop])].intValue);
 }
 //加载试题内容
 -(void)setupItemContentView{
@@ -226,7 +226,8 @@
         PaperStructure * structure = [_review.structures objectAtIndex:0];
         if(structure && structure.items && structure.items.count > 0){
             PaperItem *item = [structure.items objectAtIndex:0];
-            ItemTestView *itemView = [[ItemTestView alloc] initWithFrame:itemFrame Item:item Order:1 Index:0];
+            ItemContentView *itemView = [[ItemContentView alloc] initWithFrame:itemFrame]; //Item:item Order:1 Index:0];
+            [itemView loadDataWithItem:item Order:1];
             //itemView.backgroundColor = [UIColor redColor];
             [self.view addSubview:itemView];
         }
