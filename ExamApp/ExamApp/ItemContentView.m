@@ -34,7 +34,7 @@
 //考试试题视图构造函数
 @implementation ItemContentView
 #pragma mark 初始化
--(instancetype)initWithFrame:(CGRect)frame{// Item:(PaperItem *)item Order:(NSInteger)order Index:(NSInteger)index{
+-(instancetype)initWithFrame:(CGRect)frame{
     if(self = [super initWithFrame:frame]){
         //初始化标题
         _lbTitle = [[UILabel alloc] init];
@@ -151,6 +151,12 @@
 }
 //选中选项
 -(void)optionSelected:(ItemOptionView *)sender{
-    NSLog(@"optionSelected=>%@",sender.optCode);
+    if(self.itemDelegate && [self.itemDelegate respondsToSelector:@selector(optionWithItemType:selectedCode:)]){
+        PaperItemType itemType = PaperItemTypeSingle;
+        if(sender.type == ItemOptionViewTypeMulty || sender.type == ItemOptionViewTypeMultyRight || sender.type == ItemOptionViewTypeMultyError){
+            itemType = PaperItemTypeMulty;
+        }
+        [self.itemDelegate optionWithItemType:itemType selectedCode:sender.optCode];
+    }
 }
 @end

@@ -21,17 +21,17 @@
 @property(nonatomic,assign,readonly)NSInteger index;
 //排序号
 @property(nonatomic,assign,readonly)NSInteger order;
+//加载数据
+-(void)loadDataWithSource:(PaperItem *)source Index:(NSInteger)index Order:(NSInteger)order;
 @end
 
 
 //试题显示分页集合数据源代理
 @protocol ItemContentGroupViewDataSource <NSObject>
-//当前试题
--(ItemContentSource *)currentItemContent;
-//下一题
--(ItemContentSource *)nextItemContent;
-//上一题
--(ItemContentSource *)prevItemContent;
+//加载试题
+-(ItemContentSource *)itemContentAtIndex:(NSInteger)index;
+//选中的值
+-(void)itemContentWithItemType:(PaperItemType)itemType selectedCode:(NSString *)optCode;
 @end
 
 
@@ -42,7 +42,7 @@
 //数据源
 @property(nonatomic,assign)id<ItemContentGroupViewDataSource> dataSource;
 //加载当前试题
--(void)loadCurrentContent;
+-(void)loadContent;
 //加载下一题。
 -(void)loadNextContent;
 //加载上一题

@@ -70,14 +70,12 @@
                                    constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame), CGFLOAT_MAX)
                                        lineBreakMode:NSLineBreakByWordWrapping];
         if(maxHeight < textSize.height){
-            tempFrame.size.height = maxHeight = textSize.height;
-            //重置选项内容高度
-            _lbTitle.frame = tempFrame;
-            //重置容器高度
-            CGRect tmpframe = self.frame;
-            tmpframe.size.height = CGRectGetMaxY(tempFrame) + __k_etoptionview_bottom;
-            self.frame = tmpframe;
+            maxHeight = textSize.height;
         }
+        //重置选项内容高度
+        tempFrame.size.height = maxHeight;
+        _lbTitle.frame = tempFrame;
+        
         //设置字体颜色
         _lbTitle.textColor = [self setupTextColorWithType:self.type];
         //文字上的删除线
@@ -90,6 +88,10 @@
         }else{
             _lbTitle.text = self.optText;
         }
+        //重置容器高度
+        CGRect tmpframe = self.frame;
+        tmpframe.size.height = CGRectGetMaxY(tempFrame) + __k_etoptionview_bottom;
+        self.frame = tmpframe;
     }
 }
 //初始化
@@ -200,6 +202,7 @@
     if(options && (_optCount = options.count) > 0){
         CGRect tempFrame = self.frame;
         tempFrame.origin.x = tempFrame.origin.y = 0;
+        //NSLog(@"ItemOptionView-====,%@", NSStringFromCGRect(tempFrame));
         for(int i = 0; i < options.count;i++){
             if(i > 0){
                 tempFrame.origin.y = CGRectGetMaxY(tempFrame) +  __k_etoptionview_option_margin;
@@ -212,6 +215,7 @@
                 //添加到容器
                 [self addSubview:optionView];
                 tempFrame = optionView.frame;
+                //NSLog(@"ItemOptionView-%d,%@",i, NSStringFromCGRect(tempFrame));
             }
         }
         //重置容器高度
@@ -245,6 +249,7 @@
     if(_optionsCache.count > index){
         optView = [_optionsCache objectAtIndex:index];
         optView.frame = frame;
+        optView.optSelected = NO;
         return optView;
     }
     optView = [[ItemOptionView alloc] initWithFrame:frame];

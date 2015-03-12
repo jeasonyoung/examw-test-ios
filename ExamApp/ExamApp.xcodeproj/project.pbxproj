@@ -118,6 +118,7 @@
 		A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D66D381A72177200F98206 /* UIColor+Hex.m */; };
 		A1D66D3C1A7217BA00F98206 /* NSString+Size.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D66D3A1A7217BA00F98206 /* NSString+Size.m */; };
 		A1D66D3F1A723B7E00F98206 /* NSString+Date.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D66D3E1A723B7E00F98206 /* NSString+Date.m */; };
+		A1DAE05F1AB15E21001D5091 /* UIViewQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DAE05E1AB15E21001D5091 /* UIViewQueue.m */; };
 		A1E279001A7887B000F23A20 /* ETNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E278FF1A7887B000F23A20 /* ETNavigationController.m */; };
 		A1E279051A78BC8B00F23A20 /* UIViewController+VisibleView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E279041A78BC8B00F23A20 /* UIViewController+VisibleView.m */; };
 		A1E279071A78D7D600F23A20 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E279061A78D7D600F23A20 /* libsqlite3.dylib */; };
@@ -332,6 +333,8 @@
 		A1D66D3B1A7217BA00F98206 /* NSString+Size.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Size.h"; path = "Utils/NSString+Size.h"; sourceTree = "<group>"; };
 		A1D66D3D1A723B7E00F98206 /* NSString+Date.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Date.h"; path = "Utils/NSString+Date.h"; sourceTree = "<group>"; };
 		A1D66D3E1A723B7E00F98206 /* NSString+Date.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Date.m"; path = "Utils/NSString+Date.m"; sourceTree = "<group>"; };
+		A1DAE05D1AB15E21001D5091 /* UIViewQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UIViewQueue.h; path = Utils/UIViewQueue.h; sourceTree = "<group>"; };
+		A1DAE05E1AB15E21001D5091 /* UIViewQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIViewQueue.m; path = Utils/UIViewQueue.m; sourceTree = "<group>"; };
 		A1E278FE1A7887B000F23A20 /* ETNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETNavigationController.h; sourceTree = "<group>"; };
 		A1E278FF1A7887B000F23A20 /* ETNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETNavigationController.m; sourceTree = "<group>"; };
 		A1E279031A78BC8B00F23A20 /* UIViewController+VisibleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIViewController+VisibleView.h"; path = "Utils/UIViewController+VisibleView.h"; sourceTree = "<group>"; };
@@ -740,6 +743,8 @@
 				A18827731AA053E5008C734D /* ETAlert.m */,
 				A195EFAF1AA970E3002695A9 /* UIViewUtils.h */,
 				A195EFB01AA970E3002695A9 /* UIViewUtils.m */,
+				A1DAE05D1AB15E21001D5091 /* UIViewQueue.h */,
+				A1DAE05E1AB15E21001D5091 /* UIViewQueue.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1011,6 +1016,7 @@
 				A182E4731AA596DE00730ECC /* PaperItemFavorite.m in Sources */,
 				A1913F8C1AA40107003BFEA0 /* PaperService.m in Sources */,
 				A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */,
+				A1DAE05F1AB15E21001D5091 /* UIViewQueue.m in Sources */,
 				A1C3B7771A763C05006EA38F /* SettingData.m in Sources */,
 				A1D02EFF1A7B5BD1004C484D /* AccountViewController.m in Sources */,
 				A1910E6E1A6D3AC800377160 /* main.m in Sources */,

@@ -20,7 +20,7 @@
 #import "AnswersheetViewController.h"
 #import "PaperListViewController.h"
 
-#import "ItemContentView.h"
+#import "ItemContentGroupView.h"
 
 #import "UIViewUtils.h"
 
@@ -42,10 +42,11 @@
 #define __k_itemviewcontroller_submit_title @"交卷"//交卷
 
 //试题考试视图控制器成员变量
-@interface ItemViewController (){
+@interface ItemViewController ()<ItemContentGroupViewDataSource>{
     PaperReview *_review;
     PaperRecord *_paperRecord;
     UIImage *_imgFavoriteNormal,*_imgFavoriteHighlight;
+    ItemContentGroupView *_itemContentView;
     ETTimerView *_timerView;
 }
 @end
@@ -59,6 +60,8 @@
         
         _imgFavoriteNormal = [UIImage imageNamed:__k_itemviewcontroller_favorite_normal_img];
         _imgFavoriteHighlight = [UIImage imageNamed:__k_itemviewcontroller_favorite_highlight_img];
+        //关闭滚动条y轴自动下移
+        self.automaticallyAdjustsScrollViewInsets = NO;
     }
     return  self;
 }
@@ -71,13 +74,9 @@
     [self setupFootBar];
     //加载试题内容
     [self setupItemContentView];
-    //NSLog(@"     frame => %@",NSStringFromCGRect(self.view.frame));
-    //NSLog(@"view frame => %@",NSStringFromCGRect([self loadVisibleViewFrame]));
-    //self.view.backgroundColor = [UIColor redColor];
-    //NSLog(@"%d == %f",self.hidesBottomBarWhenPushed, [self loadBottomHeight]);
 }
+#pragma mark 视图将呈现
 -(void)viewWillAppear:(BOOL)animated{
-   // NSLog(@"=======viewWillAppear=====");
     //显示底部工具栏
     self.navigationController.toolbarHidden = NO;
 }
@@ -172,10 +171,42 @@
 //上一题
 -(void)btnPrevClick:(UIBarButtonItem *)sender{
     NSLog(@"Prev:%@",sender);
+    if(_itemContentView){
+        [_itemContentView loadPrevContent];
+    }
 }
 //下一题
 -(void)btnNextClick:(UIBarButtonItem *)sender{
     NSLog(@"Next:%@",sender);
+    if(_itemContentView){
+        [_itemContentView loadNextContent];
+    }
+}
+//加载试题内容
+-(void)setupItemContentView{
+    CGRect itemFrame = [self loadVisibleViewFrame];
+    _itemContentView = [[ItemContentGroupView alloc] initWithFrame:itemFrame];
+    //[UIViewUtils addBoundsRadiusWithView:_itemContentView BorderColor:[UIColor redColor] BackgroundColor:nil];
+    _itemContentView.dataSource = self;
+    [_itemContentView loadContent];
+    [self.view addSubview:_itemContentView];
+}
+#pragma mark ItemContentGroupViewDataSource
+//加载数据
+-(ItemContentSource *)itemContentAtIndex:(NSInteger)index{
+    NSLog(@"加载数据...%d",index);
+    if(index < 0)return nil;
+    PaperStructure * structure = [_review.structures objectAtIndex:0];
+    if(structure && structure.items && structure.items.count > index){
+        PaperItem *item = [structure.items objectAtIndex:index];
+        return [ItemContentSource itemContentSource:item Index:0 Order:(index + 1)];
+    }
+    return nil;
+}
+//选中的答案数据
+-(void)itemContentWithItemType:(PaperItemType)itemType selectedCode:(NSString *)optCode{
+    NSLog(@"itemContentAtSelectedCode:%@",optCode);
+    [_itemContentView loadNextContent];
 }
 //收藏
 -(void)btnFavoriteClick:(UIButton *)sender{
@@ -216,22 +247,6 @@
 -(void)btnSubmitClick:(UIBarButtonItem *)sender{
     
     NSLog(@"submit:%@,useTimes:%d",sender, [NSNumber numberWithInteger:([_timerView stop])].intValue);
-}
-//加载试题内容
--(void)setupItemContentView{
-    CGRect itemFrame = self.view.frame;
-    itemFrame.size.height -= [self loadBottomHeight];
-    NSLog(@"itemFrame => %@", NSStringFromCGRect(itemFrame));
-    if(_review.structures && _review.structures.count > 0){
-        PaperStructure * structure = [_review.structures objectAtIndex:0];
-        if(structure && structure.items && structure.items.count > 0){
-            PaperItem *item = [structure.items objectAtIndex:0];
-            ItemContentView *itemView = [[ItemContentView alloc] initWithFrame:itemFrame]; //Item:item Order:1 Index:0];
-            [itemView loadDataWithItem:item Order:1];
-            //itemView.backgroundColor = [UIColor redColor];
-            [self.view addSubview:itemView];
-        }
-    }
 }
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
