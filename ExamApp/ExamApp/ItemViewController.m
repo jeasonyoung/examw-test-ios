@@ -44,7 +44,8 @@
 //试题考试视图控制器成员变量
 @interface ItemViewController ()<ItemContentGroupViewDataSource>{
     PaperReview *_review;
-    PaperRecord *_paperRecord;
+    NSInteger _order;
+    PaperRecord *_record;
     UIImage *_imgFavoriteNormal,*_imgFavoriteHighlight;
     ItemContentGroupView *_itemContentView;
     ETTimerView *_timerView;
@@ -53,17 +54,22 @@
 //试题考试视图控制器实现
 @implementation ItemViewController
 #pragma mark 初始化
--(instancetype)initWithPaper:(PaperReview *)review andRecord:(PaperRecord *)record{
+-(instancetype)initWithPaper:(PaperReview *)review Order:(NSInteger)order andRecord:(PaperRecord *)record{
     if(self = [super init]){
         _review = review;
-        _paperRecord = record;
+        _order = order;
+        _record = record;
         
         _imgFavoriteNormal = [UIImage imageNamed:__k_itemviewcontroller_favorite_normal_img];
         _imgFavoriteHighlight = [UIImage imageNamed:__k_itemviewcontroller_favorite_highlight_img];
         //关闭滚动条y轴自动下移
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
-    return  self;
+    return self;
+}
+#pragma mark 初始化
+-(instancetype)initWithPaper:(PaperReview *)review andRecord:(PaperRecord *)record{
+    return [self initWithPaper:review Order:0 andRecord:record];
 }
 #pragma 加载界面入口
 - (void)viewDidLoad {
@@ -130,7 +136,7 @@
     //NSLog(@"right_bar_click:%@",sender);
     //隐藏状态栏
     self.navigationController.toolbarHidden = YES;
-    AnswersheetViewController *avc = [[AnswersheetViewController alloc] initWithPaperReview:_review PaperRecordCode:(_paperRecord ? _paperRecord.code : nil)];
+    AnswersheetViewController *avc = [[AnswersheetViewController alloc] initWithPaperReview:_review PaperRecord:_record];
     avc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:avc animated:NO];
 }
@@ -185,8 +191,7 @@
 //加载试题内容
 -(void)setupItemContentView{
     CGRect itemFrame = [self loadVisibleViewFrame];
-    _itemContentView = [[ItemContentGroupView alloc] initWithFrame:itemFrame];
-    //[UIViewUtils addBoundsRadiusWithView:_itemContentView BorderColor:[UIColor redColor] BackgroundColor:nil];
+    _itemContentView = [[ItemContentGroupView alloc] initWithFrame:itemFrame Order:_order];
     _itemContentView.dataSource = self;
     [_itemContentView loadContent];
     [self.view addSubview:_itemContentView];
@@ -195,13 +200,17 @@
 //加载数据
 -(ItemContentSource *)itemContentAtIndex:(NSInteger)index{
     NSLog(@"加载数据...%d",index);
-    if(index < 0)return nil;
-    PaperStructure * structure = [_review.structures objectAtIndex:0];
-    if(structure && structure.items && structure.items.count > index){
-        PaperItem *item = [structure.items objectAtIndex:index];
-        return [ItemContentSource itemContentSource:item Index:0 Order:(index + 1)];
-    }
-    return nil;
+    if(index < 0 || !_review)return nil;
+    __block ItemContentSource *source;
+    [_review loadItemAtOrder:index ItemBlock:^(PaperItemOrderIndexPath *indexPath) {
+        if(indexPath){
+            self.navigationItem.title = indexPath.structureTitle;
+            source = [ItemContentSource itemContentSource:indexPath.item
+                                                    Index:indexPath.index
+                                                    Order:indexPath.order + 1];
+        }
+    }];
+    return source;
 }
 //选中的答案数据
 -(void)itemContentWithItemType:(PaperItemType)itemType selectedCode:(NSString *)optCode{
@@ -248,9 +257,14 @@
     
     NSLog(@"submit:%@,useTimes:%d",sender, [NSNumber numberWithInteger:([_timerView stop])].intValue);
 }
+#pragma mark 加载数据
+-(void)loadDataAtOrder:(NSInteger)order{
+    if(order < 0 || !_itemContentView)return;
+     _order = order;
+    [_itemContentView loadContentAtOrder:order];
+}
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 @end

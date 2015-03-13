@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 @class PaperReview;
+@class PaperRecord;
 //答题卡视图控制器
 @interface AnswersheetViewController : UIViewController
 //初始化
--(instancetype)initWithPaperReview:(PaperReview *)review PaperRecordCode:(NSString *)recordCode;
+-(instancetype)initWithPaperReview:(PaperReview *)review PaperRecord:(PaperRecord *)record;
 @end

@@ -8,13 +8,15 @@
 
 #import "AnswersheetViewController.h"
 #import "PaperReview.h"
+#import "PaperRecord.h"
 
 #import "UIViewController+VisibleView.h"
 #import "NSString+Size.h"
 #import "UIColor+Hex.h"
 
 #import "UIViewUtils.h"
-#import "ItemAnswersheet.h"
+//#import "ItemAnswersheet.h"
+#import "ItemViewController.h"
 
 #define __k_answersheetviewcontroller_title @"答题卡"
 
@@ -42,25 +44,33 @@
 #define __k_answersheetviewcontroller_item_borderColor 0xcccccc//边框颜色
 #define __k_answersheetviewcontroller_item_cols 5//每行的列数
 #define __k_answersheetviewcontroller_item_height 30//试题号高度
-#define __k_answersheetviewcontroller_item_space 10//
+#define __k_answersheetviewcontroller_item_vspace 10//纵向间距
+#define __k_answersheetviewcontroller_item_hspace 10//横向间距
 
 //答题卡视图控制器成员变量
 @interface AnswersheetViewController (){
     PaperReview *_review;
+    PaperRecord *_record;
+    ItemViewController *_targetItemControoler;
     NSString *_paperRecordCode;
-    UIColor *_hasBgColor,*_todoBgColor;
+    UIColor *_hasBgColor,*_todoBgColor,*_itemBorderColor,*_itemFontColor;
+    UIFont *_itemFont;
 }
 @end
 //答题卡视图控制器实现
 @implementation AnswersheetViewController
 #pragma mark 初始化
--(instancetype)initWithPaperReview:(PaperReview *)review PaperRecordCode:(NSString *)recordCode{
+-(instancetype)initWithPaperReview:(PaperReview *)review PaperRecord:(PaperRecord *)record{
     if(self = [super init]){
         _review = review;
-        _paperRecordCode = recordCode;
+        _record = record;
         
         _hasBgColor = [UIColor colorWithHex:__k_answersheetviewcontroller_legend_has_bgColor],
         _todoBgColor = [UIColor colorWithHex:__k_answersheetviewcontroller_legend_todo_bgColor];
+        
+        _itemBorderColor = [UIColor colorWithHex:__k_answersheetviewcontroller_item_borderColor];
+        _itemFontColor = [UIColor colorWithHex:__k_answersheetviewcontroller_item_font_color];
+        _itemFont = [UIFont systemFontOfSize:__k_answersheetviewcontroller_item_font_size];
     }
     return self;
 }
@@ -149,139 +159,112 @@
     //创建容器面板
     UIScrollView *viewPanel = [[UIScrollView alloc] initWithFrame:tempFrame];
     //viewPanel.backgroundColor = [UIColor redColor];
-    //添加试题
-    NSNumber *itemOutY = [NSNumber numberWithFloat:0];
-    if(_review && _review.structures && _review.structures.count > 0){
-        NSNumber *total = [NSNumber numberWithInteger:0];
-        for(PaperStructure *structure in _review.structures){
-            if(structure){
-                //NSLog(@"total=>%d",total.integerValue);
-                [self createTitleWithViewPanel:viewPanel Structure:structure OutY:&itemOutY Total:&total];
-            }
-        }
+    __block NSNumber *itemOutY = [NSNumber numberWithFloat:0];
+    if(_review){
+        [_review loadAnswersheet:^(NSString *text, NSArray *indexPaths) {
+            //创建试卷结构
+            [self setupStructureItemsWithPanel:viewPanel Title:text IndexPathArrays:indexPaths OutY:&itemOutY];
+        }];
     }
     //获取容器初始y
     if(itemOutY.floatValue > CGRectGetHeight(tempFrame)){
         viewPanel.contentSize = CGSizeMake(CGRectGetWidth(tempFrame), itemOutY.floatValue);
     }
     //获取到Y坐标
-    *outY = [NSNumber numberWithFloat:CGRectGetMaxY(viewPanel.frame)];
+    //*outY = [NSNumber numberWithFloat:CGRectGetMaxY(viewPanel.frame)];
     //将容器添加到界面
     [UIViewUtils addBoundsRadiusWithView:viewPanel
                        BorderColor:[UIColor colorWithHex:__k_answersheetviewcontroller_item_borderColor]
                    BackgroundColor:[UIColor clearColor]];
     [self.view addSubview:viewPanel];
 }
-//创建大题
--(void)createTitleWithViewPanel:(UIView *)viewPanel Structure:(PaperStructure *)structure OutY:(NSNumber **)outY Total:(NSNumber **)total{
-    NSString *title = structure.title;
+//创建试卷结构
+-(void)setupStructureItemsWithPanel:(UIView *)viewPanel
+                         Title:(NSString *)title
+               IndexPathArrays:(NSArray *)indexPaths
+                          OutY:(NSNumber **)outY{
     if(!title || title.length == 0) return;
-    CGFloat y = 0;
-    
-    CGRect tempFrame = self.view.frame;
-    tempFrame.origin.x = __k_answersheetviewcontroller_left;
-    tempFrame.origin.y = (*outY).floatValue + __k_answersheetviewcontroller_top;
-    tempFrame.size.width -= (__k_answersheetviewcontroller_left + __k_answersheetviewcontroller_right);
-    
+    CGFloat height = 0;
+    //大题标题
+    CGRect tempFrame = CGRectMake(__k_answersheetviewcontroller_margin_min,
+                                  (*outY).floatValue + __k_answersheetviewcontroller_margin_min,
+                                  CGRectGetWidth(viewPanel.frame) - __k_answersheetviewcontroller_margin_min,
+                                  0);
     UIFont *titleFont = [UIFont boldSystemFontOfSize:__k_answersheetviewcontroller_title_font_size];
     CGSize titleSize = [title sizeWithFont:titleFont
-                         constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame), 1000.0f)
+                         constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame),CGFLOAT_MAX)
                              lineBreakMode:NSLineBreakByWordWrapping];
     tempFrame.size.height = titleSize.height;
     UILabel *lbTitle = [[UILabel alloc] initWithFrame:tempFrame];
     lbTitle.font = titleFont;
-    lbTitle.text = [NSString stringWithFormat:@"%@[%d]",title,[NSNumber numberWithFloat:structure.total].intValue];
+    lbTitle.text = title;
     [viewPanel addSubview:lbTitle];
-    y = CGRectGetMaxY(tempFrame);
-    
-    //试题集合
-    CGFloat content_with = CGRectGetWidth(tempFrame) - __k_answersheetviewcontroller_margin_min *2;
-    UIView *contentView = [self createViewWithStructureCode:structure.code Items:structure.items With:content_with Total:total];
-    if(contentView){
-        tempFrame = contentView.frame;
-        tempFrame.origin.x = __k_answersheetviewcontroller_margin_min;
-        tempFrame.origin.y = y + __k_answersheetviewcontroller_margin_max;
+    height += CGRectGetHeight(tempFrame);
+    //小题
+    NSUInteger count = 0;
+    if(indexPaths && (count = indexPaths.count) > 0){
+        tempFrame.origin.y = CGRectGetMaxY(tempFrame) + __k_answersheetviewcontroller_margin_min;
+        CGFloat width = CGRectGetWidth(tempFrame) - __k_answersheetviewcontroller_margin_min;
+        CGFloat item_width = (width - (__k_answersheetviewcontroller_item_cols + 1) * __k_answersheetviewcontroller_item_hspace)/__k_answersheetviewcontroller_item_cols;
+        tempFrame.size = CGSizeMake(width, 0);
+        UIView *contentView = [[UIView alloc] initWithFrame:tempFrame];
         
-        contentView.frame = tempFrame;
-        
-        y +=  CGRectGetHeight(contentView.frame) + __k_answersheetviewcontroller_margin_max;
-        //NSLog(@"y1 = %f,y2 = %f,y2 - y1 = %f",y1,y,y-y1);
-        [viewPanel addSubview:contentView];
-    }
-    //高度
-    *outY = [NSNumber numberWithFloat:y];
-}
-//创建题号
--(UIView *)createViewWithStructureCode:(NSString *)structureCode Items:(NSArray *)items With:(CGFloat)w Total:(NSNumber **)total{
-    if(items && items.count > 0){
-        UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, w, 0)];
-        NSNumber *index = [NSNumber numberWithInteger:0], *y = [NSNumber numberWithInteger:0];
-        //NSLog(@"structure-index=>%d",index.intValue);
-        for(PaperItem *item in items){
-            if(!item) continue;
-            [self createItemOrderWithContentView:contentView
-                                   StructureCode:structureCode
-                                            Item:item
-                                           Index:&index
-                                           Total:total
-                                            OutY:&y];
+        CGRect itemFrame;
+        for(NSInteger i = 0; i < count; i++){
+            PaperItemOrderIndexPath *indexPath = [indexPaths objectAtIndex:i];
+            if(!indexPath)continue;
+            
+            NSInteger col = i % __k_answersheetviewcontroller_item_cols;//列
+            NSInteger row = i /__k_answersheetviewcontroller_item_cols;//行
+            
+            itemFrame = CGRectMake((item_width +__k_answersheetviewcontroller_item_hspace) * col + __k_answersheetviewcontroller_item_hspace,
+                                   (__k_answersheetviewcontroller_item_height + __k_answersheetviewcontroller_item_vspace) * row + __k_answersheetviewcontroller_item_vspace,
+                                   item_width,
+                                   __k_answersheetviewcontroller_item_height);
+            
+            
+            UIButton *btnItem = [UIButton buttonWithType:UIButtonTypeCustom];
+            btnItem.frame = itemFrame;
+            btnItem.titleLabel.font = _itemFont;
+            btnItem.tag = indexPath.order;
+            [btnItem setTitleColor:_itemFontColor forState:UIControlStateNormal];
+            [btnItem setTitleColor:_hasBgColor forState:UIControlStateHighlighted];
+            [btnItem setTitle:[NSString stringWithFormat:@"%d",(indexPath.order + 1)] forState:UIControlStateNormal];
+            ///TODO:加载做题记录
+            
+            [btnItem setBackgroundColor:(arc4random_uniform(10)/2 == 0 ? _hasBgColor : _todoBgColor)];
+            [UIViewUtils addBorderWithView:btnItem BorderColor:_itemBorderColor BackgroundColor:nil];
+            [btnItem addTarget:self action:@selector(itemAnswersheetClick:) forControlEvents:UIControlEventTouchUpInside];
+            [contentView addSubview:btnItem];
         }
-        //重置尺寸
-        CGRect tempFrame = contentView.frame;
-        tempFrame.size.height = y.floatValue + __k_answersheetviewcontroller_item_space;
+        //重置高度
+        tempFrame.size.height = CGRectGetMaxY(itemFrame) + __k_answersheetviewcontroller_item_vspace;
         contentView.frame = tempFrame;
-        return contentView;
+        //添加到面板
+        [viewPanel addSubview:contentView];
+        height += CGRectGetHeight(tempFrame);
     }
-    return nil;
+    //输出y
+    *outY = [NSNumber numberWithFloat:((*outY).floatValue + height + __k_answersheetviewcontroller_margin_max)];
 }
-//创建试题序号
--(void)createItemOrderWithContentView:(UIView *)contentView
-                        StructureCode:(NSString *)structureCode
-                                 Item:(PaperItem *)item
-                                Index:(NSNumber **)index
-                                Total:(NSNumber **)total
-                                 OutY:(NSNumber **)outY{
-    if(!item || item.count == 0)return;
-    CGRect contentFrame = contentView.frame;
-    int item_index = (*index).intValue;
-    //NSLog(@"total_index => %d,item_index => %d", total_index,item_index);
-    UIColor *borderColor = [UIColor colorWithHex:__k_answersheetviewcontroller_item_borderColor],
-            *itemTextColor = [UIColor colorWithHex:__k_answersheetviewcontroller_item_font_color];
-    UIFont *itemFont = [UIFont systemFontOfSize:__k_answersheetviewcontroller_item_font_size];
-    CGFloat item_width = (CGRectGetWidth(contentFrame) - (__k_answersheetviewcontroller_item_cols + 1) * __k_answersheetviewcontroller_item_space)/__k_answersheetviewcontroller_item_cols;
-    for(int i = 0; i < item.count;i++){
-        int col = item_index % __k_answersheetviewcontroller_item_cols;//列
-        int row = item_index /__k_answersheetviewcontroller_item_cols;//行
+-(void)itemAnswersheetClick:(UIButton *)sender{
+    NSLog(@"itemAnswersheetClick->tag:%d ＝>%@",sender.tag,_record);
+    if(!_targetItemControoler){
+        NSArray *controllers = self.navigationController.viewControllers;
+        if(controllers && controllers.count > 0){
+            for(UIViewController *controller in controllers){
+                if(controller && [controller isKindOfClass:[ItemViewController class]]){
+                    _targetItemControoler = (ItemViewController *)controller;
+                    break;
+                }
+            }
         
-        contentFrame.origin.x = (item_width +__k_answersheetviewcontroller_item_space) * col + __k_answersheetviewcontroller_item_space;
-        contentFrame.origin.y = (__k_answersheetviewcontroller_item_height + __k_answersheetviewcontroller_item_space) * row + __k_answersheetviewcontroller_item_space;
-        contentFrame.size.width = item_width;
-        contentFrame.size.height = __k_answersheetviewcontroller_item_height;
-        
-        ItemAnswersheet *btnTitle = [ItemAnswersheet buttonWithType:UIButtonTypeCustom];
-        btnTitle.frame = contentFrame;
-        btnTitle.titleLabel.font = itemFont;
-        btnTitle.structureCode = structureCode;
-        btnTitle.itemCode = [NSString stringWithFormat:@"%@$%d",item.code,i];// item.code;
-        btnTitle.itemJSON = [item serialize];
-        [btnTitle setTitleColor:itemTextColor forState:UIControlStateNormal];
-        [btnTitle setTitleColor:_hasBgColor forState:UIControlStateHighlighted];
-        [btnTitle setTitle:[NSString stringWithFormat:@"%d",((*total).intValue + i + 1)] forState:UIControlStateNormal];
-        [btnTitle setBackgroundColor:(arc4random_uniform(10)/2 == 0 ? _hasBgColor : _todoBgColor)];
-        [UIViewUtils addBorderWithView:btnTitle BorderColor:borderColor BackgroundColor:nil];
-        [btnTitle addTarget:self action:@selector(itemAnswersheetClick:) forControlEvents:UIControlEventTouchUpInside];
-        [contentView addSubview:btnTitle];
-        
-        item_index += 1;
+        }
     }
-    *outY = [NSNumber numberWithFloat:CGRectGetMaxY(contentFrame)];
-    *index = [NSNumber numberWithInteger:item_index];
-    *total = [NSNumber numberWithInteger:((*total).integerValue + item.count)];
-    //NSLog(@"total=>%d,index=>%d,total-index=>%d",(*total).integerValue,item_index,(*total).integerValue - item_index);
-}
-//点击
--(void)itemAnswersheetClick:(ItemAnswersheet *)sender{
-    NSLog(@"itemAnswersheetClick==>%@",sender.itemCode);
+    if(_targetItemControoler){
+        [_targetItemControoler loadDataAtOrder:sender.tag];
+        [self.navigationController popToViewController:_targetItemControoler animated:YES];
+    }
 }
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {

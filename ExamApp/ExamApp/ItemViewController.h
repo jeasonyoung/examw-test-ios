@@ -13,4 +13,8 @@
 @interface ItemViewController : UIViewController
 //初始化
 -(instancetype)initWithPaper:(PaperReview *)review andRecord:(PaperRecord *)record;
+//初始化
+-(instancetype)initWithPaper:(PaperReview *)review Order:(NSInteger)order andRecord:(PaperRecord *)record;
+//加载数据
+-(void)loadDataAtOrder:(NSInteger)order;
 @end

@@ -18,6 +18,12 @@
 #define __k_paper_fields_year @"year"//使用年份
 #define __k_paper_fields_score @"score"//试卷总分
 #define __k_paper_fields_structures @"structures"//试卷结构
+
+//试卷类成员变量
+@interface PaperReview (){
+    NSMutableDictionary *_itemsCache;
+}
+@end
 //试卷类实现。
 @implementation PaperReview
 #pragma mark 初始化
@@ -48,6 +54,153 @@
     }
     return self;
 }
+#pragma mark 按顺序加载答题卡序号
+-(void)loadAnswersheet:(void (^)(NSString *text, NSArray *indexPaths))structures{
+    if(!_itemsCache) _itemsCache = [NSMutableDictionary dictionary];
+    NSNumber *order = [NSNumber numberWithInt:0];
+    if(self.structures && self.structures.count > 0){
+        for(PaperStructure *ps in self.structures){
+            if(!ps) continue;
+            [self createItemAnswersheetWithStructure:ps Order:&order Sheets:structures];
+        }
+    }
+}
+//创建试题答题卡
+-(void)createItemAnswersheetWithStructure:(PaperStructure *)structure
+                                    Order:(NSNumber **)order
+                                    Sheets:(void (^)(NSString *text, NSArray *indexPathSheets))sheets{
+    NSString *title = structure.title;//[NSString stringWithFormat:@"%@[%d]",structure.title,structure.total];
+    //结构下有试题集合
+    if(structure.items && structure.items.count > 0){
+        int index = (*order).intValue;
+        NSMutableArray *indexPathArrays = [NSMutableArray array];
+        for(PaperItem *item in structure.items){
+            if(!item) continue;
+            if(item.count > 1){
+                for(int i = 0; i < item.count; i++){
+                    [indexPathArrays addObject:[self createCacheWithOrder:index
+                                                           StructureTitle:title
+                                                                     Item:item
+                                                                    Index:i]];
+                    //
+                    index++;
+                }
+            }else{
+                [indexPathArrays addObject:[self createCacheWithOrder:index
+                                                       StructureTitle:title
+                                                                 Item:item
+                                                                Index:0]];
+                //
+                index++;
+            }
+        }
+        *order = [NSNumber numberWithInt:index];
+        //调用块
+        sheets(title,[indexPathArrays copy]);
+    }else{//结构下没有试题
+        //调用块
+        sheets(title,nil);
+    }
+    //子结构
+    if(structure.children && structure.children.count > 0){
+        for(PaperStructure *ps in structure.children){
+            if(!ps)continue;
+            [self createItemAnswersheetWithStructure:ps Order:order Sheets:sheets];
+        }
+    }
+}
+//创建缓存
+-(PaperItemOrderIndexPath *)createCacheWithOrder:(NSInteger)order
+             StructureTitle:(NSString *)title
+                       Item:(PaperItem *)item
+                      Index:(NSInteger)index{
+    PaperItemOrderIndexPath *indexPath = [PaperItemOrderIndexPath paperOrder:order
+                                                              StructureTitle:title
+                                                                        Item:item
+                                                                       Index:index];
+    NSNumber *key = [NSNumber numberWithInteger:order];
+    if(!_itemsCache)_itemsCache = [NSMutableDictionary dictionary];
+    //添加到缓存
+    [_itemsCache setObject:indexPath forKey:key];
+    //返回
+    return indexPath;
+}
+
+#pragma mark 按索引加载试题(索引从0开始)
+-(void)loadItemAtOrder:(NSInteger)order ItemBlock:(void (^)(PaperItemOrderIndexPath *))block{
+    if(order < 0 || order > self.total - 1)return;
+    
+    NSNumber *key = [NSNumber numberWithInteger:order];
+    if(!_itemsCache)_itemsCache = [NSMutableDictionary dictionary];
+    PaperItemOrderIndexPath *indexPath = [_itemsCache objectForKey:key];
+    if(!indexPath){
+        indexPath = [self createItemIndexPathAtOrder:order];
+    }
+    //调用块处理
+    block(indexPath);
+}
+//创建试题索引
+-(PaperItemOrderIndexPath *)createItemIndexPathAtOrder:(NSInteger)order{
+    if(order < 0 || order > self.total - 1)return nil;
+    if(self.structures && self.structures.count > 0){
+        NSNumber *orderIndex = [NSNumber numberWithInt:0];
+        PaperItemOrderIndexPath *indexPath;
+        for(PaperStructure *ps in self.structures){
+            if(!ps) continue;
+            if([self findItemIndexPathAtOrder:order Structrue:ps OrderIndex:&orderIndex IndexPath:&indexPath]){
+                break;
+            }
+        }
+        return indexPath;
+    }
+    return nil;
+}
+//查找试题索引
+-(BOOL)findItemIndexPathAtOrder:(NSInteger)order
+                        Structrue:(PaperStructure *)ps
+                       OrderIndex:(NSNumber **)orderIndex
+                        IndexPath:(PaperItemOrderIndexPath **)indexPath{
+    if(!ps)return NO;
+    if(ps.items && ps.items.count > 0){
+        int numOrder = [NSNumber numberWithInteger:order].intValue;
+        NSString *title = ps.title;
+        int index = (*orderIndex).intValue;
+        for(PaperItem *item in ps.items){
+            if(!item) continue;
+            if(item.count > 1){
+                for(int i = 0; i < item.count; i++){
+                    if(index == numOrder){
+                        *indexPath = [self createCacheWithOrder:index
+                                                 StructureTitle:title
+                                                           Item:item
+                                                          Index:i];
+                        return YES;
+                    }
+                    index++;
+                }
+            }else{
+                if(index == numOrder){
+                    *indexPath = [self createCacheWithOrder:index
+                                             StructureTitle:title
+                                                       Item:item
+                                                      Index:0];
+                    return YES;
+                }
+                index++;
+            }
+        }
+        *orderIndex = [NSNumber numberWithInt:index];
+    }
+    if(ps.children && ps.children.count > 0){
+        for(PaperStructure *structure in ps.children){
+            if([self findItemIndexPathAtOrder:order Structrue:structure OrderIndex:orderIndex IndexPath:indexPath]){
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
 #pragma mark 根据JSON字符串初始化
 -(instancetype)initWithJSON:(NSString *)json{
     if(!json || json.length == 0) return nil;
@@ -94,7 +247,15 @@
     }
     return nil;
 }
+#pragma mark 回收内存
+-(void)dealloc{
+    if(_itemsCache && _itemsCache.count > 0){
+        [_itemsCache removeAllObjects];
+    }
+}
 @end
+
+
 //试卷结构字段
 #define __k_paperstructure_fields_code @"id"//试卷结构ID
 #define __k_paperstructure_fields_title @"title"//试卷结构标题
@@ -315,5 +476,23 @@
         }
     }
     return nil;
+}
+@end
+
+//试题索引实现
+@implementation PaperItemOrderIndexPath
+#pragma mark 初始化
+-(instancetype)initWithOrder:(NSInteger)order StructureTitle:(NSString *)title Item:(PaperItem *)item Index:(NSInteger)index{
+    if(self = [super init]){
+        _order = order;
+        _structureTitle = title;
+        _item = item;
+        _index = index;
+    }
+    return self;
+}
+#pragma mark 静态初始化
++(instancetype)paperOrder:(NSInteger)order StructureTitle:(NSString *)title Item:(PaperItem *)item Index:(NSInteger)index{
+    return [[self alloc] initWithOrder:order StructureTitle:title Item:item Index:index];
 }
 @end

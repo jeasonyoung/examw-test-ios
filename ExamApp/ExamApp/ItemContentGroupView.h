@@ -38,11 +38,13 @@
 //试题显示分页集合
 @interface ItemContentGroupView : UIScrollView
 //初始化
--(instancetype)initWithFrame:(CGRect)frame;
+-(instancetype)initWithFrame:(CGRect)frame Order:(NSInteger)order;
 //数据源
 @property(nonatomic,assign)id<ItemContentGroupViewDataSource> dataSource;
 //加载当前试题
 -(void)loadContent;
+//加载试题
+-(void)loadContentAtOrder:(NSInteger)order;
 //加载下一题。
 -(void)loadNextContent;
 //加载上一题

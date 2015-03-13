@@ -43,10 +43,10 @@
 //试题显示分页集合实现
 @implementation ItemContentGroupView
 #pragma mark 初始化
--(instancetype)initWithFrame:(CGRect)frame{
+-(instancetype)initWithFrame:(CGRect)frame Order:(NSInteger)order{
     if(self = [super initWithFrame:frame]){
         //初始化当前页码
-        _pageIndex = 0;
+        _pageIndex = order;
         //试题页面缓存队列
         _queue = [[UIViewQueue alloc] initWithCacheCount:__k_itemcontentgroupview_queue_max];
         //以页为单位滑动，即自动到下一页的开始边界
@@ -61,6 +61,10 @@
         self.delegate = self;
     }
     return self;
+}
+//初始化
+-(instancetype)initWithFrame:(CGRect)frame{
+    return [self initWithFrame:frame Order:0];
 }
 //加载试题内容视图
 -(BOOL)loadItemContentViewAtIndex:(NSInteger)index{
@@ -130,11 +134,15 @@
 -(void)loadContent{
     [self loadContentAtIndex:_pageIndex];
 }
+#pragma mark 加载数据
+-(void)loadContentAtOrder:(NSInteger)order{
+    [self loadContentAtIndex:order];
+}
 #pragma mark 加载下一题
 -(void)loadNextContent{
     _pageIndex++;
     if(![self loadContentAtIndex:_pageIndex]){
-        _pageIndex --;
+        _pageIndex--;
     }
 }
 #pragma mark 加载上一题

@@ -134,7 +134,6 @@
 		A1EE7E041A70E5A00071C76D /* tab_settings_selectd.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE7E001A70E5A00071C76D /* tab_settings_selectd.png */; };
 		A1EE7E071A70EA440071C76D /* user_username.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE7E061A70EA440071C76D /* user_username.png */; };
 		A1EE7E091A70EA5B0071C76D /* user_calculate.png in Resources */ = {isa = PBXBuildFile; fileRef = A1EE7E081A70EA5B0071C76D /* user_calculate.png */; };
-		A1F1D50B1AA9F57B003B2B4C /* ItemAnswersheet.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F1D50A1AA9F57B003B2B4C /* ItemAnswersheet.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -358,8 +357,6 @@
 		A1EE7E001A70E5A00071C76D /* tab_settings_selectd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tab_settings_selectd.png; sourceTree = "<group>"; };
 		A1EE7E061A70EA440071C76D /* user_username.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_username.png; sourceTree = "<group>"; };
 		A1EE7E081A70EA5B0071C76D /* user_calculate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = user_calculate.png; sourceTree = "<group>"; };
-		A1F1D5091AA9F57B003B2B4C /* ItemAnswersheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemAnswersheet.h; sourceTree = "<group>"; };
-		A1F1D50A1AA9F57B003B2B4C /* ItemAnswersheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemAnswersheet.m; sourceTree = "<group>"; };
 		B80650993975702DBACD81BE /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -599,8 +596,6 @@
 				A19493661AA8242800A7791E /* ETTimerView.m */,
 				A135278B1AAE864D00630C72 /* ItemOptionView.h */,
 				A135278C1AAE864D00630C72 /* ItemOptionView.m */,
-				A1F1D5091AA9F57B003B2B4C /* ItemAnswersheet.h */,
-				A1F1D50A1AA9F57B003B2B4C /* ItemAnswersheet.m */,
 				A1EC0A921AAAC9E000167B83 /* ItemContentView.h */,
 				A1EC0A931AAAC9E000167B83 /* ItemContentView.m */,
 				A1CCBEE31AAFD60F00705643 /* ItemContentGroupView.h */,
@@ -974,7 +969,6 @@
 				A1936AA01A9F1A6200A0F45C /* WaitForAnimation.m in Sources */,
 				A1936A911A9EC4E300A0F45C /* ExamDataDao.m in Sources */,
 				A1CCBEE51AAFD60F00705643 /* ItemContentGroupView.m in Sources */,
-				A1F1D50B1AA9F57B003B2B4C /* ItemAnswersheet.m in Sources */,
 				A18B9F701AA70A2400C135DB /* ItemViewController.m in Sources */,
 				A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */,
 				A1D02F081A7B7E37004C484D /* NSString+Hex.m in Sources */,
