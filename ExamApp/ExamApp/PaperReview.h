@@ -143,7 +143,7 @@ typedef NS_ENUM(NSInteger,PaperItemType){
 //按索引加载试题(索引从0开始)
 -(void)loadItemAtOrder:(NSInteger)order ItemBlock:(void(^)(PaperItemOrderIndexPath *indexPath))block;
 //根据试题ID加载题序
--(NSInteger)loadOrderAtItemCode:(NSString *)itemCode;
+-(NSInteger)findOrderAtItemCode:(NSString *)itemCode;
 //序列化为JSON字符串
 -(NSString *)serialize;
 @end

@@ -147,12 +147,6 @@
         _paperRecord = [_recordService loadLastRecordWithPaperCode:_paperReview.code];
         if(_paperRecord){//存在未完成的试卷
             [self setupDoubleButtonWithView:view OutY:outY];
-            NSDate *current = [NSDate date];
-            NSLog(@"current:%@=>%@",current,[NSString stringFromDate:current]);
-            NSDate *local = [NSDate currentLocalTime];
-            NSLog(@"current local:%@ => %@",local,[NSString stringFromDate:local]);
-            
-            NSLog(@"createTime:%@,lastTime:%@", _paperRecord.createTime,_paperRecord.lastTime);
         }else{//不存在未完成的试卷
             [self setupSignButtonWithView:view OutY:outY];
         }
@@ -160,12 +154,22 @@
 }
 //继续开始做题
 -(void)btnContinueStartClik:(UIButton *)sender{
-    if(_recordService){//加载最新的做题记录
-        
-        
+    ItemViewController *ivc;
+    if(_recordService && _paperReview){//加载最新的做题记录
+        PaperItemRecord *itemReord = [_recordService loadLastRecordWithPaperRecordCode:_paperReview.code];
+        if(itemReord && itemReord.itemCode && itemReord.itemCode.length > 0){
+            NSInteger order = [_paperReview findOrderAtItemCode:itemReord.itemCode];
+            ivc = [[ItemViewController alloc] initWithPaper:_paperReview Order:(order + 1) andRecord:_paperRecord];
+        }
     }
-    
-    NSLog(@"btnContinueStartClik...");
+    //控制器跳转
+    if(!ivc){
+        ivc = [[ItemViewController alloc] initWithPaper:_paperReview andRecord:_paperRecord];
+    }
+    ivc.navigationItem.title = __k_paperdetailviewcontroller_btn_start;
+    ivc.hidesBottomBarWhenPushed = NO;
+    [self.navigationController pushViewController:ivc animated:NO];
+    //NSLog(@"btnContinueStartClik...");
 }
 //重新开始做题
 -(void)btnReNewStartClick:(UIButton *)sender{
@@ -237,19 +241,12 @@
     //注册点击事件
     [btn addTarget:self action:@selector(btnReNewStartClick:) forControlEvents:UIControlEventTouchUpInside];
     //设置边框圆角
-    [UIViewUtils addBoundsRadiusWithView:btn
-                             BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_btn_border]
-                         BackgroundColor:nil];
+    [UIViewUtils addBoundsRadiusWithView:btn BorderColor:_colorBorder BackgroundColor:nil];
     //添加到界面
     [view addSubview:btn];
     //输出Y坐标
     *outY = [NSNumber numberWithFloat:CGRectGetMaxY(tempFrame)];
 }
-////开始按钮点击事件
-//-(void)btnStartClick:(UIButton *)sender{
-//    //NSLog(@"==click %@==> %@",sender,_paperCode);
-//
-//}
 //加载试卷信息
 -(void)setupPaperInfoWithView:(UIView *)view OutY:(NSNumber **)outY{
     if(_paperReview){

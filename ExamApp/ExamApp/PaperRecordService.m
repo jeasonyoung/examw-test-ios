@@ -100,6 +100,14 @@
 }
 #pragma mark 加载试卷记录下最新的试题记录
 -(PaperItemRecord *)loadLastRecordWithPaperRecordCode:(NSString *)paperRecordCode{
+    if(_dbQueue && paperRecordCode && paperRecordCode.length > 0){
+        __block PaperItemRecord *record;
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            PaperItemRecordDao *dao = [[PaperItemRecordDao alloc] initWithDb:db];
+            record = [dao loadLastRecordWithPaperRecordCode:paperRecordCode];
+        }];
+        return record;
+    }
     return nil;
 }
 #pragma mark 加载试题记录

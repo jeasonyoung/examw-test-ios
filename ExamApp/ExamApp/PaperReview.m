@@ -201,16 +201,21 @@
     return NO;
 }
 #pragma mark 根据试题ID加载题序
--(NSInteger)loadOrderAtItemCode:(NSString *)itemCode{
+-(NSInteger)findOrderAtItemCode:(NSString *)itemCode{
     if(!itemCode || itemCode.length == 0) return 0;
-    NSNumber *order = [NSNumber numberWithInt:0];
+    NSNumber *order = [NSNumber numberWithInt:-1];
+    NSArray *arrays = [itemCode componentsSeparatedByString:@"$"];
     if(self.structures && self.structures.count > 0){
         for(PaperStructure *ps in self.structures){
-            if([self findItemCodeWithStructure:ps ItemCode:itemCode Order:&order]){
+            if([self findItemCodeWithStructure:ps ItemCode:(NSString *)[arrays objectAtIndex:0] Order:&order]){
                 break;
             }
         }
     }
+    if(arrays.count > 1){
+        order = [NSNumber numberWithInteger:order.integerValue + ((NSNumber *)[arrays objectAtIndex:(arrays.count - 1)]).integerValue];
+    }
+    
     return order.integerValue;
 }
 //根据ID查找题序
