@@ -200,6 +200,40 @@
     }
     return NO;
 }
+#pragma mark 根据试题ID加载题序
+-(NSInteger)loadOrderAtItemCode:(NSString *)itemCode{
+    if(!itemCode || itemCode.length == 0) return 0;
+    NSNumber *order = [NSNumber numberWithInt:0];
+    if(self.structures && self.structures.count > 0){
+        for(PaperStructure *ps in self.structures){
+            if([self findItemCodeWithStructure:ps ItemCode:itemCode Order:&order]){
+                break;
+            }
+        }
+    }
+    return order.integerValue;
+}
+//根据ID查找题序
+-(BOOL)findItemCodeWithStructure:(PaperStructure *)ps ItemCode:(NSString *)itemCode Order:(NSNumber **)order{
+    if(!ps || !ps.items || ps.items.count == 0)return NO;
+    NSInteger itemOrder = (*order).integerValue;
+    for(PaperItem *item in ps.items){
+        if(!item || !item.code)continue;
+        if([item.code isEqualToString:itemCode]){
+            return YES;
+        }
+        itemOrder += (item.count == 0 ? 1 : item.count);
+    }
+    *order = [NSNumber numberWithInteger:itemOrder];
+    if(ps.children && ps.children.count > 0){
+        for(PaperStructure *structure in ps.children){
+            if([self findItemCodeWithStructure:structure ItemCode:itemCode Order:order]){
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
 
 #pragma mark 根据JSON字符串初始化
 -(instancetype)initWithJSON:(NSString *)json{

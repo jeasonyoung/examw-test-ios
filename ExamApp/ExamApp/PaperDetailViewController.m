@@ -10,6 +10,8 @@
 #import "UIViewController+VisibleView.h"
 #import "NSString+Size.h"
 #import "UIColor+Hex.h"
+#import "NSDate+TimeZone.h"
+#import "NSString+Date.h"
 
 #import "WaitForAnimation.h"
 
@@ -19,6 +21,10 @@
 #import "ItemViewController.h"
 
 #import "UIViewUtils.h"
+
+#import "PaperRecordService.h"
+#import "PaperRecord.h"
+#import "PaperItemRecord.h"
 
 #define __k_paperdetailviewcontroller_waiting @"加载数据..."
 
@@ -32,10 +38,12 @@
 #define __k_paperdetailviewcontroller_bg_color 0xf1f1f1//背景色
 
 #define __k_paperdetailviewcontroller_btn_height 40//按钮高度
-#define __k_paperdetailviewcontroller_btn_normal_bg 0xf5f4f9//
-#define __k_paperdetailviewcontroller_btn_highlight_bg 0x3277ec//
+#define __k_paperdetailviewcontroller_btn_normal_bg 0x3277ec//
+#define __k_paperdetailviewcontroller_btn_highlight_bg 0xf5f4f9//
 #define __k_paperdetailviewcontroller_btn_border 0xdedede
 #define __k_paperdetailviewcontroller_btn_start @"开始考试"
+#define __k_paperdetailviewcontroller_btn_continue @"继续考试"
+#define __k_paperdetailviewcontroller_btn_renew @"重新开始"
 
 #define __k_paperdetailviewcontroller_info_structures_title @"大题数:%ld"
 #define __k_paperdetailviewcontroller_info_items_title @"总题数:%ld"
@@ -48,9 +56,11 @@
 @interface PaperDetailViewController (){
     NSString *_paperCode;
     UIFont *_font;
+    UIColor *_colorNormal,*_colorHighlight,*_colorBorder;
     PaperReview *_paperReview;
     PaperRecord *_paperRecord;
     PaperService *_service;
+    PaperRecordService *_recordService;
 }
 @end
 //试卷明细视图控制器实现
@@ -60,13 +70,17 @@
     if(self = [super init]){
         _paperCode = paperCode;
         _font = [UIFont systemFontOfSize:__k_paperdetailviewcontroller_font_size];
-        _service = [[PaperService alloc] init];
+        _colorNormal = [UIColor colorWithHex:__k_paperdetailviewcontroller_btn_normal_bg],
+        _colorHighlight = [UIColor colorWithHex:__k_paperdetailviewcontroller_btn_highlight_bg];
+        _colorBorder = [UIColor colorWithHex:__k_paperdetailviewcontroller_btn_border];
     }
     return self;
 }
 #pragma mark 加载入口
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //初始化试卷服务
+    _service = [[PaperService alloc] init];
     //加载试卷内容
     [self setupLoadPaperContent];
     //外包滚动容器
@@ -74,6 +88,8 @@
     //加载试卷标题
     NSNumber *outY = [NSNumber numberWithFloat:0];
     [self setupLoadPaperTitleWithView:scrollView OutY:&outY];
+    //初始化试卷记录服务
+    _recordService = [[PaperRecordService alloc] init];
     //加载考试按钮
     [self setupStartButtonWithView:scrollView OutY:&outY];
     //加载试卷信息
@@ -127,15 +143,81 @@
 }
 //加载考试考试按钮
 -(void)setupStartButtonWithView:(UIView *)view OutY:(NSNumber **)outY{
-    if(_paperReview){
-        _paperRecord = [_service loadRecordWithPaperCode:_paperReview.code];
-        if(!_paperRecord){//没有做题记录
+    if(_paperReview && _recordService){
+        _paperRecord = [_recordService loadLastRecordWithPaperCode:_paperReview.code];
+        if(_paperRecord){//存在未完成的试卷
+            [self setupDoubleButtonWithView:view OutY:outY];
+            NSDate *current = [NSDate date];
+            NSLog(@"current:%@=>%@",current,[NSString stringFromDate:current]);
+            NSDate *local = [NSDate currentLocalTime];
+            NSLog(@"current local:%@ => %@",local,[NSString stringFromDate:local]);
+            
+            NSLog(@"createTime:%@,lastTime:%@", _paperRecord.createTime,_paperRecord.lastTime);
+        }else{//不存在未完成的试卷
             [self setupSignButtonWithView:view OutY:outY];
-            return;
         }
-        ///TODO:存在未完成的做题记录
-        NSLog(@"==存在未完成的做题记录:");
     }
+}
+//继续开始做题
+-(void)btnContinueStartClik:(UIButton *)sender{
+    if(_recordService){//加载最新的做题记录
+        
+        
+    }
+    
+    NSLog(@"btnContinueStartClik...");
+}
+//重新开始做题
+-(void)btnReNewStartClick:(UIButton *)sender{
+    //重新创建试卷记录
+    if(_recordService){
+        _paperRecord = [_recordService createNewRecordWithPaperCode:_paperReview.code];
+    }
+    //控制器跳转
+    ItemViewController *ivc = [[ItemViewController alloc] initWithPaper:_paperReview andRecord:_paperRecord];
+    ivc.navigationItem.title = __k_paperdetailviewcontroller_btn_start;
+    ivc.hidesBottomBarWhenPushed = NO;
+    [self.navigationController pushViewController:ivc animated:NO];
+}
+//两个开始按钮
+-(void)setupDoubleButtonWithView:(UIView *)view OutY:(NSNumber **)outY{
+    CGRect tempFrame = self.view.frame;
+    tempFrame.origin.x = __k_paperdetailviewcontroller_left;
+    tempFrame.origin.y = (*outY).floatValue + __k_paperdetailviewcontroller_margin_max;
+    tempFrame.size.width -= (__k_paperdetailviewcontroller_left + __k_paperdetailviewcontroller_right + __k_paperdetailviewcontroller_margin_max);
+    tempFrame.size.width /= 2;
+    tempFrame.size.height =  __k_paperdetailviewcontroller_btn_height;
+    //继续考试
+    UIButton *btnContinue = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnContinue.frame = tempFrame;
+    btnContinue.titleLabel.font = _font;
+    [btnContinue setTitle:__k_paperdetailviewcontroller_btn_continue forState:UIControlStateNormal];
+    [btnContinue setTitleColor:_colorNormal forState:UIControlStateNormal];
+    [btnContinue setTitleColor:_colorHighlight forState:UIControlStateHighlighted];
+    //注册点击事件
+    [btnContinue addTarget:self action:@selector(btnContinueStartClik:) forControlEvents:UIControlEventTouchUpInside];
+    //设置边框圆角
+    [UIViewUtils addBoundsRadiusWithView:btnContinue BorderColor:_colorBorder BackgroundColor:nil];
+    //添加到界面
+    [view addSubview:btnContinue];
+    
+    //重新考试
+    tempFrame.origin.x = CGRectGetMaxX(tempFrame) + __k_paperdetailviewcontroller_margin_max;
+    UIButton *btnReNew = [UIButton buttonWithType:UIButtonTypeCustom];
+    btnReNew.frame = tempFrame;
+    btnReNew.titleLabel.font = _font;
+    [btnReNew setTitle:__k_paperdetailviewcontroller_btn_renew forState:UIControlStateNormal];
+    [btnReNew setTitleColor:_colorNormal forState:UIControlStateNormal];
+    [btnReNew setTitleColor:_colorHighlight forState:UIControlStateHighlighted];
+    //注册点击事件
+    [btnReNew addTarget:self action:@selector(btnReNewStartClick:) forControlEvents:UIControlEventTouchUpInside];
+    //设置边框圆角
+    [UIViewUtils addBoundsRadiusWithView:btnReNew BorderColor:_colorBorder BackgroundColor:nil];
+    //添加到界面
+    [view addSubview:btnReNew];
+    
+    //输出Y坐标
+    *outY = [NSNumber numberWithFloat:CGRectGetMaxY(tempFrame)];
 }
 //单个开始按钮
 -(void)setupSignButtonWithView:(UIView *)view OutY:(NSNumber **)outY{
@@ -148,13 +230,12 @@
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = tempFrame;
     btn.titleLabel.font = _font;
-    UIColor *normal_color = [UIColor colorWithHex:__k_paperdetailviewcontroller_btn_normal_bg],
-    *highlight_color = [UIColor colorWithHex:__k_paperdetailviewcontroller_btn_highlight_bg];
+    
     [btn setTitle:__k_paperdetailviewcontroller_btn_start forState:UIControlStateNormal];
-    [btn setTitleColor:highlight_color forState:UIControlStateNormal];
-    [btn setTitleColor:normal_color forState:UIControlStateHighlighted];
+    [btn setTitleColor:_colorNormal forState:UIControlStateNormal];
+    [btn setTitleColor:_colorHighlight forState:UIControlStateHighlighted];
     //注册点击事件
-    [btn addTarget:self action:@selector(btnStartClick:) forControlEvents:UIControlEventTouchUpInside];
+    [btn addTarget:self action:@selector(btnReNewStartClick:) forControlEvents:UIControlEventTouchUpInside];
     //设置边框圆角
     [UIViewUtils addBoundsRadiusWithView:btn
                              BorderColor:[UIColor colorWithHex:__k_paperdetailviewcontroller_btn_border]
@@ -164,14 +245,11 @@
     //输出Y坐标
     *outY = [NSNumber numberWithFloat:CGRectGetMaxY(tempFrame)];
 }
-//开始按钮点击事件
--(void)btnStartClick:(UIButton *)sender{
-    //NSLog(@"==click %@==> %@",sender,_paperCode);
-    ItemViewController *ivc = [[ItemViewController alloc] initWithPaper:_paperReview andRecord:_paperRecord];
-    ivc.navigationItem.title = __k_paperdetailviewcontroller_btn_start;
-    ivc.hidesBottomBarWhenPushed = NO;
-    [self.navigationController pushViewController:ivc animated:NO];
-}
+////开始按钮点击事件
+//-(void)btnStartClick:(UIButton *)sender{
+//    //NSLog(@"==click %@==> %@",sender,_paperCode);
+//
+//}
 //加载试卷信息
 -(void)setupPaperInfoWithView:(UIView *)view OutY:(NSNumber **)outY{
     if(_paperReview){

@@ -11,6 +11,7 @@
 #import <FMDB/FMDB.h>
 #import "NSString+Date.h"
 #import "NSDate+TimeZone.h"
+#import "NSString+Date.h"
 
 #define __k_paperrecorddao_tableName @"tbl_paperRecords"
 #define __k_paperrecorddao_dtFormatter @"yyyy-MM-dd HH:mm:ss"//
@@ -49,10 +50,10 @@
     data = [[PaperRecord alloc] init];
     data.code = [rs stringForColumn:__k_paperrecord_fields_code];
     data.paperCode = [rs stringForColumn:__k_paperrecord_fields_paperCode];
-    data.status = [rs intForColumn:__k_paperrecord_fields_status];
+    data.status = [NSNumber numberWithInt:[rs intForColumn:__k_paperrecord_fields_status]];
     data.score = [NSNumber numberWithDouble:[rs doubleForColumn:__k_paperrecord_fields_score]];
-    data.rights = [rs intForColumn:__k_paperrecord_fields_rights];
-    data.useTimes = [rs intForColumn:__k_paperrecord_fields_useTimes];
+    data.rights = [NSNumber numberWithInt:[rs intForColumn:__k_paperrecord_fields_rights]];
+    data.useTimes = [NSNumber numberWithInt:[rs intForColumn:__k_paperrecord_fields_useTimes]];
     NSString *strCreateTime = [rs stringForColumn:__k_paperrecord_fields_createTime];
     if(strCreateTime && strCreateTime.length > 0){
         data.createTime = [strCreateTime toDateWithFormat:__k_paperrecorddao_dtFormatter];
@@ -61,7 +62,7 @@
     if(strLastTime && strLastTime.length > 0){
         data.lastTime = [strLastTime toDateWithFormat:__k_paperrecorddao_dtFormatter];
     }
-    data.sync = [rs intForColumn:__k_paperrecord_fields_sync];
+    data.sync = [NSNumber numberWithInt:[rs intForColumn:__k_paperrecord_fields_sync]];
     return data;
 }
 #pragma mark 加载试卷的最新记录
@@ -90,20 +91,13 @@
             query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ = ?",
                          __k_paperrecorddao_tableName,__k_paperrecord_fields_code];
             isExits = [_db intForQuery:query_sql,(*record).code] > 0;
-        }else if((*record).paperCode && (*record).paperCode.length > 0){//用试卷ID检查是否存在未完成的试卷
-            query_sql = [NSString stringWithFormat:@"select %@ from %@ where %@ = ? and %@ = ? order by %@ desc limit 0,1",
-                         __k_paperrecord_fields_code,__k_paperrecorddao_tableName,
-                         __k_paperrecord_fields_paperCode,__k_paperrecord_fields_status,__k_paperrecord_fields_lastTime];
-            NSString *code = [_db stringForQuery:query_sql,(*record).paperCode,[NSNumber numberWithBool:NO]];
-            if(code && code.length > 0){
-                isExits = YES;
-                (*record).code = code;
-            }
         }
-        (*record).sync = [NSNumber numberWithBool:NO].integerValue;
+        (*record).sync = [NSNumber numberWithBool:NO];
         if(!isExits){//新增
             (*record).code = [NSUUID UUID].UUIDString;
-            (*record).createTime = (*record).lastTime = [[NSDate date] localTime];
+            (*record).createTime = (*record).lastTime = [NSDate currentLocalTime];
+            
+            
             NSString *insert_sql = [NSString stringWithFormat:@"insert into %@(%@,%@,%@,%@,%@,%@,%@,%@,%@) values(?, ?, ?, ?, ?, ?, ?, ?, ?)",
                                     __k_paperrecorddao_tableName,
                                     
@@ -116,8 +110,16 @@
                                     __k_paperrecord_fields_createTime,
                                     __k_paperrecord_fields_lastTime,
                                     __k_paperrecord_fields_sync];
-            return [_db executeUpdate:insert_sql,(*record).code,(*record).paperCode,(*record).status,(*record).score,(*record).rights,(*record).useTimes,
-                    (*record).createTime,(*record).lastTime,(*record).sync];
+            return [_db executeUpdate:insert_sql,
+                    (*record).code,
+                    (*record).paperCode,
+                    (*record).status,
+                    (*record).score,
+                    (*record).rights,
+                    (*record).useTimes,
+                    [NSString stringFromDate:(*record).createTime],
+                    [NSString stringFromDate:(*record).lastTime],
+                    (*record).sync];
         }else{//更新
             (*record).lastTime = [[NSDate date] localTime];
             NSString *update_sql = [NSString stringWithFormat:@"update %@ set %@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ? where %@ = ?",
@@ -133,7 +135,15 @@
                                     __k_paperrecord_fields_sync,
                                     
                                     __k_paperrecord_fields_code];
-            return [_db executeUpdate:update_sql,(*record).paperCode,(*record).status,(*record).score,(*record).rights,(*record).useTimes,(*record).lastTime,(*record).sync,(*record).code];
+            return [_db executeUpdate:update_sql,
+                    (*record).paperCode,
+                    (*record).status,
+                    (*record).score,
+                    (*record).rights,
+                    (*record).useTimes,
+                    [NSString stringFromDate:(*record).lastTime],
+                    (*record).sync,
+                    (*record).code];
         }
     }
     return NO;

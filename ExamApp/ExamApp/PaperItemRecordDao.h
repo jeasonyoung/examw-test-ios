@@ -14,11 +14,21 @@
 //初始化
 -(instancetype)initWithDb:(FMDatabase *)db;
 //根据试题记录ID加载数据
--(PaperItemRecord *)loadItemRecord:(NSString *)itemRecordCode;
+-(PaperItemRecord *)loadRecordWithItemRecordCode:(NSString *)itemRecordCode;
+//加载试题记录
+-(PaperItemRecord *)loadRecordWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode;
 //根据试卷记录ID和试题ID加载数据
--(PaperItemRecord *)loadLastItemRecordWithPaperRecordCode:(NSString *)paperRecordCode PaperItemCode:(NSString *)itemCode;
+-(PaperItemRecord *)loadLastRecordWithPaperRecordCode:(NSString *)paperRecordCode;
+//判断试题记录是否存在
+-(BOOL)exitRecordWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode;
 //更新数据
--(BOOL)updateRecord:(PaperItemRecord **)record;
+-(BOOL)updateRecordWithItemRecord:(PaperItemRecord **)record;
+//统计试卷记录下的试题得分
+-(NSNumber *)totalAllItemScoreWithPaperRecordCode:(NSString *)paperRecordCode;
+//统计试卷记录下的试题用时
+-(NSNumber *)totalAllUseTimesWithPaperRecordCode:(NSString *)paperRecordCode;
+//统计做对的试题数量
+-(NSNumber *)totalAllRightsWithPaperRecordCode:(NSString *)paperRecordCode;
 //加载需要同步的数据集合
 -(NSArray *)loadSyncRecords;
 //更新同步标示

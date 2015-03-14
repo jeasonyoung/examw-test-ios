@@ -9,12 +9,12 @@
 #import "PaperService.h"
 #import <FMDB/FMDatabaseQueue.h>
 #import "UserAccountData.h"
+
 #import "PaperData.h"
-#import "PaperReview.h"
 #import "PaperDataDao.h"
 
-#import "PaperRecord.h"
-#import "PaperRecordDao.h"
+#import "PaperReview.h"
+
 //试卷服务类成员变量
 @interface PaperService (){
     NSMutableDictionary *_papersCache,*_papersContentCache;
@@ -99,18 +99,6 @@
         }];
     }
     return paper;
-}
-#pragma mark 根据试卷ID加载试卷记录
--(PaperRecord *)loadRecordWithPaperCode:(NSString *)paperCode{
-    if(!_dbQueue || !paperCode || paperCode.length == 0) return nil;
-    __block PaperRecord *record;
-    [_dbQueue inDatabase:^(FMDatabase *db) {
-        PaperRecordDao *dao = [[PaperRecordDao alloc] initWithDb:db];
-        if(dao){
-            record = [dao loadLastPaperRecord:paperCode];
-        }
-    }];
-    return record;
 }
 #pragma mark 内存回收
 -(void)dealloc{

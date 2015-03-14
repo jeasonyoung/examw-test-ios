@@ -18,6 +18,4 @@
 -(PaperData *)loadPaperWithSubjectCode:(NSString *)subjectCode PaperTypeValue:(NSInteger)typeValue Row:(NSInteger)row;
 //根据试卷ID加载试卷内容
 -(PaperReview *)loadPaperWithCode:(NSString *)code;
-//根据试卷ID加载试卷记录
--(PaperRecord *)loadRecordWithPaperCode:(NSString *)paperCode;
 @end

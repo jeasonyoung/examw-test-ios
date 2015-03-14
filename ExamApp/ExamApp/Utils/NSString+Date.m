@@ -8,13 +8,15 @@
 #import "NSString+Date.h"
 #import "NSDate+TimeZone.h"
 
-#define __k_default_date_format "yyyy-MM-dd"
+#define __k_default_date_format "yyyy-MM-dd HH:mm:ss"
 //日期处理
 @implementation NSString (Date)
 #pragma mark 将日期转为指定格式的字符串
 +(NSString *)stringFromDate:(NSDate *)date withDateFormat:(NSString *)format{
+    if(!date)return nil;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
+    [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    //[dateFormatter setTimeZone:[NSTimeZone localTimeZone]];
     [dateFormatter setDateFormat:format];
     return [dateFormatter stringFromDate:date];
 }
@@ -27,8 +29,9 @@
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
     [dateFormatter setDateFormat:(format == nil ? @__k_default_date_format : format)];
-    NSDate *target = [[dateFormatter dateFromString:self] localTime];
+    //NSDate *target = [[dateFormatter dateFromString:self] localTime];
     //NSLog(@"self -format- target ===> %@  -> %@",self, target);
-    return target;
+   // return target;
+    return [dateFormatter dateFromString:self];
 }
 @end

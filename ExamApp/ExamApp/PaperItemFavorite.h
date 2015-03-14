@@ -11,7 +11,7 @@
 
 //试题收藏字段定义
 #define __k_paperitemfavorite_fields_code @"id"//试题收藏ID
-#define __k_paperitemfavorite_fields_subjectCode @"subjectId"//所属科目ID
+#define __k_paperitemfavorite_fields_subjectCode @"subjectCode"//所属科目代码
 #define __k_paperitemfavorite_fields_itemCode @"itemId"//所属试题ID
 #define __k_paperitemfavorite_fields_itemType @"itemType"//所属试题题型
 #define __k_paperitemfavorite_fields_itemContent @"content"//所属试题内容JSON

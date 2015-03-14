@@ -17,9 +17,9 @@
              __k_paperitemrecord_fields_itemCode:(self.itemCode ? self.itemCode : @""),
              __k_paperitemrecord_fields_itemContent:(self.itemContent ? self.itemContent : @""),
              __k_paperitemrecord_fields_answer:(self.answer ? self.answer : @""),
-             __k_paperitemrecord_fields_status:[NSNumber numberWithInteger:self.status],
-             __k_paperitemrecord_fields_score:(self.score ? self.score : [NSNumber numberWithInteger:0]),
-             __k_paperitemrecord_fields_useTimes:[NSNumber numberWithInteger:self.useTimes],
+             __k_paperitemrecord_fields_status:(self.status ? self.status : [NSNumber numberWithInt:0]),
+             __k_paperitemrecord_fields_score:(self.score ? self.score : [NSNumber numberWithDouble:0]),
+             __k_paperitemrecord_fields_useTimes:(self.useTimes ? self.useTimes : [NSNumber numberWithDouble:0]),
              __k_paperitemrecord_fields_createTime:(self.createTime ? self.createTime : @""),
              __k_paperitemrecord_fields_lastTime:(self.lastTime ? self.lastTime : @"")};
 }

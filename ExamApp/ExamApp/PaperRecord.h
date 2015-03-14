@@ -26,17 +26,17 @@
 //所属试卷ID
 @property(nonatomic,copy)NSString *paperCode;
 //状态(0-未做完，1-已做完)
-@property(nonatomic,assign)NSInteger status;
+@property(nonatomic,assign)NSNumber *status;
 //得分
 @property(nonatomic,copy)NSNumber *score;
 //做对的题目个数
-@property(nonatomic,assign)NSInteger rights;
+@property(nonatomic,assign)NSNumber *rights;
 //用时(秒)
-@property(nonatomic,assign)NSInteger useTimes;
+@property(nonatomic,assign)NSNumber *useTimes;
 //创建时间
 @property(nonatomic,copy)NSDate *createTime;
 //最后修改时间
 @property(nonatomic,copy)NSDate *lastTime;
 //同步标示(0-未同步,1-已同步)
-@property(nonatomic,assign)NSInteger sync;
+@property(nonatomic,assign)NSNumber *sync;
 @end

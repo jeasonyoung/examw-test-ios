@@ -15,8 +15,9 @@
 #import "UIColor+Hex.h"
 
 #import "UIViewUtils.h"
-//#import "ItemAnswersheet.h"
 #import "ItemViewController.h"
+
+#import "PaperRecordService.h"
 
 #define __k_answersheetviewcontroller_title @"答题卡"
 
@@ -52,9 +53,10 @@
     PaperReview *_review;
     PaperRecord *_record;
     ItemViewController *_targetItemControoler;
-    NSString *_paperRecordCode;
     UIColor *_hasBgColor,*_todoBgColor,*_itemBorderColor,*_itemFontColor;
     UIFont *_itemFont;
+    
+    PaperRecordService *_recordService;
 }
 @end
 //答题卡视图控制器实现
@@ -83,6 +85,8 @@
     NSNumber *outY = [NSNumber numberWithFloat:[self loadTopHeight] + __k_answersheetviewcontroller_top];
     //加载图例
     [self setupIconsWithOutY:&outY];
+    //初始化试卷记录服务
+    _recordService = [[PaperRecordService alloc] init];
     //加载试题
     [self setupItemsWithOutY:&outY];
 }
@@ -230,9 +234,15 @@
             [btnItem setTitleColor:_itemFontColor forState:UIControlStateNormal];
             [btnItem setTitleColor:_hasBgColor forState:UIControlStateHighlighted];
             [btnItem setTitle:[NSString stringWithFormat:@"%d",(indexPath.order + 1)] forState:UIControlStateNormal];
-            ///TODO:加载做题记录
             
-            [btnItem setBackgroundColor:(arc4random_uniform(10)/2 == 0 ? _hasBgColor : _todoBgColor)];
+            //加载做题记录
+            if(_record && _record.code && _record.code.length > 0 && _recordService && indexPath && indexPath.item){
+                BOOL exit = [_recordService exitItemRecordWithPaperRecordCode:_record.code
+                                                                     ItemCode:indexPath.item.code
+                                                                      atIndex:indexPath.index];
+                [btnItem setBackgroundColor:(exit ? _hasBgColor : _todoBgColor)];
+            }
+            //[btnItem setBackgroundColor:(arc4random_uniform(10)/2 == 0 ? _hasBgColor : _todoBgColor)];
             [UIViewUtils addBorderWithView:btnItem BorderColor:_itemBorderColor BackgroundColor:nil];
             [btnItem addTarget:self action:@selector(itemAnswersheetClick:) forControlEvents:UIControlEventTouchUpInside];
             [contentView addSubview:btnItem];

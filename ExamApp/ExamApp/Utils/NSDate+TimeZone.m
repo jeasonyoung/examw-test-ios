@@ -15,7 +15,10 @@
 }
 #pragma mark 将当前GMT时间转换为本地时间
 -(NSDate *)localTime{
-    return [self dateByAddingTimeInterval:[[NSTimeZone localTimeZone] secondsFromGMTForDate:self]];
+    NSDate *current = self;
+    NSTimeZone *zone = [NSTimeZone localTimeZone];
+    NSInteger interval = [zone secondsFromGMTForDate:current];
+    return [current dateByAddingTimeInterval:interval];
 }
 #pragma mark 比较两个日期相差的正书天数
 -(int)dayIntervalSinceDate:(NSDate *)since{
