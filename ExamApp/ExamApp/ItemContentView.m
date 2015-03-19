@@ -134,6 +134,8 @@
                                   (*outY).floatValue + __k_itemcontentview_top,
                                   CGRectGetWidth(self.frame) - (__k_itemcontentview_left + __k_itemcontentview_right),
                                   0);
+    
+    //NSLog(@"setupItemContentWithType-frame:%@, outY:%f",NSStringFromCGRect(tempFrame), (*outY).floatValue);
     switch (itemType) {
         case PaperItemTypeSingle:{//单选
             //单选
@@ -226,7 +228,7 @@
                                       0);
         NSString *text = @"";
         if(title && title.length > 0){
-            NSString *text = [NSString stringWithFormat:@"%d.%@",(int)order,title];
+            text = [NSString stringWithFormat:@"%d.%@",(int)order,title];
             if(itemType == PaperItemTypeShareTitle || itemType == PaperItemTypeShareAnswer){
                 text = title;
             }
@@ -238,7 +240,9 @@
         _lbTitle.frame = tempFrame;
         _lbTitle.text = text;
         
-        *outY = [NSNumber numberWithFloat:CGRectGetMaxY(tempFrame)];
+        *outY = [NSNumber numberWithFloat:CGRectGetMaxY(_lbTitle.frame)];
+        
+        //NSLog(@"setupItemTitle-frame:%@, outY:%f",NSStringFromCGRect(_lbTitle.frame), (*outY).floatValue);
     }
 }
 //创建子标题
@@ -266,7 +270,11 @@
     }
 }
 //创建选项
--(void)setupOptionsWithFrame:(CGRect)frame Type:(ItemOptionGroupType)type Options:(NSArray *)options RightAnswer:(NSString *)rightAnswer OutY:(NSNumber **)outY {
+-(void)setupOptionsWithFrame:(CGRect)frame
+                        Type:(ItemOptionGroupType)type
+                     Options:(NSArray *)options
+                 RightAnswer:(NSString *)rightAnswer
+                        OutY:(NSNumber **)outY {
     if(options && options.count > 0){
         if(!_optionsView){
             _optionsView = [[ItemOptionGroupView alloc] initWithFrame:frame];
@@ -284,6 +292,7 @@
         [_optionsView loadData:dataSource];
         //
         *outY = [NSNumber numberWithFloat:CGRectGetMaxY(_optionsView.frame)];
+        //NSLog(@"setupOptionsWith-frame:%@ => %@, outY:%f",NSStringFromCGRect(frame), NSStringFromCGRect(_optionsView.frame), (*outY).floatValue);
     }
 }
 //创建判断题

@@ -134,8 +134,8 @@
                 itemRecord.itemCode = itemCodeIndex;
                 itemRecord.status = [NSNumber numberWithInt:-1];
                 itemRecord.score = [NSNumber numberWithDouble:0];
-                itemRecord.useTimes = 0;
-                [dao updateRecordWithItemRecord:&itemRecord];
+                itemRecord.useTimes = [NSNumber numberWithInteger:0];
+                //[dao updateRecordWithItemRecord:&itemRecord];
             }
         }];
         return itemRecord;
@@ -173,14 +173,13 @@
 }
 #pragma mark 提交试题记录
 -(void)subjectWithItemRecord:(PaperItemRecord *)itemRecord{
-    if(_dbQueue && itemRecord && itemRecord.code && itemRecord.code.length > 0
-       && itemRecord.itemCode && itemRecord.itemCode.length > 0){
+    if(_dbQueue && itemRecord && itemRecord.itemCode && itemRecord.itemCode.length > 0 &&
+       itemRecord.paperRecordCode && itemRecord.paperRecordCode.length > 0){
        
-        __block PaperItemRecord *record = itemRecord;
-        if(!record.answer || record.answer.length == 0){
-            record.status = [NSNumber numberWithInt:-1];
+        if(!itemRecord.answer || itemRecord.answer.length == 0){
+            itemRecord.status = [NSNumber numberWithInt:-1];
         }
-        
+        __block PaperItemRecord *record = itemRecord;
         [_dbQueue inDatabase:^(FMDatabase *db) {
             PaperItemRecordDao *dao = [[PaperItemRecordDao alloc] initWithDb:db];
             [dao updateRecordWithItemRecord:&record];
@@ -222,7 +221,7 @@
             favorite.subjectCode = subjectCode;
             favorite.itemCode = itemCodeIndex;
         }
-        favorite.itemType = indexPath.item.type;
+        favorite.itemType = [NSNumber numberWithInt:indexPath.item.type];
         favorite.itemContent = [indexPath.item serialize];
         favorite.status = [NSNumber numberWithBool:YES];
         [dao updateFavorite:&favorite];

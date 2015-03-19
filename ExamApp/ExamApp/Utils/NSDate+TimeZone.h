@@ -12,7 +12,7 @@
 //获取当前时间的静态方法
 +(NSDate *)currentLocalTime;
 //将当前GMT时间转换为本地时间
--(NSDate *)localTime;
+//-(NSDate *)localTime;
 //比较两个日期相差的正书天数
 -(int)dayIntervalSinceDate:(NSDate *)since;
 @end

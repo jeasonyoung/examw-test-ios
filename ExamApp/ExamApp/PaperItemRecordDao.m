@@ -14,7 +14,6 @@
 #import "PaperItemRecord.h"
 
 #define __k_paperitemrecorddao_tableName  @"tbl_itemRecords"//数据库表名称
-#define __k_paperitemrecorddao_dtFormatter @"yyyy-MM-dd HH:mm:ss"
 //做题记录数据操作成员变量
 @interface PaperItemRecordDao (){
     FMDatabase *_db;
@@ -119,11 +118,11 @@
         
         NSString *strCreateTime = [rs stringForColumn:__k_paperitemrecord_fields_createTime];
         if(strCreateTime && strCreateTime.length > 0){
-            record.createTime = [strCreateTime toDateWithFormat:__k_paperitemrecorddao_dtFormatter];
+            record.createTime = [strCreateTime toDateWithFormat:nil];
         }
         NSString *strLastTime = [rs stringForColumn:__k_paperitemrecord_fields_lastTime];
         if(strLastTime && strLastTime.length > 0){
-            record.lastTime = [strLastTime toDateWithFormat:__k_paperitemrecorddao_dtFormatter];
+            record.lastTime = [strLastTime toDateWithFormat:nil];
         }
         record.sync = [NSNumber numberWithInt:[rs intForColumn:__k_paperitemrecord_fields_sync]];
         
@@ -133,7 +132,7 @@
 }
 #pragma mark 更新数据
 -(BOOL)updateRecordWithItemRecord:(PaperItemRecord *__autoreleasing *)record{
-    if(!_db || !(*record) || !(*record).paperRecordCode || !(*record).paperRecordCode.length == 0) return NO;
+    if(!_db || !(*record) || !(*record).paperRecordCode || (*record).paperRecordCode.length == 0) return NO;
     if(!(*record).itemCode || (*record).itemCode.length == 0 || ![_db tableExists:__k_paperitemrecorddao_tableName]) return NO;
     BOOL isExists = NO;
     NSString *query_sql;
@@ -144,7 +143,7 @@
     }
     (*record).sync = [NSNumber numberWithBool:NO];
     if(isExists){//更新数据
-        (*record).lastTime = [[NSDate date] localTime];
+        (*record).lastTime = [NSDate currentLocalTime];
         NSString *update_sql = [NSString stringWithFormat:@"update %@ set %@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ? where %@ = ?",
                                 __k_paperitemrecorddao_tableName,
                                 
@@ -160,11 +159,21 @@
                                 __k_paperitemrecord_fields_sync,
                                 
                                 __k_paperitemrecord_fields_code];
-        return [_db executeUpdate:update_sql,(*record).paperRecordCode,(*record).structureCode,(*record).itemCode,(*record).itemContent,
-                (*record).answer,(*record).status,(*record).score,(*record).useTimes,(*record).lastTime,(*record).sync,(*record).code];
+        return [_db executeUpdate:update_sql,
+                (*record).paperRecordCode,
+                (*record).structureCode,
+                (*record).itemCode,
+                (*record).itemContent,
+                (*record).answer,
+                (*record).status,
+                (*record).score,
+                (*record).useTimes,
+                [NSString stringFromDate:(*record).lastTime],
+                (*record).sync,
+                (*record).code];
     }else{//新增数据
         (*record).code = [NSUUID UUID].UUIDString;
-        (*record).createTime = (*record).lastTime = [[NSDate date] localTime];
+        (*record).createTime = (*record).lastTime = [NSDate currentLocalTime];
         NSString *insert_sql = [NSString stringWithFormat:@"insert into %@(%@,%@,%@,%@,%@,%@,%@,%@,%@,%@,%@,%@) values(?,?,?,?,?,?,?,?,?,?,?,?)",
                                 __k_paperitemrecorddao_tableName,
                                 
@@ -180,8 +189,19 @@
                                 __k_paperitemrecord_fields_createTime,
                                 __k_paperitemrecord_fields_lastTime,
                                 __k_paperitemrecord_fields_sync];
-        return [_db executeUpdate:insert_sql,(*record).code,(*record).paperRecordCode,(*record).structureCode,(*record).itemCode,(*record).itemContent,
-                (*record).answer,(*record).status,(*record).score,(*record).useTimes,(*record).createTime,(*record).lastTime,(*record).sync];
+        return [_db executeUpdate:insert_sql,
+                (*record).code,
+                (*record).paperRecordCode,
+                (*record).structureCode,
+                (*record).itemCode,
+                (*record).itemContent,
+                (*record).answer,
+                (*record).status,
+                (*record).score,
+                (*record).useTimes,
+                [NSString stringFromDate:(*record).createTime],
+                [NSString stringFromDate:(*record).lastTime],
+                (*record).sync];
     }
 }
 #pragma mark 统计试卷记录下的试题得分

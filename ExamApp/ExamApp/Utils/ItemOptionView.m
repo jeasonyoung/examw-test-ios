@@ -272,6 +272,7 @@
             }
             //重置容器高度
             CGFloat height = CGRectGetMaxY(tempFrame) + __k_etoptionview_option_margin;
+            tempFrame = self.frame;
             tempFrame.size.height = height;
             self.frame = tempFrame;
         }

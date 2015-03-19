@@ -157,7 +157,7 @@
                                X:(CGFloat)x
                                Y:(CGFloat)y{
     
-    NSString *year = [NSString stringFromDate:[[NSDate date] localTime] withDateFormat:@"yyyy"];
+    NSString *year = [NSString stringFromDate:[NSDate currentLocalTime] withDateFormat:@"yyyy"];
     NSString *copyright = [NSString stringWithFormat:@__k_about_copyright,year,_data.copyright];
     UIFont *font = [UIFont systemFontOfSize:__k_about_copyright_font_size];
     CGSize copyrightSize = [copyright sizeWithFont:font];

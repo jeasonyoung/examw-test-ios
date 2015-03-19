@@ -155,8 +155,8 @@
 //继续开始做题
 -(void)btnContinueStartClik:(UIButton *)sender{
     ItemViewController *ivc;
-    if(_recordService && _paperReview){//加载最新的做题记录
-        PaperItemRecord *itemReord = [_recordService loadLastRecordWithPaperRecordCode:_paperReview.code];
+    if(_recordService && _paperReview && _paperRecord){//加载最新的做题记录
+        PaperItemRecord *itemReord = [_recordService loadLastRecordWithPaperRecordCode:_paperRecord.code];
         if(itemReord && itemReord.itemCode && itemReord.itemCode.length > 0){
             NSInteger order = [_paperReview findOrderAtItemCode:itemReord.itemCode];
             ivc = [[ItemViewController alloc] initWithPaper:_paperReview Order:(order + 1) andRecord:_paperRecord];

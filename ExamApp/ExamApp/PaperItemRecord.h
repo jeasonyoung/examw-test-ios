@@ -38,15 +38,15 @@
 //用户答案
 @property(nonatomic,copy)NSString *answer;
 //状态(0-错误，1-正确)
-@property(nonatomic,assign)NSNumber *status;
+@property(nonatomic,copy)NSNumber *status;
 //得分
 @property(nonatomic,copy)NSNumber *score;
 //用时(秒)
-@property(nonatomic,assign)NSNumber *useTimes;
+@property(nonatomic,copy)NSNumber *useTimes;
 //创建时间
 @property(nonatomic,copy)NSDate *createTime;
 //最后修改时间
 @property(nonatomic,copy)NSDate *lastTime;
 //同步标示(0-未同步，1-已同步)
-@property(nonatomic,assign)NSNumber *sync;
+@property(nonatomic,copy)NSNumber *sync;
 @end

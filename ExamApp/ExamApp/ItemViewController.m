@@ -50,6 +50,7 @@
 @interface ItemViewController ()<ItemContentGroupViewDataSource>{
     NSDate *_startTime;
     NSInteger _order;
+    UIButton *_btnFavorite;
     UIImage *_imgFavoriteNormal,*_imgFavoriteHighlight;
     
     PaperReview *_review;
@@ -168,13 +169,13 @@
                                                                            target:self
                                                                            action:nil];
     //收藏按钮
-    UIButton *fav = [UIButton buttonWithType:UIButtonTypeCustom];
-    fav.frame = CGRectMake(0, 0, __k_itemviewcontroller_favorite_with, __k_itemviewcontroller_favorite_height);
+    _btnFavorite = [UIButton buttonWithType:UIButtonTypeCustom];
+    _btnFavorite.frame = CGRectMake(0, 0, __k_itemviewcontroller_favorite_with, __k_itemviewcontroller_favorite_height);
     UIColor *favColor = [UIColor colorWithHex:__k_itemviewcontroller_favorite_bgColor];
-    [UIViewUtils addBoundsRadiusWithView:fav BorderColor:favColor BackgroundColor:favColor];
-    [fav setBackgroundImage:[self loadFavoriteBackgroundImage] forState:UIControlStateNormal];
-    [fav addTarget:self action:@selector(btnFavoriteClick:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *btnFavorite = [[UIBarButtonItem alloc] initWithCustomView:fav];
+    [UIViewUtils addBoundsRadiusWithView:_btnFavorite BorderColor:favColor BackgroundColor:favColor];
+    [_btnFavorite setBackgroundImage:[self loadFavoriteBackgroundImage] forState:UIControlStateNormal];
+    [_btnFavorite addTarget:self action:@selector(btnFavoriteClick:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *btnFavoriteItem = [[UIBarButtonItem alloc] initWithCustomView:_btnFavorite];
     //倒计时器
     _timerView = [[ETTimerView alloc] initWithFrame:CGRectMake(0, 0, __k_itemviewcontroller_timer_with, __k_itemviewcontroller_timer_height)
                                               Total:_review.time];
@@ -184,7 +185,7 @@
                                                                   style:UIBarButtonItemStylePlain
                                                                  target:self
                                                                  action:@selector(btnSubmitClick:)];
-    [self setToolbarItems:@[btnPrev,space,btnFavorite,space,btnTimer,space,btnSubmit,space,btnNext]
+    [self setToolbarItems:@[btnPrev,space,btnFavoriteItem,space,btnTimer,space,btnSubmit,space,btnNext]
                  animated:YES];
 }
 //上一题
@@ -192,6 +193,9 @@
     NSLog(@"Prev:%@",sender);
     if(_itemContentView){
         [_itemContentView loadPrevContent];
+        if(_btnFavorite){
+            [_btnFavorite setBackgroundImage:[self loadFavoriteBackgroundImage] forState:UIControlStateNormal];
+        }
     }
 }
 //下一题
@@ -199,6 +203,9 @@
     NSLog(@"Next:%@",sender);
     if(_itemContentView){
         [_itemContentView loadNextContent];
+        if(_btnFavorite){
+            [_btnFavorite setBackgroundImage:[self loadFavoriteBackgroundImage] forState:UIControlStateNormal];
+        }
     }
 }
 //加载试题内容
@@ -230,7 +237,7 @@
             source = [ItemContentSource itemContentStructureCode:indexPath.structureCode
                                                           Source:indexPath.item
                                                            Index:indexPath.index
-                                                           Order:(indexPath.order + 1)
+                                                           Order:indexPath.order
                                                    SelectedValue:answer];
         }
     }];
@@ -255,6 +262,7 @@
             if(data.source.children && data.source.children.count > 0 && data.index < data.source.children.count){
                 PaperItem *child = [data.source.children objectAtIndex:data.index];
                 if(child){
+                    itemType = (PaperItemType)child.type;
                     rightAnswer = child.answer;
                 }
             }
@@ -265,6 +273,7 @@
                 if(item && item.children && item.children.count > 0 && data.index < item.children.count){
                     PaperItem *child = [item.children objectAtIndex:data.index];
                     if(child){
+                        itemType = (PaperItemType)child.type;
                         rightAnswer = child.answer;
                     }
                 }
@@ -276,11 +285,15 @@
         }
         //计算得分
         if(_review && rightAnswer && rightAnswer.length > 0){
-            PaperStructure *ps = [_review findStructureAtStructureCode:itemRecord.structureCode];
-            if(ps){
+            [_review findStructureAtStructureCode:itemRecord.structureCode StructureBlock:^(PaperStructure *ps) {
+                if(!ps)return;
+                //NSLog(@"%@,%@,%@",ps.code,ps.score,ps.min);
+                
                 if(itemRecord.status == [NSNumber numberWithBool:YES]){
-                    itemRecord.score = ps.score;
-                }else if(ps.min > 0 && data.value && data.value.length > 0){
+                    if(ps.score){
+                        itemRecord.score = ps.score;
+                    }
+                }else if(ps.min && ps.min.floatValue > 0 && data.value && data.value.length > 0){
                     NSArray *arrays = [data.value componentsSeparatedByString:@","];
                     if(arrays && arrays.count > 0){
                         for(NSString *str in arrays){
@@ -292,7 +305,7 @@
                         }
                     }
                 }
-            }
+            }];
         }
         //更新数据
         if(_recordService){
@@ -300,8 +313,13 @@
         }
     }
     NSLog(@"selectedData:%@ === %@",data.value, doTime);
+    
     //重置开始时间
     _startTime = [NSDate date];
+    //下一题
+    if(itemType == PaperItemTypeSingle || itemType == PaperItemTypeJudge){
+        [self btnNextClick:nil];
+    }
 }
 //做题时间计算
 -(NSNumber *)doItemTimeSecondWithStart:(NSDate *)startTime{
@@ -379,7 +397,7 @@
 //交卷
 -(void)btnSubmitClick:(UIBarButtonItem *)sender{
     if(_itemContentView){
-        [_itemContentView loadNextContent];
+        [_itemContentView submit];
     }
     if(_recordService && _record && _timerView){
         _record.useTimes = [_timerView stop];

@@ -28,15 +28,15 @@
 //所属试题ID
 @property(nonatomic,copy)NSString *itemCode;
 //所属试题题型
-@property(nonatomic,assign)NSInteger itemType;
+@property(nonatomic,copy)NSNumber *itemType;
 //所属试题内容JSON
 @property(nonatomic,copy)NSString *itemContent;
 //备注信息
 @property(nonatomic,copy)NSString *remarks;
 //状态(0-删除，1-收藏)
-@property(nonatomic,assign)NSNumber *status;
+@property(nonatomic,copy)NSNumber *status;
 //收藏时间
 @property(nonatomic,copy)NSDate *createTime;
 //同步标示(0-未同步，1-已同步)
-@property(nonatomic,assign)NSInteger sync;
+@property(nonatomic,copy)NSNumber *sync;
 @end

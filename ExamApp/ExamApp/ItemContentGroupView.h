@@ -35,4 +35,6 @@
 -(void)loadNextContent;
 //加载上一题
 -(void)loadPrevContent;
+//交卷
+-(void)submit;
 @end

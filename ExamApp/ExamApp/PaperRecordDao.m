@@ -14,7 +14,6 @@
 #import "NSString+Date.h"
 
 #define __k_paperrecorddao_tableName @"tbl_paperRecords"
-#define __k_paperrecorddao_dtFormatter @"yyyy-MM-dd HH:mm:ss"//
 //试卷记录数据操作成员变量
 @interface PaperRecordDao (){
     FMDatabase *_db;
@@ -56,11 +55,11 @@
     data.useTimes = [NSNumber numberWithInt:[rs intForColumn:__k_paperrecord_fields_useTimes]];
     NSString *strCreateTime = [rs stringForColumn:__k_paperrecord_fields_createTime];
     if(strCreateTime && strCreateTime.length > 0){
-        data.createTime = [strCreateTime toDateWithFormat:__k_paperrecorddao_dtFormatter];
+        data.createTime = [strCreateTime toDateWithFormat:nil];
     }
     NSString *strLastTime = [rs stringForColumn:__k_paperrecord_fields_lastTime];
     if(strLastTime && strLastTime.length > 0){
-        data.lastTime = [strLastTime toDateWithFormat:__k_paperrecorddao_dtFormatter];
+        data.lastTime = [strLastTime toDateWithFormat:nil];
     }
     data.sync = [NSNumber numberWithInt:[rs intForColumn:__k_paperrecord_fields_sync]];
     return data;
@@ -97,7 +96,6 @@
             (*record).code = [NSUUID UUID].UUIDString;
             (*record).createTime = (*record).lastTime = [NSDate currentLocalTime];
             
-            
             NSString *insert_sql = [NSString stringWithFormat:@"insert into %@(%@,%@,%@,%@,%@,%@,%@,%@,%@) values(?, ?, ?, ?, ?, ?, ?, ?, ?)",
                                     __k_paperrecorddao_tableName,
                                     
@@ -121,7 +119,7 @@
                     [NSString stringFromDate:(*record).lastTime],
                     (*record).sync];
         }else{//更新
-            (*record).lastTime = [[NSDate date] localTime];
+            (*record).lastTime = [NSDate currentLocalTime];
             NSString *update_sql = [NSString stringWithFormat:@"update %@ set %@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ? where %@ = ?",
                                     __k_paperrecorddao_tableName,
                                     

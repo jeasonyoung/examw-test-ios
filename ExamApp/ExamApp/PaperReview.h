@@ -82,9 +82,9 @@ typedef NS_ENUM(int, PaperItemJudgeAnswer){
 //每题分数
 @property(nonatomic,copy)NSNumber *score;
 //每题最少得分
-@property(nonatomic,assign)NSNumber *min;
+@property(nonatomic,copy)NSNumber *min;
 //分数比例
-@property(nonatomic,assign)NSNumber *ratio;
+@property(nonatomic,copy)NSNumber *ratio;
 //排序号
 @property(nonatomic,assign)NSInteger orderNo;
 //试题集合
@@ -177,7 +177,7 @@ typedef NS_ENUM(int, PaperType) {
 //根据试题ID加载题序
 -(NSInteger)findOrderAtItemCode:(NSString *)itemCode;
 //根据结构ID查找结构
--(PaperStructure *)findStructureAtStructureCode:(NSString *)code;
+-(void)findStructureAtStructureCode:(NSString *)code StructureBlock:(void(^)(PaperStructure *ps))block;
 //序列化为JSON字符串
 -(NSString *)serialize;
 @end

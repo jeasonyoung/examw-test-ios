@@ -230,10 +230,11 @@
     NSInteger itemOrder = (*order).integerValue;
     for(PaperItem *item in ps.items){
         if(!item || !item.code)continue;
+        itemOrder++;
         if([item.code isEqualToString:itemCode]){
+            *order = [NSNumber numberWithInteger:itemOrder];
             return YES;
         }
-        itemOrder += (item.count == 0 ? 1 : item.count);
     }
     *order = [NSNumber numberWithInteger:itemOrder];
     if(ps.children && ps.children.count > 0){
@@ -246,24 +247,26 @@
     return NO;
 }
 #pragma mark 根据结构ID查找结构
--(PaperStructure *)findStructureAtStructureCode:(NSString *)code{
-    if(!code || code.length == 0 || !self.structures || self.structures.count == 0) return nil;
-    return [self findStructureWithStructures:self.structures AtStructureCode:code];
+-(void)findStructureAtStructureCode:(NSString *)code StructureBlock:(void (^)(PaperStructure *))block{
+    if(!code || code.length == 0 || !self.structures || self.structures.count == 0)return;
+    if(!block)return;
+    [self findStructureWithStructures:self.structures AtStructureCode:code StructureBlock:block];
 }
 //
--(PaperStructure *)findStructureWithStructures:(NSArray *)arrays AtStructureCode:(NSString *)code{
-    if(arrays && arrays.count > 0 && code && code.length > 0){
+-(void)findStructureWithStructures:(NSArray *)arrays AtStructureCode:(NSString *)code StructureBlock:(void (^)(PaperStructure *))block{
+    if(block && arrays && arrays.count > 0 && code && code.length > 0){
         for(PaperStructure *ps in arrays){
             if(!ps || !ps.code || ps.code.length == 0)continue;
             if([ps.code isEqualToString:code]){
-                return ps;
+                //NSLog(@"%@",ps.min);
+                block(ps);
+                break;
             }
             if(ps.children && ps.children.count > 0){
-                return [self findStructureWithStructures:ps.children AtStructureCode:code];
+                [self findStructureWithStructures:ps.children AtStructureCode:code StructureBlock:block];
             }
         }
     }
-    return nil;
 }
 
 #pragma mark 根据JSON字符串初始化
@@ -369,6 +372,7 @@
     }
     return self;
 }
+
 #pragma mark 根据JSON字符串初始化
 -(instancetype)initWithJSON:(NSString *)json{
     if(!json || json.length == 0)return nil;

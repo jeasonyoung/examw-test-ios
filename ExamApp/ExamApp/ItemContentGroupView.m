@@ -159,6 +159,10 @@
         _currentOrder++;
     }
 }
+#pragma mark 交卷
+-(void)submit{
+    [self selectMultyOptionHandler];
+}
 //加载试题
 -(BOOL)loadContentAtIndex:(NSInteger)index{
     BOOL result = NO;
