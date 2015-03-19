@@ -31,8 +31,10 @@
 #pragma mark 加载收藏数据
 -(PaperItemFavorite *)loadFavorite:(NSString *)favoriteCode{
     if(!_db || !favoriteCode || favoriteCode.length == 0 || ![_db tableExists:__k_paperitemfavoritedao_tableName]) return nil;
-    NSString *query_sql = [NSString stringWithFormat:@"select * from %@ where %@ = ? and %@ > 0 limit 0,1",
-                           __k_paperitemfavoritedao_tableName,__k_paperitemfavorite_fields_code,__k_paperitemfavorite_fields_status];
+    NSString *query_sql = [NSString stringWithFormat:@"select * from %@ where %@ = ? order by %@ desc limit 0,1",
+                           __k_paperitemfavoritedao_tableName,
+                           __k_paperitemfavorite_fields_code,
+                           __k_paperitemfavorite_fields_createTime];
     PaperItemFavorite *favorite;
     FMResultSet *rs = [_db executeQuery:query_sql,favoriteCode];
     while ([rs next]) {
@@ -42,22 +44,34 @@
     [rs close];
     return favorite;
 }
-#pragma mark 根据试题ID加载收藏
--(PaperItemFavorite *)loadFavoriteWithItemCode:(NSString *)itemCode{
-    if(!_db || !itemCode || itemCode.length == 0 || ![_db tableExists:__k_paperitemfavoritedao_tableName]) return nil;
-    NSString *query_sql = [NSString stringWithFormat:@"select * from %@ where %@ = ? and %@ > 0 order by %@ desc limit 0,1",
+#pragma mark 根据科目代码和试题ID加载收藏
+-(PaperItemFavorite *)loadFavoriteWithSubjectCode:(NSString *)subjectCode ItemCode:(NSString *)itemCode{
+    if(!_db || !subjectCode || subjectCode.length == 0 || !itemCode || itemCode.length == 0) return nil;
+    if(![_db tableExists:__k_paperitemfavoritedao_tableName]) return nil;
+    NSString *query_sql = [NSString stringWithFormat:@"select * from %@ where %@ = ? and %@ = ? order by %@ desc limit 0,1",
                            __k_paperitemfavoritedao_tableName,
+                           __k_paperitemfavorite_fields_subjectCode,
                            __k_paperitemfavorite_fields_itemCode,
-                           __k_paperitemfavorite_fields_status,
                            __k_paperitemfavorite_fields_createTime];
     PaperItemFavorite *favorite;
-    FMResultSet *rs = [_db executeQuery:query_sql,itemCode];
+    FMResultSet *rs = [_db executeQuery:query_sql,subjectCode,itemCode];
     while ([rs next]) {
         favorite = [self createFavorite:rs];
         break;
     }
     [rs close];
     return favorite;
+}
+#pragma mark 根据科目代码和试题ID是否收藏
+-(BOOL)existFavoriteWithSubjectCode:(NSString *)subjectCode ItemCode:(NSString *)itemCode{
+    if(!_db || !subjectCode || subjectCode.length == 0 || !itemCode || itemCode.length == 0) return NO;
+    if(![_db tableExists:__k_paperitemfavoritedao_tableName]) return NO;
+    NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ = ? and %@ = ? and %@ = 1",
+                           __k_paperitemfavoritedao_tableName,
+                           __k_paperitemfavorite_fields_subjectCode,
+                           __k_paperitemfavorite_fields_itemCode,
+                           __k_paperitemfavorite_fields_status];
+    return [_db intForQuery:query_sql,subjectCode,itemCode] > 0;
 }
 //创建收藏数据
 -(PaperItemFavorite *)createFavorite:(FMResultSet *)rs{
@@ -69,7 +83,7 @@
     favorite.itemType = [rs intForColumn:__k_paperitemfavorite_fields_itemType];
     favorite.itemContent = [rs stringForColumn:__k_paperitemfavorite_fields_itemContent];
     favorite.remarks = [rs stringForColumn:__k_paperitemfavorite_fields_remarks];
-    favorite.status = [rs intForColumn:__k_paperitemfavorite_fields_status];
+    favorite.status = [NSNumber numberWithInt:[rs intForColumn:__k_paperitemfavorite_fields_status]];
     
     NSString *strCreateTime = [rs stringForColumn:__k_paperitemfavorite_fields_createTime];
     if(strCreateTime && strCreateTime.length > 0){
@@ -82,27 +96,13 @@
 -(BOOL)updateFavorite:(PaperItemFavorite *__autoreleasing *)favorite{
     if(!_db || !(*favorite) || ![_db tableExists:__k_paperitemfavoritedao_tableName])return NO;
     BOOL isExists = NO;
-    NSString *query_sql;
     if((*favorite).code && (*favorite).code.length > 0){
-        query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ = ?",
+        NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ = ?",
                      __k_paperitemfavoritedao_tableName,__k_paperitemfavorite_fields_code];
         isExists = [_db intForQuery:query_sql,(*favorite).code] > 0;
-    }else if((*favorite).itemCode && (*favorite).itemCode.length > 0){
-        query_sql = [NSString stringWithFormat:@"select %@ from %@ where %@ = ? order by %@ desc limit 0,1",
-                     __k_paperitemfavorite_fields_code,
-                     
-                     __k_paperitemfavoritedao_tableName,
-                     __k_paperitemfavorite_fields_itemCode,
-                     
-                     __k_paperitemfavorite_fields_createTime];
-        NSString *favoriteCode = [_db stringForQuery:query_sql,(*favorite).itemCode];
-        if(favoriteCode && favoriteCode.length > 0){
-            (*favorite).code = favoriteCode;
-            isExists = YES;
-        }
     }
     (*favorite).sync = [NSNumber numberWithBool:NO].integerValue;
-    (*favorite).status = [NSNumber numberWithBool:YES].integerValue;
+    (*favorite).status = [NSNumber numberWithBool:YES];
     if(isExists){//更新数据
         NSString *update_sql = [NSString stringWithFormat:@"update %@ set %@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ? where %@ = ?",
                                 __k_paperitemfavoritedao_tableName,
@@ -157,6 +157,18 @@
                             __k_paperitemfavorite_fields_itemCode];
     return [_db executeUpdate:update_sql,[NSNumber numberWithBool:NO], itemCode];
 }
+#pragma mark 删除收藏
+-(BOOL)removeFavoriteWithSubjectCode:(NSString *)subjectCode ItemCode:(NSString *)itemCode{
+    if(!_db || !subjectCode || subjectCode.length == 0 || !itemCode || itemCode.length == 0) return NO;
+    if(![_db tableExists:__k_paperitemfavoritedao_tableName]) return NO;
+    NSString *update_sql = [NSString stringWithFormat:@"update %@ set %@ = ? where %@ = ? and %@ = ?",
+                            __k_paperitemfavoritedao_tableName,
+                            __k_paperitemfavorite_fields_status,
+                            __k_paperitemfavorite_fields_subjectCode,
+                            __k_paperitemfavorite_fields_itemCode];
+    return [_db executeUpdate:update_sql,subjectCode,itemCode];
+}
+
 #pragma mark 加载需同步的数据集合
 -(NSArray *)loadSyncFavorites{
     if(!_db || ![_db tableExists:__k_paperitemfavoritedao_tableName]) return nil;

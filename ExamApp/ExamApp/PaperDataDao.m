@@ -9,7 +9,7 @@
 #import "PaperDataDao.h"
 #import <FMDB/FMDB.h>
 #import "PaperData.h"
-#import "PaperReview.h"
+//#import "PaperReview.h"
 
 #import "AESCrypt.h"
 #import "NSString+Date.h"
@@ -41,7 +41,7 @@
 }
 #pragma mark 根据试卷ID加载试卷内容
 -(PaperReview *)loadPaperContentWithCode:(NSString *)code{
-    if(!_db || !code || code.length == 0)return nil;
+    if(!_db || !code || code.length == 0 || ![_db tableExists:__k_paperdatadao_tableName])return nil;
     NSString *query_sql = [NSString stringWithFormat:@"select %@,%@ from %@ where %@ = ?",
                            __k_paperdata_fields_content,__k_paperdata_fields_total,
                            __k_paperdatadao_tableName,__k_paperdata_fields_code];
@@ -65,8 +65,18 @@
     }
     return review;
 }
+#pragma mark 根据试卷ID加载所属科目代码
+-(NSString *)loadSubjectCodeWithPaperCode:(NSString *)code{
+    if(!_db || !code || code.length == 0 || ![_db tableExists:__k_paperdatadao_tableName]) return nil;
+    NSString *query_sql = [NSString stringWithFormat:@"select %@ from %@ where %@ = ? order by %@ desc limit 0,1",
+                           __k_paperdata_fields_subjectCode,
+                           __k_paperdatadao_tableName,
+                           __k_paperdata_fields_code,
+                           __k_paperdata_fields_createTime];
+    return [_db stringForQuery:query_sql, code];
+}
 #pragma mark 根据科目ID和试卷类型加载试卷数据集合
--(NSArray *)loadPapersWithSubjectCode:(NSString *)subjectCode PaperType:(PaperTypes)type{
+-(NSArray *)loadPapersWithSubjectCode:(NSString *)subjectCode PaperType:(PaperType)type{
     if(!_db || !subjectCode)return nil;
     NSString *query_sql = [NSString stringWithFormat:@"select %@,%@,%@,%@,%@,%@ from %@ where %@ = ? and %@ = ? order by %@ desc",
                            __k_paperdata_fields_code,

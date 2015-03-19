@@ -29,27 +29,27 @@
 #pragma mark 初始化
 -(instancetype)initWithDictionary:(NSDictionary *)dict{
     if((self = [super init]) && dict && dict.count > 0){
-        self.code = [dict objectForKey:__k_paper_fields_code];
-        self.name = [dict objectForKey:__k_paper_fields_name];
-        self.desc = [dict objectForKey:__k_paper_fields_desc];
-        self.sourceName = [dict objectForKey:__k_paper_fields_sourceName];
-        self.areaName = [dict objectForKey:__k_paper_fields_areaName];
+        _code = [dict objectForKey:__k_paper_fields_code];
+        _name = [dict objectForKey:__k_paper_fields_name];
+        _desc = [dict objectForKey:__k_paper_fields_desc];
+        _sourceName = [dict objectForKey:__k_paper_fields_sourceName];
+        _areaName = [dict objectForKey:__k_paper_fields_areaName];
         NSNumber *typeNum = [dict objectForKey:__k_paper_fields_type];
         if(typeNum){
-            self.type = typeNum.integerValue;
+            _type = typeNum.integerValue;
         }
         NSNumber *timeNum = [dict objectForKey:__k_paper_fields_time];
         if(timeNum){
-            self.time = timeNum.integerValue;
+            _time = timeNum.integerValue;
         }
         NSNumber *yearNum = [dict objectForKey:__k_paper_fields_year];
         if(yearNum){
-            self.year = yearNum.integerValue;
+            _year = yearNum.integerValue;
         }
-        self.score = [dict objectForKey:__k_paper_fields_score];
+        _score = [dict objectForKey:__k_paper_fields_score];
         NSArray *structuresArray = [dict objectForKey:__k_paper_fields_structures];
         if(structuresArray && structuresArray.count > 0){
-            self.structures = [PaperStructure deSerializeWithArray:structuresArray];
+            _structures = [PaperStructure deSerializeWithArray:structuresArray];
         }
     }
     return self;
@@ -69,7 +69,7 @@
 -(void)createItemAnswersheetWithStructure:(PaperStructure *)structure
                                     Order:(NSNumber **)order
                                     Sheets:(void (^)(NSString *text, NSArray *indexPathSheets))sheets{
-    NSString *title = structure.title;//[NSString stringWithFormat:@"%@[%d]",structure.title,structure.total];
+    NSString *title = structure.title, *code = structure.code;
     //结构下有试题集合
     if(structure.items && structure.items.count > 0){
         int index = (*order).intValue;
@@ -79,6 +79,7 @@
             if(item.count > 1){
                 for(int i = 0; i < item.count; i++){
                     [indexPathArrays addObject:[self createCacheWithOrder:index
+                                                            StructureCode:code
                                                            StructureTitle:title
                                                                      Item:item
                                                                     Index:i]];
@@ -87,6 +88,7 @@
                 }
             }else{
                 [indexPathArrays addObject:[self createCacheWithOrder:index
+                                                        StructureCode:code
                                                        StructureTitle:title
                                                                  Item:item
                                                                 Index:0]];
@@ -111,10 +113,12 @@
 }
 //创建缓存
 -(PaperItemOrderIndexPath *)createCacheWithOrder:(NSInteger)order
-             StructureTitle:(NSString *)title
-                       Item:(PaperItem *)item
-                      Index:(NSInteger)index{
+                                   StructureCode:(NSString *)code
+                                  StructureTitle:(NSString *)title
+                                            Item:(PaperItem *)item
+                                           Index:(NSInteger)index{
     PaperItemOrderIndexPath *indexPath = [PaperItemOrderIndexPath paperOrder:order
+                                                               StructureCode:code
                                                               StructureTitle:title
                                                                         Item:item
                                                                        Index:index];
@@ -163,7 +167,7 @@
     if(!ps)return NO;
     if(ps.items && ps.items.count > 0){
         int numOrder = [NSNumber numberWithInteger:order].intValue;
-        NSString *title = ps.title;
+        NSString *title = ps.title, *code = ps.code;
         int index = (*orderIndex).intValue;
         for(PaperItem *item in ps.items){
             if(!item) continue;
@@ -171,6 +175,7 @@
                 for(int i = 0; i < item.count; i++){
                     if(index == numOrder){
                         *indexPath = [self createCacheWithOrder:index
+                                                  StructureCode:code
                                                  StructureTitle:title
                                                            Item:item
                                                           Index:i];
@@ -181,6 +186,7 @@
             }else{
                 if(index == numOrder){
                     *indexPath = [self createCacheWithOrder:index
+                                              StructureCode:code
                                              StructureTitle:title
                                                        Item:item
                                                       Index:0];
@@ -218,7 +224,7 @@
     
     return order.integerValue;
 }
-//根据ID查找题序
+#pragma mark 根据ID查找题序
 -(BOOL)findItemCodeWithStructure:(PaperStructure *)ps ItemCode:(NSString *)itemCode Order:(NSNumber **)order{
     if(!ps || !ps.items || ps.items.count == 0)return NO;
     NSInteger itemOrder = (*order).integerValue;
@@ -238,6 +244,26 @@
         }
     }
     return NO;
+}
+#pragma mark 根据结构ID查找结构
+-(PaperStructure *)findStructureAtStructureCode:(NSString *)code{
+    if(!code || code.length == 0 || !self.structures || self.structures.count == 0) return nil;
+    return [self findStructureWithStructures:self.structures AtStructureCode:code];
+}
+//
+-(PaperStructure *)findStructureWithStructures:(NSArray *)arrays AtStructureCode:(NSString *)code{
+    if(arrays && arrays.count > 0 && code && code.length > 0){
+        for(PaperStructure *ps in arrays){
+            if(!ps || !ps.code || ps.code.length == 0)continue;
+            if([ps.code isEqualToString:code]){
+                return ps;
+            }
+            if(ps.children && ps.children.count > 0){
+                return [self findStructureWithStructures:ps.children AtStructureCode:code];
+            }
+        }
+    }
+    return nil;
 }
 
 #pragma mark 根据JSON字符串初始化
@@ -313,32 +339,32 @@
 #pragma mark 初始化
 -(instancetype)initWithDictionary:(NSDictionary *)dict{
     if((self = [super init]) && dict && dict.count > 0){
-        self.code = [dict objectForKey:__k_paperstructure_fields_code];
-        self.title = [dict objectForKey:__k_paperstructure_fields_title];
-        self.desc = [dict objectForKey:__k_paperstructure_fields_desc];
-        self.typeName = [dict objectForKey:__k_paperstructure_fields_typeName];
+        _code = [dict objectForKey:__k_paperstructure_fields_code];
+        _title = [dict objectForKey:__k_paperstructure_fields_title];
+        _desc = [dict objectForKey:__k_paperstructure_fields_desc];
+        _typeName = [dict objectForKey:__k_paperstructure_fields_typeName];
         NSNumber *typeNum = [dict objectForKey:__k_paperstructure_fields_type];
         if(typeNum){
-            self.type = typeNum.integerValue;
+            _type = typeNum.integerValue;
         }
         NSNumber *totalNum = [dict objectForKey:__k_paperstructure_fields_total];
         if(totalNum){
-            self.total = totalNum.integerValue;
+            _total = totalNum.integerValue;
         }
-        self.score = [dict objectForKey:__k_paperstructure_fields_score];
-        self.min = [dict objectForKey:__k_paperstructure_fields_min];
-        self.ratio = [dict objectForKey:__k_paperstructure_fields_ratio];
+        _score = [dict objectForKey:__k_paperstructure_fields_score];
+        _min = [dict objectForKey:__k_paperstructure_fields_min];
+        _ratio = [dict objectForKey:__k_paperstructure_fields_ratio];
         NSNumber *orderNoNum = [dict objectForKey:__k_paperstructure_fields_orderNo];
         if(orderNoNum){
-            self.orderNo = orderNoNum.integerValue;
+            _orderNo = orderNoNum.integerValue;
         }
         NSArray *itemArrays = [dict objectForKey:__k_paperstructure_fields_items];
         if(itemArrays && itemArrays.count > 0){
-            self.items = [PaperItem deSerializeWithArray:itemArrays];
+            _items = [PaperItem deSerializeWithArray:itemArrays];
         }
         NSArray *chidArrays = [dict objectForKey:__k_paperstructure_fields_children];
         if(chidArrays && chidArrays.count > 0){
-            self.children = [PaperStructure deSerializeWithArray:chidArrays];
+            _children = [PaperStructure deSerializeWithArray:chidArrays];
         }
     }
     return self;
@@ -428,30 +454,30 @@
 #pragma mark 初始化
 -(instancetype)initWithDictionary:(NSDictionary *)dict{
     if((self = [super init]) && dict && dict.count > 0){
-        self.code = [dict objectForKey:__k_paperitem_fields_code];
-        self.typeName = [dict objectForKey:__k_paperitem_fields_typeName];
+        _code = [dict objectForKey:__k_paperitem_fields_code];
+        _typeName = [dict objectForKey:__k_paperitem_fields_typeName];
         NSNumber *typeNum = [dict objectForKey:__k_paperitem_fields_type];
         if(typeNum){
-            self.type = typeNum.integerValue;
+            _type = typeNum.integerValue;
         }
-        self.content = [dict objectForKey:__k_paperitem_fields_content];
-        self.answer = [dict objectForKey:__k_paperitem_fields_answer];
-        self.analysis = [dict objectForKey:__k_paperitem_fields_analysis];
+        _content = [dict objectForKey:__k_paperitem_fields_content];
+        _answer = [dict objectForKey:__k_paperitem_fields_answer];
+        _analysis = [dict objectForKey:__k_paperitem_fields_analysis];
         NSNumber *levelNum = [dict objectForKey:__k_paperitem_fields_level];
         if(levelNum){
-            self.level = levelNum.integerValue;
+            _level = levelNum.integerValue;
         }
         NSNumber *orderNoNum = [dict objectForKey:__k_paperitem_fields_orderNo];
         if(orderNoNum){
-            self.orderNo = orderNoNum.integerValue;
+            _orderNo = orderNoNum.integerValue;
         }
         NSNumber *countNum = [dict objectForKey:__k_paperitem_fields_count];
         if(countNum){
-            self.count = countNum.integerValue;
+            _count = countNum.integerValue;
         }
         NSArray *childArrays = [dict objectForKey:__k_paperitem_fields_children];
         if(childArrays && childArrays.count > 0){
-            self.children = [PaperItem deSerializeWithArray:childArrays];
+            _children = [PaperItem deSerializeWithArray:childArrays];
         }
     }
     return self;
@@ -521,9 +547,14 @@
 //试题索引实现
 @implementation PaperItemOrderIndexPath
 #pragma mark 初始化
--(instancetype)initWithOrder:(NSInteger)order StructureTitle:(NSString *)title Item:(PaperItem *)item Index:(NSInteger)index{
+-(instancetype)initWithOrder:(NSInteger)order
+               StructureCode:(NSString *)code
+               StructureTitle:(NSString *)title
+                        Item:(PaperItem *)item
+                       Index:(NSInteger)index{
     if(self = [super init]){
         _order = order;
+        _structureCode = code;
         _structureTitle = title;
         _item = item;
         _index = index;
@@ -531,7 +562,11 @@
     return self;
 }
 #pragma mark 静态初始化
-+(instancetype)paperOrder:(NSInteger)order StructureTitle:(NSString *)title Item:(PaperItem *)item Index:(NSInteger)index{
-    return [[self alloc] initWithOrder:order StructureTitle:title Item:item Index:index];
++(instancetype)paperOrder:(NSInteger)order
+            StructureCode:(NSString *)code
+           StructureTitle:(NSString *)title
+                     Item:(PaperItem *)item
+                    Index:(NSInteger)index{
+    return [[self alloc] initWithOrder:order StructureCode:code StructureTitle:title Item:item Index:index];
 }
 @end

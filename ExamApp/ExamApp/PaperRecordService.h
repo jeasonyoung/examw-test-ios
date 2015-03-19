@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 @class PaperRecord;
 @class PaperItemRecord;
+@class PaperItemFavorite;
+@class PaperItemOrderIndexPath;
 //试卷记录服务
 @interface PaperRecordService : NSObject
 //加载最新试卷记录
@@ -24,8 +26,17 @@
 -(PaperItemRecord *)loadLastRecordWithPaperRecordCode:(NSString *)paperRecordCode;
 //加载试题记录
 -(PaperItemRecord *)loadRecordWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode atIndex:(NSInteger)index;
+//加载试题记录中的答案
+-(NSString *)loadAnswerRecordWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode atIndex:(NSInteger)index;
 //是否存在试题记录
 -(BOOL)exitItemRecordWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode atIndex:(NSInteger)index;
 //提交试题记录
 -(void)subjectWithItemRecord:(PaperItemRecord *)itemRecord;
+
+//检查试题收藏是否存在
+-(BOOL)exitFavoriteWithPaperCode:(NSString *)code ItemCode:(NSString *)itemCode atIndex:(NSInteger)index;
+//添加试题收藏
+-(void)addFavoriteWithPaperCode:(NSString *)code Data:(PaperItemOrderIndexPath *)indexPath;
+//删除试题收藏
+-(void)removeFavoriteWithPaperCode:(NSString *)code ItemCode:(NSString *)itemCode atIndex:(NSInteger)index;
 @end

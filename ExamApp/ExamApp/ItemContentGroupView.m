@@ -10,34 +10,12 @@
 #import "ItemContentView.h"
 #import "UIViewQueue.h"
 
-//试题显示数据源
-@implementation ItemContentSource
-#pragma mark 初始化
--(instancetype)initWithSource:(PaperItem *)source Index:(NSInteger)index Order:(NSInteger)order{
-    if(self = [super init]){
-        _source = source;
-        _index = index;
-        _order = order;
-    }
-    return self;
-}
-#pragma mark 加载数据
--(void)loadDataWithSource:(PaperItem *)source Index:(NSInteger)index Order:(NSInteger)order{
-    _source = source;
-    _index = index;
-    _order = order;
-}
-#pragma mark 静态初始化
-+(ItemContentSource *)itemContentSource:(PaperItem *)source Index:(NSInteger)index Order:(NSInteger)order{
-    return [[ItemContentSource alloc] initWithSource:source Index:index Order:order];
-}
-@end
 
 #define __k_itemcontentgroupview_queue_max 3//最大队列
 //试题显示分页集合成员变量
 @interface ItemContentGroupView ()<UIScrollViewDelegate,ItemContentDelegate>{
-    NSInteger _pageIndex;
     UIViewQueue *_queue;
+    NSMutableArray *_selectedArrays;
 }
 @end
 //试题显示分页集合实现
@@ -46,7 +24,7 @@
 -(instancetype)initWithFrame:(CGRect)frame Order:(NSInteger)order{
     if(self = [super initWithFrame:frame]){
         //初始化当前页码
-        _pageIndex = order;
+        _currentOrder = order;
         //试题页面缓存队列
         _queue = [[UIViewQueue alloc] initWithCacheCount:__k_itemcontentgroupview_queue_max];
         //以页为单位滑动，即自动到下一页的开始边界
@@ -88,7 +66,7 @@
             //加入到队列
             [_queue enqueue:contentView];
             //加载数据
-            [contentView loadDataWithItem:source.source Order:source.order Index:source.index];
+            [contentView loadDataWithSource:source];
             //添加到UI
             [self addSubview:contentView];
             return YES;
@@ -118,21 +96,48 @@
     NSInteger index = ceil(scrollView.contentOffset.x / CGRectGetWidth(scrollView.frame));
     //NSLog(@"index===>%d",index);
     if(index < 0)return;
-    if(index != _pageIndex){
+    if(index != _currentOrder){
         //NSLog(@"_pageIndex ===> %d",_pageIndex);
         [self loadItemContentViewAtIndex:index];
-        _pageIndex = index;
+        _currentOrder = index;
     }
 }
 #pragma mark ItemContentDelegate
--(void)optionWithItemType:(PaperItemType)itemType selectedCode:(NSString *)optCode{
-    if(self.dataSource && [self.dataSource respondsToSelector:@selector(itemContentWithItemType:selectedCode:)]){
-        [self.dataSource itemContentWithItemType:itemType selectedCode:optCode];
+-(void)selectedOption:(ItemContentSource *)source{
+    if(!source || !source.source) return;
+    if(self.dataSource && [self.dataSource respondsToSelector:@selector(selectedData:)]){
+        PaperItemType itemType = (PaperItemType)source.source.type;
+        if(itemType != PaperItemTypeMulty && itemType != PaperItemTypeUncertain){
+            [self.dataSource selectedData:source];
+            return;
+        }
+        //多选
+        if(!_selectedArrays) _selectedArrays = [NSMutableArray array];
+        [_selectedArrays addObject:source];
+    }
+}
+-(void)selectMultyOptionHandler{
+    if(!_selectedArrays ||  _selectedArrays.count == 0)return;
+    if(self.dataSource && [self.dataSource respondsToSelector:@selector(selectedData:)]){
+        NSMutableString *selectedValues = [NSMutableString string];
+        ItemContentSource *source;
+        for(NSInteger i = 0; i < _selectedArrays.count; i++){
+            source = [_selectedArrays objectAtIndex:i];
+            if(source && source.value && source.value.length > 0){
+                if(selectedValues.length > 0)[selectedValues appendString:@","];
+                [selectedValues appendFormat:@"%@",source.value];
+            }
+        }
+        if(source && selectedValues.length > 0){
+            source.value = [selectedValues copy];
+            [self.dataSource selectedData:source];
+            selectedValues = nil;
+        }
     }
 }
 #pragma mark 加载当前数据
 -(void)loadContent{
-    [self loadContentAtIndex:_pageIndex];
+    [self loadContentAtIndex:_currentOrder];
 }
 #pragma mark 加载数据
 -(void)loadContentAtOrder:(NSInteger)order{
@@ -140,16 +145,18 @@
 }
 #pragma mark 加载下一题
 -(void)loadNextContent{
-    _pageIndex++;
-    if(![self loadContentAtIndex:_pageIndex]){
-        _pageIndex--;
+    [self selectMultyOptionHandler];
+    _currentOrder++;
+    if(![self loadContentAtIndex:_currentOrder]){
+        _currentOrder--;
     }
 }
 #pragma mark 加载上一题
 -(void)loadPrevContent{
-    _pageIndex--;
-    if(![self loadContentAtIndex:_pageIndex]){
-        _pageIndex++;
+    [self selectMultyOptionHandler];
+    _currentOrder--;
+    if(![self loadContentAtIndex:_currentOrder]){
+        _currentOrder++;
     }
 }
 //加载试题

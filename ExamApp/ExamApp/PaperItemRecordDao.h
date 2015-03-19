@@ -17,6 +17,8 @@
 -(PaperItemRecord *)loadRecordWithItemRecordCode:(NSString *)itemRecordCode;
 //加载试题记录
 -(PaperItemRecord *)loadRecordWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode;
+//加载试题记录的答案
+-(NSString *)loadAnswerWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode;
 //根据试卷记录ID和试题ID加载数据
 -(PaperItemRecord *)loadLastRecordWithPaperRecordCode:(NSString *)paperRecordCode;
 //判断试题记录是否存在

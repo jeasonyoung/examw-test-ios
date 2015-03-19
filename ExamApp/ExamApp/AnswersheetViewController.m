@@ -233,7 +233,7 @@
             btnItem.tag = indexPath.order;
             [btnItem setTitleColor:_itemFontColor forState:UIControlStateNormal];
             [btnItem setTitleColor:_hasBgColor forState:UIControlStateHighlighted];
-            [btnItem setTitle:[NSString stringWithFormat:@"%d",(indexPath.order + 1)] forState:UIControlStateNormal];
+            [btnItem setTitle:[NSString stringWithFormat:@"%ld", ((long)indexPath.order + 1)] forState:UIControlStateNormal];
             
             //加载做题记录
             if(_record && _record.code && _record.code.length > 0 && _recordService && indexPath && indexPath.item){
@@ -258,7 +258,7 @@
     *outY = [NSNumber numberWithFloat:((*outY).floatValue + height + __k_answersheetviewcontroller_margin_max)];
 }
 -(void)itemAnswersheetClick:(UIButton *)sender{
-    NSLog(@"itemAnswersheetClick->tag:%d ＝>%@",sender.tag,_record);
+    NSLog(@"itemAnswersheetClick->tag:%ld ＝>%@",(long)sender.tag,_record);
     if(!_targetItemControoler){
         NSArray *controllers = self.navigationController.viewControllers;
         if(controllers && controllers.count > 0){

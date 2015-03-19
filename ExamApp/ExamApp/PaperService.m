@@ -51,7 +51,7 @@
             //初始化数据操作对象
             PaperDataDao *dao = [[PaperDataDao alloc] initWithDb:db];
             //加载科目类型下试卷集合
-            paperArrays = [dao loadPapersWithSubjectCode:subjectCode PaperType:typeValue];
+            paperArrays = [dao loadPapersWithSubjectCode:subjectCode PaperType:(PaperType)typeValue];
             if(paperArrays){
                 //存储缓存
                 [_papersCache setObject:paperArrays forKey:cacheKey];

@@ -12,7 +12,7 @@
 //初始化
 -(instancetype)initWithFrame:(CGRect)frame Total:(NSInteger)total;
 //停止倒计时
--(NSInteger)stop;
+-(NSNumber *)stop;
 //用时(秒)
--(NSInteger)useTimes;
+-(NSNumber *)useTimes;
 @end

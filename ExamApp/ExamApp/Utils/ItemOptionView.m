@@ -175,9 +175,35 @@
 }
 @end
 
+//选项集合数据源
+@implementation ItemOptionGroupSource
+#pragma mark 加载数据
+-(void)loadOptions:(NSArray *)options
+         GroupType:(ItemOptionGroupType)type
+          Selected:(NSString *)optCode
+     DisplayAnswer:(BOOL)displayAnswer
+            Answer:(NSString *)answer{
+    _options = options;
+    _optGropType = type;
+    _selectedOptCode = optCode;
+    _displayAnswer = displayAnswer;
+    _answer = answer;
+}
+#pragma mark 静态初始化
++(instancetype)sourceOptions:(NSArray *)options
+                   GroupType:(ItemOptionGroupType)type
+                    Selected:(NSString *)optCode
+               DisplayAnswer:(BOOL)displayAnswer
+                      Answer:(NSString *)answer{
+    ItemOptionGroupSource *dataSource = [[ItemOptionGroupSource alloc] init];
+    [dataSource loadOptions:options GroupType:type Selected:optCode DisplayAnswer:displayAnswer Answer:answer];
+    return dataSource;
+}
+@end
+
 //选项组合成员变量
 @interface ItemOptionGroupView (){
-    ItemOptionViewType _type;
+    ItemOptionGroupType _optGroupType;
     NSInteger _optCount;
     NSMutableArray *_optionsCache;
 }
@@ -192,37 +218,63 @@
     return self;
 }
 #pragma mark 加载数据
--(void)loadDataWithType:(ItemOptionViewType)type andOptions:(NSArray *)options{
-    _type = type;
+-(void)loadData:(ItemOptionGroupSource *)data{
     //清空子控件
     [self cleanWithAllCache:NO];
-    //是否只读状态
-    self.userInteractionEnabled = (_type == ItemOptionViewTypeSingle || _type == ItemOptionViewTypeMulty);
-    //加载数据
-    if(options && (_optCount = options.count) > 0){
-        CGRect tempFrame = self.frame;
-        tempFrame.origin.x = tempFrame.origin.y = 0;
-        //NSLog(@"ItemOptionView-====,%@", NSStringFromCGRect(tempFrame));
-        for(int i = 0; i < options.count;i++){
-            if(i > 0){
-                tempFrame.origin.y = CGRectGetMaxY(tempFrame) +  __k_etoptionview_option_margin;
+    if(data){
+        _optGroupType = data.optGropType;
+        //是否只读状态
+        self.userInteractionEnabled = !data.IsDisplayAnswer;
+        //加载数据
+        if(data.options && (_optCount = data.options.count) > 0){
+            CGRect tempFrame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 0);
+            for(NSInteger i = 0; i < _optCount; i++){
+                tempFrame.origin.y = CGRectGetMaxY(tempFrame) + __k_etoptionview_option_margin;
+                
+                ItemOptionViewType optType = (ItemOptionViewType)((int)data.optGropType);
+                
+                PaperItem *option = [data.options objectAtIndex:i];
+                if(option){
+                    ItemOptionView *optionView = [self createOptionWithFrame:tempFrame Index:i];
+                    if(optionView){
+                        //选中的答案存在
+                        BOOL isSelected = NO;
+                        if(data.selectedOptCode && data.selectedOptCode.length > 0){
+                           isSelected = [data.selectedOptCode containsString:option.code];
+                        }
+                        BOOL isSuccess = NO;
+                        if(data.IsDisplayAnswer && data.answer && data.answer.length > 0){
+                            if((isSuccess = [data.answer containsString:option.code])){
+                                if(optType == ItemOptionViewTypeSingle){//单选
+                                    optType = ItemOptionViewTypeSingleRight;
+                                }else{
+                                    optType = ItemOptionViewTypeMultyRight;
+                                }
+                            }else if(isSelected){//选错了
+                                if(optType == ItemOptionViewTypeSingle){//单选
+                                    optType = ItemOptionViewTypeSingleError;
+                                }else{
+                                    optType = ItemOptionViewTypeMultyError;
+                                }
+                            }
+                        }
+                        //加载数据
+                        [optionView loadDataWithType:optType OptionCode:option.code OptionText:option.content];
+                        if(isSelected){
+                            optionView.optSelected = isSelected;
+                        }
+                        //添加到容器
+                        [self addSubview:optionView];
+                        //
+                        tempFrame = optionView.frame;
+                    }
+                }
             }
-            PaperItem *option = [options objectAtIndex:i];
-            ItemOptionView *optionView = [self createOptionWithFrame:tempFrame Index:i];
-            if(option && optionView){
-                //加载数据
-                [optionView loadDataWithType:_type OptionCode:option.code OptionText:option.content];
-                //添加到容器
-                [self addSubview:optionView];
-                tempFrame = optionView.frame;
-                //NSLog(@"ItemOptionView-%d,%@",i, NSStringFromCGRect(tempFrame));
-            }
+            //重置容器高度
+            CGFloat height = CGRectGetMaxY(tempFrame) + __k_etoptionview_option_margin;
+            tempFrame.size.height = height;
+            self.frame = tempFrame;
         }
-        //重置容器高度
-        CGFloat height = CGRectGetMaxY(tempFrame) + __k_etoptionview_option_margin;
-        tempFrame = self.frame;
-        tempFrame.size.height = height;
-        self.frame = tempFrame;
     }
 }
 #pragma mark 清空
@@ -244,7 +296,7 @@
     }
 }
 //创建选项
--(ItemOptionView *)createOptionWithFrame:(CGRect)frame Index:(int)index{
+-(ItemOptionView *)createOptionWithFrame:(CGRect)frame Index:(NSInteger)index{
     ItemOptionView *optView;
     if(_optionsCache.count > index){
         optView = [_optionsCache objectAtIndex:index];
@@ -260,7 +312,7 @@
 //选项点击事件
 -(void)itemOptionClick:(ItemOptionView *)sender{
     if(!sender)return;
-    if(_type == ItemOptionViewTypeSingle && _optCount <= _optionsCache.count){
+    if(_optGroupType == ItemOptionGroupTypeSingle && _optCount <= _optionsCache.count){
         for(int i = 0; i < _optCount;i++){
             ItemOptionView *optView = [_optionsCache objectAtIndex:i];
             if(!optView || [sender.optCode isEqualToString:optView.optCode]){

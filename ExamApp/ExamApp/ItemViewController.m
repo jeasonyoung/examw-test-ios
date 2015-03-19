@@ -8,8 +8,12 @@
 
 #import "ItemViewController.h"
 #import "UIViewController+VisibleView.h"
+
 #import "PaperReview.h"
 #import "PaperRecord.h"
+#import "PaperItemRecord.h"
+#import "PaperRecordService.h"
+
 #import "ETAlert.h"
 
 #import "UIColor+Hex.h"
@@ -20,6 +24,7 @@
 #import "AnswersheetViewController.h"
 #import "PaperListViewController.h"
 
+#import "ItemContentView.h"
 #import "ItemContentGroupView.h"
 
 #import "UIViewUtils.h"
@@ -43,12 +48,17 @@
 
 //试题考试视图控制器成员变量
 @interface ItemViewController ()<ItemContentGroupViewDataSource>{
-    PaperReview *_review;
+    NSDate *_startTime;
     NSInteger _order;
-    PaperRecord *_record;
     UIImage *_imgFavoriteNormal,*_imgFavoriteHighlight;
+    
+    PaperReview *_review;
+    PaperRecord *_record;
+    
     ItemContentGroupView *_itemContentView;
     ETTimerView *_timerView;
+    
+    PaperRecordService *_recordService;
 }
 @end
 //试题考试视图控制器实现
@@ -78,6 +88,8 @@
     [self setupTopBar];
     //加载底部工具栏
     [self setupFootBar];
+    //初始化试题记录
+    _recordService = [[PaperRecordService alloc] init];
     //加载试题内容
     [self setupItemContentView];
 }
@@ -89,7 +101,7 @@
 //加载顶部工具栏
 -(void)setupTopBar{
     //加载顶部标题内容xx
-    self.navigationItem.title = @"一、单项选择题单项选择题单项选择题单项选择题单项选择题";
+    //self.navigationItem.title = @"一、单项选择题单项选择题单项选择题单项选择题单项选择题";
     //左边按钮
     UIBarButtonItem *btnLeft = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply
                                                                              target:self
@@ -106,6 +118,7 @@
     ETAlert *alert = [[ETAlert alloc] initWithTitle:__k_itemviewcontroller_left_alert_title Message:__k_itemviewcontroller_left_alert_msg];
     [alert addConfirmActionWithTitle:__k_itemviewcontroller_left_alert_btn_submit Handler:^(UIAlertAction *action) {
         NSLog(@"交卷");
+        [self btnSubmitClick:nil];
     }];
     [alert addConfirmActionWithTitle:__k_itemviewcontroller_left_alert_btn_confirm Handler:^(UIAlertAction *action) {
         NSLog(@"下次再做");
@@ -195,73 +208,193 @@
     _itemContentView.dataSource = self;
     [_itemContentView loadContent];
     [self.view addSubview:_itemContentView];
+    //开始时间
+    _startTime = [NSDate date];
 }
 #pragma mark ItemContentGroupViewDataSource
 //加载数据
 -(ItemContentSource *)itemContentAtIndex:(NSInteger)index{
-    NSLog(@"加载数据...%d",index);
+    NSLog(@"加载数据...%ld",(long)index);
     if(index < 0 || !_review)return nil;
     __block ItemContentSource *source;
     [_review loadItemAtOrder:index ItemBlock:^(PaperItemOrderIndexPath *indexPath) {
         if(indexPath){
             self.navigationItem.title = indexPath.structureTitle;
-            source = [ItemContentSource itemContentSource:indexPath.item
-                                                    Index:indexPath.index
-                                                    Order:indexPath.order + 1];
+            
+            NSString *answer = nil;
+            if(_record && _record.code && _record.code.length > 0){
+                answer = [_recordService loadAnswerRecordWithPaperRecordCode:_record.code
+                                                                    ItemCode:indexPath.item.code
+                                                                     atIndex:indexPath.index];
+            }
+            source = [ItemContentSource itemContentStructureCode:indexPath.structureCode
+                                                          Source:indexPath.item
+                                                           Index:indexPath.index
+                                                           Order:(indexPath.order + 1)
+                                                   SelectedValue:answer];
         }
     }];
     return source;
 }
 //选中的答案数据
--(void)itemContentWithItemType:(PaperItemType)itemType selectedCode:(NSString *)optCode{
-    NSLog(@"itemContentAtSelectedCode:%@",optCode);
-    [_itemContentView loadNextContent];
+-(void)selectedData:(ItemContentSource *)data{
+    if(!_record || !data || !data.source)return;
+    NSNumber *doTime = [self doItemTimeSecondWithStart:_startTime];
+    
+    PaperItemType itemType = (PaperItemType)data.source.type;
+    PaperItemRecord *itemRecord = [_recordService loadRecordWithPaperRecordCode:_record.code
+                                                                       ItemCode:data.source.code
+                                                                        atIndex:data.index];
+    if(itemRecord){
+        itemRecord.structureCode = data.structureCode;
+        itemRecord.itemContent = [data.source serialize];
+        itemRecord.answer = data.value;
+        itemRecord.useTimes = doTime;
+        NSString *rightAnswer = data.source.answer;
+        if(itemType == PaperItemTypeShareTitle){//共享题干题
+            if(data.source.children && data.source.children.count > 0 && data.index < data.source.children.count){
+                PaperItem *child = [data.source.children objectAtIndex:data.index];
+                if(child){
+                    rightAnswer = child.answer;
+                }
+            }
+        }else if(itemType == PaperItemTypeShareAnswer){//共享答案题
+            NSInteger count = 0;
+            if(data.source.children && (count = data.source.children.count) > 0){
+                PaperItem *item = [data.source.children objectAtIndex:(count - 1)];
+                if(item && item.children && item.children.count > 0 && data.index < item.children.count){
+                    PaperItem *child = [item.children objectAtIndex:data.index];
+                    if(child){
+                        rightAnswer = child.answer;
+                    }
+                }
+            }
+        }
+        //判断答案是否正确
+        if(rightAnswer){
+            itemRecord.status = [NSNumber numberWithBool:([rightAnswer isEqualToString:data.value])];
+        }
+        //计算得分
+        if(_review && rightAnswer && rightAnswer.length > 0){
+            PaperStructure *ps = [_review findStructureAtStructureCode:itemRecord.structureCode];
+            if(ps){
+                if(itemRecord.status == [NSNumber numberWithBool:YES]){
+                    itemRecord.score = ps.score;
+                }else if(ps.min > 0 && data.value && data.value.length > 0){
+                    NSArray *arrays = [data.value componentsSeparatedByString:@","];
+                    if(arrays && arrays.count > 0){
+                        for(NSString *str in arrays){
+                            if(!str || str.length == 0)continue;
+                            if([rightAnswer containsString:str]){
+                                itemRecord.score = ps.min;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //更新数据
+        if(_recordService){
+            [_recordService subjectWithItemRecord:itemRecord];
+        }
+    }
+    NSLog(@"selectedData:%@ === %@",data.value, doTime);
+    //重置开始时间
+    _startTime = [NSDate date];
+}
+//做题时间计算
+-(NSNumber *)doItemTimeSecondWithStart:(NSDate *)startTime{
+    NSNumber *second = [NSNumber numberWithDouble:0];
+    if(startTime){
+        NSTimeInterval timeInterval = [startTime timeIntervalSinceNow];
+        if(timeInterval < 0){
+            timeInterval = -timeInterval;
+        }
+        second = [NSNumber numberWithDouble:timeInterval];
+    }
+    return second;
 }
 //收藏
 -(void)btnFavoriteClick:(UIButton *)sender{
     NSLog(@"Favorite:%@",sender);
-    NSString *itemCode = @"1231231231";
-    if([self isFavoriteWithItemCode:itemCode]){//如果已收藏则取消收藏
-        [self removeFavoriteWithItemCode:itemCode];
+    
+    if(!_itemContentView)return;
+    NSInteger order = _itemContentView.currentOrder;
+    
+    if([self isFavoriteWithOrder:order]){//如果已收藏则取消收藏
+        [self removeFavoriteWithOrder:order];
         [sender setBackgroundImage:_imgFavoriteNormal forState:UIControlStateNormal];
         return;
     }
     //添加到收藏
-    [self addFavoriteWithItemCode:itemCode];
+    [self addFavoriteWithOrder:order];
     [sender setBackgroundImage:_imgFavoriteHighlight forState:UIControlStateNormal];
 }
 //加载收藏图片
 -(UIImage *)loadFavoriteBackgroundImage{
-    NSString *itemCode = @"1231231231";
-    if([self isFavoriteWithItemCode:itemCode]){
+    if(_itemContentView && [self isFavoriteWithOrder:_itemContentView.currentOrder]){
         return _imgFavoriteHighlight;
     }
     return _imgFavoriteNormal;
 }
 //判断是否收藏
--(BOOL)isFavoriteWithItemCode:(NSString *)itemCode{
-    ///是否已被收藏
-    return (arc4random_uniform(10)%2 == 0);
+-(BOOL)isFavoriteWithOrder:(NSInteger)order{
+    if(_review && _recordService && order >= 0){
+        __block BOOL result = NO;
+        [_review loadItemAtOrder:order ItemBlock:^(PaperItemOrderIndexPath *indexPath) {
+            if(indexPath && indexPath.item){
+                result = [_recordService exitFavoriteWithPaperCode:_review.code
+                                                          ItemCode:indexPath.item.code
+                                                           atIndex:indexPath.index];
+                
+            }
+        }];
+        return result;
+    }
+    return NO;
 }
 //添加收藏
--(void)addFavoriteWithItemCode:(NSString *)itemCode{
-    ///TODO:添加到数据库
-    
+-(void)addFavoriteWithOrder:(NSInteger)order{
+    if(_review && _recordService && order >= 0){
+        [_review loadItemAtOrder:order ItemBlock:^(PaperItemOrderIndexPath *indexPath) {
+            if(indexPath && indexPath.item){
+                [_recordService addFavoriteWithPaperCode:_review.code Data:indexPath];
+            }
+        }];
+    }
 }
--(void)removeFavoriteWithItemCode:(NSString *)itemCode{
-    ///TODO:从数据库中移除
-    
+//移除收藏
+-(void)removeFavoriteWithOrder:(NSInteger)order{
+    if(_review && _recordService && order >= 0){
+        [_review loadItemAtOrder:order ItemBlock:^(PaperItemOrderIndexPath *indexPath) {
+            if(indexPath && indexPath.item){
+                [_recordService removeFavoriteWithPaperCode:_review.code
+                                                   ItemCode:indexPath.item.code
+                                                    atIndex:indexPath.index];
+            }
+        }];
+    }
 }
 //交卷
 -(void)btnSubmitClick:(UIBarButtonItem *)sender{
+    if(_itemContentView){
+        [_itemContentView loadNextContent];
+    }
+    if(_recordService && _record && _timerView){
+        _record.useTimes = [_timerView stop];
+        [_recordService subjectWithPaperRecord:_record];
+    }
+    ///TODO:交卷提交
     
-    NSLog(@"submit:%@,useTimes:%d",sender, [NSNumber numberWithInteger:([_timerView stop])].intValue);
 }
 #pragma mark 加载数据
 -(void)loadDataAtOrder:(NSInteger)order{
     if(order < 0 || !_itemContentView)return;
      _order = order;
     [_itemContentView loadContentAtOrder:order];
+    //重置开始时间
+    _startTime = [NSDate date];
 }
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {

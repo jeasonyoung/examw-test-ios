@@ -11,7 +11,10 @@
 #import "HomeData.h"
 #import "ETImageButton.h"
 
-#define __k_HomePanelView_Columns 3//九宫格列数
+#define __k_homepanelview_columns 3//九宫格列数
+#define __k_homepanelview_borderColor 0xdedede//边框颜色
+#define __k_homepanelview_borderWith 1.0//边框宽度
+#define __k_homepanelview_borderRadius 8.0//边框圆角弧度
 //主页面板视图(九宫格)成员变量
 @interface ETHomePanelView(){
     NSArray *_dataArrays;
@@ -29,11 +32,11 @@
     _dataArrays = [HomeData loadHomeData];
     if(_dataArrays.count == 0) return;
     CGSize size = frame.size;
-    CGFloat w = size.width / __k_HomePanelView_Columns, h = size.height / __k_HomePanelView_Columns;
+    CGFloat w = size.width / __k_homepanelview_columns, h = size.height / __k_homepanelview_columns;
     
     for(int i = 0; i < _dataArrays.count; i++){
-        int col = i % __k_HomePanelView_Columns;//列
-        int row = i / __k_HomePanelView_Columns;//行
+        int col = i % __k_homepanelview_columns;//列
+        int row = i / __k_homepanelview_columns;//行
         CGRect tempFrame = CGRectMake(col * w, row * h, w, h);
         
         ETImageButton *btn = [ETImageButton buttonWithType:UIButtonTypeCustom];
@@ -45,15 +48,14 @@
 
     self.backgroundColor = [UIColor clearColor];//设置背景色
     self.layer.masksToBounds = YES;
-    self.layer.cornerRadius = 8.5;
-    self.layer.borderWidth = 1.0;
-    self.layer.borderColor = [[UIColor colorWithHex:0xDEDEDE] CGColor];
+    self.layer.cornerRadius = __k_homepanelview_borderRadius;
+    self.layer.borderWidth = __k_homepanelview_borderWith;
+    self.layer.borderColor = [[UIColor colorWithHex:__k_homepanelview_borderColor] CGColor];
 }
 #pragma mark 点击事件
 -(void)btnClick:(ETImageButton *)sender{
     if(_delegate && [_delegate respondsToSelector:@selector(homePanelViewButtonClick:withTitle:withValue:)]){
         [_delegate homePanelViewButtonClick:self withTitle:sender.title withValue:sender.value];
     }
-    //NSLog(@"btnClick ===> %@", sender);
 }
 @end

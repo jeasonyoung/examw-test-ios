@@ -16,6 +16,12 @@
 #import "PaperItemRecord.h"
 #import "PaperItemRecordDao.h"
 
+#import "PaperItemFavorite.h"
+#import "PaperItemFavoriteDao.h"
+
+#import "PaperReview.h"
+
+#import "PaperDataDao.h"
 
 //试卷记录服务成员变量
 @interface PaperRecordService (){
@@ -92,8 +98,9 @@
             paperRecord.rights = [itemDao totalAllRightsWithPaperRecordCode:paperRecord.code];
             //状态
             paperRecord.status = [NSNumber numberWithBool:YES];
-            //更新数据
+            //数据操作
             PaperRecordDao *paperDao = [[PaperRecordDao alloc] initWithDb:db];
+            //更新数据
             [paperDao updateRecord:&paperRecord];
         }];
     }
@@ -135,6 +142,20 @@
     }
     return nil;
 }
+#pragma mark 加载试题记录的答案
+-(NSString *)loadAnswerRecordWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode atIndex:(NSInteger)index{
+    if(_dbQueue && paperRecordCode && paperRecordCode.length > 0 && itemCode && itemCode.length > 0){
+        if(index < 0) index = 0;
+        NSString *itemCodeIndex = [NSString stringWithFormat:@"%@$%ld",itemCode,(long)index];
+        __block NSString *answer;
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            PaperItemRecordDao *dao = [[PaperItemRecordDao alloc] initWithDb:db];
+            answer = [dao loadAnswerWithPaperRecordCode:paperRecordCode ItemCode:itemCodeIndex];
+        }];
+        return answer;
+    }
+    return nil;
+}
 #pragma mark 试题记录是否存在
 -(BOOL)exitItemRecordWithPaperRecordCode:(NSString *)paperRecordCode
                                 ItemCode:(NSString *)itemCode
@@ -165,6 +186,61 @@
             [dao updateRecordWithItemRecord:&record];
         }];
     }
+}
+
+#pragma mark 检查试题收藏是否存在
+-(BOOL)exitFavoriteWithPaperCode:(NSString *)code ItemCode:(NSString *)itemCode atIndex:(NSInteger)index{
+    if(_dbQueue && code && code.length > 0 && itemCode && itemCode.length > 0){
+        if(index < 0) index = 0;
+        __block BOOL result = NO;
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            PaperDataDao *paperDao = [[PaperDataDao alloc] initWithDb:db];
+            NSString *subjectCode = [paperDao loadSubjectCodeWithPaperCode:code];
+            if(!subjectCode || subjectCode.length == 0)return;
+            
+            PaperItemFavoriteDao *dao = [[PaperItemFavoriteDao alloc] initWithDb:db];
+            NSString *itemCodeIndex = [NSString stringWithFormat:@"%@$%ld",itemCode,(long)index];
+            result = [dao existFavoriteWithSubjectCode:subjectCode ItemCode:itemCodeIndex];
+        }];
+        return result;
+    }
+    return NO;
+}
+#pragma mark 添加收藏
+-(void)addFavoriteWithPaperCode:(NSString *)code Data:(PaperItemOrderIndexPath *)indexPath{
+    if(!_dbQueue || !code || code.length == 0 || !indexPath || !indexPath.item) return;
+    [_dbQueue inDatabase:^(FMDatabase *db) {
+        PaperDataDao *paperDao = [[PaperDataDao alloc] initWithDb:db];
+        NSString *subjectCode = [paperDao loadSubjectCodeWithPaperCode:code];
+        if(!subjectCode || subjectCode.length == 0)return;
+        
+        PaperItemFavoriteDao *dao = [[PaperItemFavoriteDao alloc] initWithDb:db];
+        NSString *itemCodeIndex = [NSString stringWithFormat:@"%@$%ld",indexPath.item.code,(long)indexPath.index];
+        PaperItemFavorite *favorite = [dao loadFavoriteWithSubjectCode:subjectCode ItemCode:itemCodeIndex];
+        if(!favorite){
+            favorite = [[PaperItemFavorite alloc] init];
+            favorite.subjectCode = subjectCode;
+            favorite.itemCode = itemCodeIndex;
+        }
+        favorite.itemType = indexPath.item.type;
+        favorite.itemContent = [indexPath.item serialize];
+        favorite.status = [NSNumber numberWithBool:YES];
+        [dao updateFavorite:&favorite];
+    }];
+}
+#pragma mark 移除收藏
+-(void)removeFavoriteWithPaperCode:(NSString *)code ItemCode:(NSString *)itemCode atIndex:(NSInteger)index{
+    if(!_dbQueue || !code || code.length == 0 || !itemCode || itemCode.length == 0)return;
+    if(index < 0) index = 0;
+    [_dbQueue inDatabase:^(FMDatabase *db) {
+        PaperDataDao *paperDao = [[PaperDataDao alloc] initWithDb:db];
+        NSString *subjectCode = [paperDao loadSubjectCodeWithPaperCode:code];
+        if(!subjectCode || subjectCode.length == 0)return;
+        
+        PaperItemFavoriteDao *dao = [[PaperItemFavoriteDao alloc] initWithDb:db];
+        NSString *itemCodeIndex = [NSString stringWithFormat:@"%@$%ld",itemCode,(long)index];
+        [dao removeFavoriteWithSubjectCode:subjectCode ItemCode:itemCodeIndex];
+    }];
 }
 
 #pragma mark 内存回收

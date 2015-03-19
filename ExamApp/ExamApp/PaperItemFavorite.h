@@ -34,7 +34,7 @@
 //备注信息
 @property(nonatomic,copy)NSString *remarks;
 //状态(0-删除，1-收藏)
-@property(nonatomic,assign)NSInteger status;
+@property(nonatomic,assign)NSNumber *status;
 //收藏时间
 @property(nonatomic,copy)NSDate *createTime;
 //同步标示(0-未同步，1-已同步)

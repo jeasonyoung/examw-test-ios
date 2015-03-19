@@ -63,6 +63,18 @@
     [rs close];
     return record;
 }
+#pragma mark 加载记录的答案
+-(NSString *)loadAnswerWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode{
+    if(!_db || !paperRecordCode || paperRecordCode.length == 0 || !itemCode || itemCode.length == 0)return nil;
+    if(![_db tableExists:__k_paperitemrecorddao_tableName]) return nil;
+    NSString *query_sql = [NSString stringWithFormat:@"select %@ from %@ where %@ = ? and %@ = ? order by %@ desc limit 0,1",
+                           __k_paperitemrecord_fields_answer,
+                           __k_paperitemrecorddao_tableName,
+                           __k_paperitemrecord_fields_paperRecordCode,
+                           __k_paperitemrecord_fields_itemCode,
+                           __k_paperitemrecord_fields_lastTime];
+    return [_db stringForQuery:query_sql,paperRecordCode,itemCode];
+}
 #pragma mark 试题记录是否存在
 -(BOOL)exitRecordWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode{
     BOOL result = NO;

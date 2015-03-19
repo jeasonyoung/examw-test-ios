@@ -17,7 +17,7 @@
              __k_paperitemfavorite_fields_itemType:[NSNumber numberWithInteger:self.itemType],
              __k_paperitemfavorite_fields_itemContent:(self.itemContent ? self.itemContent : @""),
              __k_paperitemfavorite_fields_remarks:(self.remarks ? self.remarks : @""),
-             __k_paperitemfavorite_fields_status:[NSNumber numberWithInteger:self.status],
+             __k_paperitemfavorite_fields_status:(self.status ? self.status : [NSNumber numberWithInteger:0]),
              __k_paperitemfavorite_fields_createTime:(self.createTime ? self.createTime : @"")};
 }
 @end

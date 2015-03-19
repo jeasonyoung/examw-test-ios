@@ -14,8 +14,7 @@
     //定时器
     NSTimer *_timer;
     //倒计时总时间(秒)
-    NSInteger _total;
-    int _hour,_minute,_second;
+    NSInteger _total, _hour,_minute,_second;
 }
 @end
 //倒计时器视图实现
@@ -39,7 +38,7 @@
         _lbTime = [[UILabel alloc] initWithFrame:frame];
         _lbTime.textColor = [UIColor blackColor];
         _lbTime.textAlignment = NSTextAlignmentCenter;
-        _lbTime.text = [NSString stringWithFormat:@"%02d:%02d:%02d", _hour, _minute, _second];
+        _lbTime.text = [NSString stringWithFormat:@"%02ld:%02ld:%02ld", (long)_hour, (long)_minute, (long)_second];
         [self addSubview:_lbTime];
         //定时器
         _timer = [NSTimer scheduledTimerWithTimeInterval:1.0f
@@ -73,16 +72,16 @@
         _second -= 1;
         //显示
         if(_lbTime){
-            _lbTime.text = [NSString stringWithFormat:@"%02d:%02d:%02d", _hour, _minute, _second];
+            _lbTime.text = [NSString stringWithFormat:@"%02ld:%02ld:%02ld", (long)_hour, (long)_minute, (long)_second];
         }
     }
 }
 #pragma mark 用时(秒)
--(NSInteger)useTimes{
-    return _total - (_hour *3600 + _minute * 60 + _second);
+-(NSNumber *)useTimes{
+    return [NSNumber numberWithInteger:(_total - (_hour *3600 + _minute * 60 + _second))];
 }
 #pragma mark 停止倒计时
--(NSInteger)stop{
+-(NSNumber *)stop{
     if(_timer && _timer.isValid){
         [_timer invalidate];
     }

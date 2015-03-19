@@ -14,7 +14,8 @@
     NSMutableString *hexString = [NSMutableString string];
     char *chars = (char *)self.bytes;
     for(NSUInteger i = 0; i < self.length; i++){
-        [hexString appendString:[NSString stringWithFormat:@"%0.2hhx",chars[i]]];
+        //[hexString appendString:[NSString stringWithFormat:@"%0.2hhx",chars[i]]];
+        [hexString appendFormat:@"%0.2hhX",chars[i]];
     }
     return hexString;
 }
