@@ -23,6 +23,8 @@
 #pragma mark 初始化
 -(instancetype)initWithFrame:(CGRect)frame Order:(NSInteger)order{
     if(self = [super initWithFrame:frame]){
+        //是否显示答案
+        _displayAnswer = NO;
         //初始化当前页码
         _currentOrder = order;
         //试题页面缓存队列
@@ -66,7 +68,7 @@
             //加入到队列
             [_queue enqueue:contentView];
             //加载数据
-            [contentView loadDataWithSource:source];
+            [contentView loadDataWithSource:source andDisplayAnswer:_displayAnswer];
             //添加到UI
             [self addSubview:contentView];
             return YES;

@@ -23,6 +23,7 @@
 
 #import "AnswersheetViewController.h"
 #import "PaperListViewController.h"
+#import "ResultViewController.h"
 
 #import "ItemContentView.h"
 #import "ItemContentGroupView.h"
@@ -60,16 +61,22 @@
     ETTimerView *_timerView;
     
     PaperRecordService *_recordService;
+    
+    BOOL _displayAnswer;
 }
 @end
 //试题考试视图控制器实现
 @implementation ItemViewController
 #pragma mark 初始化
--(instancetype)initWithPaper:(PaperReview *)review Order:(NSInteger)order andRecord:(PaperRecord *)record{
+-(instancetype)initWithPaper:(PaperReview *)review
+                       Order:(NSInteger)order
+                   andRecord:(PaperRecord *)record
+            andDisplayAnswer:(BOOL)displayAnswer{
     if(self = [super init]){
         _review = review;
         _order = order;
         _record = record;
+        _displayAnswer = displayAnswer;
         
         _imgFavoriteNormal = [UIImage imageNamed:__k_itemviewcontroller_favorite_normal_img];
         _imgFavoriteHighlight = [UIImage imageNamed:__k_itemviewcontroller_favorite_highlight_img];
@@ -79,8 +86,10 @@
     return self;
 }
 #pragma mark 初始化
--(instancetype)initWithPaper:(PaperReview *)review andRecord:(PaperRecord *)record{
-    return [self initWithPaper:review Order:0 andRecord:record];
+-(instancetype)initWithPaper:(PaperReview *)review
+                   andRecord:(PaperRecord *)record
+            andDisplayAnswer:(BOOL)displayAnswer{
+    return [self initWithPaper:review Order:0 andRecord:record andDisplayAnswer:displayAnswer];
 }
 #pragma 加载界面入口
 - (void)viewDidLoad {
@@ -116,21 +125,25 @@
 }
 //左边返回按钮
 -(void)topLeftBarButtonClick:(UIBarButtonItem *)sender{
-    ETAlert *alert = [[ETAlert alloc] initWithTitle:__k_itemviewcontroller_left_alert_title Message:__k_itemviewcontroller_left_alert_msg];
-    [alert addConfirmActionWithTitle:__k_itemviewcontroller_left_alert_btn_submit Handler:^(UIAlertAction *action) {
-        NSLog(@"交卷");
-        [self btnSubmitClick:nil];
-    }];
-    [alert addConfirmActionWithTitle:__k_itemviewcontroller_left_alert_btn_confirm Handler:^(UIAlertAction *action) {
-        NSLog(@"下次再做");
-        [self popViewController];
-    }];
+    ETAlert *alert = [[ETAlert alloc] initWithTitle:__k_itemviewcontroller_left_alert_title
+                                            Message:__k_itemviewcontroller_left_alert_msg];
+    if(_displayAnswer){
+        [alert addConfirmActionWithTitle:__k_itemviewcontroller_left_alert_btn_submit Handler:^(UIAlertAction *action) {
+            NSLog(@"交卷");
+            [self btnSubmitClick:nil];
+        }];
+        [alert addConfirmActionWithTitle:__k_itemviewcontroller_left_alert_btn_confirm Handler:^(UIAlertAction *action) {
+            NSLog(@"下次再做");
+            [self popViewController];
+        }];
+    }
     [alert addCancelActionWithTitle:__k_itemviewcontroller_left_alert_btn_cancel Handler:nil];
     [alert showWithController:self];
 }
 -(void)popViewController{
     NSArray *controllers = self.navigationController.viewControllers;
     if(controllers && controllers.count > 0){
+        //NSLog(@"viewControllers=>%@",controllers);
         UIViewController *targetController;
         for(UIViewController *controller in controllers){
             if([controller isKindOfClass:[PaperListViewController class]]){
@@ -192,6 +205,7 @@
 -(void)btnPrevClick:(UIBarButtonItem *)sender{
     NSLog(@"Prev:%@",sender);
     if(_itemContentView){
+        _itemContentView.displayAnswer = _displayAnswer;
         [_itemContentView loadPrevContent];
         if(_btnFavorite){
             [_btnFavorite setBackgroundImage:[self loadFavoriteBackgroundImage] forState:UIControlStateNormal];
@@ -202,6 +216,7 @@
 -(void)btnNextClick:(UIBarButtonItem *)sender{
     NSLog(@"Next:%@",sender);
     if(_itemContentView){
+        _itemContentView.displayAnswer = _displayAnswer;
         [_itemContentView loadNextContent];
         if(_btnFavorite){
             [_btnFavorite setBackgroundImage:[self loadFavoriteBackgroundImage] forState:UIControlStateNormal];
@@ -212,6 +227,7 @@
 -(void)setupItemContentView{
     CGRect itemFrame = [self loadVisibleViewFrame];
     _itemContentView = [[ItemContentGroupView alloc] initWithFrame:itemFrame Order:_order];
+    _itemContentView.displayAnswer = _displayAnswer;
     _itemContentView.dataSource = self;
     [_itemContentView loadContent];
     [self.view addSubview:_itemContentView];
@@ -249,9 +265,9 @@
     NSNumber *doTime = [self doItemTimeSecondWithStart:_startTime];
     
     PaperItemType itemType = (PaperItemType)data.source.type;
-    PaperItemRecord *itemRecord = [_recordService loadRecordWithPaperRecordCode:_record.code
-                                                                       ItemCode:data.source.code
-                                                                        atIndex:data.index];
+    PaperItemRecord *itemRecord = [_recordService loadRecordAndNewWithPaperRecordCode:_record.code
+                                                                             ItemCode:data.source.code
+                                                                              atIndex:data.index];
     if(itemRecord){
         itemRecord.structureCode = data.structureCode;
         itemRecord.itemContent = [data.source serialize];
@@ -403,13 +419,19 @@
         _record.useTimes = [_timerView stop];
         [_recordService subjectWithPaperRecord:_record];
     }
-    ///TODO:交卷提交
-    
+    //查看结果
+    ResultViewController *rvc = [[ResultViewController alloc] initWithPaper:_review andRecord:_record];
+    rvc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:rvc animated:NO];
 }
 #pragma mark 加载数据
--(void)loadDataAtOrder:(NSInteger)order{
+-(void)loadDataAtOrder:(NSInteger)order
+      andDisplayAnswer:(BOOL)displayAnswer{
     if(order < 0 || !_itemContentView)return;
      _order = order;
+    _displayAnswer = displayAnswer;
+    //
+    _itemContentView.displayAnswer = _displayAnswer = displayAnswer;
     [_itemContentView loadContentAtOrder:order];
     //重置开始时间
     _startTime = [NSDate date];

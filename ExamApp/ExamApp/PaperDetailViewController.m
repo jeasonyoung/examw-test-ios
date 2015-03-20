@@ -19,6 +19,7 @@
 #import "PaperService.h"
 
 #import "ItemViewController.h"
+#import "ResultViewController.h"
 
 #import "UIViewUtils.h"
 
@@ -39,10 +40,11 @@
 
 #define __k_paperdetailviewcontroller_btn_height 40//按钮高度
 #define __k_paperdetailviewcontroller_btn_normal_bg 0x3277ec//
-#define __k_paperdetailviewcontroller_btn_highlight_bg 0xf5f4f9//
+#define __k_paperdetailviewcontroller_btn_highlight_bg 0x008B00//
 #define __k_paperdetailviewcontroller_btn_border 0xdedede
 #define __k_paperdetailviewcontroller_btn_start @"开始考试"
 #define __k_paperdetailviewcontroller_btn_continue @"继续考试"
+#define __k_paperdetailviewcontroller_btn_view @"查看成绩"
 #define __k_paperdetailviewcontroller_btn_renew @"重新开始"
 
 #define __k_paperdetailviewcontroller_info_structures_title @"大题数:%ld"
@@ -145,26 +147,40 @@
 -(void)setupStartButtonWithView:(UIView *)view OutY:(NSNumber **)outY{
     if(_paperReview && _recordService){
         _paperRecord = [_recordService loadLastRecordWithPaperCode:_paperReview.code];
-        if(_paperRecord){//存在未完成的试卷
-            [self setupDoubleButtonWithView:view OutY:outY];
-        }else{//不存在未完成的试卷
+        if(!_paperRecord){
             [self setupSignButtonWithView:view OutY:outY];
+            return;
         }
+        [self setupDoubleButtonWithView:view OutY:outY];
     }
 }
 //继续开始做题
 -(void)btnContinueStartClik:(UIButton *)sender{
+    //查看结果
+    if(sender && sender.tag == [NSNumber numberWithBool:YES].integerValue){
+        ResultViewController *rvc = [[ResultViewController alloc]initWithPaper:_paperReview andRecord:_paperRecord];
+        rvc.navigationItem.title = __k_paperdetailviewcontroller_btn_view;
+        rvc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:rvc animated:NO];
+        return;
+    }
+    //做题
     ItemViewController *ivc;
     if(_recordService && _paperReview && _paperRecord){//加载最新的做题记录
         PaperItemRecord *itemReord = [_recordService loadLastRecordWithPaperRecordCode:_paperRecord.code];
         if(itemReord && itemReord.itemCode && itemReord.itemCode.length > 0){
             NSInteger order = [_paperReview findOrderAtItemCode:itemReord.itemCode];
-            ivc = [[ItemViewController alloc] initWithPaper:_paperReview Order:(order + 1) andRecord:_paperRecord];
+            ivc = [[ItemViewController alloc] initWithPaper:_paperReview
+                                                      Order:(order + 1)
+                                                  andRecord:_paperRecord
+                                           andDisplayAnswer:NO];
         }
     }
     //控制器跳转
     if(!ivc){
-        ivc = [[ItemViewController alloc] initWithPaper:_paperReview andRecord:_paperRecord];
+        ivc = [[ItemViewController alloc] initWithPaper:_paperReview
+                                              andRecord:_paperRecord
+                                       andDisplayAnswer:NO];
     }
     ivc.navigationItem.title = __k_paperdetailviewcontroller_btn_start;
     ivc.hidesBottomBarWhenPushed = NO;
@@ -178,7 +194,9 @@
         _paperRecord = [_recordService createNewRecordWithPaperCode:_paperReview.code];
     }
     //控制器跳转
-    ItemViewController *ivc = [[ItemViewController alloc] initWithPaper:_paperReview andRecord:_paperRecord];
+    ItemViewController *ivc = [[ItemViewController alloc] initWithPaper:_paperReview
+                                                              andRecord:_paperRecord
+                                                       andDisplayAnswer:NO];
     ivc.navigationItem.title = __k_paperdetailviewcontroller_btn_start;
     ivc.hidesBottomBarWhenPushed = NO;
     [self.navigationController pushViewController:ivc animated:NO];
@@ -195,7 +213,10 @@
     UIButton *btnContinue = [UIButton buttonWithType:UIButtonTypeCustom];
     btnContinue.frame = tempFrame;
     btnContinue.titleLabel.font = _font;
-    [btnContinue setTitle:__k_paperdetailviewcontroller_btn_continue forState:UIControlStateNormal];
+    BOOL isView = (_paperRecord && (_paperRecord.status.integerValue == [NSNumber numberWithBool:YES].integerValue));
+    btnContinue.tag = [NSNumber numberWithBool:isView].integerValue;
+    [btnContinue setTitle:(isView ? __k_paperdetailviewcontroller_btn_view : __k_paperdetailviewcontroller_btn_continue)
+                 forState:UIControlStateNormal];
     [btnContinue setTitleColor:_colorNormal forState:UIControlStateNormal];
     [btnContinue setTitleColor:_colorHighlight forState:UIControlStateHighlighted];
     //注册点击事件

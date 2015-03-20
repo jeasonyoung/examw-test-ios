@@ -67,13 +67,12 @@
 #pragma mark 加载试卷的最新记录
 -(PaperRecord *)loadLastPaperRecord:(NSString *)paperCode{
     if(!_db || !paperCode || paperCode.length == 0 || ![_db tableExists:__k_paperrecorddao_tableName])return nil;
-    NSString *query_sql = [NSString stringWithFormat:@"select * from %@ where %@ = ? and %@ = ? order by %@ desc limit 0,1",
+    NSString *query_sql = [NSString stringWithFormat:@"select * from %@ where %@ = ? order by %@ desc limit 0,1",
                            __k_paperrecorddao_tableName,
                            __k_paperrecord_fields_paperCode,
-                           __k_paperrecord_fields_status,
                            __k_paperrecord_fields_lastTime];
     PaperRecord *data;
-    FMResultSet *rs = [_db executeQuery:query_sql,paperCode,[NSNumber numberWithBool:NO]];
+    FMResultSet *rs = [_db executeQuery:query_sql,paperCode];
     while ([rs next]) {
         data = [self createPaperRecord:rs];
         break;

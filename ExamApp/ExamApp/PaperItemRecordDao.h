@@ -25,6 +25,8 @@
 -(BOOL)exitRecordWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode;
 //更新数据
 -(BOOL)updateRecordWithItemRecord:(PaperItemRecord **)record;
+//统计试卷记录下已做的试题数
+-(NSNumber *)totalFinishItemsWithPaperRecordCode:(NSString *)paperRecordCode;
 //统计试卷记录下的试题得分
 -(NSNumber *)totalAllItemScoreWithPaperRecordCode:(NSString *)paperRecordCode;
 //统计试卷记录下的试题用时

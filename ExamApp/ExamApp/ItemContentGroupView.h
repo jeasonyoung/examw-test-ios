@@ -23,6 +23,8 @@
 @interface ItemContentGroupView : UIScrollView
 //当前序号
 @property(nonatomic,assign,readonly)NSInteger currentOrder;
+//是否显示答案
+@property(nonatomic,assign)BOOL displayAnswer;
 //数据源
 @property(nonatomic,assign)id<ItemContentGroupViewDataSource> dataSource;
 //初始化

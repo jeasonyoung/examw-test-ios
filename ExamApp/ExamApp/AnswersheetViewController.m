@@ -90,6 +90,8 @@
     //加载试题
     [self setupItemsWithOutY:&outY];
 }
+//左边返回按钮
+
 //加载图例
 -(void)setupIconsWithOutY:(NSNumber **)outY{
     CGRect tempFrame = self.view.frame;
@@ -258,7 +260,7 @@
     *outY = [NSNumber numberWithFloat:((*outY).floatValue + height + __k_answersheetviewcontroller_margin_max)];
 }
 -(void)itemAnswersheetClick:(UIButton *)sender{
-    NSLog(@"itemAnswersheetClick->tag:%ld ＝>%@",(long)sender.tag,_record);
+    //NSLog(@"itemAnswersheetClick->tag:%ld ＝>%@",(long)sender.tag,_record);
     if(!_targetItemControoler){
         NSArray *controllers = self.navigationController.viewControllers;
         if(controllers && controllers.count > 0){
@@ -268,11 +270,10 @@
                     break;
                 }
             }
-        
         }
     }
     if(_targetItemControoler){
-        [_targetItemControoler loadDataAtOrder:sender.tag];
+        [_targetItemControoler loadDataAtOrder:sender.tag andDisplayAnswer:NO];
         [self.navigationController popToViewController:_targetItemControoler animated:YES];
     }
 }

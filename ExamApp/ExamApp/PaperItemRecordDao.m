@@ -204,6 +204,16 @@
                 (*record).sync];
     }
 }
+#pragma mark 统计试卷记录下的试题数
+-(NSNumber *)totalFinishItemsWithPaperRecordCode:(NSString *)paperRecordCode{
+    NSNumber *totalFinish = [NSNumber numberWithInteger:0];
+    if(_db && paperRecordCode && paperRecordCode.length > 0 && [_db tableExists:__k_paperitemrecorddao_tableName]){
+        NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ = ?",
+                     __k_paperitemrecorddao_tableName, __k_paperitemrecord_fields_paperRecordCode];
+        totalFinish = [NSNumber numberWithInt:[_db intForQuery:query_sql,paperRecordCode]];
+    }
+    return totalFinish;
+}
 #pragma mark 统计试卷记录下的试题得分
 -(NSNumber *)totalAllItemScoreWithPaperRecordCode:(NSString *)paperRecordCode{
     NSNumber *totalScore = [NSNumber numberWithDouble:0];
@@ -235,12 +245,12 @@
 -(NSNumber *)totalAllRightsWithPaperRecordCode:(NSString *)paperRecordCode{
     NSNumber *rights = [NSNumber numberWithInt:0];
     if(_db && paperRecordCode && paperRecordCode.length > 0 && [_db tableExists:__k_paperitemrecorddao_tableName]){
-        NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ = ? and %@ = 1 order by %@ desc",
+        NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ = ? and %@ = ? order by %@ desc",
                                __k_paperitemrecorddao_tableName,
                                __k_paperitemrecord_fields_paperRecordCode,
                                __k_paperitemrecord_fields_status,
                                __k_paperitemrecord_fields_lastTime];
-        rights = [NSNumber numberWithLong:[_db longForQuery:query_sql,paperRecordCode]];
+        rights = [NSNumber numberWithLong:[_db longForQuery:query_sql,paperRecordCode,[NSNumber numberWithBool:YES]]];
     }
     return rights;
 }

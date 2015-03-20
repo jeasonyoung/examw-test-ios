@@ -47,7 +47,7 @@
 //试题委托
 @property(nonatomic,assign)id<ItemContentDelegate> itemDelegate;
 //加载数据
--(void)loadDataWithSource:(ItemContentSource *)source;
+//-(void)loadDataWithSource:(ItemContentSource *)source;
 //加载数据并显示答案
 -(void)loadDataWithSource:(ItemContentSource *)source andDisplayAnswer:(BOOL)displayAnswer;
 @end

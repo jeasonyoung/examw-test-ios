@@ -105,6 +105,8 @@
         }];
     }
 }
+
+
 #pragma mark 加载试卷记录下最新的试题记录
 -(PaperItemRecord *)loadLastRecordWithPaperRecordCode:(NSString *)paperRecordCode{
     if(_dbQueue && paperRecordCode && paperRecordCode.length > 0){
@@ -117,6 +119,30 @@
     }
     return nil;
 }
+#pragma mark 加载完成的试题数
+-(NSNumber *)loadFinishItemsWithPaperRecordCode:(NSString *)paperRecordCode{
+    if(_dbQueue && paperRecordCode && paperRecordCode.length > 0){
+        __block NSNumber *finishes = [NSNumber numberWithInt:0];
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            PaperItemRecordDao *dao = [[PaperItemRecordDao alloc]initWithDb:db];
+            finishes = [dao totalFinishItemsWithPaperRecordCode:paperRecordCode];
+        }];
+        return finishes;
+    }
+    return [NSNumber numberWithInt:0];
+}
+#pragma mark 加载做对的试题数
+-(NSNumber *)loadRightItemsWithPaperRecordCode:(NSString *)paperRecordCode{
+    if(_dbQueue && paperRecordCode && paperRecordCode.length > 0){
+        __block NSNumber *rights = [NSNumber numberWithInt:0];
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            PaperItemRecordDao *dao = [[PaperItemRecordDao alloc] initWithDb:db];
+            rights = [dao totalAllRightsWithPaperRecordCode:paperRecordCode];
+        }];
+        return rights;
+    }
+    return [NSNumber numberWithInt:0];
+}
 #pragma mark 加载试题记录
 -(PaperItemRecord *)loadRecordWithPaperRecordCode:(NSString *)paperRecordCode
                                          ItemCode:(NSString *)itemCode
@@ -128,16 +154,26 @@
         [_dbQueue inDatabase:^(FMDatabase *db) {
             PaperItemRecordDao *dao = [[PaperItemRecordDao alloc] initWithDb:db];
             itemRecord = [dao loadRecordWithPaperRecordCode:paperRecordCode ItemCode:itemCodeIndex];
-            if(!itemRecord){
-                itemRecord = [[PaperItemRecord alloc] init];
-                itemRecord.paperRecordCode = paperRecordCode;
-                itemRecord.itemCode = itemCodeIndex;
-                itemRecord.status = [NSNumber numberWithInt:-1];
-                itemRecord.score = [NSNumber numberWithDouble:0];
-                itemRecord.useTimes = [NSNumber numberWithInteger:0];
-                //[dao updateRecordWithItemRecord:&itemRecord];
-            }
         }];
+        return itemRecord;
+
+    }
+    return nil;
+}
+#pragma mark 加载试题记录(不存在则创建新记录)
+-(PaperItemRecord *)loadRecordAndNewWithPaperRecordCode:(NSString *)paperRecordCode
+                                         ItemCode:(NSString *)itemCode
+                                          atIndex:(NSInteger)index{
+    if(_dbQueue && paperRecordCode && paperRecordCode.length > 0 && itemCode && itemCode.length > 0){
+        PaperItemRecord *itemRecord = [self loadRecordWithPaperRecordCode:paperRecordCode ItemCode:itemCode atIndex:index];
+        if(!itemRecord){
+            itemRecord = [[PaperItemRecord alloc]init];
+            itemRecord.paperRecordCode = paperRecordCode;
+            itemRecord.itemCode = [NSString stringWithFormat:@"%@$%ld",itemCode,(long)(index < 0 ? 0 : index)];
+            itemRecord.status = [NSNumber numberWithInt:-1];
+            itemRecord.score = [NSNumber numberWithDouble:0];
+            itemRecord.useTimes = [NSNumber numberWithInteger:0];
+        }
         return itemRecord;
     }
     return nil;

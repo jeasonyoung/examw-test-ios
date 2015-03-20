@@ -24,8 +24,14 @@
 
 //加载最新的做题记录
 -(PaperItemRecord *)loadLastRecordWithPaperRecordCode:(NSString *)paperRecordCode;
+//加载完成的试题数
+-(NSNumber *)loadFinishItemsWithPaperRecordCode:(NSString *)paperRecordCode;
+//加载做对的试题数
+-(NSNumber *)loadRightItemsWithPaperRecordCode:(NSString *)paperRecordCode;
 //加载试题记录
 -(PaperItemRecord *)loadRecordWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode atIndex:(NSInteger)index;
+//加载试题记录(如果不存在就创建新记录)
+-(PaperItemRecord *)loadRecordAndNewWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode atIndex:(NSInteger)index;
 //加载试题记录中的答案
 -(NSString *)loadAnswerRecordWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode atIndex:(NSInteger)index;
 //是否存在试题记录
