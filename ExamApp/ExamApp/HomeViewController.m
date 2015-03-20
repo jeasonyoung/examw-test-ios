@@ -14,6 +14,7 @@
 #import "UserAccountData.h"
 
 #import "ImitateSubjectViewController.h"
+#import "FavoriteSubjectViewController.h"
 
 #define __k_UserViewPanel_Top 4 //用户信息面板与顶部的间隔
 #define __k_UserViewPanel_Left 2 //用户信息面板与左边边界的间隔
@@ -84,7 +85,7 @@
     }else if([@"practice" isEqualToString:value]){//2.章节练习
         
     }else if([@"collect" isEqualToString:value]){//3.我的收藏
-        
+        controller = [[FavoriteSubjectViewController alloc]init];
     }else if([@"renewal" isEqualToString:value]){//4.错题重做
         
     }else if([@"imitate" isEqualToString:value]){//5.模拟考场

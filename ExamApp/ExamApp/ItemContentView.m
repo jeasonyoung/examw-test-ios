@@ -336,7 +336,9 @@
             _answerView.frame = tempFrame;
         }
         //加载数据
-        ItemAnswerViewSource *answerSource = [ItemAnswerViewSource itemAnswer:myAnswerText RightAnswer:rightAnswerText Analysis:analysis];
+        ItemAnswerViewSource *answerSource = [ItemAnswerViewSource itemAnswer:myAnswerText
+                                                                  RightAnswer:rightAnswerText
+                                                                     Analysis:analysis];
         [_answerView loadData:answerSource];
     }else if(_answerView){
         CGRect temp = _answerView.frame;

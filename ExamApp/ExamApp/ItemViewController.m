@@ -221,17 +221,27 @@
     [_btnFavorite setBackgroundImage:[self loadFavoriteBackgroundImage] forState:UIControlStateNormal];
     [_btnFavorite addTarget:self action:@selector(btnFavoriteClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btnFavoriteItem = [[UIBarButtonItem alloc] initWithCustomView:_btnFavorite];
-    //倒计时器
-    _timerView = [[ETTimerView alloc] initWithFrame:CGRectMake(0, 0, __k_itemviewcontroller_timer_with, __k_itemviewcontroller_timer_height)
-                                              Total:_review.time];
-    UIBarButtonItem *btnTimer = [[UIBarButtonItem alloc] initWithCustomView:_timerView];
-    //交卷
-    UIBarButtonItem *btnSubmit = [[UIBarButtonItem alloc] initWithTitle:__k_itemviewcontroller_submit_title
-                                                                  style:UIBarButtonItemStylePlain
-                                                                 target:self
-                                                                 action:@selector(btnSubmitClick:)];
-    [self setToolbarItems:@[btnPrev,space,btnFavoriteItem,space,btnTimer,space,btnSubmit,space,btnNext]
-                 animated:YES];
+    
+    NSArray *barButtons;
+    if(!_displayAnswer){
+        //倒计时器
+        _timerView = [[ETTimerView alloc] initWithFrame:CGRectMake(0, 0,
+                                                               __k_itemviewcontroller_timer_with,
+                                                               __k_itemviewcontroller_timer_height)
+                                                  Total:_review.time];
+        UIBarButtonItem *btnTimer = [[UIBarButtonItem alloc] initWithCustomView:_timerView];
+        //交卷
+        UIBarButtonItem *btnSubmit = [[UIBarButtonItem alloc] initWithTitle:__k_itemviewcontroller_submit_title
+                                                                      style:UIBarButtonItemStylePlain
+                                                                     target:self
+                                                                     action:@selector(btnSubmitClick:)];
+        barButtons = @[btnPrev,space,btnFavoriteItem,space,btnTimer,space,btnSubmit,space,btnNext];
+    
+    }else{
+        barButtons = @[btnPrev, space,btnFavoriteItem,space,btnNext];
+    }
+    //设置底部工具栏
+    [self setToolbarItems:barButtons animated:YES];
 }
 //上一题
 -(void)btnPrevClick:(UIBarButtonItem *)sender{

@@ -77,6 +77,10 @@
        
         //初始化
         [self setupView];
+        //添加边框
+        [UIViewUtils addBoundsRadiusWithView:self
+                                 BorderColor:[UIColor colorWithHex:__k_itemanswerview_borderColor]
+                             BackgroundColor:nil];
     }
     return self;
 }

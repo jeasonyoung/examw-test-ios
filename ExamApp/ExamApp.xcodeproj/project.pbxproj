@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0B8EBF44A44FCE0D15DB6C22 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5107C5451C2BCF444822DEFD /* libPods.a */; };
 		A10008F81ABACAC700F2BD81 /* ResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A10008F71ABACAC700F2BD81 /* ResultViewController.m */; };
+		A10008FB1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A10008FA1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m */; };
 		A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */; };
 		A135278D1AAE864D00630C72 /* ItemOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A135278C1AAE864D00630C72 /* ItemOptionView.m */; };
 		A13527911AAE94E000630C72 /* option_multy_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A135278F1AAE94E000630C72 /* option_multy_normal.png */; };
@@ -153,6 +154,8 @@
 		546409C18EB0DA5FBE4F4AF6 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		A10008F61ABACAC700F2BD81 /* ResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResultViewController.h; sourceTree = "<group>"; };
 		A10008F71ABACAC700F2BD81 /* ResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultViewController.m; sourceTree = "<group>"; };
+		A10008F91ABC1CBB00F2BD81 /* FavoriteSubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteSubjectViewController.h; sourceTree = "<group>"; };
+		A10008FA1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteSubjectViewController.m; sourceTree = "<group>"; };
 		A10187C51A84B568002D2F37 /* LoginViewController+UserLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginViewController+UserLogin.h"; sourceTree = "<group>"; };
 		A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginViewController+UserLogin.m"; sourceTree = "<group>"; };
 		A135278B1AAE864D00630C72 /* ItemOptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemOptionView.h; path = Utils/ItemOptionView.h; sourceTree = "<group>"; };
@@ -585,6 +588,8 @@
 				A195EFAD1AA94BF9002695A9 /* AnswersheetViewController.m */,
 				A10008F61ABACAC700F2BD81 /* ResultViewController.h */,
 				A10008F71ABACAC700F2BD81 /* ResultViewController.m */,
+				A10008F91ABC1CBB00F2BD81 /* FavoriteSubjectViewController.h */,
+				A10008FA1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m */,
 				A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */,
 				A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */,
 			);
@@ -988,6 +993,7 @@
 				A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */,
 				A17F78D31AA55D1400C671A9 /* PaperRecord.m in Sources */,
 				A18CCF351A85BD2A00C20555 /* TextFieldValidator.m in Sources */,
+				A10008FB1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m in Sources */,
 				A1E279001A7887B000F23A20 /* ETNavigationController.m in Sources */,
 				A18CD2B31A7BBEC700B90FF0 /* UIViewController+Animation.m in Sources */,
 				A1D02EF81A7B13D6004C484D /* AboutData.m in Sources */,
