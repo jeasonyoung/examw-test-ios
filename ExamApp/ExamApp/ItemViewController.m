@@ -125,20 +125,25 @@
 }
 //左边返回按钮
 -(void)topLeftBarButtonClick:(UIBarButtonItem *)sender{
-    ETAlert *alert = [[ETAlert alloc] initWithTitle:__k_itemviewcontroller_left_alert_title
-                                            Message:__k_itemviewcontroller_left_alert_msg];
-    if(_displayAnswer){
-        [alert addConfirmActionWithTitle:__k_itemviewcontroller_left_alert_btn_submit Handler:^(UIAlertAction *action) {
-            NSLog(@"交卷");
-            [self btnSubmitClick:nil];
-        }];
-        [alert addConfirmActionWithTitle:__k_itemviewcontroller_left_alert_btn_confirm Handler:^(UIAlertAction *action) {
-            NSLog(@"下次再做");
-            [self popViewController];
-        }];
+    if(!_displayAnswer){
+        ETAlert *alert = [[ETAlert alloc] initWithTitle:__k_itemviewcontroller_left_alert_title
+                                                Message:__k_itemviewcontroller_left_alert_msg];
+        [alert addConfirmActionWithTitle:__k_itemviewcontroller_left_alert_btn_submit
+                                 Handler:^(UIAlertAction *action) {
+                                     NSLog(@"交卷");
+                                     [self btnSubmitClick:nil];
+                                 }];
+        [alert addConfirmActionWithTitle:__k_itemviewcontroller_left_alert_btn_confirm
+                                 Handler:^(UIAlertAction *action) {
+                                     NSLog(@"下次再做");
+                                     [self popViewController];
+                                 }];
+    
+        [alert addCancelActionWithTitle:__k_itemviewcontroller_left_alert_btn_cancel Handler:nil];
+        [alert showWithController:self];
+    }else{
+        [self popViewController];
     }
-    [alert addCancelActionWithTitle:__k_itemviewcontroller_left_alert_btn_cancel Handler:nil];
-    [alert showWithController:self];
 }
 -(void)popViewController{
     NSArray *controllers = self.navigationController.viewControllers;
@@ -155,6 +160,10 @@
             //隐藏状态栏
             self.navigationController.toolbarHidden = YES;
             [self.navigationController popToViewController:targetController animated:YES];
+        }else{
+            //隐藏状态栏
+            self.navigationController.toolbarHidden = YES;
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }
 }
@@ -163,9 +172,32 @@
     //NSLog(@"right_bar_click:%@",sender);
     //隐藏状态栏
     self.navigationController.toolbarHidden = YES;
-    AnswersheetViewController *avc = [[AnswersheetViewController alloc] initWithPaperReview:_review PaperRecord:_record];
-    avc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:avc animated:NO];
+    if(!_displayAnswer){
+        AnswersheetViewController *avc = [[AnswersheetViewController alloc] initWithPaperReview:_review PaperRecord:_record];
+        avc.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:avc animated:NO];
+    }else{
+        ResultViewController *target;
+        NSArray *controllers = self.navigationController.viewControllers;
+        if(controllers && controllers.count > 0){
+            for(UIViewController *vc in controllers){
+                if(vc && [vc isKindOfClass:[ResultViewController class]]){
+                    target = (ResultViewController *)vc;
+                    break;
+                }
+            }
+        }
+        if(target){
+            target.isAnswersheet = YES;
+            target.itemOrder = _itemContentView.currentOrder;
+            [self.navigationController popToViewController:target animated:YES];
+        }else{
+            target = [[ResultViewController alloc]initWithPaper:_review andRecord:_record];
+            target.isAnswersheet = YES;
+            target.itemOrder = _itemContentView.currentOrder;
+            [self.navigationController pushViewController:target animated:NO];
+        }
+    }
 }
 //加载底部工具栏
 -(void)setupFootBar{

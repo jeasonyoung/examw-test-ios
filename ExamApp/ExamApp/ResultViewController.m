@@ -79,7 +79,6 @@
     PaperReview *_paperReview;
     PaperRecord *_paperRecord;
     PaperRecordService *_paperRecordService;
-    ItemViewController *_targetControoler;
     UIFont *_font;
 }
 @end
@@ -129,6 +128,11 @@
 //顶部返回按钮
 -(void)topLeftBarButtonClick:(UIBarButtonItem *)sender{
     NSArray *controllers = self.navigationController.viewControllers;
+    NSLog(@"viewControllers=>%@",controllers);
+    if(_isAnswersheet){
+        [self viewItemOrder:_itemOrder andDisplayAnswer:YES];
+        return;
+    }
     UIViewController *target;
     if(controllers && controllers.count > 0){
         for(UIViewController *vc in controllers){
@@ -143,10 +147,10 @@
     }else{
         [self.navigationController popViewControllerAnimated:YES];
     }
-    //NSLog(@"viewControllers=>%@",controllers);
+    
 }
 //答题情况UI
--(void)setupResultInfoViewWithPanel:(UIScrollView *)panel OutY:(NSNumber **)outY{
+-(void)setupResultInfoViewWithPanel:(UIView *)panel OutY:(NSNumber **)outY{
     CGRect tempFrame = CGRectMake(__kResultViewController_Left,
                                   (*outY).floatValue + __kResultViewController_Margin_Max,
                                   CGRectGetWidth(self.view.frame) - __kResultViewController_Left - __kResultViewController_Right,
@@ -217,7 +221,7 @@
     //共计／正确率
     NSNumber *rightRate = [NSNumber numberWithInt:0];
     if(rightItems && rightItems.integerValue > 0 && totalItems && totalItems.integerValue > 0){
-        rightRate = [NSNumber numberWithFloat:(rightItems.floatValue / totalItems.floatValue)];
+        rightRate = [NSNumber numberWithFloat:(rightItems.floatValue / finishItems.floatValue) * 100];
     }
     
     [self createResultRowWithPanel:p Y:&y Width:width
@@ -285,7 +289,7 @@
     *y = [NSNumber numberWithFloat:CGRectGetMaxY(tempFrame)];
 }
 //两个按钮
--(void)setupDoubleButtonViewWithPanel:(UIScrollView *)panel OutY:(NSNumber **)outY{
+-(void)setupDoubleButtonViewWithPanel:(UIView *)panel OutY:(NSNumber **)outY{
     CGRect tempFrame = CGRectMake(__kResultViewController_Left, (*outY).floatValue + __kResultViewController_Top,
     CGRectGetWidth(panel.frame) - __kResultViewController_Left - __kResultViewController_Right -__kResultViewController_Margin_Max,
                                   __kResultViewController_btn_height);
@@ -467,53 +471,52 @@
 }
 //查看题目
 -(void)btnViewClick:(UIButton *)sender{
-    NSLog(@"查看题目....");
+    //NSLog(@"查看题目....");
+    [self viewItemOrder:0 andDisplayAnswer:YES];
 }
 //再做一次
 -(void)btnResetClick:(UIButton *)sender{
-    NSLog(@"再做一次....");
+    //NSLog(@"再做一次....");
+    //重新创建试卷记录
+    if(_paperReview && _paperReview.code && _paperRecordService){
+        _paperRecord = [_paperRecordService createNewRecordWithPaperCode:_paperReview.code];
+    }
+    [self viewItemOrder:0 andDisplayAnswer:NO];
 }
-//题序
+//按题序查看题目
 -(void)btnItemOrderClick:(UIButton *)sender{
-    NSLog(@"%d",sender.tag);
-    if(!_targetControoler){
-        NSArray *controllers = self.navigationController.viewControllers;
-        if(controllers && controllers.count > 0){
-            for(UIViewController *controller in controllers){
-                if(controller && [controller isKindOfClass:[ItemViewController class]]){
-                    _targetControoler = (ItemViewController *)controller;
-                    break;
-                }
+    //NSLog(@"%d",sender.tag);
+    [self viewItemOrder:sender.tag andDisplayAnswer:YES];
+}
+//查看题目
+-(void)viewItemOrder:(NSInteger)order andDisplayAnswer:(BOOL)displayAnswer{
+    if(order < 0) order = 0;
+    ItemViewController *target;
+    NSArray *controllers = self.navigationController.viewControllers;
+    if(controllers && controllers.count > 0){
+        for(UIViewController *controller in controllers){
+            if(controller && [controller isKindOfClass:[ItemViewController class]]){
+                target = (ItemViewController *)controller;
+                break;
             }
         }
-        if(!_targetControoler){
-            _targetControoler = [[ItemViewController alloc] initWithPaper:_paperReview
-                                                                    Order:sender.tag
-                                                                andRecord:_paperRecord
-                                                         andDisplayAnswer:YES];
-            [self.navigationController pushViewController:_targetControoler animated:NO];
-            return;
-        }
     }
-    if(_targetControoler){
-        [_targetControoler loadDataAtOrder:sender.tag andDisplayAnswer:YES];
-        [self.navigationController popToViewController:_targetControoler animated:YES];
+    if(!target){
+        target = [[ItemViewController alloc] initWithPaper:_paperReview
+                                                     Order:order
+                                                 andRecord:_paperRecord
+                                          andDisplayAnswer:displayAnswer];
+        [self.navigationController pushViewController:target animated:NO];
+        return;
+    }
+    if(target){
+        [target loadDataAtOrder:order andDisplayAnswer:displayAnswer];
+        [self.navigationController popToViewController:target animated:YES];
     }
 }
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

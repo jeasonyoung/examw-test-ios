@@ -97,7 +97,7 @@
     [self addSubview:_lbMyTitle];
     //回答内容
     tempFrame.origin.x = CGRectGetMaxX(tempFrame) + __k_itemanswerview_left;
-    tempFrame.size.width = __k_itemanswerview_left;
+    tempFrame.size.width = (titleSize.width/2);
     _lbMy = [[UILabel alloc]initWithFrame:tempFrame];
     _lbMy.font = _font;
     _lbMy.textAlignment = NSTextAlignmentLeft;
@@ -121,6 +121,7 @@
     
     //第二行
     //正确答案
+    tempFrame.origin.x = __k_itemanswerview_left;
     tempFrame.origin.y = CGRectGetMaxY(tempFrame) + __k_itemanswerview_top;
     tempFrame.size.width = width;
     
@@ -128,14 +129,14 @@
                                             constrainedToSize:CGSizeMake(width, 0)
                                                 lineBreakMode:NSLineBreakByWordWrapping];
     tempFrame.size = titleSize;
-    _lbAnswerTitle = [[UILabel alloc] init];
+    _lbAnswerTitle = [[UILabel alloc] initWithFrame:tempFrame];
     _lbAnswerTitle.font = _font;
     _lbAnswerTitle.textAlignment = NSTextAlignmentLeft;
     _lbAnswerTitle.text = __k_itemanswerview_answer_title;
     [self addSubview:_lbAnswerTitle];
     //答案
     tempFrame.origin.x = CGRectGetMaxX(tempFrame) + __k_itemanswerview_left;
-    tempFrame.size.width = __k_itemanswerview_left;
+    tempFrame.size.width = (width - titleSize.width);
     _lbAnswer = [[UILabel alloc] initWithFrame:tempFrame];
     _lbAnswer.font = _font;
     _lbAnswer.textAlignment = NSTextAlignmentLeft;
