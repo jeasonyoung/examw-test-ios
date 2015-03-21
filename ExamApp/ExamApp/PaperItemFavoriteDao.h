@@ -13,6 +13,8 @@
 @interface PaperItemFavoriteDao : NSObject
 //初始化
 -(instancetype)initWithDb:(FMDatabase *)db;
+//统计科目代码下的收藏集合
+-(NSInteger)totalWithSubjectCode:(NSString *)subjectCode;
 //加载收藏数据
 -(PaperItemFavorite *)loadFavorite:(NSString *)favoriteCode;
 //根据科目代码和试题ID加载收藏

@@ -10,6 +10,7 @@
 		0B8EBF44A44FCE0D15DB6C22 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5107C5451C2BCF444822DEFD /* libPods.a */; };
 		A10008F81ABACAC700F2BD81 /* ResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A10008F71ABACAC700F2BD81 /* ResultViewController.m */; };
 		A10008FB1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A10008FA1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m */; };
+		A10008FE1ABC5B0300F2BD81 /* FavoriteService.m in Sources */ = {isa = PBXBuildFile; fileRef = A10008FD1ABC5B0300F2BD81 /* FavoriteService.m */; };
 		A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */; };
 		A135278D1AAE864D00630C72 /* ItemOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A135278C1AAE864D00630C72 /* ItemOptionView.m */; };
 		A13527911AAE94E000630C72 /* option_multy_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A135278F1AAE94E000630C72 /* option_multy_normal.png */; };
@@ -156,6 +157,8 @@
 		A10008F71ABACAC700F2BD81 /* ResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResultViewController.m; sourceTree = "<group>"; };
 		A10008F91ABC1CBB00F2BD81 /* FavoriteSubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteSubjectViewController.h; sourceTree = "<group>"; };
 		A10008FA1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteSubjectViewController.m; sourceTree = "<group>"; };
+		A10008FC1ABC5B0300F2BD81 /* FavoriteService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteService.h; sourceTree = "<group>"; };
+		A10008FD1ABC5B0300F2BD81 /* FavoriteService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteService.m; sourceTree = "<group>"; };
 		A10187C51A84B568002D2F37 /* LoginViewController+UserLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginViewController+UserLogin.h"; sourceTree = "<group>"; };
 		A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginViewController+UserLogin.m"; sourceTree = "<group>"; };
 		A135278B1AAE864D00630C72 /* ItemOptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemOptionView.h; path = Utils/ItemOptionView.h; sourceTree = "<group>"; };
@@ -567,6 +570,8 @@
 				A1913F8B1AA40107003BFEA0 /* PaperService.m */,
 				A18B9F6B1AA700B200C135DB /* PaperRecordService.h */,
 				A18B9F6C1AA700B200C135DB /* PaperRecordService.m */,
+				A10008FC1ABC5B0300F2BD81 /* FavoriteService.h */,
+				A10008FD1ABC5B0300F2BD81 /* FavoriteService.m */,
 			);
 			name = service;
 			sourceTree = "<group>";
@@ -973,6 +978,7 @@
 				A1D66D3F1A723B7E00F98206 /* NSString+Date.m in Sources */,
 				A1E279051A78BC8B00F23A20 /* UIViewController+VisibleView.m in Sources */,
 				A199C9FB1A73ADD400A31587 /* ETUserView.m in Sources */,
+				A10008FE1ABC5B0300F2BD81 /* FavoriteService.m in Sources */,
 				A1580A4F1A960B370082C1E2 /* ExamData.m in Sources */,
 				A1D66D391A72177200F98206 /* UIColor+Hex.m in Sources */,
 				A15EB7A71A84EC8B009199D1 /* JSONCallback.m in Sources */,

@@ -1,27 +1,36 @@
 //
-//  ImitateSubjectService.m
+//  FavoriteService.m
 //  ExamApp
 //
-//  Created by jeasonyoung on 15/2/26.
+//  Created by jeasonyoung on 15/3/20.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
-#import "ImitateSubjectService.h"
+
+#import "FavoriteService.h"
 #import <FMDB/FMDB.h>
+
 #import "UserAccountData.h"
+
 #import "ExamData.h"
 #import "ExamDataDao.h"
+
 #import "SubjectData.h"
 #import "SubjectDataDao.h"
-//模拟考场科目科目服务类成员变量
-@interface ImitateSubjectService(){
+
+#import "PaperItemFavorite.h"
+#import "PaperItemFavoriteDao.h"
+
+//收藏服务成员变量
+@interface FavoriteService(){
     FMDatabaseQueue *_dbQueue;
 }
 @end
-//模拟考场科目科目服务类实现
-@implementation ImitateSubjectService
-#pragma mark 重载构造函数。
--(instancetype)init{
-    if(self = [super init]){
+//收藏服务实现
+@implementation FavoriteService
+#pragma mark 重构初始化
+- (instancetype)init
+{
+    if (self = [super init]) {
         NSError *err;
         NSString *dbPath = [[UserAccountData currentUser] loadDatabasePath:&err];
         if(!dbPath){
@@ -32,7 +41,7 @@
     }
     return self;
 }
-#pragma mark 加载全部的考试数据统计。
+#pragma mark 加载全部的考试数据统计
 -(NSInteger)loadAllExamTotal{
     if(!_dbQueue) return 0;
     __block NSInteger total = 0;
@@ -42,7 +51,7 @@
     }];
     return total;
 }
-#pragma mark 加载考试索引下的科目数据统计。
+#pragma mark 加载考试索引下的科目数据统计
 -(NSInteger)loadSubjectTotalWithExamIndex:(NSInteger)index{
     if(!_dbQueue) return 0;
     __block NSInteger total = 0;
@@ -56,7 +65,7 @@
     }];
     return total;
 }
-#pragma mark 加载指定索引的考试标题。
+#pragma mark 加载指定索引下的考试名称
 -(NSString *)loadExamTitleWithIndex:(NSInteger)index{
     if(!_dbQueue) return nil;
     __block NSString *examName;
@@ -66,19 +75,22 @@
     }];
     return examName;
 }
-#pragma mark 根据制定索引加载科目数据。
--(SubjectData *)loadSubjectWithExamIndex:(NSInteger)index andSubjectRow:(NSInteger)row{
-    if(!_dbQueue) return nil;
-    __block SubjectData *data;
+#pragma mark 加载指定索引下的科目数据
+-(void)loadWithExamWithIndex:(NSInteger)index andSubjectRow:(NSInteger)row Block:(void (^)(SubjectData *, NSInteger))block{
+    if(!_dbQueue || !block)return;
     [_dbQueue inDatabase:^(FMDatabase *db) {
         ExamDataDao *examDao = [[ExamDataDao alloc]initWithDb:db];
         NSString *examCode = [examDao loadExamCodeAtIndex:index];
         if(examCode && examCode.length > 0){
             SubjectDataDao *subjectDao = [[SubjectDataDao alloc]initWithDb:db];
-            data = [subjectDao loadDataWithExamCode:examCode AtRow:row];
+            SubjectData *subject = [subjectDao loadDataWithExamCode:examCode AtRow:row];
+            if(subject && subject.code){
+                PaperItemFavoriteDao *favoriteDao = [[PaperItemFavoriteDao alloc]initWithDb:db];
+                NSInteger favorites = [favoriteDao totalWithSubjectCode:subject.code];
+                block(subject,favorites);
+            }
         }
     }];
-    return data;
 }
 #pragma mark 内存回收
 -(void)dealloc{

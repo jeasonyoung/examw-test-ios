@@ -40,27 +40,15 @@
 #pragma mark tableView数据
 //分组总数
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    __block NSInteger sections = 0;
-    [WaitForAnimation animationWithView:self.view WaitTitle:__k_imitatesubjectview_waiting Block:^{
-         sections = [_service loadAllExamTotal];
-    }];
-    return sections;
+    return [_service loadAllExamTotal];
 }
 //显示每个分组的数据
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    __block NSInteger rows = 0;
-    [WaitForAnimation animationWithView:self.view WaitTitle:__k_imitatesubjectview_waiting Block:^{
-        rows = [_service loadSubjectTotalWithExamIndex:section];
-    }];
-    return rows;
+    return [_service loadSubjectTotalWithExamIndex:section];
 }
 //显示分组名称
 -(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section{
-    __block NSString *title;
-    [WaitForAnimation animationWithView:self.view WaitTitle:__k_imitatesubjectview_waiting Block:^{
-        title = [_service loadExamTitleWithIndex:section];
-    }];
-    return title;
+    return [_service loadExamTitleWithIndex:section];
 }
 //具体数据
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{

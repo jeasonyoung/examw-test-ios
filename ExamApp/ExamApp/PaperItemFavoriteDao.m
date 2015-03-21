@@ -31,6 +31,17 @@
     }
     return self;
 }
+#pragma mark 统计科目代码下的收藏
+-(NSInteger)totalWithSubjectCode:(NSString *)subjectCode{
+    if(subjectCode && subjectCode.length > 0 && _db && [_db tableExists:__k_paperitemfavoritedao_tableName]){
+        NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ = ? and %@ = ?",
+                               __k_paperitemfavoritedao_tableName,
+                               __k_paperitemfavorite_fields_status,
+                               __k_paperitemfavorite_fields_subjectCode];
+        return [_db intForQuery:query_sql,[NSNumber numberWithBool:YES],subjectCode];
+    }
+    return 0;
+}
 #pragma mark 加载收藏数据
 -(PaperItemFavorite *)loadFavorite:(NSString *)favoriteCode{
     if(!_db || !favoriteCode || favoriteCode.length == 0 || ![_db tableExists:__k_paperitemfavoritedao_tableName]) return nil;

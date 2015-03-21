@@ -27,23 +27,57 @@
     }
     return self;
 }
-#pragma mark 查询全部的有效数据
--(NSArray *)loadAll{
-    if(!_db || ![_db tableExists:__k_examdatadao_tableName])return nil;
-    NSMutableArray *array = [NSMutableArray array];
-    NSString *sql = [NSString stringWithFormat:@"select * from %@ where %@ > 0",
-                     __k_examdatadao_tableName, __k_examdata_fields_status];
-    FMResultSet *rs = [_db executeQuery:sql];
-    while ([rs next]) {
-        ExamData *data = [[ExamData alloc] init];
-        data.code = [rs stringForColumn:__k_examdata_fields_code];
-        data.name = [rs stringForColumn:__k_examdata_fields_name];
-        data.abbr = [rs stringForColumn:__k_examdata_fields_abbr];
-        data.status = [rs intForColumn:__k_examdata_fields_status];
-        [array addObject:data];
+#pragma mark 统计全部的数据
+-(NSInteger)total{
+    NSInteger total = 0;
+    if(_db && [_db tableExists:__k_examdatadao_tableName]){
+        NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ > 0",
+                               __k_examdatadao_tableName,__k_examdata_fields_status];
+        total = [_db intForQuery:query_sql];
     }
-    [rs close];
-    return [array mutableCopy];
+    return total;
+}
+#pragma mark 根据索引加载指定的数据
+-(ExamData *)loadDataAtIndex:(NSInteger)index{
+    ExamData *data;
+    if(_db && [_db tableExists:__k_examdatadao_tableName]){
+        if(index < 0) index = 0;
+        NSString *query_sql = [NSString stringWithFormat:@"select * from %@ where %@ > 0 limit %ld,1",
+                               __k_examdatadao_tableName,__k_examdata_fields_status,(long)index];
+        FMResultSet *rs = [_db executeQuery:query_sql];
+        while ([rs next]) {
+            data = [[ExamData alloc]init];
+            data.code = [rs stringForColumn:__k_examdata_fields_code];
+            data.name = [rs stringForColumn:__k_examdata_fields_name];
+            data.abbr = [rs stringForColumn:__k_examdata_fields_abbr];
+            data.status = [rs intForColumn:__k_examdata_fields_status];
+            break;
+        }
+        [rs close];
+    }
+    return data;
+}
+#pragma mark 根据指定索引加载考试代码
+-(NSString *)loadExamCodeAtIndex:(NSInteger)index{
+    if(_db && [_db tableExists:__k_examdatadao_tableName]){
+        if(index < 0) index = 0;
+        NSString *query_sql = [NSString stringWithFormat:@"select %@ from %@ where %@ > 0 limit %ld,1",
+                               __k_examdata_fields_code,__k_examdatadao_tableName,
+                               __k_examdata_fields_status,(long)index];
+        return [_db stringForQuery:query_sql];
+    }
+    return nil;
+}
+#pragma mark 根据指定索引加载考试名称
+-(NSString *)loadExamNameAtIndex:(NSInteger)index{
+    if(_db && [_db tableExists:__k_examdatadao_tableName]){
+        if(index < 0) index = 0;
+        NSString *query_sql = [NSString stringWithFormat:@"select %@ from %@ where %@ > 0 limit %ld,1",
+                               __k_examdata_fields_name,__k_examdatadao_tableName,
+                               __k_examdata_fields_status,(long)index];
+        return [_db stringForQuery:query_sql];
+    }
+    return nil;
 }
 #pragma mark 同步数据
 -(void)syncWithData:(NSDictionary *)data{

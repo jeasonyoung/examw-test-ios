@@ -8,12 +8,15 @@
 
 #import <Foundation/Foundation.h>
 @class FMDatabase;
+@class SubjectData;
 //科目数据操作类。
 @interface SubjectDataDao : NSObject
 //初始化
 -(instancetype)initWithDb:(FMDatabase *)db;
-//从数据库中加载全部数据
--(NSArray *)loadAllWithExamCode:(NSString *)code;
+//统计考试下的科目
+-(NSInteger)totalWithExamCode:(NSString *)examCode;
+//加载考试代码科目索引数据
+-(SubjectData *)loadDataWithExamCode:(NSString *)examCode AtRow:(NSInteger)row;
 //同步数据
 -(void)syncWithExamCode:(NSString *)examCode Data:(NSArray *)data;
 @end

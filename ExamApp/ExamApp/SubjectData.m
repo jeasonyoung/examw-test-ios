@@ -14,6 +14,6 @@
     return @{__k_subjectdata_fields_code : (self.code ? self.code : @""),
              __k_subjectdata_fields_name : (self.name ? self.name : @""),
              __k_subjectdata_fields_status : [NSNumber numberWithInteger:self.status],
-             __k_subjectdata_fields_exam_code : (self.examCode ? self.examCode : @"")};
+             __k_subjectdata_fields_examCode : (self.examCode ? self.examCode : @"")};
 }
 @end

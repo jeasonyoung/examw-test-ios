@@ -25,23 +25,38 @@
     }
     return self;
 }
-#pragma mark 加载数据
--(NSArray *)loadAllWithExamCode:(NSString *)code{
-    if(!_db || ![_db tableExists:__k_subjectdatadao_tableName]) return nil;
-    NSString *sql = [NSString stringWithFormat:@"select * from %@ where %@ > 0 and %@ = ?",
-                     __k_subjectdatadao_tableName,__k_subjectdata_fields_status,__k_subjectdata_fields_exam_code];
-    NSMutableArray *array = [NSMutableArray array];
-    FMResultSet *rs = [_db executeQuery:sql, code];
-    while ([rs next]) {
-        SubjectData *data = [[SubjectData alloc] init];
-        data.code = [rs stringForColumn:__k_subjectdata_fields_code];
-        data.name = [rs stringForColumn:__k_subjectdata_fields_name];
-        data.examCode = [rs stringForColumn:__k_subjectdata_fields_exam_code];
-        data.status = [rs intForColumn:__k_subjectdata_fields_status];
-        [array addObject:data];
+#pragma mark 统计考试下的科目
+-(NSInteger)totalWithExamCode:(NSString *)examCode{
+    NSInteger total = 0;
+    if(examCode && examCode.length > 0 && _db && [_db tableExists:__k_subjectdatadao_tableName]){
+        NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ > 0 and %@ = ?",
+                               __k_subjectdatadao_tableName,
+                               __k_subjectdata_fields_status,
+                               __k_subjectdata_fields_examCode];
+        total = [_db intForQuery:query_sql,examCode];
     }
-    [rs close];
-    return [array mutableCopy];
+    return total;
+}
+#pragma mark 加载考试下的科目索引下的科目
+-(SubjectData *)loadDataWithExamCode:(NSString *)examCode AtRow:(NSInteger)row{
+    SubjectData *data;
+    if(examCode && examCode.length > 0 && _db && [_db tableExists:__k_subjectdatadao_tableName]){
+        if(row < 0) row = 0;
+        NSString *query_sql = [NSString stringWithFormat:@"select * from %@ where %@ > 0 and %@ = ? limit %ld,1",
+                               __k_subjectdatadao_tableName,__k_subjectdata_fields_status,
+                               __k_subjectdata_fields_examCode,(long)row];
+        FMResultSet *rs = [_db executeQuery:query_sql,examCode];
+        while ([rs next]) {
+            data = [[SubjectData alloc]init];
+            data.code = [rs stringForColumn:__k_subjectdata_fields_code];
+            data.name = [rs stringForColumn:__k_subjectdata_fields_name];
+            data.examCode = [rs stringForColumn:__k_subjectdata_fields_examCode];
+            data.status = [rs intForColumn:__k_subjectdata_fields_status];
+            break;
+        }
+        [rs close];
+    }
+    return data;
 }
 #pragma mark 同步数据
 -(void)syncWithExamCode:(NSString *)examCode Data:(NSArray *)data{
@@ -73,7 +88,7 @@
         NSString *update_sql = [NSString stringWithFormat:@"update %@ set %@ = ?,%@ = ?,%@ = ? where %@ = ?",
                                 __k_subjectdatadao_tableName,
                                 __k_subjectdata_fields_name,
-                                __k_subjectdata_fields_exam_code,
+                                __k_subjectdata_fields_examCode,
                                 __k_subjectdata_fields_status,
                                 __k_subjectdata_fields_code];
         [_db executeUpdate:update_sql,subject.name,subject.examCode,[NSNumber numberWithBool:YES],subject.code];
@@ -82,7 +97,7 @@
                                 __k_subjectdatadao_tableName,
                                 __k_subjectdata_fields_code,
                                 __k_subjectdata_fields_name,
-                                __k_subjectdata_fields_exam_code,
+                                __k_subjectdata_fields_examCode,
                                 __k_subjectdata_fields_status];
         [_db executeUpdate:insert_sql,subject.code,subject.name,subject.examCode,[NSNumber numberWithBool:YES]];
     }
