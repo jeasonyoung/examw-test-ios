@@ -52,6 +52,8 @@
 		A18B9F6A1AA6CF9F00C135DB /* PaperItemFavoriteDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A18B9F691AA6CF9F00C135DB /* PaperItemFavoriteDao.m */; };
 		A18B9F6D1AA700B200C135DB /* PaperRecordService.m in Sources */ = {isa = PBXBuildFile; fileRef = A18B9F6C1AA700B200C135DB /* PaperRecordService.m */; };
 		A18B9F701AA70A2400C135DB /* ItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18B9F6F1AA70A2400C135DB /* ItemViewController.m */; };
+		A18C60771ABD3ADB00D96AD6 /* FavoriteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18C60761ABD3ADB00D96AD6 /* FavoriteViewController.m */; };
+		A18C607A1ABD4B8E00D96AD6 /* FavoriteSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18C60791ABD4B8E00D96AD6 /* FavoriteSheetViewController.m */; };
 		A18CCF351A85BD2A00C20555 /* TextFieldValidator.m in Sources */ = {isa = PBXBuildFile; fileRef = A18CCF331A85BD2A00C20555 /* TextFieldValidator.m */; };
 		A18CCF371A85BD6E00C20555 /* error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A18CCF361A85BD6E00C20555 /* error@2x.png */; };
 		A18CD2B31A7BBEC700B90FF0 /* UIViewController+Animation.m in Sources */ = {isa = PBXBuildFile; fileRef = A18CD2B21A7BBEC700B90FF0 /* UIViewController+Animation.m */; };
@@ -229,6 +231,10 @@
 		A18B9F6C1AA700B200C135DB /* PaperRecordService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperRecordService.m; sourceTree = "<group>"; };
 		A18B9F6E1AA70A2400C135DB /* ItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewController.h; sourceTree = "<group>"; };
 		A18B9F6F1AA70A2400C135DB /* ItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewController.m; sourceTree = "<group>"; };
+		A18C60751ABD3ADB00D96AD6 /* FavoriteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteViewController.h; sourceTree = "<group>"; };
+		A18C60761ABD3ADB00D96AD6 /* FavoriteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteViewController.m; sourceTree = "<group>"; };
+		A18C60781ABD4B8E00D96AD6 /* FavoriteSheetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteSheetViewController.h; sourceTree = "<group>"; };
+		A18C60791ABD4B8E00D96AD6 /* FavoriteSheetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteSheetViewController.m; sourceTree = "<group>"; };
 		A18CCF331A85BD2A00C20555 /* TextFieldValidator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TextFieldValidator.m; path = Utils/TextFieldValidator.m; sourceTree = "<group>"; };
 		A18CCF341A85BD2A00C20555 /* TextFieldValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TextFieldValidator.h; path = Utils/TextFieldValidator.h; sourceTree = "<group>"; };
 		A18CCF361A85BD6E00C20555 /* error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "error@2x.png"; sourceTree = "<group>"; };
@@ -595,6 +601,10 @@
 				A10008F71ABACAC700F2BD81 /* ResultViewController.m */,
 				A10008F91ABC1CBB00F2BD81 /* FavoriteSubjectViewController.h */,
 				A10008FA1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m */,
+				A18C60751ABD3ADB00D96AD6 /* FavoriteViewController.h */,
+				A18C60761ABD3ADB00D96AD6 /* FavoriteViewController.m */,
+				A18C60781ABD4B8E00D96AD6 /* FavoriteSheetViewController.h */,
+				A18C60791ABD4B8E00D96AD6 /* FavoriteSheetViewController.m */,
 				A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */,
 				A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */,
 			);
@@ -1025,9 +1035,11 @@
 				A1EC0A941AAAC9E000167B83 /* ItemContentView.m in Sources */,
 				A17F78D61AA5695700C671A9 /* PaperItemRecord.m in Sources */,
 				A1D02F021A7B6588004C484D /* UserAccountData.m in Sources */,
+				A18C607A1ABD4B8E00D96AD6 /* FavoriteSheetViewController.m in Sources */,
 				A1EE7DDB1A70A8B80071C76D /* SettingsViewController.m in Sources */,
 				A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */,
 				A18B9F6A1AA6CF9F00C135DB /* PaperItemFavoriteDao.m in Sources */,
+				A18C60771ABD3ADB00D96AD6 /* FavoriteViewController.m in Sources */,
 				A1904FA81A94E36900541B9E /* AppRegisterCode.m in Sources */,
 				A15EB7AA1A84FCF0009199D1 /* LoginViewController+Register.m in Sources */,
 				A182E4731AA596DE00730ECC /* PaperItemFavorite.m in Sources */,

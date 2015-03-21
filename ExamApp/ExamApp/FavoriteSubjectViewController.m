@@ -12,6 +12,8 @@
 #import "FavoriteService.h"
 #import "WaitForAnimation.h"
 
+#import "FavoriteViewController.h"
+
 #define __kFavoriteSubjectViewController_title @"我的收藏"
 #define __kFavoriteSubjectViewController_waiting @"加载中..."
 #define __kFavoriteSubjectViewController_cellIdentifier @"cell_identifier"
@@ -83,8 +85,10 @@
     NSNumber *favorites = [array objectAtIndex:0];
     NSString *subjectCode = [array objectAtIndex:1];
     if(favorites && favorites.integerValue > 0 && subjectCode && subjectCode.length > 0){
-        NSLog(@"%d,%d=>%@", indexPath.section,indexPath.row,array);
-        
+        //NSLog(@"%d,%d=>%@", indexPath.section,indexPath.row,array);
+        FavoriteViewController *fvc = [[FavoriteViewController alloc]initWithSubjectCode:subjectCode];
+        fvc.hidesBottomBarWhenPushed = NO;
+        [self.navigationController pushViewController:fvc animated:NO];
     }
 }
 #pragma mark 内存告警

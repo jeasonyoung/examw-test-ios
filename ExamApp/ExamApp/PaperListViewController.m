@@ -10,6 +10,8 @@
 #import "UIViewController+VisibleView.h"
 #import "NSString+Date.h"
 
+#import "PaperReview.h"
+
 #import "PaperData.h"
 #import "PaperService.h"
 #import "WaitForAnimation.h"
@@ -21,7 +23,7 @@
 #define __k_paperlist_segment_margin_left 20//左边间隔
 #define __k_paperlist_segment_margin_right 20//右边间隔
 #define __k_paperlist_segment_height 30//高度
-#define __k_paperlist_segment_data @[@"历年真题",@"模拟试题",@"预测试题",@"练习题"]
+//#define __k_paperlist_segment_data @[@"历年真题",@"模拟试题",@"预测试题",@"练习题"]
 
 #define __k_paperlist_table_cellIdentifier @"cell"
 #define __k_paperlist_cell_textLabel_font_size 13//字体大小
@@ -67,7 +69,11 @@
     tempFrame.size.height = __k_paperlist_segment_height;
     tempFrame.size.width -= (__k_paperlist_segment_margin_left + __k_paperlist_segment_margin_right);
     
-    UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:__k_paperlist_segment_data];
+    
+    UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:@[[PaperReview paperTypeName:PaperTypeReal],
+                                                                              [PaperReview paperTypeName:PaperTypeSimu],
+                                                                              [PaperReview paperTypeName:PaperTypeForecas],
+                                                                              [PaperReview paperTypeName:PaperTypePractice]]];
     segment.frame = tempFrame;
     _paperTypeValue = (segment.selectedSegmentIndex = 0) + 1;
     [segment addTarget:self action:@selector(segmentActionClick:) forControlEvents:UIControlEventValueChanged];

@@ -333,11 +333,17 @@
     //*outY = [NSNumber numberWithFloat:(*outY).floatValue + __kResultViewController_Top];
     //
     if(_paperReview){
+        CGFloat w = CGRectGetWidth(panel.frame) - __kResultViewController_Left - __kResultViewController_Right;
+        UIColor *borderColor = [UIColor colorWithHex:__kResultViewController_list_item_borderColor],
+        *fontColor = [UIColor colorWithHex:__kResultViewController_list_item_font_color],
+        *rightColor = [UIColor colorWithHex:__kResultViewController_list_legend_rightColor],
+        *wrongColor = [UIColor colorWithHex:__kResultViewController_list_legend_wrongColor],
+        *todoColor = [UIColor colorWithHex:__kResultViewController_list_legend_todoColor];
+        UIFont *font = [UIFont systemFontOfSize:__kResultViewController_list_item_font_size];
+        
         [_paperReview loadAnswersheet:^(NSString *text, NSArray *indexPaths) {
             if(!text || !indexPaths)return;
-            CGRect tempFrame = CGRectMake(__kResultViewController_Left,
-                                          (*outY).floatValue + __kResultViewController_Top,
-                                          CGRectGetWidth(panel.frame) - __kResultViewController_Left - __kResultViewController_Right, 0);
+            CGRect tempFrame = CGRectMake(__kResultViewController_Left, (*outY).floatValue + __kResultViewController_Top, w, 0);
             //大题标题
             if(text.length > 0){
                 CGSize textSize = [text sizeWithFont:_font
@@ -356,12 +362,7 @@
                 tempFrame.origin.y =  CGRectGetMaxY(tempFrame) + __kResultViewController_Margin_Min;
                 CGFloat itemWith = (CGRectGetWidth(tempFrame) - (__kResultViewController_list_item_cols + 1)*__kResultViewController_list_item_hspace)/__kResultViewController_list_item_cols;
                 CGFloat x = tempFrame.origin.x, y = tempFrame.origin.y;
-                UIColor *borderColor = [UIColor colorWithHex:__kResultViewController_list_item_borderColor],
-                        *fontColor = [UIColor colorWithHex:__kResultViewController_list_item_font_color],
-                        *rightColor = [UIColor colorWithHex:__kResultViewController_list_legend_rightColor],
-                        *wrongColor = [UIColor colorWithHex:__kResultViewController_list_legend_wrongColor],
-                        *todoColor = [UIColor colorWithHex:__kResultViewController_list_legend_todoColor];
-                UIFont *font = [UIFont systemFontOfSize:__kResultViewController_list_item_font_size];
+                
                 for(NSUInteger i = 0; i < indexPaths.count; i++){
                     PaperItemOrderIndexPath *indexPath = [indexPaths objectAtIndex:i];
                     if(!indexPath)continue;

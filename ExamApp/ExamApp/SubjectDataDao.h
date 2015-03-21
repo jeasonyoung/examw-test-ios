@@ -15,6 +15,8 @@
 -(instancetype)initWithDb:(FMDatabase *)db;
 //统计考试下的科目
 -(NSInteger)totalWithExamCode:(NSString *)examCode;
+//根据科目ID获取科目名称
+-(NSString *)loadSubjectNameWithSubjectCode:(NSString *)subjectCode;
 //加载考试代码科目索引数据
 -(SubjectData *)loadDataWithExamCode:(NSString *)examCode AtRow:(NSInteger)row;
 //同步数据

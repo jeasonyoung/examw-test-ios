@@ -19,6 +19,7 @@
 #define __k_paper_fields_score @"score"//试卷总分
 #define __k_paper_fields_structures @"structures"//试卷结构
 
+#define __kPaperReviewTypes @[@"历年真题",@"模拟试题",@"预测试题",@"练习题",@"章节练习",@"每日一练"]//试卷类型
 //试卷类成员变量
 @interface PaperReview (){
     NSMutableDictionary *_itemsCache;
@@ -26,6 +27,13 @@
 @end
 //试卷类实现。
 @implementation PaperReview
+#pragma mark 试卷类型名称
++(NSString *)paperTypeName:(PaperType)paperType{
+    NSArray *typeArrays = __kPaperReviewTypes;
+    int index = (int)paperType;
+    if(index <= 0 || index > typeArrays.count) return nil;
+    return [typeArrays objectAtIndex:(index - 1)];
+}
 #pragma mark 初始化
 -(instancetype)initWithDictionary:(NSDictionary *)dict{
     if((self = [super init]) && dict && dict.count > 0){
@@ -453,8 +461,26 @@
 #define __k_paperitem_fields_orderNo @"orderNo"//试题排序号
 #define __k_paperitem_fields_count @"count"//包含试题总数
 #define __k_paperitem_fields_children @"children"//子试题集合
+
+#define __kPaperItemTypes @[@"单选",@"多选",@"不定向选择",@"判断题",@"问答题",@"共享题干题",@"共享答案题"]//试题类型
+#define __kPaperItemJudgeAnswers @[@"错误",@"正确"]//判断题答案名称
+
 //试卷试题类实现
 @implementation PaperItem
+#pragma mark 试题类型名称
++(NSString *)itemTypeName:(PaperItemType)itemType{
+    NSArray *itemTypeArrays = __kPaperItemTypes;
+    int index = (int)itemType;
+    if(index <= 0 || index > itemTypeArrays.count) return nil;
+    return [itemTypeArrays objectAtIndex:(index - 1)];
+}
+#pragma mark 判断题答案名称
++(NSString *)judgeAnswerName:(PaperItemJudgeAnswer)judgeAnswer{
+    NSArray *judgeAnswerArrays = __kPaperItemJudgeAnswers;
+    int index = (int)judgeAnswer;
+    if(index < 0 || index >=  judgeAnswerArrays.count) return nil;
+    return [judgeAnswerArrays objectAtIndex:index];
+}
 #pragma mark 初始化
 -(instancetype)initWithDictionary:(NSDictionary *)dict{
     if((self = [super init]) && dict && dict.count > 0){

@@ -42,6 +42,22 @@
     }
     return 0;
 }
+#pragma mark 统计科目代码和题型下的收藏集合
+-(NSInteger)totalWithSubjectCode:(NSString *)subjectCode ItemType:(PaperItemType)itemType{
+    if(subjectCode && subjectCode.length > 0 && _db
+       && [_db tableExists:__k_paperitemfavoritedao_tableName]){
+        NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ = ? and %@ = ? and %@ = ?",
+                               __k_paperitemfavoritedao_tableName,
+                               __k_paperitemfavorite_fields_status,
+                               __k_paperitemfavorite_fields_subjectCode,
+                               __k_paperitemfavorite_fields_itemType];
+        return [_db intForQuery:query_sql,
+                [NSNumber numberWithBool:YES],
+                subjectCode,
+                [NSNumber numberWithInt:(int)itemType]];
+    }
+    return 0;
+}
 #pragma mark 加载收藏数据
 -(PaperItemFavorite *)loadFavorite:(NSString *)favoriteCode{
     if(!_db || !favoriteCode || favoriteCode.length == 0 || ![_db tableExists:__k_paperitemfavoritedao_tableName]) return nil;
@@ -51,6 +67,24 @@
                            __k_paperitemfavorite_fields_createTime];
     PaperItemFavorite *favorite;
     FMResultSet *rs = [_db executeQuery:query_sql,favoriteCode];
+    while ([rs next]) {
+        favorite = [self createFavorite:rs];
+        break;
+    }
+    [rs close];
+    return favorite;
+}
+#pragma mark 加载收藏数据
+-(PaperItemFavorite *)loadFavoriteWithSubjectCode:(NSString *)subjectCode AtRow:(NSInteger)row{
+    if(!subjectCode || subjectCode.length == 0 || !_db || ![_db tableExists:__k_paperitemfavoritedao_tableName]) return nil;
+    if(row < 0) row = 0;
+    NSString *query_sql = [NSString stringWithFormat:@"select * from %@ where %@ = ? and %@ = ? order by %@ asc limit %ld,1",
+                           __k_paperitemfavoritedao_tableName,
+                           __k_paperitemfavorite_fields_status,
+                           __k_paperitemfavorite_fields_subjectCode,
+                           __k_paperitemfavorite_fields_itemType, (long)row];
+    PaperItemFavorite *favorite;
+    FMResultSet *rs = [_db executeQuery:query_sql,[NSNumber numberWithBool:YES],subjectCode];
     while ([rs next]) {
         favorite = [self createFavorite:rs];
         break;

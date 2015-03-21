@@ -27,9 +27,9 @@ typedef NS_ENUM(int,PaperItemType){
 };
 //判断题答案枚举
 typedef NS_ENUM(int, PaperItemJudgeAnswer){
-    //正确
-    PaperItemJudgeAnswerWrong = 0x00,
     //错误
+    PaperItemJudgeAnswerWrong = 0x00,
+    //正确
     PaperItemJudgeAnswerRight = 0x01
 };
 
@@ -63,6 +63,10 @@ typedef NS_ENUM(int, PaperItemJudgeAnswer){
 +(NSArray *)deSerializeWithArray:(NSArray *)array;
 //序列化为JSON字符串
 -(NSString *)serialize;
+//试题类型名称
++(NSString *)itemTypeName:(PaperItemType)itemType;
+//判断题答案名称。
++(NSString *)judgeAnswerName:(PaperItemJudgeAnswer)judgeAnswer;
 @end
 
 //试卷结构
@@ -180,4 +184,6 @@ typedef NS_ENUM(int, PaperType) {
 -(void)findStructureAtStructureCode:(NSString *)code StructureBlock:(void(^)(PaperStructure *ps))block;
 //序列化为JSON字符串
 -(NSString *)serialize;
+//试卷类型名称
++(NSString *)paperTypeName:(PaperType)paperType;
 @end

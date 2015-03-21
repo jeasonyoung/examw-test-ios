@@ -92,6 +92,61 @@
         }
     }];
 }
+
+#pragma mark 根据科目ID获取科目名称
+-(NSString *)loadSubjectNameWithSubjectCode:(NSString *)subjectCode{
+    if(_dbQueue && subjectCode && subjectCode.length > 0){
+        __block NSString *subjectName;
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            SubjectDataDao *dao = [[SubjectDataDao alloc]initWithDb:db];
+            subjectName = [dao loadSubjectNameWithSubjectCode:subjectCode];
+        }];
+        return subjectName;
+    }
+    return nil;
+}
+#pragma mark 加载收藏答题卡
+-(void)loadSheetWithSubjectCode:(NSString *)subjectCode SheetsBlock:(void (^)(NSString *, NSArray *))block{
+    if(_dbQueue && block && subjectCode && subjectCode.length > 0){
+        NSArray *itemTypeArrays = @[[NSNumber numberWithInt:(int)PaperItemTypeSingle],
+                                    [NSNumber numberWithInt:(int)PaperItemTypeMulty],
+                                    [NSNumber numberWithInt:(int)PaperItemTypeUncertain],
+                                    [NSNumber numberWithInt:(int)PaperItemTypeJudge],
+                                    [NSNumber numberWithInt:(int)PaperItemTypeQanda],
+                                    [NSNumber numberWithInt:(int)PaperItemTypeShareTitle],
+                                    [NSNumber numberWithInt:(int)PaperItemTypeShareAnswer]];
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            PaperItemFavoriteDao *dao =[[PaperItemFavoriteDao alloc]initWithDb:db];
+            NSInteger order = 0, index = 0;
+            for(NSNumber *itemTypeValue in itemTypeArrays){
+                if(!itemTypeValue) continue;
+                PaperItemType itemType = (PaperItemType)itemTypeValue.intValue;
+                NSInteger total = [dao totalWithSubjectCode:subjectCode ItemType:itemType];
+                if(total > 0){
+                    NSMutableArray *sheetArrays = [NSMutableArray array];
+                    for(NSInteger i = 0; i < total; i++){
+                        [sheetArrays addObject:[NSNumber numberWithInteger:(order++)]];
+                    }
+                    block([NSString stringWithFormat:@"%ld.%@",(long)((int)(index++) + 1),[PaperItem itemTypeName:itemType]], sheetArrays);
+                }
+            }
+        }];
+    }
+}
+#pragma mark 加载收藏数据
+-(PaperItemFavorite *)loadFavoriteWithSubjectCode:(NSString *)subjectCode AtOrder:(NSInteger)order{
+    if(_dbQueue && subjectCode && subjectCode.length > 0){
+        if(order < 0) order = 0;
+        __block PaperItemFavorite *data;
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            PaperItemFavoriteDao *dao =[[PaperItemFavoriteDao alloc]initWithDb:db];
+            data = [dao loadFavoriteWithSubjectCode:subjectCode AtRow:order];
+        }];
+        return data;
+    }
+    return nil;
+}
+
 #pragma mark 内存回收
 -(void)dealloc{
     if(_dbQueue){

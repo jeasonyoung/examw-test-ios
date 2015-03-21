@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PaperReview.h"
 @class FMDatabase;
 @class PaperItemFavorite;
 //试题收藏数据操作
@@ -15,8 +16,12 @@
 -(instancetype)initWithDb:(FMDatabase *)db;
 //统计科目代码下的收藏集合
 -(NSInteger)totalWithSubjectCode:(NSString *)subjectCode;
+//统计科目代码和题型下的收藏集合
+-(NSInteger)totalWithSubjectCode:(NSString *)subjectCode ItemType:(PaperItemType)itemType;
 //加载收藏数据
 -(PaperItemFavorite *)loadFavorite:(NSString *)favoriteCode;
+//加载收藏数据
+-(PaperItemFavorite *)loadFavoriteWithSubjectCode:(NSString *)subjectCode AtRow:(NSInteger)row;
 //根据科目代码和试题ID加载收藏
 -(PaperItemFavorite *)loadFavoriteWithSubjectCode:(NSString *)subjectCode ItemCode:(NSString *)itemCode;
 //根据科目代码和试题ID是否收藏

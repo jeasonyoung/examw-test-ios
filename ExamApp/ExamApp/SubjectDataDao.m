@@ -37,6 +37,17 @@
     }
     return total;
 }
+#pragma mark 根据科目ID获取科目名称
+-(NSString *)loadSubjectNameWithSubjectCode:(NSString *)subjectCode{
+    if(_db && subjectCode && subjectCode.length > 0){
+        NSString *query_sql = [NSString stringWithFormat:@"select %@ from %@ where %@ = ?",
+                               __k_subjectdata_fields_name,
+                               __k_subjectdatadao_tableName,
+                               __k_subjectdata_fields_code];
+        return [_db stringForQuery:query_sql,subjectCode];
+    }
+    return nil;
+}
 #pragma mark 加载考试下的科目索引下的科目
 -(SubjectData *)loadDataWithExamCode:(NSString *)examCode AtRow:(NSInteger)row{
     SubjectData *data;

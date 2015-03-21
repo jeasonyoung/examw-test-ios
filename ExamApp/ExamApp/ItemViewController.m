@@ -103,10 +103,15 @@
     //加载试题内容
     [self setupItemContentView];
 }
-#pragma mark 视图将呈现
+#pragma mark 试图将呈现
 -(void)viewWillAppear:(BOOL)animated{
-    //显示底部工具栏
+    [super viewWillAppear:animated];
     self.navigationController.toolbarHidden = NO;
+}
+#pragma mark 试图将隐藏
+-(void)viewWillDisappear:(BOOL)animated{
+    self.navigationController.toolbarHidden = YES;
+    [super viewWillDisappear:animated];
 }
 //加载顶部工具栏
 -(void)setupTopBar{

@@ -53,8 +53,8 @@
 #define __k_itemcontentview_font_size 14//试题字体
 #define __k_itemcontentview_title_borderColor 0xc9f28c//试题标题边框颜色
 
-#define __kPaperItemJudgeAnswerRightTitle @"正确"//判断题答案名称
-#define __kPaperItemJudgeAnswerWrongTitle @"错误"//判断题答案名称
+//#define __kPaperItemJudgeAnswerRightTitle @"正确"//判断题答案名称
+//#define __kPaperItemJudgeAnswerWrongTitle @"错误"//判断题答案名称
 
 //考试试题视图成员变量
 @interface ItemContentView ()<ItemOptionGroupDelegate>{
@@ -300,10 +300,10 @@
     PaperItem *optionRight = [[PaperItem alloc] init],
     *optionWrong = [[PaperItem alloc] init];
     optionRight.code = [NSString stringWithFormat:@"%d",(int)PaperItemJudgeAnswerRight];
-    optionRight.content = __kPaperItemJudgeAnswerRightTitle;
+    optionRight.content = [PaperItem judgeAnswerName:PaperItemJudgeAnswerRight];
     
     optionWrong.code = [NSString stringWithFormat:@"%d",(int)PaperItemJudgeAnswerWrong];
-    optionWrong.content = __kPaperItemJudgeAnswerWrongTitle;
+    optionWrong.content = [PaperItem judgeAnswerName:PaperItemJudgeAnswerWrong];
     
     [self setupOptionsWithFrame:frame Type:ItemOptionGroupTypeSingle Options:@[optionRight,optionWrong] RightAnswer:item.answer OutY:outY];
     //答案及其解析
