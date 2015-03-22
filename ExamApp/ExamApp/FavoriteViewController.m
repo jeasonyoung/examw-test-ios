@@ -9,10 +9,16 @@
 #import "FavoriteViewController.h"
 
 #import "UIColor+Hex.h"
+#import "UIViewController+VisibleView.h"
 
 #import "UIViewUtils.h"
 
+#import "ItemContentGroupView.h"
+
 #import "FavoriteSheetViewController.h"
+
+#import "FavoriteService.h"
+#import "PaperItemFavorite.h"
 
 #define __kFavoriteViewController_btnAnswerWith 50//
 #define __kFavoriteViewController_btnAnswerHeight 22//
@@ -22,8 +28,10 @@
 #define __kFavoriteViewController_btnAnswerHighlightColor 0x00CD66
 #define __kFavoriteViewController_btnAnswerBorderColor 0x00C5CD
 //收藏试题控制器成员变量
-@interface FavoriteViewController (){
+@interface FavoriteViewController ()<ItemContentGroupViewDataSource>{
     NSString *_subjectCode;
+    FavoriteService *_service;
+    ItemContentGroupView *_itemContentView;
 }
 @end
 //收藏试题控制器实现
@@ -38,10 +46,14 @@
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //关闭滚动条y轴自动下移
+    self.automaticallyAdjustsScrollViewInsets = NO;
     //加载顶部工具栏
     [self setupTopbar];
     //加载底部工具栏
     [self setupFootbar];
+    //初始化收藏数据服务
+    _service = [[FavoriteService alloc]init];
     //加载试题内容
     [self setupItemContentView];
 }
@@ -88,11 +100,17 @@
 }
 //上一题按钮
 -(void)btnBarPrevClick:(UIBarButtonItem *)sender{
-    NSLog(@"%@",sender);
+    //NSLog(@"%@",sender);
+    if(_itemContentView){
+        [_itemContentView loadPrevContent];
+    }
 }
 //下一题按钮
 -(void)btnBarNextClick:(UIBarButtonItem *)sender{
-    NSLog(@"%@",sender);
+    //NSLog(@"%@",sender);
+    if(_itemContentView){
+        [_itemContentView loadNextContent];
+    }
 }
 //答案按钮
 -(void)btnAnswerClick:(UIButton *)sender{
@@ -100,11 +118,33 @@
 }
 //加载试题内容
 -(void)setupItemContentView{
-    
+    CGRect itemFrame = [self loadVisibleViewFrame];
+    _itemContentView = [[ItemContentGroupView alloc]initWithFrame:itemFrame];
+    _itemContentView.dataSource = self;
+    [self.view addSubview:_itemContentView];
+    //加载数据
+    [self loadDataAtOrder:0];
 }
 #pragma mark 加载数据
 -(void)loadDataAtOrder:(NSInteger)order{
-    ///TODO:
+    if(_itemContentView){
+        [_itemContentView loadContentAtOrder:order];
+    }
+}
+#pragma mark ItemContentGroupViewDataSource
+//加载数据
+-(ItemContentSource *)itemContentAtIndex:(NSInteger)index{
+    if(_service){
+        PaperItemFavorite *favorite = [_service loadFavoriteWithSubjectCode:_subjectCode AtOrder:index];
+        if(favorite){
+           return [favorite toSourceAtOrder:index];
+        }
+    }
+    return nil;
+}
+//选中的数据
+-(void)selectedData:(ItemContentSource *)data{
+    NSLog(@"selectedData:%@",data);
 }
 #pragma mark 试图将呈现
 -(void)viewWillAppear:(BOOL)animated{

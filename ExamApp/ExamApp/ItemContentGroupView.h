@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "PaperReview.h"
-@class ItemContentSource;
+#import "ItemContentView.h"
 
 //试题显示分页集合数据源代理
 @protocol ItemContentGroupViewDataSource <NSObject>

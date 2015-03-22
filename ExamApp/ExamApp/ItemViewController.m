@@ -25,7 +25,7 @@
 #import "PaperListViewController.h"
 #import "ResultViewController.h"
 
-#import "ItemContentView.h"
+//#import "ItemContentView.h"
 #import "ItemContentGroupView.h"
 
 #import "UIViewUtils.h"
