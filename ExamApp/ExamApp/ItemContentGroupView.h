@@ -12,8 +12,10 @@
 
 //试题显示分页集合数据源代理
 @protocol ItemContentGroupViewDataSource <NSObject>
+@required
 //加载试题
--(ItemContentSource *)itemContentAtIndex:(NSInteger)index;
+-(ItemContentSource *)itemContentAtOrder:(NSInteger)order;
+@optional
 //选中的值
 -(void)selectedData:(ItemContentSource *)data;
 @end

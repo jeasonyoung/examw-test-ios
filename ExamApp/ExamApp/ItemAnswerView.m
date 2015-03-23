@@ -55,12 +55,9 @@
 //试题答案及其解析成员变量
 @interface ItemAnswerView (){
     UIFont *_font;
-    
     UIColor *_colorTipRight,*_colorTipWrong;
     
-    UILabel *_lbMyTitle,*_lbMy,*_lbMyTip;
-    UILabel *_lbAnswerTitle,*_lbAnswer;
-    UILabel *_lbAnalysisTitle,*_lbAnalysis;
+    UILabel *_lbMy,*_lbMyTip,*_lbAnswer,*_lbAnalysis;
     
     UIView *_analysisPanel;
 }
@@ -94,11 +91,11 @@
                                                constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)
                                                    lineBreakMode:NSLineBreakByWordWrapping];
     tempFrame.size = titleSize;
-    _lbMyTitle = [[UILabel alloc]initWithFrame:tempFrame];
-    _lbMyTitle.font = _font;
-    _lbMyTitle.textAlignment = NSTextAlignmentLeft;
-    _lbMyTitle.text = __k_itemanswerview_my_title;
-    [self addSubview:_lbMyTitle];
+    UILabel *lbMyTitle = [[UILabel alloc]initWithFrame:tempFrame];
+    lbMyTitle.font = _font;
+    lbMyTitle.textAlignment = NSTextAlignmentLeft;
+    lbMyTitle.text = __k_itemanswerview_my_title;
+    [self addSubview:lbMyTitle];
     //回答内容
     tempFrame.origin.x = CGRectGetMaxX(tempFrame) + __k_itemanswerview_left;
     tempFrame.size.width = (titleSize.width/2);
@@ -133,11 +130,11 @@
                                             constrainedToSize:CGSizeMake(width, 0)
                                                 lineBreakMode:NSLineBreakByWordWrapping];
     tempFrame.size = titleSize;
-    _lbAnswerTitle = [[UILabel alloc] initWithFrame:tempFrame];
-    _lbAnswerTitle.font = _font;
-    _lbAnswerTitle.textAlignment = NSTextAlignmentLeft;
-    _lbAnswerTitle.text = __k_itemanswerview_answer_title;
-    [self addSubview:_lbAnswerTitle];
+    UILabel *lbAnswerTitle = [[UILabel alloc] initWithFrame:tempFrame];
+    lbAnswerTitle.font = _font;
+    lbAnswerTitle.textAlignment = NSTextAlignmentLeft;
+    lbAnswerTitle.text = __k_itemanswerview_answer_title;
+    [self addSubview:lbAnswerTitle];
     //答案
     tempFrame.origin.x = CGRectGetMaxX(tempFrame) + __k_itemanswerview_left;
     tempFrame.size.width = (width - titleSize.width);
@@ -165,11 +162,11 @@
                                                   lineBreakMode:NSLineBreakByWordWrapping];
     tempFrame.size.height = titleSize.height;
     
-    _lbAnalysisTitle = [[UILabel alloc] initWithFrame:tempFrame];
-    _lbAnalysisTitle.font = _font;
-    _lbAnalysisTitle.textAlignment = NSTextAlignmentLeft;
-    _lbAnalysisTitle.text = __k_itemanswerview_analysis_title;
-    [_analysisPanel addSubview:_lbAnalysisTitle];
+    UILabel *lbAnalysisTitle = [[UILabel alloc] initWithFrame:tempFrame];
+    lbAnalysisTitle.font = _font;
+    lbAnalysisTitle.textAlignment = NSTextAlignmentLeft;
+    lbAnalysisTitle.text = __k_itemanswerview_analysis_title;
+    [_analysisPanel addSubview:lbAnalysisTitle];
     //
     tempFrame.origin.y = CGRectGetMaxY(tempFrame) + __k_itemanswerview_top;
     _lbAnalysis = [[UILabel alloc] initWithFrame:tempFrame];
@@ -227,12 +224,18 @@
         self.frame = tempFrame;
     }
 }
-//清空数据
+#pragma mark 清空数据
 -(void)clean{
     NSArray *arrays = @[_lbMy,_lbAnswer,_lbAnalysis];
     for(UILabel *lb in arrays){
         if(!lb) continue;
         lb.text = @"";
     }
+    //重置尺寸
+    CGRect tempFrame = _lbAnalysis.frame;
+    tempFrame.size.height = 0;
+    _lbAnalysis.frame = tempFrame;
+    //
+    [self resizeAnalysisSize];
 }
 @end

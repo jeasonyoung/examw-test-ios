@@ -33,6 +33,7 @@
     BOOL _displayAnswer;
     FavoriteService *_service;
     ItemContentGroupView *_itemContentView;
+    NSMutableDictionary *_itemAnswersCache;
 }
 @end
 //收藏试题控制器实现
@@ -56,6 +57,7 @@
     //初始化收藏数据服务
     _service = [[FavoriteService alloc]init];
     _displayAnswer = NO;
+    _itemAnswersCache = [NSMutableDictionary dictionary];
     //加载试题内容
     [self setupItemContentView];
 }
@@ -117,7 +119,7 @@
 //答案按钮
 -(void)btnAnswerClick:(UIButton *)sender{
     _displayAnswer = !_displayAnswer;
-     NSLog(@"%d",_displayAnswer);
+     //NSLog(@"%d",_displayAnswer);
     if(_itemContentView){
         [_itemContentView showDisplayAnswer:_displayAnswer];
     }
@@ -139,26 +141,40 @@
 }
 #pragma mark ItemContentGroupViewDataSource
 //加载数据
--(ItemContentSource *)itemContentAtIndex:(NSInteger)index{
+-(ItemContentSource *)itemContentAtOrder:(NSInteger)order{
     if(_service){
-        PaperItemFavorite *favorite = [_service loadFavoriteWithSubjectCode:_subjectCode AtOrder:index];
+        PaperItemFavorite *favorite = [_service loadFavoriteWithSubjectCode:_subjectCode AtOrder:order];
         if(favorite){
-           return [favorite toSourceAtOrder:index];
+           ItemContentSource *dataSource = [favorite toSourceAtOrder:order];
+            if(_displayAnswer && _itemAnswersCache && _itemAnswersCache.count > 0){
+                NSString *answer = [_itemAnswersCache valueForKey:[NSString stringWithFormat:@"%ld",(long)order]];
+                if(answer && answer.length > 0){
+                    dataSource.value = answer;
+                }
+            }
+           return dataSource;
         }
     }
     return nil;
 }
 //选中的数据
 -(void)selectedData:(ItemContentSource *)data{
-    NSLog(@"selectedData:%@",data);
+    NSLog(@"selectedData:%@,%@",data,data.value);
+    if(!data || !_itemContentView)return;
+    _displayAnswer = YES;
+    [_itemAnswersCache setValue:data.value forKey:[NSString stringWithFormat:@"%ld", (long)data.order]];
+    [_itemContentView loadContentAtOrder:data.order];
+    [_itemContentView showDisplayAnswer:_displayAnswer];
 }
 #pragma mark 试图将呈现
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    _displayAnswer = NO;
     self.navigationController.toolbarHidden = NO;
 }
 #pragma mark 试图将隐藏
 -(void)viewWillDisappear:(BOOL)animated{
+    _displayAnswer = NO;
     self.navigationController.toolbarHidden = YES;
     [super viewWillDisappear:animated];
 }

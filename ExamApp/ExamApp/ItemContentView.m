@@ -287,8 +287,11 @@
             _optionsView = [[ItemOptionGroupView alloc] initWithFrame:frame];
             _optionsView.delegate = self;
             [self addSubview:_optionsView];
+            NSLog(@"新增 选项集合.. %@",_optionsView);
         }else{//存在则重置尺寸
             _optionsView.frame = frame;
+            [_optionsView clean];
+            NSLog(@"重复利用 选项集合.. %@",_optionsView);
         }
         ItemOptionGroupSource *dataSource = [ItemOptionGroupSource sourceOptions:options
                                                                    GroupType:type
@@ -319,6 +322,7 @@
 #pragma mark 是否显示答案
 -(void)showDisplayAnswer:(BOOL)displayAnswer{
     if(!_outY || !_optionsView)return;
+    NSLog(@"showDisplayAnswer: %d => %d ",_displayAnswer, displayAnswer);
     if(_displayAnswer != displayAnswer && _optionsView){//选项处理
         [_optionsView showDisplayAnswer:displayAnswer];
     }
@@ -383,7 +387,13 @@
     }
     //选项
     if(_optionsView){
+        [_optionsView clean];
         _optionsView.frame = CGRectZero;
+    }
+    //答案
+    if(_answerView){
+        [_answerView clean];
+        _answerView.frame = CGRectZero;
     }
 }
 #pragma mark ItemOptionGroupDelegate

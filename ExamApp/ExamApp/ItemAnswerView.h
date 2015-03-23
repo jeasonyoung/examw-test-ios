@@ -28,4 +28,6 @@
 -(instancetype)initWithFrame:(CGRect)frame;
 //加载数据
 -(void)loadData:(ItemAnswerViewSource *)data;
+//清空数据
+-(void)clean;
 @end

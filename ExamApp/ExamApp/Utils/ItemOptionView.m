@@ -306,6 +306,7 @@
     ItemOptionView *optView;
     if(_optionViewsCache && _optionViewsCache.count > index){
         optView = [_optionViewsCache objectAtIndex:index];
+        [optView clean];
         optView.frame = frame;
         return optView;
     }

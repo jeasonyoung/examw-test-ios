@@ -283,11 +283,11 @@
 }
 #pragma mark ItemContentGroupViewDataSource
 //加载数据
--(ItemContentSource *)itemContentAtIndex:(NSInteger)index{
-    NSLog(@"加载数据...%ld",(long)index);
+-(ItemContentSource *)itemContentAtOrder:(NSInteger)order{
+    NSLog(@"加载数据...%ld",(long)order);
     if(index < 0 || !_review)return nil;
     __block ItemContentSource *source;
-    [_review loadItemAtOrder:index ItemBlock:^(PaperItemOrderIndexPath *indexPath) {
+    [_review loadItemAtOrder:order ItemBlock:^(PaperItemOrderIndexPath *indexPath) {
         if(indexPath){
             self.navigationItem.title = indexPath.structureTitle;
             

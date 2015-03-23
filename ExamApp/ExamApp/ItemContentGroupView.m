@@ -48,28 +48,39 @@
     return [self initWithFrame:frame Order:0];
 }
 //加载试题内容视图
--(BOOL)loadItemContentViewAtIndex:(NSInteger)index{
-    if(index >= 0 && self.dataSource && [self.dataSource respondsToSelector:@selector(itemContentAtIndex:)]){
-        ItemContentSource *source = [self.dataSource itemContentAtIndex:index];
+-(BOOL)loadItemContentViewAtOrder:(NSInteger)order{
+    if(index >= 0 && self.dataSource && [self.dataSource respondsToSelector:@selector(itemContentAtOrder:)]){
+        ItemContentSource *source = [self.dataSource itemContentAtOrder:order];
         if(source){
             //计算加载的位置
             CGRect tempFrame = self.frame;
-            tempFrame.origin.x = index * CGRectGetWidth(tempFrame);
+            tempFrame.origin.x = order * CGRectGetWidth(tempFrame);
             tempFrame.origin.y = 0;
             
             _currentContentView = (ItemContentView *)_queue.dequeue;
             if(!_currentContentView){
                 _currentContentView = [[ItemContentView alloc] initWithFrame:tempFrame];
                 _currentContentView.itemDelegate = self;
-                //NSLog(@"新增:%d",index);
+                NSLog(@"新增:%d",order);
             }else{
-                //NSLog(@"从缓存池重复利用:%d",index);
+                NSLog(@"从缓存池重复利用:%d",order);
                 _currentContentView.frame = tempFrame;
             }
             //加入到队列
             [_queue enqueue:_currentContentView];
             //加载数据
             [_currentContentView loadDataWithSource:source andDisplayAnswer:_displayAnswer];
+            
+            //
+            //NSLog(@"子控件1: %@",self.subviews);
+            if(self.subviews && self.subviews.count > 0){
+                for(UIView *subView in self.subviews){
+                    if(subView && CGRectEqualToRect(subView.frame, tempFrame)){//去除缓存时位置叠加
+                        [subView removeFromSuperview];
+                    }
+                }
+            }
+            //NSLog(@"子控件2: %@",self.subviews);
             //添加到UI
             [self addSubview:_currentContentView];
             return YES;
@@ -78,15 +89,15 @@
     return NO;
 }
 //加载试题可见范围内容
--(void)loadItemContentVisibleAtIndex:(NSInteger)index{
+-(void)loadItemContentVisibleAtOrder:(NSInteger)order{
     if(index >= 0){
         //计算加载的位置
         CGRect tempFrame = self.frame;
-        tempFrame.origin.x = index * CGRectGetWidth(tempFrame);
+        tempFrame.origin.x = order * CGRectGetWidth(tempFrame);
         tempFrame.origin.y = 0;
-        if(index == 0)index = 1;
+        if(order <= 0)order = 1;
         //设置内容尺寸
-        self.contentSize = CGSizeMake(CGRectGetWidth(tempFrame) * (index + 1), CGRectGetHeight(tempFrame));
+        self.contentSize = CGSizeMake(CGRectGetWidth(tempFrame) * (order + 1), CGRectGetHeight(tempFrame));
         //设置可见范围
         [self scrollRectToVisible:tempFrame animated:YES];
     }
@@ -101,7 +112,7 @@
     if(index < 0)return;
     if(index != _currentOrder){
         //NSLog(@"_pageIndex ===> %d",_pageIndex);
-        [self loadItemContentViewAtIndex:index];
+        [self loadItemContentViewAtOrder:index];
         _currentOrder = index;
     }
 }
@@ -145,17 +156,17 @@
 }
 #pragma mark 加载当前数据
 -(void)loadContent{
-    [self loadContentAtIndex:_currentOrder];
+    [self loadContentAtOrder:_currentOrder];
 }
 #pragma mark 加载数据
 -(void)loadContentAtOrder:(NSInteger)order{
-    [self loadContentAtIndex:order];
+    [self loadContentDataAtOrder:order];
 }
 #pragma mark 加载下一题
 -(void)loadNextContent{
     [self selectMultyOptionHandler];
     _currentOrder++;
-    if(![self loadContentAtIndex:_currentOrder]){
+    if(![self loadContentDataAtOrder:_currentOrder]){
         _currentOrder--;
     }
 }
@@ -163,7 +174,7 @@
 -(void)loadPrevContent{
     [self selectMultyOptionHandler];
     _currentOrder--;
-    if(![self loadContentAtIndex:_currentOrder]){
+    if(![self loadContentDataAtOrder:_currentOrder]){
         _currentOrder++;
     }
 }
@@ -172,13 +183,13 @@
     [self selectMultyOptionHandler];
 }
 //加载试题
--(BOOL)loadContentAtIndex:(NSInteger)index{
+-(BOOL)loadContentDataAtOrder:(NSInteger)order{
     BOOL result = NO;
     if(index >= 0){
         //加载指定位置的数据
-        if((result = [self loadItemContentViewAtIndex:index])){
+        if((result = [self loadItemContentViewAtOrder:order])){
             //翻页到指定位置
-            [self loadItemContentVisibleAtIndex:index];
+            [self loadItemContentVisibleAtOrder:order];
         }
     }
     return result;
