@@ -30,6 +30,7 @@
 //收藏试题控制器成员变量
 @interface FavoriteViewController ()<ItemContentGroupViewDataSource>{
     NSString *_subjectCode;
+    BOOL _displayAnswer;
     FavoriteService *_service;
     ItemContentGroupView *_itemContentView;
 }
@@ -54,6 +55,7 @@
     [self setupFootbar];
     //初始化收藏数据服务
     _service = [[FavoriteService alloc]init];
+    _displayAnswer = NO;
     //加载试题内容
     [self setupItemContentView];
 }
@@ -114,7 +116,11 @@
 }
 //答案按钮
 -(void)btnAnswerClick:(UIButton *)sender{
-     NSLog(@"%@",sender);
+    _displayAnswer = !_displayAnswer;
+     NSLog(@"%d",_displayAnswer);
+    if(_itemContentView){
+        [_itemContentView showDisplayAnswer:_displayAnswer];
+    }
 }
 //加载试题内容
 -(void)setupItemContentView{

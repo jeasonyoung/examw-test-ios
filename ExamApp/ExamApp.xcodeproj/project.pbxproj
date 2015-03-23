@@ -60,7 +60,6 @@
 		A1904FA81A94E36900541B9E /* AppRegisterCode.m in Sources */ = {isa = PBXBuildFile; fileRef = A1904FA71A94E36900541B9E /* AppRegisterCode.m */; };
 		A1910E6E1A6D3AC800377160 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E6D1A6D3AC800377160 /* main.m */; };
 		A1910E711A6D3AC800377160 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E701A6D3AC800377160 /* AppDelegate.m */; };
-		A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = A1910E721A6D3AC800377160 /* ExamApp.xcdatamodeld */; };
 		A1910E7F1A6D3AC800377160 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1910E7E1A6D3AC800377160 /* Images.xcassets */; };
 		A1910E8E1A6D3AC800377160 /* ExamAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E8D1A6D3AC800377160 /* ExamAppTests.m */; };
 		A1913F8C1AA40107003BFEA0 /* PaperService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1913F8B1AA40107003BFEA0 /* PaperService.m */; };
@@ -247,7 +246,6 @@
 		A1910E6D1A6D3AC800377160 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A1910E6F1A6D3AC800377160 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A1910E701A6D3AC800377160 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		A1910E731A6D3AC800377160 /* ExamApp.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = ExamApp.xcdatamodel; sourceTree = "<group>"; };
 		A1910E7E1A6D3AC800377160 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A1910E871A6D3AC800377160 /* ExamAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExamAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1910E8C1A6D3AC800377160 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -466,7 +464,6 @@
 				A1C3B7691A760E03006EA38F /* Settings */,
 				A1ED10181A6F4D34004DAD90 /* Utils */,
 				A1910E7E1A6D3AC800377160 /* Images.xcassets */,
-				A1910E721A6D3AC800377160 /* ExamApp.xcdatamodeld */,
 				A1910E6B1A6D3AC800377160 /* Supporting Files */,
 			);
 			path = ExamApp;
@@ -1030,7 +1027,6 @@
 				A14040401AB6DA5000799A65 /* ItemAnswerView.m in Sources */,
 				A18962E61AA33D970065B70C /* PaperListViewController.m in Sources */,
 				A188277A1AA064AD008C734D /* DataSyncService.m in Sources */,
-				A1910E741A6D3AC800377160 /* ExamApp.xcdatamodeld in Sources */,
 				A1959F931A7FABBB00C1F563 /* LoginViewController.m in Sources */,
 				A1EC0A941AAAC9E000167B83 /* ItemContentView.m in Sources */,
 				A17F78D61AA5695700C671A9 /* PaperItemRecord.m in Sources */,
@@ -1253,19 +1249,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCVersionGroup section */
-		A1910E721A6D3AC800377160 /* ExamApp.xcdatamodeld */ = {
-			isa = XCVersionGroup;
-			children = (
-				A1910E731A6D3AC800377160 /* ExamApp.xcdatamodel */,
-			);
-			currentVersion = A1910E731A6D3AC800377160 /* ExamApp.xcdatamodel */;
-			path = ExamApp.xcdatamodeld;
-			sourceTree = "<group>";
-			versionGroupType = wrapper.xcdatamodel;
-		};
-/* End XCVersionGroup section */
 	};
 	rootObject = A1910E601A6D3AC800377160 /* Project object */;
 }

@@ -42,28 +42,29 @@
 @end
 
 
-#define __k_itemcontentview_top 5//顶部间距
-#define __k_itemcontentview_left 5//左边间距
-#define __k_itemcontentview_right 5//右边间距
-#define __k_itemcontentview_bottom 7//底部间距
+#define __kItemContentView_Top 5//顶部间距
+#define __kItemContentView_Left 5//左边间距
+#define __kItemContentView_Right 5//右边间距
+#define __kItemContentView_Bottom 7//底部间距
 
-#define __k_itemcontentview_margin_max 10//最大间距
-#define __k_itemcontentview_margin_min 5//最小间距
+#define __kItemContentView_marginMax 10//最大间距
+#define __kItemContentView_marginMin 5//最小间距
 
-#define __k_itemcontentview_font_size 14//试题字体
-#define __k_itemcontentview_title_borderColor 0xc9f28c//试题标题边框颜色
-
-//#define __kPaperItemJudgeAnswerRightTitle @"正确"//判断题答案名称
-//#define __kPaperItemJudgeAnswerWrongTitle @"错误"//判断题答案名称
+#define __kItemContentView_fontSize 14//试题字体
+#define __kItemContentView_titlebgColor 0xc9f28c//试题标题边框颜色
 
 //考试试题视图成员变量
 @interface ItemContentView ()<ItemOptionGroupDelegate>{
     BOOL _displayAnswer;
-    ItemContentSource *_itemSource;
     UIFont *_font;
     UILabel *_lbTitle,*_lbSubTitle;
+    NSNumber *_outY;
+    ItemContentSource *_itemSource;
     ItemOptionGroupView *_optionsView;
     ItemAnswerView *_answerView;
+    
+    NSArray *_optionArrays;
+    NSString *_rightAnswer, *_analysis;
 }
 @end
 //考试试题视图构造函数
@@ -74,13 +75,13 @@
         //默认不显示答案
         _displayAnswer = NO;
         //初始化字体
-        _font = [UIFont systemFontOfSize:__k_itemcontentview_font_size];
+        _font = [UIFont systemFontOfSize:__kItemContentView_fontSize];
         //初始化标题
         _lbTitle = [[UILabel alloc] init];
         _lbTitle.font = _font;
         _lbTitle.textAlignment = NSTextAlignmentLeft;
         _lbTitle.numberOfLines = 0;
-        UIColor *bgColor = [UIColor colorWithHex:__k_itemcontentview_title_borderColor];
+        UIColor *bgColor = [UIColor colorWithHex:__kItemContentView_titlebgColor];
         [UIViewUtils addBorderWithView:_lbTitle BorderColor:bgColor BackgroundColor:bgColor];
         [self addSubview:_lbTitle];
         //初始化二级标题
@@ -90,11 +91,11 @@
         _lbSubTitle.numberOfLines = 0;
         [self addSubview:_lbSubTitle];
         //隐藏横向滚动条
-        self.showsHorizontalScrollIndicator = NO;
+        //self.showsHorizontalScrollIndicator = NO;
         //隐藏纵向滚动条
-        self.showsVerticalScrollIndicator = NO;
+        //self.showsVerticalScrollIndicator = NO;
         //关闭弹簧效果
-        self.bounces = NO;
+        //self.bounces = NO;
     }
     return self;
 }
@@ -110,8 +111,8 @@
     _itemSource =  source;
     //是否显示答案
     _displayAnswer = displayAnswer;
-    //间距高度
-    NSNumber *ty = [NSNumber numberWithFloat:__k_itemcontentview_margin_min];
+    //
+    NSNumber *ty = [NSNumber numberWithFloat:__kItemContentView_Top];
     //加载数据
     PaperItem *item;
     if(_itemSource && (item = _itemSource.source)){
@@ -121,36 +122,62 @@
         [self setupItemTitle:item.content Order:(_itemSource.order + 1) ItemType:itemType OutY:&ty];
         //创建题目内容
         [self setupItemContentWithType:itemType Item:item OutY:&ty];
+        //
+        _outY = ty;
+        //创建答案
+        [self showDisplayAnswer:_displayAnswer];
     }
-    //是否出现纵向滚动
-    CGFloat y = ty.floatValue + __k_itemcontentview_bottom;
-    if(y > CGRectGetHeight(self.frame)){
-        [self setContentSize:CGSizeMake(CGRectGetWidth(self.frame), y)];
+}
+//创建标题
+-(void)setupItemTitle:(NSString *)title Order:(NSInteger)order ItemType:(PaperItemType)itemType OutY:(NSNumber **)outY{
+    if(_lbTitle){
+        CGRect tempFrame = CGRectMake(__kItemContentView_marginMin,(*outY).floatValue,
+                                      CGRectGetWidth(self.frame) - __kItemContentView_marginMin*2,0);
+        NSString *text = @"";
+        if(title && title.length > 0){
+            text = [NSString stringWithFormat:@"%d.%@",(int)order,title];
+            if(itemType == PaperItemTypeShareTitle || itemType == PaperItemTypeShareAnswer){
+                text = title;
+            }
+            CGSize textSize = [text sizeWithFont:_lbTitle.font
+                               constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame), CGFLOAT_MAX)
+                                   lineBreakMode:NSLineBreakByWordWrapping];
+            tempFrame.size.height = textSize.height + __kItemContentView_marginMin;
+        }
+        _lbTitle.frame = tempFrame;
+        _lbTitle.text = text;
+        
+        *outY = [NSNumber numberWithFloat:CGRectGetMaxY(_lbTitle.frame)];
+        
+        //NSLog(@"setupItemTitle-frame:%@, outY:%f",NSStringFromCGRect(_lbTitle.frame), (*outY).floatValue);
     }
 }
 //创建题目内容
 -(void)setupItemContentWithType:(PaperItemType)itemType Item:(PaperItem *)item OutY:(NSNumber **)outY{
-    CGRect tempFrame = CGRectMake(__k_itemcontentview_left,
-                                  (*outY).floatValue + __k_itemcontentview_top,
-                                  CGRectGetWidth(self.frame) - (__k_itemcontentview_left + __k_itemcontentview_right),
-                                  0);
-    
+    CGRect tempFrame = CGRectMake(__kItemContentView_Left, (*outY).floatValue + __kItemContentView_Top,
+                                  CGRectGetWidth(self.frame) - (__kItemContentView_Left + __kItemContentView_Right),0);
     //NSLog(@"setupItemContentWithType-frame:%@, outY:%f",NSStringFromCGRect(tempFrame), (*outY).floatValue);
+    //答案解析
+    _analysis = (item ? item.analysis : @"");
     switch (itemType) {
         case PaperItemTypeSingle:{//单选
             //单选
-            [self setupOptionsWithFrame:tempFrame Type:ItemOptionGroupTypeSingle Options:item.children RightAnswer:item.answer OutY:outY];
-            //答案及其解析
-            [self setupAnswerWithOptions:item.children RightAnswer:item.answer Analysis:item.analysis OutY:outY];
+            [self setupOptionsWithFrame:tempFrame
+                                   Type:ItemOptionGroupTypeSingle
+                                Options:item.children
+                            RightAnswer:item.answer
+                                   OutY:outY];
         }
         break;
         case PaperItemTypeMulty://多选
         case PaperItemTypeUncertain://不定向
         {
             //多选
-            [self setupOptionsWithFrame:tempFrame Type:ItemOptionGroupTypeMulty Options:item.children RightAnswer:item.answer OutY:outY];
-            //答案及其解析
-            [self setupAnswerWithOptions:item.children RightAnswer:item.answer Analysis:item.analysis OutY:outY];
+            [self setupOptionsWithFrame:tempFrame
+                                   Type:ItemOptionGroupTypeMulty
+                                Options:item.children
+                            RightAnswer:item.answer
+                                   OutY:outY];
         }
         break;
         case PaperItemTypeJudge:{//判断题
@@ -159,7 +186,7 @@
         }
         break;
         case PaperItemTypeQanda:{//问答题
-            ///TODO:问答题
+            
         }
         break;
         case PaperItemTypeShareTitle:{//共享题干题
@@ -193,23 +220,26 @@
                         }
                         //二级标题
                         [self setupItemSubTitle:childItem.content Order:(_itemSource.order + 1) ItemType:itemType OutY:outY];
+                        //答案解析
+                        _analysis = childItem.analysis;
+                        //
                         PaperItemType childItemType = (PaperItemType)childItem.type;
                         if(childItemType != PaperItemTypeShareTitle && childItemType != PaperItemTypeShareAnswer){
                             if(childItemType == PaperItemTypeSingle){//单选
                                 
-                                [self setupOptionsWithFrame:tempFrame Type:ItemOptionGroupTypeSingle Options:[optionArrays copy] RightAnswer:childItem.answer OutY:outY];
-                                //答案及其解析
-                                [self setupAnswerWithOptions:[optionArrays copy] RightAnswer:childItem.answer Analysis:childItem.analysis OutY:outY];
-                                
+                                [self setupOptionsWithFrame:tempFrame
+                                                       Type:ItemOptionGroupTypeSingle
+                                                    Options:[optionArrays copy]
+                                                RightAnswer:childItem.answer
+                                                       OutY:outY];
                             }else if(childItemType == PaperItemTypeMulty || childItemType == PaperItemTypeUncertain){//多选
-                                
-                                [self setupOptionsWithFrame:tempFrame Type:ItemOptionGroupTypeMulty Options:[optionArrays copy] RightAnswer:childItem.answer OutY:outY];
-                                //答案及其解析
-                                [self setupAnswerWithOptions:[optionArrays copy] RightAnswer:childItem.answer Analysis:childItem.analysis OutY:outY];
-                            
+                                [self setupOptionsWithFrame:tempFrame
+                                                       Type:ItemOptionGroupTypeMulty
+                                                    Options:[optionArrays copy]
+                                                RightAnswer:childItem.answer
+                                                       OutY:outY];
                             }else if(childItemType == PaperItemTypeJudge){//判断
                                 [self setupJudgeWithFrame:tempFrame Item:childItem OutY:outY];
-                            
                             }
                         }
                     }
@@ -219,39 +249,11 @@
         break;
     }
 }
-//创建标题
--(void)setupItemTitle:(NSString *)title Order:(NSInteger)order ItemType:(PaperItemType)itemType OutY:(NSNumber **)outY{
-    if(_lbTitle){
-        CGRect tempFrame = CGRectMake(__k_itemcontentview_margin_min,
-                                      (*outY).floatValue,
-                                      CGRectGetWidth(self.frame) - __k_itemcontentview_margin_min*2,
-                                      0);
-        NSString *text = @"";
-        if(title && title.length > 0){
-            text = [NSString stringWithFormat:@"%d.%@",(int)order,title];
-            if(itemType == PaperItemTypeShareTitle || itemType == PaperItemTypeShareAnswer){
-                text = title;
-            }
-            CGSize textSize = [text sizeWithFont:_lbTitle.font
-                               constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame), CGFLOAT_MAX)
-                                   lineBreakMode:NSLineBreakByWordWrapping];
-            tempFrame.size.height = textSize.height + __k_itemcontentview_margin_min;
-        }
-        _lbTitle.frame = tempFrame;
-        _lbTitle.text = text;
-        
-        *outY = [NSNumber numberWithFloat:CGRectGetMaxY(_lbTitle.frame)];
-        
-        //NSLog(@"setupItemTitle-frame:%@, outY:%f",NSStringFromCGRect(_lbTitle.frame), (*outY).floatValue);
-    }
-}
 //创建子标题
 -(void)setupItemSubTitle:(NSString *)title Order:(NSInteger)order ItemType:(PaperItemType)itemType OutY:(NSNumber **)outY{
     if(_lbSubTitle){
-        CGRect tempFrame = CGRectMake(__k_itemcontentview_margin_min,
-                                      (*outY).floatValue + __k_itemcontentview_margin_max,
-                                      CGRectGetWidth(self.frame) - __k_itemcontentview_margin_min*2,
-                                      0);
+        CGRect tempFrame = CGRectMake(__kItemContentView_marginMin,(*outY).floatValue + __kItemContentView_marginMax,
+                                      CGRectGetWidth(self.frame) - __kItemContentView_marginMin*2, 0);
         NSString *text = @"";
         if(title && title.length){
             text = title;
@@ -261,7 +263,7 @@
             CGSize textSize = [text sizeWithFont:_lbTitle.font
                                constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame), CGFLOAT_MAX)
                                    lineBreakMode:NSLineBreakByWordWrapping];
-            tempFrame.size.height = textSize.height + __k_itemcontentview_margin_min;
+            tempFrame.size.height = textSize.height + __kItemContentView_marginMin;
         }
         _lbSubTitle.frame = tempFrame;
         _lbSubTitle.text = text;
@@ -275,12 +277,17 @@
                      Options:(NSArray *)options
                  RightAnswer:(NSString *)rightAnswer
                         OutY:(NSNumber **)outY {
-    if(options && options.count > 0){
-        if(!_optionsView){
+    //选项数组
+    _optionArrays = options;
+    //正确答案
+    _rightAnswer = rightAnswer;
+    //选项处理
+    if(_optionArrays && _optionArrays.count > 0){
+        if(!_optionsView){//选项面板不存在则重新生成
             _optionsView = [[ItemOptionGroupView alloc] initWithFrame:frame];
             _optionsView.delegate = self;
             [self addSubview:_optionsView];
-        }else{
+        }else{//存在则重置尺寸
             _optionsView.frame = frame;
         }
         ItemOptionGroupSource *dataSource = [ItemOptionGroupSource sourceOptions:options
@@ -307,28 +314,32 @@
     
     [self setupOptionsWithFrame:frame Type:ItemOptionGroupTypeSingle Options:@[optionRight,optionWrong] RightAnswer:item.answer OutY:outY];
     //答案及其解析
-    [self setupAnswerWithOptions:@[optionRight,optionWrong] RightAnswer:item.answer Analysis:item.analysis OutY:outY];
+    //[self setupAnswerWithOptions:@[optionRight,optionWrong] RightAnswer:item.answer Analysis:item.analysis OutY:outY];
 }
-//答案及其解析
--(void)setupAnswerWithOptions:(NSArray *)options RightAnswer:(NSString *)rightAnswer Analysis:(NSString *)analysis OutY:(NSNumber **)outY{
-    if(_displayAnswer){
+#pragma mark 是否显示答案
+-(void)showDisplayAnswer:(BOOL)displayAnswer{
+    if(!_outY || !_optionsView)return;
+    if(_displayAnswer != displayAnswer && _optionsView){//选项处理
+        [_optionsView showDisplayAnswer:displayAnswer];
+    }
+    //答案解析处理
+    CGRect tempFrame = CGRectZero;
+    if(displayAnswer){//显示答案解析
         NSMutableString *rightAnswerText = [NSMutableString string], *myAnswerText = [NSMutableString string];
-        if(rightAnswer && rightAnswer.length > 0 && options && options.count > 0){
-            for(PaperItem *item in options){
+        if(_rightAnswer && _rightAnswer.length > 0 && _optionArrays && _optionArrays.count > 0){
+            for(PaperItem *item in _optionArrays){
                 if(!item || !item.code || item.code.length == 0) continue;
-                if([rightAnswer containsString:item.code]){
+                if([_rightAnswer containsString:item.code]){
                     [rightAnswerText appendFormat:@"%@ ", [item.content substringWithRange:NSMakeRange(0, 1)]];
                 }
-                if (_itemSource.value && _itemSource.value.length > 0 && [_itemSource.value containsString:item.code]) {
+                if (_itemSource && _itemSource.value && _itemSource.value.length > 0 && [_itemSource.value containsString:item.code]) {
                     [myAnswerText appendFormat:@"%@ ",[item.content substringWithRange:NSMakeRange(0, 1)]];
                 }
             }
         }
-        
-        CGRect tempFrame = CGRectMake(__k_itemcontentview_left,
-                                      (*outY).floatValue + __k_itemcontentview_top + __k_itemcontentview_margin_max,
-                                      CGRectGetWidth(self.frame) - (__k_itemcontentview_left + __k_itemcontentview_right),
-                                      0);
+        //
+        tempFrame = CGRectMake(__kItemContentView_Left,_outY.floatValue + __kItemContentView_Top + __kItemContentView_marginMax,
+                                    CGRectGetWidth(self.frame) - (__kItemContentView_Left + __kItemContentView_Right), 0);
         if(!_answerView){
             _answerView = [[ItemAnswerView alloc] initWithFrame:tempFrame];
             [self addSubview:_answerView];
@@ -336,18 +347,29 @@
             _answerView.frame = tempFrame;
         }
         //加载数据
-        ItemAnswerViewSource *answerSource = [ItemAnswerViewSource itemAnswer:myAnswerText
-                                                                  RightAnswer:rightAnswerText
-                                                                     Analysis:analysis];
-        [_answerView loadData:answerSource];
-    }else if(_answerView){
-        CGRect temp = _answerView.frame;
-        temp.size.height = 0;
-        _answerView.frame = temp;
+        [_answerView loadData:[ItemAnswerViewSource itemAnswer:myAnswerText RightAnswer:rightAnswerText Analysis:_analysis]];
+        //重置高度
+        _outY = [NSNumber numberWithFloat:CGRectGetMaxY(_answerView.frame)];
+    }else if(_answerView){//不显示答案解析
+        CGFloat answerHeight = CGRectGetHeight(_answerView.frame);
+        if(answerHeight > 0){
+            tempFrame = _answerView.frame;
+            tempFrame.size.height = 0;
+            _answerView.frame = tempFrame;
+            
+            _outY = [NSNumber numberWithFloat:CGRectGetMaxY(_optionsView.frame)];
+        }
     }
-    *outY = [NSNumber numberWithFloat:CGRectGetMaxY(_answerView.frame)];
+    //是否出现纵向滚动
+    if(_outY){
+        CGFloat y =  _outY.floatValue + __kItemContentView_Bottom;
+        if(y > CGRectGetHeight(self.frame)){
+            self.contentSize = CGSizeMake(CGRectGetWidth(self.frame), y);
+        }
+    }
 }
 //清空所有的数据
+#pragma mark 清空数据
 -(void)clean{
     //标题
     if(_lbTitle){

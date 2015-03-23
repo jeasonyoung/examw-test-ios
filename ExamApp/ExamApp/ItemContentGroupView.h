@@ -39,4 +39,6 @@
 -(void)loadPrevContent;
 //交卷
 -(void)submit;
+//是否显示答案
+-(void)showDisplayAnswer:(BOOL)displayAnswer;
 @end

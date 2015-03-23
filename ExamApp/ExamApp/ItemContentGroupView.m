@@ -15,6 +15,7 @@
 //试题显示分页集合成员变量
 @interface ItemContentGroupView ()<UIScrollViewDelegate,ItemContentDelegate>{
     UIViewQueue *_queue;
+    ItemContentView *_currentContentView;
     NSMutableArray *_selectedArrays;
 }
 @end
@@ -56,21 +57,21 @@
             tempFrame.origin.x = index * CGRectGetWidth(tempFrame);
             tempFrame.origin.y = 0;
             
-            ItemContentView *contentView = (ItemContentView *)_queue.dequeue;
-            if(!contentView){
-                contentView = [[ItemContentView alloc] initWithFrame:tempFrame];
-                contentView.itemDelegate = self;
+            _currentContentView = (ItemContentView *)_queue.dequeue;
+            if(!_currentContentView){
+                _currentContentView = [[ItemContentView alloc] initWithFrame:tempFrame];
+                _currentContentView.itemDelegate = self;
                 //NSLog(@"新增:%d",index);
             }else{
                 //NSLog(@"从缓存池重复利用:%d",index);
-                contentView.frame = tempFrame;
+                _currentContentView.frame = tempFrame;
             }
             //加入到队列
-            [_queue enqueue:contentView];
+            [_queue enqueue:_currentContentView];
             //加载数据
-            [contentView loadDataWithSource:source andDisplayAnswer:_displayAnswer];
+            [_currentContentView loadDataWithSource:source andDisplayAnswer:_displayAnswer];
             //添加到UI
-            [self addSubview:contentView];
+            [self addSubview:_currentContentView];
             return YES;
         }
     }
@@ -115,7 +116,9 @@
         }
         //多选
         if(!_selectedArrays) _selectedArrays = [NSMutableArray array];
-        [_selectedArrays addObject:source];
+        if(![_selectedArrays containsObject:source]){
+            [_selectedArrays addObject:source];
+        }
     }
 }
 -(void)selectMultyOptionHandler{
@@ -130,6 +133,9 @@
                 [selectedValues appendFormat:@"%@",source.value];
             }
         }
+        //
+        [_selectedArrays removeAllObjects];
+        //
         if(source && selectedValues.length > 0){
             source.value = [selectedValues copy];
             [self.dataSource selectedData:source];
@@ -176,5 +182,11 @@
         }
     }
     return result;
+}
+#pragma mark 是否显示答案
+-(void)showDisplayAnswer:(BOOL)displayAnswer{
+    if(_currentContentView){
+        [_currentContentView showDisplayAnswer:displayAnswer];
+    }
 }
 @end

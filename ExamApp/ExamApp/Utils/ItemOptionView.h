@@ -35,11 +35,11 @@ typedef NS_ENUM(int, ItemOptionGroupType){
 //选项组件
 @interface ItemOptionView : UIControl<NSCoding>
 //选项值
-@property(nonatomic,copy)NSString *optCode;
+@property(nonatomic,copy,readonly)NSString *optCode;
 //选项显示内容
-@property(nonatomic,copy)NSString *optText;
+@property(nonatomic,copy,readonly)NSString *optText;
 //选项类型
-@property(nonatomic,assign)ItemOptionViewType type;
+@property(nonatomic,assign,readonly)ItemOptionViewType type;
 //选项是否选中
 @property(nonatomic,assign,getter=isOptSelected)BOOL optSelected;
 //初始化
@@ -48,6 +48,10 @@ typedef NS_ENUM(int, ItemOptionGroupType){
 -(void)loadDataWithType:(ItemOptionViewType)type OptionCode:(NSString *)code OptionText:(NSString *)text;
 //加载数据
 -(void)loadData;
+//改变选项类型
+-(void)changeOptionType:(ItemOptionViewType)type;
+//清空
+-(void)clean;
 @end
 
 //选项组合委托
@@ -90,6 +94,8 @@ typedef NS_ENUM(int, ItemOptionGroupType){
 -(instancetype)initWithFrame:(CGRect)frame;
 //加载数据
 -(void)loadData:(ItemOptionGroupSource *)data;
+//是否显示答案
+-(void)showDisplayAnswer:(BOOL)displayAnswer;
 //清空
 -(void)clean;
 @end

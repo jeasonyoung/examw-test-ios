@@ -10,23 +10,33 @@
 #import "NSString+Size.h"
 #import "UIColor+Hex.h"
 
-#define __k_etoptionview_top 2//顶部间隔
-#define __k_etoptionview_bottom 2//底部间隔
-#define __k_etoptionview_left 2//左边间隔
-#define __k_etoptionview_right 2//右边间隔
-#define __k_etoptionview_margin 5//内部间隔
-#define __k_etoptionview_option_margin 10//选项间隔
+#define __kItemOptionView_Top 2//顶部间隔
+#define __kItemOptionView_Bottom 2//底部间隔
+#define __kItemOptionView_Left 2//左边间隔
+#define __kItemOptionView_Right 2//右边间隔
+#define __kItemOptionView_MarginMin 5//内部间隔
+#define __kItemOptionView_MarginMax 10//选项间隔
 
-#define __k_etoptionview_font_size 13//字体尺寸
+#define __kItemOptionView_fontSize 13//字体尺寸
+#define __kItemOptionView_fontColor 0x000000//默认字体颜色
+#define __kItemOptionView_rightFontColor 0x00FF00//做对
+#define __kItemOptionView_errorFontColor 0xFF0000//做错
 
-#define __k_etoptionview_icon_with 22//icon的宽
-#define __k_etoptionview_icon_height 22//icon的高
+#define __kItemOptionView_iconWith 22//icon的宽
+#define __kItemOptionView_iconHeight 22//icon的高
+#define __kItemOptionView_iconSingleSelected @"option_single_selected.png"//单选选中图片
+#define __kItemOptionView_iconSingleNormal @"option_single_normal.png"//单选未选中
+#define __kItemOptionView_iconMultySelected @"option_multy_selected.png"//多选选中图片
+#define __kItemOptionView_iconMultyNormal @"option_multy_normal.png"//多选未选中图片
+#define __kItemOptionView_iconRight @"option_single_right.png"//选项选对
+#define __kItemOptionView_iconError @"option_single_error.png"//选项选错
 
-#define __k_etoptionview_observer_filed @"optSelected"
+#define __kItemOptionView_observerFiled @"optSelected"
+
 //选项组件成员变量
 @interface ItemOptionView (){
     UIImageView *_iconView;
-    UILabel *_lbTitle;
+    UILabel *_lbContentView;
 }
 @end
 //选项组件实现
@@ -44,13 +54,43 @@
     if(self = [super initWithFrame:frame]){
         //初始化视图
         [self initilizeOptionView];
-        //添加KVO
-        [self addObserver:self
-               forKeyPath:__k_etoptionview_observer_filed
-                  options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
-                  context:nil];
     }
     return self;
+}
+//初始化视图
+-(void)initilizeOptionView{
+    //初始化选项图标UI
+    CGRect tempFrame = CGRectMake(__kItemOptionView_Left,__kItemOptionView_Top,
+                                  __kItemOptionView_iconWith, __kItemOptionView_iconHeight);
+    _iconView = [[UIImageView alloc] initWithFrame:tempFrame];
+    [self addSubview:_iconView];
+    //初始化试题选项内容
+    tempFrame.origin.x = CGRectGetMaxX(tempFrame) + __kItemOptionView_MarginMin;
+    tempFrame.size.width = CGRectGetWidth(self.frame) - CGRectGetMinX(tempFrame) - __kItemOptionView_Right;
+    _lbContentView = [[UILabel alloc] initWithFrame:tempFrame];
+    _lbContentView.font = [UIFont systemFontOfSize:__kItemOptionView_fontSize];
+    _lbContentView.textAlignment = NSTextAlignmentLeft;
+    _lbContentView.numberOfLines = 0;
+    [self addSubview:_lbContentView];
+    //重置高度
+    tempFrame = self.frame;
+    tempFrame.size.height = __kItemOptionView_iconHeight + __kItemOptionView_Bottom;
+    self.frame = tempFrame;
+    //添加事件
+    [self addTarget:self action:@selector(optionClick:) forControlEvents:UIControlEventTouchUpInside];
+    //添加是否选中的观察者
+    [self addObserver:self
+           forKeyPath:__kItemOptionView_observerFiled
+              options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld
+              context:nil];
+}
+//点击事件处理
+-(void)optionClick:(ItemOptionView *)sender{
+    if(self.type == ItemOptionViewTypeSingle){
+        self.optSelected = YES;
+    }else if(self.type == ItemOptionViewTypeMulty){
+        self.optSelected = !self.optSelected;
+    }
 }
 #pragma mark加载数据
 -(void)loadDataWithType:(ItemOptionViewType)type OptionCode:(NSString *)code OptionText:(NSString *)text{
@@ -61,119 +101,111 @@
 }
 #pragma mark 加载数据
 -(void)loadData{
-    CGFloat maxHeight = CGRectGetHeight(_iconView.frame);
+    //绘制选项内容
+    [self drawOptionContent];
+}
+//绘制选项内容
+-(void)drawOptionContent{
+    //字体颜色
+    UIColor *fontColor = [UIColor colorWithHex:__kItemOptionView_fontColor];
+    CGRect tempFrame = CGRectZero;
     //设置图标图片
-    [_iconView setImage:[self setupIconImageWithType:self.type]];
-    if(_lbTitle && self.optText && self.optText.length > 0){//设置呈现内容
-        CGRect tempFrame = _lbTitle.frame;
-        CGSize textSize = [self.optText sizeWithFont:_lbTitle.font
-                                   constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame), CGFLOAT_MAX)
-                                       lineBreakMode:NSLineBreakByWordWrapping];
-        if(maxHeight < textSize.height){
-            maxHeight = textSize.height;
+    if(_iconView){
+        tempFrame = _iconView.frame;
+        if(_type == ItemOptionViewTypeSingleRight || _type == ItemOptionViewTypeMultyRight){
+            fontColor = [UIColor colorWithHex:__kItemOptionView_rightFontColor];
+            [_iconView setImage:[UIImage imageNamed:__kItemOptionView_iconRight]];
+        }else if(_type == ItemOptionViewTypeSingleError || _type == ItemOptionViewTypeMultyError){
+            fontColor = [UIColor colorWithHex:__kItemOptionView_errorFontColor];
+            [_iconView setImage:[UIImage imageNamed:__kItemOptionView_iconError]];
+        }else{
+            self.optSelected = NO;
         }
-        //重置选项内容高度
+    }
+    //设置选项内容
+    if(_lbContentView){
+        CGFloat maxHeight = __kItemOptionView_iconHeight;
+        //清空文字
+         _lbContentView.text = @"";
+        tempFrame = _lbContentView.frame;
+        if(!_optText || _optText.length == 0){
+            _optText = @"";
+        }
+        CGSize contentSize = [_optText sizeWithFont:_lbContentView.font
+                                  constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame), CGFLOAT_MAX)
+                                      lineBreakMode:NSLineBreakByWordWrapping];
+        if(maxHeight < contentSize.height){
+            maxHeight = contentSize.height;
+        }
         tempFrame.size.height = maxHeight;
-        _lbTitle.frame = tempFrame;
-        
+        _lbContentView.frame = tempFrame;
         //设置字体颜色
-        _lbTitle.textColor = [self setupTextColorWithType:self.type];
-        //文字上的删除线
+        _lbContentView.textColor = fontColor;
+        //做错时
         if(self.type == ItemOptionViewTypeSingleError || self.type == ItemOptionViewTypeMultyError){
-            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:self.optText];
+            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_optText];
             [attri addAttribute:NSStrikethroughStyleAttributeName
                           value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle)
-                          range:NSMakeRange(0, self.optText.length)];
-            _lbTitle.attributedText = attri;
+                          range:NSMakeRange(0, _optText.length)];
+            _lbContentView.attributedText = attri;
         }else{
-            _lbTitle.text = self.optText;
+            _lbContentView.text = _optText;
         }
-        //重置容器高度
-        CGRect tmpframe = self.frame;
-        tmpframe.size.height = CGRectGetMaxY(tempFrame) + __k_etoptionview_bottom;
-        self.frame = tmpframe;
     }
-}
-//初始化
--(void)initilizeOptionView{
-    //初始化图标UI
-    CGRect tempFrame = CGRectMake(__k_etoptionview_left,
-                                  __k_etoptionview_top,
-                                  __k_etoptionview_icon_with,
-                                  __k_etoptionview_icon_height);
-    _iconView = [[UIImageView alloc] initWithFrame:tempFrame];
-    [self addSubview:_iconView];
-    //初始化试题内容
-    tempFrame.origin.x = CGRectGetMaxX(tempFrame) + __k_etoptionview_margin;
-    tempFrame.size.width = CGRectGetWidth(self.frame) - CGRectGetMinX(tempFrame) - __k_etoptionview_right;;
-    _lbTitle = [[UILabel alloc] initWithFrame:tempFrame];
-    _lbTitle.font = [UIFont systemFontOfSize:__k_etoptionview_font_size];
-    _lbTitle.textAlignment = NSTextAlignmentLeft;
-    _lbTitle.numberOfLines = 0;
-    [self addSubview:_lbTitle];
-    //重置高度
-    CGRect tmpframe = self.frame;
-    tmpframe.size.height = CGRectGetMaxY(tempFrame) + __k_etoptionview_bottom;
-    self.frame = tmpframe;
-    //添加事件
-    [self addTarget:self action:@selector(optionViewStatus:) forControlEvents:UIControlEventTouchUpInside];
-}
-//根据类型获取字体颜色
--(UIColor *)setupTextColorWithType:(ItemOptionViewType)type{
-    if(type == ItemOptionViewTypeSingleRight || type == ItemOptionViewTypeMultyRight){
-        return [UIColor greenColor];
-    }
-    if(type == ItemOptionViewTypeSingleError || type == ItemOptionViewTypeMultyError){
-        return [UIColor redColor];
-    }
-    return [UIColor blackColor];
-}
-//创建图标
--(UIImage *)setupIconImageWithType:(ItemOptionViewType)type{
-    switch (type) {
-        case ItemOptionViewTypeSingle:
-            if(self.optSelected){
-                return [UIImage imageNamed:@"option_single_selected.png"];
-            }else{
-                return [UIImage imageNamed:@"option_single_normal.png"];
-            }
-        
-        case ItemOptionViewTypeSingleRight:
-        case ItemOptionViewTypeMultyRight:
-            return [UIImage imageNamed:@"option_single_right.png"];
-            
-        case ItemOptionViewTypeSingleError:
-        case ItemOptionViewTypeMultyError:
-            return [UIImage imageNamed:@"option_single_error.png"];
-            
-        case ItemOptionViewTypeMulty:
-            if(self.optSelected){
-                return [UIImage imageNamed:@"option_multy_selected.png"];
-            }else{
-                return [UIImage imageNamed:@"option_multy_normal.png"];
-            }
-    }
-    return nil;
-}
-//点击事件处理
--(void)optionViewStatus:(ItemOptionView *)sender{
-    self.optSelected = YES;//!self.optSelected;
+    //重置容器高度
+    CGFloat h = CGRectGetMaxY(tempFrame);
+    tempFrame = self.frame;
+    tempFrame.size.height = h + __kItemOptionView_Bottom;
+    self.frame = tempFrame;
 }
 //KVO回调
 -(void)observeValueForKeyPath:(NSString *)keyPath
                      ofObject:(id)object
                        change:(NSDictionary *)change
                       context:(void *)context{
-    if(_iconView && [keyPath isEqualToString:__k_etoptionview_observer_filed]){
-        [_iconView setImage:[self setupIconImageWithType:self.type]];
+    if(_iconView && [keyPath isEqualToString:__kItemOptionView_observerFiled]){
+        [self optionSelectedStatusChange];
+    }
+}
+//选项选中状态改变
+-(void)optionSelectedStatusChange{
+    if(!_iconView || (_type != ItemOptionViewTypeSingle && _type != ItemOptionViewTypeMulty))return;
+    if(_optSelected){//选中
+        [_iconView setImage:[UIImage imageNamed:(_type == ItemOptionGroupTypeSingle ?
+                                                 __kItemOptionView_iconSingleSelected :
+                                                 __kItemOptionView_iconMultySelected)]];
+    }else{//未选中
+         [_iconView setImage:[UIImage imageNamed:(_type == ItemOptionGroupTypeSingle ?
+                                                  __kItemOptionView_iconSingleNormal :
+                                                  __kItemOptionView_iconMultyNormal)]];
+    }
+}
+#pragma mark 改变选项类型
+-(void)changeOptionType:(ItemOptionViewType)type{
+    if(_type != type){
+        _type = type;
+        [self drawOptionContent];
     }
 }
 #pragma mark 内存回收
 -(void)dealloc{
     //移除KVO观察者
-    [self removeObserver:self forKeyPath:__k_etoptionview_observer_filed];
+    [self removeObserver:self forKeyPath:__kItemOptionView_observerFiled];
+}
+#pragma mark 清空
+-(void)clean{
+    CGRect tempFrame = CGRectZero;
+    if(_iconView && _lbContentView){
+        _lbContentView.text = @"";
+        tempFrame = _lbContentView.frame;
+        tempFrame.size.height = CGRectGetHeight(_iconView.frame);
+        _lbContentView.frame = tempFrame;
+    }
+    tempFrame.size.height = 0;
+    self.frame = tempFrame;
 }
 @end
+
 
 //选项集合数据源
 @implementation ItemOptionGroupSource
@@ -196,16 +228,22 @@
                DisplayAnswer:(BOOL)displayAnswer
                       Answer:(NSString *)answer{
     ItemOptionGroupSource *dataSource = [[ItemOptionGroupSource alloc] init];
-    [dataSource loadOptions:options GroupType:type Selected:optCode DisplayAnswer:displayAnswer Answer:answer];
+    [dataSource loadOptions:options
+                  GroupType:type
+                   Selected:optCode
+              DisplayAnswer:displayAnswer
+                     Answer:answer];
     return dataSource;
 }
 @end
 
+#define __kItemOptionGroupView_Margin 5//
 //选项组合成员变量
 @interface ItemOptionGroupView (){
     ItemOptionGroupType _optGroupType;
     NSInteger _optCount;
-    NSMutableArray *_optionsCache;
+    NSMutableArray *_optionViewsCache;
+    NSString *_answer;
 }
 @end
 //选项组合实现类
@@ -213,109 +251,81 @@
 #pragma mark 初始化
 -(instancetype)initWithFrame:(CGRect)frame{
     if(self = [super initWithFrame:frame]){
-        _optionsCache = [NSMutableArray array];
+        _optionViewsCache = [NSMutableArray array];
     }
     return self;
 }
 #pragma mark 加载数据
 -(void)loadData:(ItemOptionGroupSource *)data{
-    //清空子控件
-    [self cleanWithAllCache:NO];
+    //清空数据
+    _optCount = 0;
+    [self clean];
+    //获取尺寸
+    CGRect tempFrame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 0);
+    //加载数据
     if(data){
         _optGroupType = data.optGropType;
+        _answer = data.answer;
         //是否只读状态
         self.userInteractionEnabled = !data.IsDisplayAnswer;
         //加载数据
         if(data.options && (_optCount = data.options.count) > 0){
-            CGRect tempFrame = CGRectMake(0, 0, CGRectGetWidth(self.frame), 0);
             for(NSInteger i = 0; i < _optCount; i++){
-                tempFrame.origin.y = CGRectGetMaxY(tempFrame) + __k_etoptionview_option_margin;
-                
+                tempFrame.origin.y = CGRectGetMaxY(tempFrame) + __kItemOptionGroupView_Margin;
                 ItemOptionViewType optType = (ItemOptionViewType)((int)data.optGropType);
-                
                 PaperItem *option = [data.options objectAtIndex:i];
                 if(option){
                     ItemOptionView *optionView = [self createOptionWithFrame:tempFrame Index:i];
                     if(optionView){
-                        //选中的答案存在
-                        BOOL isSelected = NO;
-                        if(data.selectedOptCode && data.selectedOptCode.length > 0){
-                           isSelected = [data.selectedOptCode containsString:option.code];
-                        }
-                        BOOL isSuccess = NO;
-                        if(data.IsDisplayAnswer && data.answer && data.answer.length > 0){
-                            if((isSuccess = [data.answer containsString:option.code])){
-                                if(optType == ItemOptionViewTypeSingle){//单选
-                                    optType = ItemOptionViewTypeSingleRight;
-                                }else{
-                                    optType = ItemOptionViewTypeMultyRight;
-                                }
-                            }else if(isSelected){//选错了
-                                if(optType == ItemOptionViewTypeSingle){//单选
-                                    optType = ItemOptionViewTypeSingleError;
-                                }else{
-                                    optType = ItemOptionViewTypeMultyError;
-                                }
-                            }
-                        }
                         //加载数据
                         [optionView loadDataWithType:optType OptionCode:option.code OptionText:option.content];
-                        if(isSelected){
-                            optionView.optSelected = isSelected;
+                        if(data.selectedOptCode && data.selectedOptCode.length > 0){
+                            BOOL isSelected = [data.selectedOptCode containsString:option.code];
+                            if(isSelected){
+                                optionView.optSelected = isSelected;
+                            }
                         }
-                        //添加到容器
-                        [self addSubview:optionView];
-                        //
                         tempFrame = optionView.frame;
                     }
                 }
             }
-            //重置容器高度
-            CGFloat height = CGRectGetMaxY(tempFrame) + __k_etoptionview_option_margin;
-            tempFrame = self.frame;
-            tempFrame.size.height = height;
-            self.frame = tempFrame;
         }
-    }
-}
-#pragma mark 清空
--(void)clean{
-    [self cleanWithAllCache:YES];
-}
-//清空
--(void)cleanWithAllCache:(BOOL)all{
-    if(all && _optionsCache && _optionsCache.count > 0){
-        [_optionsCache removeAllObjects];
-    }
-    //清空子控件
-    NSArray *subViews = self.subviews;
-    if(subViews && subViews.count > 0){
-        for(UIView *sub in subViews){
-            if(!sub) continue;
-            [sub removeFromSuperview];
+        //显示答案
+        if(data.IsDisplayAnswer){
+            [self showDisplayAnswer:data.IsDisplayAnswer];
         }
+        //重置容器尺寸
+        CGFloat h = CGRectGetMaxY(tempFrame) + __kItemOptionGroupView_Margin;
+        tempFrame = self.frame;
+        tempFrame.size.height = h;
+        self.frame = tempFrame;
     }
 }
 //创建选项
 -(ItemOptionView *)createOptionWithFrame:(CGRect)frame Index:(NSInteger)index{
     ItemOptionView *optView;
-    if(_optionsCache.count > index){
-        optView = [_optionsCache objectAtIndex:index];
+    if(_optionViewsCache && _optionViewsCache.count > index){
+        optView = [_optionViewsCache objectAtIndex:index];
         optView.frame = frame;
-        optView.optSelected = NO;
         return optView;
     }
+    //初始化选项
     optView = [[ItemOptionView alloc] initWithFrame:frame];
-    [optView addTarget:self action:@selector(itemOptionClick:) forControlEvents:UIControlEventTouchUpInside];
-    [_optionsCache addObject:optView];
+    //添加选项点击处理
+    [optView addTarget:self action:@selector(OptionClick:) forControlEvents:UIControlEventTouchUpInside];
+    //添加到缓存
+    [_optionViewsCache addObject:optView];
+    //添加到界面
+    [self addSubview:optView];
+    //返回选项
     return optView;
 }
 //选项点击事件
--(void)itemOptionClick:(ItemOptionView *)sender{
-    if(!sender)return;
-    if(_optGroupType == ItemOptionGroupTypeSingle && _optCount <= _optionsCache.count){
+-(void)OptionClick:(ItemOptionView *)sender{
+    if(!sender || !_optionViewsCache)return;
+    if(_optGroupType == ItemOptionGroupTypeSingle && _optCount <= _optionViewsCache.count){
         for(int i = 0; i < _optCount;i++){
-            ItemOptionView *optView = [_optionsCache objectAtIndex:i];
+            ItemOptionView *optView = [_optionViewsCache objectAtIndex:i];
             if(!optView || [sender.optCode isEqualToString:optView.optCode]){
                 continue;
             }
@@ -328,5 +338,46 @@
     if(self.delegate && [self.delegate respondsToSelector:@selector(optionSelected:)]){
         [self.delegate optionSelected:sender];
     }
+}
+#pragma mark 是否显示答案
+-(void)showDisplayAnswer:(BOOL)displayAnswer{
+    if(_optCount > 0 &&_optionViewsCache && _optionViewsCache.count >= _optCount){
+        for(NSInteger i = 0; i < _optCount; i++){
+            ItemOptionViewType optType = (_optGroupType == ItemOptionGroupTypeSingle ? ItemOptionViewTypeSingle : ItemOptionViewTypeMulty);
+            ItemOptionView *optView = [_optionViewsCache objectAtIndex:i];
+            if(optView && optView.isOptSelected){//选项被选中
+                if(displayAnswer){
+                    if(_answer && [_answer containsString:optView.optCode]){//选对
+                        optType = (optType == ItemOptionViewTypeSingle ?
+                                   ItemOptionViewTypeSingleRight :
+                                   ItemOptionViewTypeMultyRight);
+                    }else{//选错
+                        optType = (optType == ItemOptionViewTypeSingle ?
+                                   ItemOptionViewTypeSingleError :
+                                   ItemOptionViewTypeMultyError);
+                    }
+                }
+                //重置选项状态
+                [optView changeOptionType:optType];
+            }
+        }
+    }
+}
+
+#pragma mark 清空
+-(void)clean{
+    _optCount = 0;
+    _answer = @"";
+    if(_optionViewsCache && _optionViewsCache.count > 0){
+        for(ItemOptionView *opt in _optionViewsCache){
+            if(opt){
+                [opt clean];
+            }
+        }
+    }
+    //重置高度
+    CGRect tempFrame = self.frame;
+    tempFrame.size.height = 0;
+    self.frame = tempFrame;
 }
 @end
