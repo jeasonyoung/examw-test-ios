@@ -121,8 +121,7 @@
     //已做图例
     tempFrame.origin.x = __k_answersheetviewcontroller_margin_min;
     tempFrame.origin.y = (maxHeight - __k_answersheetviewcontroller_legend_height)/2;
-    tempFrame.size.width = __k_answersheetviewcontroller_legend_with;
-    tempFrame.size.height = __k_answersheetviewcontroller_legend_height;
+    tempFrame.size = CGSizeMake(__k_answersheetviewcontroller_legend_with, __k_answersheetviewcontroller_legend_height);//
     UILabel *lbLegendHas = [[UILabel alloc] initWithFrame:tempFrame];
     [UIViewUtils addBorderWithView:lbLegendHas BorderColor:borderColor BackgroundColor:_hasBgColor];
     [viewPanel addSubview:lbLegendHas];
@@ -137,8 +136,7 @@
     //未做图例
     tempFrame.origin.x += CGRectGetWidth(tempFrame) + __k_answersheetviewcontroller_margin_max + __k_answersheetviewcontroller_margin_min;
     tempFrame.origin.y = (maxHeight - __k_answersheetviewcontroller_legend_height)/2;
-    tempFrame.size.width = __k_answersheetviewcontroller_legend_with;
-    tempFrame.size.height = __k_answersheetviewcontroller_legend_height;
+    tempFrame.size = CGSizeMake(__k_answersheetviewcontroller_legend_with, __k_answersheetviewcontroller_legend_height);
     UILabel *lbLegendTodo = [[UILabel alloc] initWithFrame:tempFrame];
     [UIViewUtils addBorderWithView:lbLegendTodo BorderColor:borderColor BackgroundColor:_todoBgColor];
     [viewPanel addSubview:lbLegendTodo];

@@ -10,5 +10,5 @@
 //收藏试题答题卡控制器
 @interface FavoriteSheetViewController : UIViewController
 //初始化
--(instancetype)initWithSubjectCode:(NSString *)subjectCode;
+-(instancetype)initWithSubjectCode:(NSString *)subjectCode andAnswers:(NSMutableDictionary *)answersCache;
 @end

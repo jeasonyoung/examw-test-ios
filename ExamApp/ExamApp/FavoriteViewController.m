@@ -72,7 +72,8 @@
 //答题卡按钮
 -(void)btnBarRightClick:(UIBarButtonItem *)sender{
     //NSLog(@"%@",sender);
-    FavoriteSheetViewController *fsvc = [[FavoriteSheetViewController alloc] initWithSubjectCode:_subjectCode];
+    FavoriteSheetViewController *fsvc = [[FavoriteSheetViewController alloc] initWithSubjectCode:_subjectCode
+                                                                                      andAnswers:_itemAnswersCache];
     fsvc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:fsvc animated:NO];
 }
