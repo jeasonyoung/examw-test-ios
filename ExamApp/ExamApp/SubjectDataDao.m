@@ -10,7 +10,6 @@
 #import <FMDB/FMDB.h>
 #import "SubjectData.h"
 
-#define __k_subjectdatadao_tableName @"tbl_subjects"//表名称
 //科目数据操作类成员变量。
 @interface SubjectDataDao(){
     FMDatabase *_db;

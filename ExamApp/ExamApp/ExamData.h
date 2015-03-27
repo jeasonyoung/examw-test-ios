@@ -14,6 +14,8 @@
 #define __k_examdata_fields_name @"name"
 #define __k_examdata_fields_abbr @"abbr"
 #define __k_examdata_fields_status @"status"
+
+#define __k_examdatadao_tableName @"tbl_exams"//考试数据表名称
 //考试数据
 @interface ExamData : NSObject<JSONSerialize>
 //考试代码

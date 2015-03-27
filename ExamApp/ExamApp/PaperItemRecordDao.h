@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "PaperReview.h"
 @class FMDatabase;
 @class PaperItemRecord;
 //做题记录数据操作
@@ -33,6 +34,14 @@
 -(NSNumber *)totalAllUseTimesWithPaperRecordCode:(NSString *)paperRecordCode;
 //统计做对的试题数量
 -(NSNumber *)totalAllRightsWithPaperRecordCode:(NSString *)paperRecordCode;
+
+//统计科目下的错题统计
+-(NSInteger)totalWrongItemsWithSubjectCode:(NSString *)subjectCode;
+//统计科目题型下的错题统计
+-(NSInteger)totalWrongItemsWithSubjectCode:(NSString *)subjectCode AtItemType:(PaperItemType)itemType;
+//加载错题
+-(PaperItemRecord *)loadWrongItemWithSubjectCode:(NSString *)subjectCode AtOrder:(NSInteger)order;
+
 //加载需要同步的数据集合
 -(NSArray *)loadSyncRecords;
 //更新同步标示

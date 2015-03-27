@@ -15,6 +15,7 @@
              __k_paperitemrecord_fields_paperRecordCode:(self.paperRecordCode ? self.paperRecordCode : @""),
              __k_paperitemrecord_fields_structureCode:(self.structureCode ? self.structureCode : @""),
              __k_paperitemrecord_fields_itemCode:(self.itemCode ? self.itemCode : @""),
+             __k_paperitemrecord_fields_itemType:(self.itemType ? self.itemType : [NSNumber numberWithInt:0]),
              __k_paperitemrecord_fields_itemContent:(self.itemContent ? self.itemContent : @""),
              __k_paperitemrecord_fields_answer:(self.answer ? self.answer : @""),
              __k_paperitemrecord_fields_status:(self.status ? self.status : [NSNumber numberWithInt:0]),

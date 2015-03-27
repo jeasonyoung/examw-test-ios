@@ -18,6 +18,8 @@
 #define __k_paperdata_fields_createTime @"createTime"//创建时间
 #define __k_paperdata_fields_subjectCode @"subjectCode"//所属科目代码
 
+#define __k_paperdatadao_tableName @"tbl_papers"//试卷数据表名称
+
 //试卷数据
 @interface PaperData : NSObject<JSONSerialize>
 //试卷ID

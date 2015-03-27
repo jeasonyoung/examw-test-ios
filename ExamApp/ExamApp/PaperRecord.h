@@ -19,6 +19,8 @@
 #define __k_paperrecord_fields_createTime @"createTime"//创建时间
 #define __k_paperrecord_fields_lastTime @"lastTime"//最后修改时间
 #define __k_paperrecord_fields_sync @"sync"//同步标示
+
+#define __k_paperrecorddao_tableName @"tbl_paperRecords"
 //试卷记录
 @interface PaperRecord : NSObject<JSONSerialize>
 //试卷记录ID

@@ -11,7 +11,7 @@
 #import <FMDB/FMDB.h>
 #import "SubjectDataDao.h"
 
-#define __k_examdatadao_tableName @"tbl_exams"//考试数据表名称
+
 #define __k_examdatadao_sync_subjects @"subjects"
 //考试数据数据库操作成员变量
 @interface  ExamDataDao(){

@@ -16,6 +16,7 @@
 #import "ImitateSubjectViewController.h"
 #import "FavoriteSubjectViewController.h"
 #import "LearnRecordViewController.h"
+#import "WrongSubjectViewController.h"
 
 #define __k_UserViewPanel_Top 4 //用户信息面板与顶部的间隔
 #define __k_UserViewPanel_Left 2 //用户信息面板与左边边界的间隔
@@ -88,7 +89,7 @@
     }else if([@"collect" isEqualToString:value]){//3.我的收藏
         controller = [[FavoriteSubjectViewController alloc]init];
     }else if([@"renewal" isEqualToString:value]){//4.错题重做
-        
+        controller = [[WrongSubjectViewController alloc]init];
     }else if([@"imitate" isEqualToString:value]){//5.模拟考场
         controller = [[ImitateSubjectViewController alloc] init];
     }else if([@"notes" isEqualToString:value]){//6.我的笔记

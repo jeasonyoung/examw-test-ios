@@ -20,6 +20,8 @@
 #define __k_paperitemfavorite_fields_status @"status"//状态
 #define __k_paperitemfavorite_fields_createTime @"createTime"//收藏时间
 #define __k_paperitemfavorite_fields_sync @"sync"//同步标示
+
+#define __k_paperitemfavoritedao_tableName @"tbl_favorites"
 //试题收藏
 @interface PaperItemFavorite : NSObject<JSONSerialize>
 //试题收藏ID

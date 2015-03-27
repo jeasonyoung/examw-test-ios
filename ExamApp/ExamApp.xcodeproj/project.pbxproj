@@ -21,6 +21,8 @@
 		A135279A1AAE94ED00630C72 /* option_single_right.png in Resources */ = {isa = PBXBuildFile; fileRef = A13527961AAE94ED00630C72 /* option_single_right.png */; };
 		A13A4DBB1AC4FCD200BBD1D2 /* feedback_post_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A13A4DB91AC4FCD200BBD1D2 /* feedback_post_normal.png */; };
 		A13A4DBC1AC4FCD200BBD1D2 /* feedback_post_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A13A4DBA1AC4FCD200BBD1D2 /* feedback_post_selected.png */; };
+		A13A4DBF1AC50B2800BBD1D2 /* WrongItemRecordService.m in Sources */ = {isa = PBXBuildFile; fileRef = A13A4DBE1AC50B2800BBD1D2 /* WrongItemRecordService.m */; };
+		A13A4DC21AC5583700BBD1D2 /* WrongSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A13A4DC11AC5583700BBD1D2 /* WrongSubjectViewController.m */; };
 		A14040401AB6DA5000799A65 /* ItemAnswerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A140403F1AB6DA5000799A65 /* ItemAnswerView.m */; };
 		A140418D1A78E61B00669D46 /* ETextView.m in Sources */ = {isa = PBXBuildFile; fileRef = A140418C1A78E61B00669D46 /* ETextView.m */; };
 		A1510F831A6DEF4C00FE59A9 /* LaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1510F821A6DEF4C00FE59A9 /* LaunchViewController.m */; };
@@ -174,6 +176,10 @@
 		A13527961AAE94ED00630C72 /* option_single_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = option_single_right.png; sourceTree = "<group>"; };
 		A13A4DB91AC4FCD200BBD1D2 /* feedback_post_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feedback_post_normal.png; sourceTree = "<group>"; };
 		A13A4DBA1AC4FCD200BBD1D2 /* feedback_post_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = feedback_post_selected.png; sourceTree = "<group>"; };
+		A13A4DBD1AC50B2800BBD1D2 /* WrongItemRecordService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrongItemRecordService.h; sourceTree = "<group>"; };
+		A13A4DBE1AC50B2800BBD1D2 /* WrongItemRecordService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrongItemRecordService.m; sourceTree = "<group>"; };
+		A13A4DC01AC5583700BBD1D2 /* WrongSubjectViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrongSubjectViewController.h; sourceTree = "<group>"; };
+		A13A4DC11AC5583700BBD1D2 /* WrongSubjectViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrongSubjectViewController.m; sourceTree = "<group>"; };
 		A140403E1AB6DA5000799A65 /* ItemAnswerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemAnswerView.h; sourceTree = "<group>"; };
 		A140403F1AB6DA5000799A65 /* ItemAnswerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemAnswerView.m; sourceTree = "<group>"; };
 		A140418B1A78E61B00669D46 /* ETextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETextView.h; path = Utils/ETextView.h; sourceTree = "<group>"; };
@@ -583,6 +589,8 @@
 				A10008FD1ABC5B0300F2BD81 /* FavoriteService.m */,
 				A1B1C42A1AC23F020018741B /* LearnRecordService.h */,
 				A1B1C42B1AC23F020018741B /* LearnRecordService.m */,
+				A13A4DBD1AC50B2800BBD1D2 /* WrongItemRecordService.h */,
+				A13A4DBE1AC50B2800BBD1D2 /* WrongItemRecordService.m */,
 			);
 			name = service;
 			sourceTree = "<group>";
@@ -612,6 +620,8 @@
 				A18C60791ABD4B8E00D96AD6 /* FavoriteSheetViewController.m */,
 				A1B1C4271AC23D4D0018741B /* LearnRecordViewController.h */,
 				A1B1C4281AC23D4D0018741B /* LearnRecordViewController.m */,
+				A13A4DC01AC5583700BBD1D2 /* WrongSubjectViewController.h */,
+				A13A4DC11AC5583700BBD1D2 /* WrongSubjectViewController.m */,
 				A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */,
 				A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */,
 			);
@@ -1009,6 +1019,7 @@
 				A1CCBEE51AAFD60F00705643 /* ItemContentGroupView.m in Sources */,
 				A18B9F701AA70A2400C135DB /* ItemViewController.m in Sources */,
 				A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */,
+				A13A4DBF1AC50B2800BBD1D2 /* WrongItemRecordService.m in Sources */,
 				A1D02F081A7B7E37004C484D /* NSString+Hex.m in Sources */,
 				A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */,
 				A195EFB11AA970E3002695A9 /* UIViewUtils.m in Sources */,
@@ -1060,6 +1071,7 @@
 				A199CB871A7761030094FE50 /* ScreenViewController.m in Sources */,
 				A18B9F6D1AA700B200C135DB /* PaperRecordService.m in Sources */,
 				A19DCE781A83442C0019856D /* HttpUtils.m in Sources */,
+				A13A4DC21AC5583700BBD1D2 /* WrongSubjectViewController.m in Sources */,
 				A1C3B7631A75DB5F006EA38F /* DefaultViewController.m in Sources */,
 				A195EFAE1AA94BF9002695A9 /* AnswersheetViewController.m in Sources */,
 				A1510F831A6DEF4C00FE59A9 /* LaunchViewController.m in Sources */,

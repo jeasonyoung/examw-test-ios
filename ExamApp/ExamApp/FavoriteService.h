@@ -27,7 +27,8 @@
 //根据科目ID获取科目名称
 -(NSString *)loadSubjectNameWithSubjectCode:(NSString *)subjectCode;
 //加载收藏答题卡
--(void)loadSheetWithSubjectCode:(NSString *)subjectCode SheetsBlock:(void(^)(NSString *itemTypeName,NSArray *sheets))block;
+-(void)loadSheetWithSubjectCode:(NSString *)subjectCode
+                    SheetsBlock:(void(^)(NSString *itemTypeName,NSArray *sheets))block;
 //加载收藏数据
 -(PaperItemFavorite *)loadFavoriteWithSubjectCode:(NSString *)subjectCode AtOrder:(NSInteger)order;
 @end

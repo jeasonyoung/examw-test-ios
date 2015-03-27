@@ -317,6 +317,7 @@
                                                                               atIndex:data.index];
     if(itemRecord){
         itemRecord.structureCode = data.structureCode;
+        itemRecord.itemType = [NSNumber numberWithInt:(int)itemType];
         itemRecord.itemContent = [data.source serialize];
         itemRecord.answer = data.value;
         itemRecord.useTimes = doTime;

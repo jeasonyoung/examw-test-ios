@@ -13,7 +13,6 @@
 #import "AESCrypt.h"
 #import "NSString+Date.h"
 
-#define __k_paperdatadao_tableName @"tbl_papers"//试卷数据表名称
 #define __k_paperdatadao_encryptprefix @"0x"
 //试卷数据操作类成员变量
 @interface PaperDataDao (){

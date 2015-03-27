@@ -13,7 +13,8 @@
 #define __k_paperitemrecord_fields_code @"id"//做题记录ID
 #define __k_paperitemrecord_fields_paperRecordCode @"paperRecordId"//所属试卷记录ID。
 #define __k_paperitemrecord_fields_structureCode @"structureId"//所属试卷结构ID
-#define __k_paperitemrecord_fields_itemCode @"itemId"//所属试卷ID
+#define __k_paperitemrecord_fields_itemCode @"itemId"//所属试题ID
+#define __k_paperitemrecord_fields_itemType @"itemType"//试题类型
 #define __k_paperitemrecord_fields_itemContent @"content"//试题内容JSON
 #define __k_paperitemrecord_fields_answer @"answer"//用户答案
 #define __k_paperitemrecord_fields_status @"status"//状态
@@ -22,6 +23,8 @@
 #define __k_paperitemrecord_fields_createTime @"createTime"//创建时间
 #define __k_paperitemrecord_fields_lastTime @"lastTime"//最后修改时间
 #define __k_paperitemrecord_fields_sync @"sync"//同步标示
+
+#define __k_paperitemrecorddao_tableName  @"tbl_itemRecords"//数据库表名称
 
 //做题记录
 @interface PaperItemRecord : NSObject<JSONSerialize>
@@ -33,6 +36,8 @@
 @property(nonatomic,copy)NSString *structureCode;
 //所属试题ID
 @property(nonatomic,copy)NSString *itemCode;
+//试题类型
+@property(nonatomic,copy)NSNumber *itemType;
 //所属试题内容(JSON)
 @property(nonatomic,copy)NSString *itemContent;
 //用户答案

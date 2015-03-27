@@ -20,6 +20,8 @@
 #import "FavoriteService.h"
 #import "PaperItemFavorite.h"
 
+#import "PaperReview.h"
+
 #define __kFavoriteViewController_btnAnswerWith 50//
 #define __kFavoriteViewController_btnAnswerHeight 22//
 #define __kFavoriteViewController_btnAnswerFontSize 12//
@@ -146,7 +148,10 @@
     if(_service){
         PaperItemFavorite *favorite = [_service loadFavoriteWithSubjectCode:_subjectCode AtOrder:order];
         if(favorite){
-           ItemContentSource *dataSource = [favorite toSourceAtOrder:order];
+            if(favorite.itemType){
+                self.title = [PaperItem itemTypeName:(PaperItemType)favorite.itemType.integerValue];
+            }
+            ItemContentSource *dataSource = [favorite toSourceAtOrder:order];
             if(_displayAnswer && _itemAnswersCache && _itemAnswersCache.count > 0){
                 NSString *answer = [_itemAnswersCache valueForKey:[NSString stringWithFormat:@"%ld",(long)order]];
                 if(answer && answer.length > 0){

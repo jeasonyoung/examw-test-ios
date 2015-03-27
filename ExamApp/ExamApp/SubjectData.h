@@ -13,6 +13,8 @@
 #define __k_subjectdata_fields_name @"name"//科目名称
 #define __k_subjectdata_fields_status @"status"//科目状态
 #define __k_subjectdata_fields_examCode @"examCode"//所属考试
+
+#define __k_subjectdatadao_tableName @"tbl_subjects"//表名称
 //科目数据
 @interface SubjectData : NSObject<JSONSerialize>
 //所属考试代码

@@ -12,8 +12,9 @@
 #import "NSDate+TimeZone.h"
 
 #import "PaperItemRecord.h"
+#import "PaperRecord.h"
+#import "PaperData.h"
 
-#define __k_paperitemrecorddao_tableName  @"tbl_itemRecords"//数据库表名称
 //做题记录数据操作成员变量
 @interface PaperItemRecordDao (){
     FMDatabase *_db;
@@ -110,6 +111,7 @@
         record.paperRecordCode = [rs stringForColumn:__k_paperitemrecord_fields_paperRecordCode];
         record.structureCode = [rs stringForColumn:__k_paperitemrecord_fields_structureCode];
         record.itemCode = [rs stringForColumn:__k_paperitemrecord_fields_itemCode];
+        record.itemType = [NSNumber numberWithInt:[rs intForColumn:__k_paperitemrecord_fields_itemType]];
         record.itemContent = [rs stringForColumn:__k_paperitemrecord_fields_itemContent];
         record.answer = [rs stringForColumn:__k_paperitemrecord_fields_answer];
         record.status =[NSNumber numberWithInt:[rs intForColumn:__k_paperitemrecord_fields_status]];
@@ -144,12 +146,13 @@
     (*record).sync = [NSNumber numberWithBool:NO];
     if(isExists){//更新数据
         (*record).lastTime = [NSDate currentLocalTime];
-        NSString *update_sql = [NSString stringWithFormat:@"update %@ set %@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ? where %@ = ?",
+        NSString *update_sql = [NSString stringWithFormat:@"update %@ set %@ = ?,%@ = ?,%@ = ?,%@ = ?, %@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ?,%@ = ? where %@ = ?",
                                 __k_paperitemrecorddao_tableName,
                                 
                                 __k_paperitemrecord_fields_paperRecordCode,
                                 __k_paperitemrecord_fields_structureCode,
                                 __k_paperitemrecord_fields_itemCode,
+                                __k_paperitemrecord_fields_itemType,
                                 __k_paperitemrecord_fields_itemContent,
                                 __k_paperitemrecord_fields_answer,
                                 __k_paperitemrecord_fields_status,
@@ -163,6 +166,7 @@
                 (*record).paperRecordCode,
                 (*record).structureCode,
                 (*record).itemCode,
+                (*record).itemType,
                 (*record).itemContent,
                 (*record).answer,
                 (*record).status,
@@ -174,13 +178,14 @@
     }else{//新增数据
         (*record).code = [NSUUID UUID].UUIDString;
         (*record).createTime = (*record).lastTime = [NSDate currentLocalTime];
-        NSString *insert_sql = [NSString stringWithFormat:@"insert into %@(%@,%@,%@,%@,%@,%@,%@,%@,%@,%@,%@,%@) values(?,?,?,?,?,?,?,?,?,?,?,?)",
+        NSString *insert_sql = [NSString stringWithFormat:@"insert into %@(%@,%@,%@,%@,%@,%@,%@,%@,%@,%@,%@,%@,%@) values(?,?,?,?,?,?,?,?,?,?,?,?,?)",
                                 __k_paperitemrecorddao_tableName,
                                 
                                 __k_paperitemrecord_fields_code,
                                 __k_paperitemrecord_fields_paperRecordCode,
                                 __k_paperitemrecord_fields_structureCode,
                                 __k_paperitemrecord_fields_itemCode,
+                                __k_paperitemrecord_fields_itemType,
                                 __k_paperitemrecord_fields_itemContent,
                                 __k_paperitemrecord_fields_answer,
                                 __k_paperitemrecord_fields_status,
@@ -194,6 +199,7 @@
                 (*record).paperRecordCode,
                 (*record).structureCode,
                 (*record).itemCode,
+                (*record).itemType,
                 (*record).itemContent,
                 (*record).answer,
                 (*record).status,
@@ -245,16 +251,80 @@
 -(NSNumber *)totalAllRightsWithPaperRecordCode:(NSString *)paperRecordCode{
     NSNumber *rights = [NSNumber numberWithInt:0];
     if(_db && paperRecordCode && paperRecordCode.length > 0 && [_db tableExists:__k_paperitemrecorddao_tableName]){
-        NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ = ? and %@ = ? order by %@ desc",
+        NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@ where %@ = ? and %@ = ?",
                                __k_paperitemrecorddao_tableName,
                                __k_paperitemrecord_fields_paperRecordCode,
-                               __k_paperitemrecord_fields_status,
-                               __k_paperitemrecord_fields_lastTime];
+                               __k_paperitemrecord_fields_status];
         rights = [NSNumber numberWithLong:[_db longForQuery:query_sql,paperRecordCode,[NSNumber numberWithBool:YES]]];
     }
     return rights;
 }
 
+#pragma mark 统计科目下的错题统计
+-(NSInteger)totalWrongItemsWithSubjectCode:(NSString *)subjectCode{
+    if(subjectCode && subjectCode.length > 0 && _db && [_db tableExists:__k_paperitemrecorddao_tableName]){
+        NSMutableString *query_sql = [NSMutableString string];
+        [query_sql appendFormat:@"select count(a.%@) ",__k_paperitemrecord_fields_code];
+        [query_sql appendFormat:@"from %@ a ",__k_paperitemrecorddao_tableName];
+        [query_sql appendFormat:@"left outer join %@ b ",__k_paperrecorddao_tableName];
+        [query_sql appendFormat:@"on b.%@ = a.%@ ",__k_paperrecord_fields_code, __k_paperitemrecord_fields_paperRecordCode];
+        [query_sql appendFormat:@"left outer join %@ c ",__k_paperdatadao_tableName];
+        [query_sql appendFormat:@"on c.%@ = b.%@ ", __k_paperdata_fields_code, __k_paperrecord_fields_paperCode];
+        [query_sql appendFormat:@"where a.%@ = ? and c.%@ = ? ",__k_paperitemrecord_fields_status, __k_paperdata_fields_subjectCode];
+        
+        return [_db intForQuery:query_sql,[NSNumber numberWithBool:NO],subjectCode];
+    }
+    return 0;
+}
+#pragma mark 统计科目题型下的错题统计
+-(NSInteger)totalWrongItemsWithSubjectCode:(NSString *)subjectCode AtItemType:(PaperItemType)itemType{
+    if(subjectCode && subjectCode.length > 0 && _db && [_db tableExists:__k_paperitemrecorddao_tableName]){
+        NSMutableString *query_sql = [NSMutableString string];
+        [query_sql appendFormat:@"select count(a.%@) ",__k_paperitemrecord_fields_code];
+        [query_sql appendFormat:@"from %@ a ",__k_paperitemrecorddao_tableName];
+        
+        [query_sql appendFormat:@"left outer join %@ b ",__k_paperrecorddao_tableName];
+        [query_sql appendFormat:@"on b.%@ = a.%@ ",__k_paperrecord_fields_code, __k_paperitemrecord_fields_paperRecordCode];
+        
+        [query_sql appendFormat:@"left outer join %@ c ",__k_paperdatadao_tableName];
+        [query_sql appendFormat:@"on c.%@ = b.%@ ", __k_paperdata_fields_code, __k_paperrecord_fields_paperCode];
+        
+        [query_sql appendFormat:@"where a.%@ = ? and a.%@ = ? and c.%@ = ? ",__k_paperitemrecord_fields_status,
+            __k_paperitemrecord_fields_itemType,__k_paperdata_fields_subjectCode];
+        
+        return [_db intForQuery:query_sql,[NSNumber numberWithBool:NO],[NSNumber numberWithInt:(int)itemType],subjectCode];
+    }
+    return 0;
+}
+#pragma mark 加载指定索引的错题
+-(PaperItemRecord*)loadWrongItemWithSubjectCode:(NSString *)subjectCode AtOrder:(NSInteger)order{
+    if(subjectCode && subjectCode.length > 0 && _db && [_db tableExists:__k_paperitemrecorddao_tableName]){
+        if(order < 0) order = 0;
+        NSMutableString *query_sql = [NSMutableString string];
+        [query_sql appendString:@"select a.* "];
+        [query_sql appendFormat:@"from %@ a ",__k_paperitemrecorddao_tableName];
+        
+        [query_sql appendFormat:@"left outer join %@ b ",__k_paperrecorddao_tableName];
+        [query_sql appendFormat:@"on b.%@ = a.%@ ",__k_paperrecord_fields_code, __k_paperitemrecord_fields_paperRecordCode];
+        
+        [query_sql appendFormat:@"left outer join %@ c ",__k_paperdatadao_tableName];
+        [query_sql appendFormat:@"on c.%@ = b.%@ ", __k_paperdata_fields_code, __k_paperrecord_fields_paperCode];
+        
+        [query_sql appendFormat:@"where a.%@ = ? and c.%@ = ? ",__k_paperitemrecord_fields_status, __k_paperdata_fields_subjectCode];
+        [query_sql appendFormat:@"order by a.%@ ",__k_paperitemrecord_fields_itemType];
+        [query_sql appendFormat:@"limit %ld,1 ",(long)order];
+        
+        PaperItemRecord *data;
+        FMResultSet *rs = [_db executeQuery:query_sql,[NSNumber numberWithBool:NO],subjectCode];
+        while ([rs next]) {
+            data = [self createRecord:rs];
+            break;
+        }
+        [rs close];
+        return data;
+    }
+    return nil;
+}
 #pragma mark 加载需要同步的数据集合
 -(NSArray *)loadSyncRecords{
     if(!_db || ![_db tableExists:__k_paperitemrecorddao_tableName]) return nil;

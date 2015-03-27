@@ -13,7 +13,6 @@
 #import "NSDate+TimeZone.h"
 #import "NSString+Date.h"
 
-#define __k_paperrecorddao_tableName @"tbl_paperRecords"
 //试卷记录数据操作成员变量
 @interface PaperRecordDao (){
     FMDatabase *_db;

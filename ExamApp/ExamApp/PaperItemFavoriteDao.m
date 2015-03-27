@@ -14,7 +14,6 @@
 
 #import "AESCrypt.h"
 
-#define __k_paperitemfavoritedao_tableName @"tbl_favorites"
 #define __k_paperitemfavoritedao_encryptprefix @"0x"
 
 //试题收藏数据操作成员变量
