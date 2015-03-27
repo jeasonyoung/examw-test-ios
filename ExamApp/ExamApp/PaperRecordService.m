@@ -55,6 +55,18 @@
     }
     return nil;
 }
+#pragma mark 加载试卷记录
+-(PaperRecord *)loadRecordWithPaperRecordCode:(NSString *)paperRecordCode{
+    if(_dbQueue && paperRecordCode && paperRecordCode.length > 0){
+        __block PaperRecord *record;
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            PaperRecordDao * dao = [[PaperRecordDao alloc]initWithDb:db];
+            record = [dao loadPaperRecord:paperRecordCode];
+        }];
+        return record;
+    }
+    return nil;
+}
 #pragma mark 创建新的试卷记录
 -(PaperRecord *)createNewRecordWithPaperCode:(NSString *)paperCode{
     if(_dbQueue && paperCode && paperCode.length > 0){

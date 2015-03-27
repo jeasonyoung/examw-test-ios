@@ -15,6 +15,7 @@
 
 #import "ImitateSubjectViewController.h"
 #import "FavoriteSubjectViewController.h"
+#import "LearnRecordViewController.h"
 
 #define __k_UserViewPanel_Top 4 //用户信息面板与顶部的间隔
 #define __k_UserViewPanel_Left 2 //用户信息面板与左边边界的间隔
@@ -95,7 +96,7 @@
     }else if([@"forum" isEqualToString:value]){//7.论坛交流
         
     }else if([@"record" isEqualToString:value]){//8.学习记录
-        
+        controller = [[LearnRecordViewController alloc] init];
     }else if([@"guide" isEqualToString:value]){//9.考试指南
         
     }

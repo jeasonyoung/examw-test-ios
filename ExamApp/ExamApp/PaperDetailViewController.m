@@ -56,7 +56,7 @@
 
 //试卷明细视图控制器成员变量
 @interface PaperDetailViewController (){
-    NSString *_paperCode;
+    NSString *_paperCode,*_paperRecordCode;
     UIFont *_font;
     UIColor *_colorNormal,*_colorHighlight,*_colorBorder;
     PaperReview *_paperReview;
@@ -68,15 +68,20 @@
 //试卷明细视图控制器实现
 @implementation PaperDetailViewController
 #pragma mark 初始化
--(instancetype)initWithPaperCode:(NSString *)paperCode{
+-(instancetype)initWithPaperCode:(NSString *)paperCode andPaperRecordCode:(NSString *)paperRecordCode{
     if(self = [super init]){
         _paperCode = paperCode;
+        _paperRecordCode = paperRecordCode;
         _font = [UIFont systemFontOfSize:__k_paperdetailviewcontroller_font_size];
         _colorNormal = [UIColor colorWithHex:__k_paperdetailviewcontroller_btn_normal_bg],
         _colorHighlight = [UIColor colorWithHex:__k_paperdetailviewcontroller_btn_highlight_bg];
         _colorBorder = [UIColor colorWithHex:__k_paperdetailviewcontroller_btn_border];
     }
     return self;
+}
+#pragma mark 初始化
+-(instancetype)initWithPaperCode:(NSString *)paperCode{
+    return [self initWithPaperCode:paperCode andPaperRecordCode:nil];
 }
 #pragma mark 加载入口
 - (void)viewDidLoad {
@@ -146,7 +151,11 @@
 //加载考试考试按钮
 -(void)setupStartButtonWithView:(UIView *)view OutY:(NSNumber **)outY{
     if(_paperReview && _recordService){
-        _paperRecord = [_recordService loadLastRecordWithPaperCode:_paperReview.code];
+        if(_paperRecordCode && _paperRecordCode.length > 0){
+            _paperRecord = [_recordService loadRecordWithPaperRecordCode:_paperRecordCode];
+        }else{
+            _paperRecord = [_recordService loadLastRecordWithPaperCode:_paperReview.code];
+        }
         if(!_paperRecord){
             [self setupSignButtonWithView:view OutY:outY];
             return;

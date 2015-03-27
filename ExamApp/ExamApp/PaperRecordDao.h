@@ -13,10 +13,14 @@
 @interface PaperRecordDao : NSObject
 //初始化
 -(instancetype)initWithDb:(FMDatabase *)db;
+//统计做题记录数据
+-(NSInteger)total;
 //根据记录ID加载数据
 -(PaperRecord *)loadPaperRecord:(NSString *)recordCode;
 //加载最新的试卷记录
 -(PaperRecord *)loadLastPaperRecord:(NSString *)paperCode;
+//按行加载数据
+-(PaperRecord *)loadDataAtRow:(NSInteger)row;
 //更新数据
 -(BOOL)updateRecord:(PaperRecord **)record;
 //加载需同步的数据集合

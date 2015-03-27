@@ -28,6 +28,12 @@
     }
     return self;
 }
+#pragma mark 统计做题记录数据
+-(NSInteger)total{
+    if(!_db || ![_db tableExists:__k_paperrecorddao_tableName]) return 0;
+    NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@",__k_paperrecorddao_tableName ];
+    return [_db intForQuery:query_sql];
+}
 #pragma mark 加载试卷记录
 -(PaperRecord *)loadPaperRecord:(NSString *)recordCode{
     if(!_db || !recordCode || recordCode.length == 0 || ![_db tableExists:__k_paperrecorddao_tableName]) return nil;
@@ -73,6 +79,21 @@
                            __k_paperrecord_fields_lastTime];
     PaperRecord *data;
     FMResultSet *rs = [_db executeQuery:query_sql,paperCode];
+    while ([rs next]) {
+        data = [self createPaperRecord:rs];
+        break;
+    }
+    [rs close];
+    return data;
+}
+#pragma mark 按行加载数据
+-(PaperRecord *)loadDataAtRow:(NSInteger)row{
+    if(!_db || ![_db tableExists:__k_paperrecorddao_tableName]) return nil;
+    if(row < 0) row = 0;
+    NSString *query_sql = [NSString stringWithFormat:@"select * from %@ order by %@ desc limit %ld,1",
+                           __k_paperrecorddao_tableName,__k_paperrecord_fields_lastTime, (long)row];
+    PaperRecord *data;
+    FMResultSet *rs = [_db executeQuery:query_sql];
     while ([rs next]) {
         data = [self createPaperRecord:rs];
         break;

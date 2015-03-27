@@ -15,6 +15,8 @@
 @interface PaperRecordService : NSObject
 //加载最新试卷记录
 -(PaperRecord *)loadLastRecordWithPaperCode:(NSString *)paperCode;
+//加载试卷记录
+-(PaperRecord *)loadRecordWithPaperRecordCode:(NSString *)paperRecordCode;
 //创建新的试卷记录
 -(PaperRecord *)createNewRecordWithPaperCode:(NSString *)paperCode;
 //更新试卷记录

@@ -21,7 +21,7 @@
 //收藏科目列表成员变量
 @interface FavoriteSubjectViewController ()<UITableViewDataSource,UITableViewDelegate>{
     FavoriteService *_service;
-    NSMutableDictionary *_cache;
+    NSMutableDictionary *_favoriteSubjectCache;
 }
 @end
 //收藏科目列表实现
@@ -30,7 +30,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     //初始化缓存
-    _cache = [NSMutableDictionary dictionary];
+    _favoriteSubjectCache = [NSMutableDictionary dictionary];
     //标题
     self.title = __kFavoriteSubjectViewController_title;
     //初始化服务
@@ -69,8 +69,8 @@
                           andSubjectRow:indexPath.row
                                   Block:^(SubjectData *subject, NSInteger favorites) {
                                       //添加到缓存
-                                      [_cache setObject:@[[NSNumber numberWithInteger:favorites],subject.code]
-                                                 forKey:[NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row]];
+                                      [_favoriteSubjectCache setObject:@[[NSNumber numberWithInteger:favorites],subject.code]
+                                                                forKey:[NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row]];
                                       
                                       cell.textLabel.text = subject.name;
                                       cell.detailTextLabel.text = [NSString stringWithFormat:__kFavoriteSubjectViewController_cellDetail,(long)favorites];
@@ -80,7 +80,7 @@
 }
 #pragma mark UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSArray *array = [_cache objectForKey:[NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row]];
+    NSArray *array = [_favoriteSubjectCache objectForKey:[NSString stringWithFormat:@"%ld-%ld",(long)indexPath.section,(long)indexPath.row]];
     if(!array || array.count == 0)return;
     NSNumber *favorites = [array objectAtIndex:0];
     NSString *subjectCode = [array objectAtIndex:1];
@@ -94,14 +94,14 @@
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    if(_cache){
-        [_cache removeAllObjects];
+    if(_favoriteSubjectCache){
+        [_favoriteSubjectCache removeAllObjects];
     }
 }
 #pragma mark 内存回收
 -(void)dealloc{
-    if(_cache){
-        [_cache removeAllObjects];
+    if(_favoriteSubjectCache){
+        [_favoriteSubjectCache removeAllObjects];
     }
 }
 @end

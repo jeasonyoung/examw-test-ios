@@ -9,7 +9,6 @@
 #import "PaperDataDao.h"
 #import <FMDB/FMDB.h>
 #import "PaperData.h"
-//#import "PaperReview.h"
 
 #import "AESCrypt.h"
 #import "NSString+Date.h"
@@ -36,6 +35,35 @@
         NSString *query_sql = [NSString stringWithFormat:@"select %@ from %@ order by %@ desc limit 0,1",
                                __k_paperdata_fields_createTime,__k_paperdatadao_tableName,__k_paperdata_fields_createTime];
         return [_db stringForQuery:query_sql];
+    }
+    return nil;
+}
+#pragma mark 加载试卷数据(无试卷内容)
+-(PaperData *)loadPaperWithCode:(NSString *)code{
+    if(code && code.length > 0 && _db && [_db tableExists:__k_paperdatadao_tableName]){
+        NSString *query_sql = [NSString stringWithFormat:@"select %@,%@,%@,%@,%@ from %@ where %@ = ? limit 0,1",
+                               __k_paperdata_fields_title,
+                               __k_paperdata_fields_type,
+                               __k_paperdata_fields_total,
+                               __k_paperdata_fields_createTime,
+                               __k_paperdata_fields_subjectCode,
+                               
+                               __k_paperdatadao_tableName,
+                               __k_paperdata_fields_code];
+        PaperData *data;
+        FMResultSet *rs = [_db executeQuery:query_sql,code];
+        while ([rs next]) {
+            data = [[PaperData alloc]init];
+            data.code = code;
+            data.title = [rs stringForColumn:__k_paperdata_fields_title];
+            data.type = [rs intForColumn:__k_paperdata_fields_type];
+            data.total = [rs intForColumn:__k_paperdata_fields_total];
+            data.createTime = [rs dateForColumn:__k_paperdata_fields_createTime];
+            data.subjectCode = [rs stringForColumn:__k_paperdata_fields_subjectCode];
+            break;
+        }
+        [rs close];
+        return data;
     }
     return nil;
 }

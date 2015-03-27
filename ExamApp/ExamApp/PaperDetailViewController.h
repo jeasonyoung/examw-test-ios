@@ -11,4 +11,6 @@
 @interface PaperDetailViewController : UIViewController
 //初始化
 -(instancetype)initWithPaperCode:(NSString *)paperCode;
+//初始化
+-(instancetype)initWithPaperCode:(NSString *)paperCode andPaperRecordCode:(NSString *)paperRecordCode;
 @end
