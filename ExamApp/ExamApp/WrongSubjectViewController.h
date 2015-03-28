@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-//错题科目视图控制器
+//错题重做科目视图控制器
 @interface WrongSubjectViewController : UIViewController
 
 @end

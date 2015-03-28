@@ -1,12 +1,12 @@
 //
-//  FavoriteViewController.m
+//  WrongViewController.m
 //  ExamApp
 //
-//  Created by jeasonyoung on 15/3/21.
+//  Created by jeasonyoung on 15/3/28.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
 
-#import "FavoriteViewController.h"
+#import "WrongViewController.h"
 
 #import "UIColor+Hex.h"
 #import "UIViewController+VisibleView.h"
@@ -15,32 +15,32 @@
 
 #import "ItemContentGroupView.h"
 
-#import "FavoriteSheetViewController.h"
-
-#import "FavoriteService.h"
-#import "PaperItemFavorite.h"
-
+#import "WrongItemRecordService.h"
+#import "PaperItemRecord.h"
 #import "PaperReview.h"
 
-#define __kFavoriteViewController_btnAnswerWith 50//
-#define __kFavoriteViewController_btnAnswerHeight 22//
-#define __kFavoriteViewController_btnAnswerFontSize 12//
-#define __kFavoriteViewController_btnAnswerText @"答案"
-#define __kFavoriteViewController_btnAnswerNormalColor 0x00868B
-#define __kFavoriteViewController_btnAnswerHighlightColor 0x00CD66
-#define __kFavoriteViewController_btnAnswerBorderColor 0x00C5CD
-//收藏试题控制器成员变量
-@interface FavoriteViewController ()<ItemContentGroupViewDataSource>{
+#import "WrongSheetViewController.h"
+
+#define __kWrongViewController_btnAnswerWith 50//
+#define __kWrongViewController_btnAnswerHeight 22//
+#define __kWrongViewController_btnAnswerFontSize 12//
+#define __kWrongViewController_btnAnswerText @"答案"
+#define __kWrongViewController_btnAnswerNormalColor 0x00868B
+#define __kWrongViewController_btnAnswerHighlightColor 0x00CD66
+#define __kWrongViewController_btnAnswerBorderColor 0x00C5CD
+
+//错题重做视图控制器成员变量
+@interface WrongViewController ()<ItemContentGroupViewDataSource>{
     NSString *_subjectCode;
     BOOL _displayAnswer;
-    FavoriteService *_service;
+    WrongItemRecordService *_service;
     ItemContentGroupView *_itemContentView;
     NSMutableDictionary *_itemAnswersCache;
 }
 @end
-//收藏试题控制器实现
-@implementation FavoriteViewController
-#pragma mark 初始化
+//错题重做视图控制器实现
+@implementation WrongViewController
+#pragma mark 初始化重载
 -(instancetype)initWithSubjectCode:(NSString *)subjectCode{
     if(self = [super init]){
         _subjectCode = subjectCode;
@@ -57,7 +57,7 @@
     //加载底部工具栏
     [self setupFootbar];
     //初始化收藏数据服务
-    _service = [[FavoriteService alloc]init];
+    _service = [[WrongItemRecordService alloc]init];
     _displayAnswer = NO;
     _itemAnswersCache = [NSMutableDictionary dictionary];
     //加载试题内容
@@ -65,19 +65,18 @@
 }
 //加载顶部工具栏
 -(void)setupTopbar{
-    //右边按钮
     UIBarButtonItem *btnBarRight = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemCompose
-                                                                             target:self
-                                                                             action:@selector(btnBarRightClick:)];
+                                                                                target:self
+                                                                                action:@selector(btnBarRightClick:)];
     self.navigationItem.rightBarButtonItem = btnBarRight;
 }
 //答题卡按钮
 -(void)btnBarRightClick:(UIBarButtonItem *)sender{
-    //NSLog(@"%@",sender);
-    FavoriteSheetViewController *fsvc = [[FavoriteSheetViewController alloc] initWithSubjectCode:_subjectCode
-                                                                                      andAnswers:_itemAnswersCache];
-    fsvc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:fsvc animated:NO];
+    //答题卡按钮
+    WrongSheetViewController *wsvc = [[WrongSheetViewController alloc] initWithSubjectCode:_subjectCode
+                                                                                andAnswers:_itemAnswersCache];
+    wsvc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:wsvc animated:NO];
 }
 //加载底部工具栏
 -(void)setupFootbar{
@@ -94,13 +93,13 @@
                                                                           target:self action:nil];
     //答案
     UIButton *btnAnswer = [UIButton buttonWithType:UIButtonTypeCustom];
-    btnAnswer.frame = CGRectMake(0, 0, __kFavoriteViewController_btnAnswerWith, __kFavoriteViewController_btnAnswerHeight);
-    btnAnswer.titleLabel.font = [UIFont systemFontOfSize:__kFavoriteViewController_btnAnswerFontSize];
-    [btnAnswer setTitle:__kFavoriteViewController_btnAnswerText forState:UIControlStateNormal];
-    [btnAnswer setTitleColor:[UIColor colorWithHex:__kFavoriteViewController_btnAnswerNormalColor] forState:UIControlStateNormal];
-    [btnAnswer setTitleColor:[UIColor colorWithHex:__kFavoriteViewController_btnAnswerHighlightColor] forState:UIControlStateHighlighted];
+    btnAnswer.frame = CGRectMake(0, 0, __kWrongViewController_btnAnswerWith, __kWrongViewController_btnAnswerHeight);
+    btnAnswer.titleLabel.font = [UIFont systemFontOfSize:__kWrongViewController_btnAnswerFontSize];
+    [btnAnswer setTitle:__kWrongViewController_btnAnswerText forState:UIControlStateNormal];
+    [btnAnswer setTitleColor:[UIColor colorWithHex:__kWrongViewController_btnAnswerNormalColor] forState:UIControlStateNormal];
+    [btnAnswer setTitleColor:[UIColor colorWithHex:__kWrongViewController_btnAnswerHighlightColor] forState:UIControlStateHighlighted];
     [btnAnswer addTarget:self action:@selector(btnAnswerClick:) forControlEvents:UIControlEventTouchUpInside];
-    [UIViewUtils addBoundsRadiusWithView:btnAnswer BorderColor:[UIColor colorWithHex:__kFavoriteViewController_btnAnswerBorderColor] BackgroundColor:nil];
+    [UIViewUtils addBoundsRadiusWithView:btnAnswer BorderColor:[UIColor colorWithHex:__kWrongViewController_btnAnswerBorderColor] BackgroundColor:nil];
     UIBarButtonItem *btnBarAnswer = [[UIBarButtonItem alloc]initWithCustomView:btnAnswer];
     //设置底部工具栏
     [self setToolbarItems:@[btnBarPrev,space,space,btnBarAnswer,space,btnBarNext]];
@@ -122,7 +121,7 @@
 //答案按钮
 -(void)btnAnswerClick:(UIButton *)sender{
     _displayAnswer = !_displayAnswer;
-     //NSLog(@"%d",_displayAnswer);
+    //NSLog(@"%d",_displayAnswer);
     if(_itemContentView){
         [_itemContentView showDisplayAnswer:_displayAnswer];
     }
@@ -139,6 +138,7 @@
 #pragma mark 加载数据
 -(void)loadDataAtOrder:(NSInteger)order{
     if(_itemContentView){
+        if(order < 0)order = 0;
         [_itemContentView loadContentAtOrder:order];
     }
 }
@@ -146,19 +146,19 @@
 //加载数据
 -(ItemContentSource *)itemContentAtOrder:(NSInteger)order{
     if(_service && _subjectCode && _subjectCode.length > 0){
-        PaperItemFavorite *favorite = [_service loadFavoriteWithSubjectCode:_subjectCode AtOrder:order];
-        if(favorite){
-            if(favorite.itemType){
-                self.title = [PaperItem itemTypeName:(PaperItemType)favorite.itemType.integerValue];
+        PaperItemRecord *itemRecord = [_service loadWrongWithSubjectCode:_subjectCode AtOrder:order];
+        if(itemRecord){
+            if(itemRecord.itemType){
+                self.title = [PaperItem itemTypeName:(PaperItemType)itemRecord.itemType.integerValue];
             }
-            ItemContentSource *dataSource = [favorite toSourceAtOrder:order];
+            ItemContentSource *dataSource = [itemRecord toSourceAtOrder:order];
             if(_displayAnswer && _itemAnswersCache && _itemAnswersCache.count > 0){
                 NSString *answer = [_itemAnswersCache objectForKey:[NSNumber numberWithInteger:order]];
                 if(answer && answer.length > 0){
                     dataSource.value = answer;
                 }
             }
-           return dataSource;
+            return dataSource;
         }
     }
     return nil;
@@ -168,22 +168,25 @@
     NSLog(@"selectedData:%@,%@",data,data.value);
     if(!data || !_itemContentView)return;
     _displayAnswer = YES;
-    [_itemAnswersCache setObject:data.value forKey:[NSNumber numberWithInteger:data.order]];
+    if(_itemAnswersCache){
+        [_itemAnswersCache setObject:data.value forKey:[NSNumber numberWithInteger:data.order]];
+    }
     [_itemContentView loadContentAtOrder:data.order];
     [_itemContentView showDisplayAnswer:_displayAnswer];
 }
-#pragma mark 试图将呈现
+#pragma mark 视图将呈现
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     _displayAnswer = NO;
     self.navigationController.toolbarHidden = NO;
 }
-#pragma mark 试图将隐藏
+#pragma mark 视图将隐藏
 -(void)viewWillDisappear:(BOOL)animated{
-    _displayAnswer = NO;
+     _displayAnswer = NO;
     self.navigationController.toolbarHidden = YES;
     [super viewWillDisappear:animated];
 }
+
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

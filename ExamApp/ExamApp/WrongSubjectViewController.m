@@ -13,17 +13,19 @@
 
 #import "WrongItemRecordService.h"
 
+#import "WrongViewController.h"
+
 #define __kWrongSubjectViewController_title @"错题重做"
 #define __kWrongSubjectViewController_waiting @"加载中..."
 #define __kWrongSubjectViewController_cellIdentifier @"cell_identifier"
 #define __kWrongSubjectViewController_cellDetail @"做错%ld题次"
-//错题重做视图控制器成员变量
+//错题重做科目视图控制器成员变量
 @interface WrongSubjectViewController ()<UITableViewDataSource,UITableViewDelegate>{
     WrongItemRecordService *_service;
     NSMutableDictionary *_wrongSubjectCache;
 }
 @end
-//错题重做视图控制器实现
+//错题重做科目视图控制器实现
 @implementation WrongSubjectViewController
 #pragma mark UI加载入口
 - (void)viewDidLoad {
@@ -84,8 +86,10 @@
     NSNumber *wrongs = [array objectAtIndex:0];
     NSString *subjectCode = [array objectAtIndex:1];
     if(wrongs && wrongs.integerValue > 0 && subjectCode && subjectCode.length > 0){
-        NSLog(@"%@,%@",wrongs,subjectCode);
-        
+        //NSLog(@"%@,%@",wrongs,subjectCode);
+        WrongViewController *wvc = [[WrongViewController alloc]initWithSubjectCode:subjectCode];
+        wvc.hidesBottomBarWhenPushed = NO;
+        [self.navigationController pushViewController:wvc animated:NO];
     }
 }
 #pragma mark 内存告警

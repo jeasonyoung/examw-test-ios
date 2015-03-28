@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "JSONSerialize.h"
-
 //做题记录字段名称
 #define __k_paperitemrecord_fields_code @"id"//做题记录ID
 #define __k_paperitemrecord_fields_paperRecordCode @"paperRecordId"//所属试卷记录ID。
@@ -26,6 +25,7 @@
 
 #define __k_paperitemrecorddao_tableName  @"tbl_itemRecords"//数据库表名称
 
+@class ItemContentSource;
 //做题记录
 @interface PaperItemRecord : NSObject<JSONSerialize>
 //做题记录ID
@@ -54,4 +54,6 @@
 @property(nonatomic,copy)NSDate *lastTime;
 //同步标示(0-未同步，1-已同步)
 @property(nonatomic,copy)NSNumber *sync;
+//转换为视图数据源
+-(ItemContentSource *)toSourceAtOrder:(NSInteger)order;
 @end

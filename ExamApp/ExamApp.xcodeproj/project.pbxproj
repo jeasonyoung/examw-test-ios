@@ -132,6 +132,8 @@
 		A1E279051A78BC8B00F23A20 /* UIViewController+VisibleView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E279041A78BC8B00F23A20 /* UIViewController+VisibleView.m */; };
 		A1E279071A78D7D600F23A20 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1E279061A78D7D600F23A20 /* libsqlite3.dylib */; };
 		A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E279091A78DFED00F23A20 /* FeedbackViewController.m */; };
+		A1E8A6911AC6407500007B8A /* WrongViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E8A6901AC6407500007B8A /* WrongViewController.m */; };
+		A1E8A6941AC656F400007B8A /* WrongSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E8A6931AC656F400007B8A /* WrongSheetViewController.m */; };
 		A1EC0A941AAAC9E000167B83 /* ItemContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EC0A931AAAC9E000167B83 /* ItemContentView.m */; };
 		A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A1ED101A1A6F4EA9004DAD90 /* NSQueue.m */; };
 		A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1ED101F1A6F80BA004DAD90 /* MainViewController.m */; };
@@ -369,6 +371,10 @@
 		A1E279061A78D7D600F23A20 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A1E279081A78DFED00F23A20 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
 		A1E279091A78DFED00F23A20 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
+		A1E8A68F1AC6407500007B8A /* WrongViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrongViewController.h; sourceTree = "<group>"; };
+		A1E8A6901AC6407500007B8A /* WrongViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrongViewController.m; sourceTree = "<group>"; };
+		A1E8A6921AC656F400007B8A /* WrongSheetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrongSheetViewController.h; sourceTree = "<group>"; };
+		A1E8A6931AC656F400007B8A /* WrongSheetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrongSheetViewController.m; sourceTree = "<group>"; };
 		A1EC0A921AAAC9E000167B83 /* ItemContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemContentView.h; sourceTree = "<group>"; };
 		A1EC0A931AAAC9E000167B83 /* ItemContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemContentView.m; sourceTree = "<group>"; };
 		A1ED10191A6F4EA9004DAD90 /* NSQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSQueue.h; path = Utils/NSQueue.h; sourceTree = "<group>"; };
@@ -622,6 +628,10 @@
 				A1B1C4281AC23D4D0018741B /* LearnRecordViewController.m */,
 				A13A4DC01AC5583700BBD1D2 /* WrongSubjectViewController.h */,
 				A13A4DC11AC5583700BBD1D2 /* WrongSubjectViewController.m */,
+				A1E8A68F1AC6407500007B8A /* WrongViewController.h */,
+				A1E8A6901AC6407500007B8A /* WrongViewController.m */,
+				A1E8A6921AC656F400007B8A /* WrongSheetViewController.h */,
+				A1E8A6931AC656F400007B8A /* WrongSheetViewController.m */,
 				A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */,
 				A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */,
 			);
@@ -1063,6 +1073,7 @@
 				A15EB7AA1A84FCF0009199D1 /* LoginViewController+Register.m in Sources */,
 				A182E4731AA596DE00730ECC /* PaperItemFavorite.m in Sources */,
 				A1913F8C1AA40107003BFEA0 /* PaperService.m in Sources */,
+				A1E8A6941AC656F400007B8A /* WrongSheetViewController.m in Sources */,
 				A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */,
 				A1DAE05F1AB15E21001D5091 /* UIViewQueue.m in Sources */,
 				A1C3B7771A763C05006EA38F /* SettingData.m in Sources */,
@@ -1070,6 +1081,7 @@
 				A1910E6E1A6D3AC800377160 /* main.m in Sources */,
 				A199CB871A7761030094FE50 /* ScreenViewController.m in Sources */,
 				A18B9F6D1AA700B200C135DB /* PaperRecordService.m in Sources */,
+				A1E8A6911AC6407500007B8A /* WrongViewController.m in Sources */,
 				A19DCE781A83442C0019856D /* HttpUtils.m in Sources */,
 				A13A4DC21AC5583700BBD1D2 /* WrongSubjectViewController.m in Sources */,
 				A1C3B7631A75DB5F006EA38F /* DefaultViewController.m in Sources */,
