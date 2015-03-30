@@ -10,11 +10,11 @@
 #import "UIColor+Hex.h"
 #import "HomeData.h"
 #import "ETImageButton.h"
+#import "UIViewUtils.h"
 
 #define __k_homepanelview_columns 3//九宫格列数
 #define __k_homepanelview_borderColor 0xdedede//边框颜色
-#define __k_homepanelview_borderWith 1.0//边框宽度
-#define __k_homepanelview_borderRadius 8.0//边框圆角弧度
+#define __kETHomePanelView_bgColor 0xF5F4F9//背景色
 //主页面板视图(九宫格)成员变量
 @interface ETHomePanelView(){
     NSArray *_dataArrays;
@@ -22,19 +22,17 @@
 @end
 //主页面板视图(九宫格)实现类
 @implementation ETHomePanelView
-//创建面板
 #pragma mark 创建面板
 -(void)createPanel{
-    [self createPanelWithFrame:self.frame];
-}
-#pragma mark 创建面板
--(void)createPanelWithFrame:(CGRect)frame{
     _dataArrays = [HomeData loadHomeData];
-    if(_dataArrays.count == 0) return;
-    CGSize size = frame.size;
-    CGFloat w = size.width / __k_homepanelview_columns, h = size.height / __k_homepanelview_columns;
+    NSInteger count = 0;
+    if((count = _dataArrays.count) == 0) return;
     
-    for(int i = 0; i < _dataArrays.count; i++){
+    int rows = (int)(count / __k_homepanelview_columns) + (count % __k_homepanelview_columns == 0 ? 0 : 1);
+    CGFloat w = CGRectGetWidth(self.frame) / __k_homepanelview_columns;
+    CGFloat h = CGRectGetHeight(self.frame)/rows;
+    
+    for(NSInteger i = 0; i < count; i++){
         int col = i % __k_homepanelview_columns;//列
         int row = i / __k_homepanelview_columns;//行
         CGRect tempFrame = CGRectMake(col * w, row * h, w, h);
@@ -45,12 +43,10 @@
         [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:btn];
     }
-
-    self.backgroundColor = [UIColor clearColor];//设置背景色
-    self.layer.masksToBounds = YES;
-    self.layer.cornerRadius = __k_homepanelview_borderRadius;
-    self.layer.borderWidth = __k_homepanelview_borderWith;
-    self.layer.borderColor = [[UIColor colorWithHex:__k_homepanelview_borderColor] CGColor];
+    //
+    [UIViewUtils addBoundsRadiusWithView:self
+                             BorderColor:[UIColor colorWithHex:__k_homepanelview_borderColor]
+                         BackgroundColor:[UIColor colorWithHex:__kETHomePanelView_bgColor]];
 }
 #pragma mark 点击事件
 -(void)btnClick:(ETImageButton *)sender{

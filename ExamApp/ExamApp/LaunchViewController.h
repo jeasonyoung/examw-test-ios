@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <CoreData/CoreData.h>
 
 #import "UIViewController+VisibleView.h"
 @interface LaunchViewController : UIViewController

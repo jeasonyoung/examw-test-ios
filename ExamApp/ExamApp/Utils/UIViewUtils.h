@@ -11,7 +11,16 @@
 //界面视图工具类
 @interface UIViewUtils : NSObject
 //添加圆角边框
-+(void)addBoundsRadiusWithView:(UIView *)view BorderColor:(UIColor *)borderColor BackgroundColor:(UIColor *)bgColor;
++(void)addBoundsRadiusWithView:(UIView *)view
+                   BorderColor:(UIColor *)borderColor
+               BackgroundColor:(UIColor *)bgColor;
 //添加边框
-+(void)addBorderWithView:(UIView *)view BorderColor:(UIColor *)borderColor BackgroundColor:(UIColor *)bgColor;
++(void)addBorderWithView:(UIView *)view
+             BorderColor:(UIColor *)borderColor
+         BackgroundColor:(UIColor *)bgColor;
+//添加边框重载
++(void)addBorderWithView:(UIView *)view
+             BorderColor:(UIColor *)borderColor
+             BorderWidth:(CGFloat)borderWith
+         BackgroundColor:(UIColor *)bgColor;
 @end

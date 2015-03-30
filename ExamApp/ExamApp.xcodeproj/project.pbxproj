@@ -134,6 +134,9 @@
 		A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E279091A78DFED00F23A20 /* FeedbackViewController.m */; };
 		A1E8A6911AC6407500007B8A /* WrongViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E8A6901AC6407500007B8A /* WrongViewController.m */; };
 		A1E8A6941AC656F400007B8A /* WrongSheetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E8A6931AC656F400007B8A /* WrongSheetViewController.m */; };
+		A1E8A6971AC6712500007B8A /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E8A6961AC6712500007B8A /* WebViewController.m */; };
+		A1E8A69A1AC6931300007B8A /* DateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E8A6991AC6931300007B8A /* DateViewController.m */; };
+		A1E8A69C1AC91C2100007B8A /* learn_record.png in Resources */ = {isa = PBXBuildFile; fileRef = A1E8A69B1AC91C2100007B8A /* learn_record.png */; };
 		A1EC0A941AAAC9E000167B83 /* ItemContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EC0A931AAAC9E000167B83 /* ItemContentView.m */; };
 		A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A1ED101A1A6F4EA9004DAD90 /* NSQueue.m */; };
 		A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1ED101F1A6F80BA004DAD90 /* MainViewController.m */; };
@@ -285,7 +288,6 @@
 		A195EFB01AA970E3002695A9 /* UIViewUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UIViewUtils.m; path = Utils/UIViewUtils.m; sourceTree = "<group>"; };
 		A199C9F91A73ADD400A31587 /* ETUserView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETUserView.h; sourceTree = "<group>"; };
 		A199C9FA1A73ADD400A31587 /* ETUserView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETUserView.m; sourceTree = "<group>"; };
-		A199C9FC1A73B0E800A31587 /* ETUserViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETUserViewDelegate.h; sourceTree = "<group>"; };
 		A199C9FD1A74874A00A31587 /* ETImageButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETImageButton.h; sourceTree = "<group>"; };
 		A199C9FE1A74874A00A31587 /* ETImageButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ETImageButton.m; sourceTree = "<group>"; };
 		A199CA001A7487AB00A31587 /* ETHomePanelViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ETHomePanelViewDelegate.h; sourceTree = "<group>"; };
@@ -375,6 +377,11 @@
 		A1E8A6901AC6407500007B8A /* WrongViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrongViewController.m; sourceTree = "<group>"; };
 		A1E8A6921AC656F400007B8A /* WrongSheetViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WrongSheetViewController.h; sourceTree = "<group>"; };
 		A1E8A6931AC656F400007B8A /* WrongSheetViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WrongSheetViewController.m; sourceTree = "<group>"; };
+		A1E8A6951AC6712500007B8A /* WebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WebViewController.h; sourceTree = "<group>"; };
+		A1E8A6961AC6712500007B8A /* WebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WebViewController.m; sourceTree = "<group>"; };
+		A1E8A6981AC6931300007B8A /* DateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateViewController.h; sourceTree = "<group>"; };
+		A1E8A6991AC6931300007B8A /* DateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateViewController.m; sourceTree = "<group>"; };
+		A1E8A69B1AC91C2100007B8A /* learn_record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = learn_record.png; sourceTree = "<group>"; };
 		A1EC0A921AAAC9E000167B83 /* ItemContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemContentView.h; sourceTree = "<group>"; };
 		A1EC0A931AAAC9E000167B83 /* ItemContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemContentView.m; sourceTree = "<group>"; };
 		A1ED10191A6F4EA9004DAD90 /* NSQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSQueue.h; path = Utils/NSQueue.h; sourceTree = "<group>"; };
@@ -559,6 +566,7 @@
 				A13A4DBA1AC4FCD200BBD1D2 /* feedback_post_selected.png */,
 				A194935B1AA7F64900A7791E /* favorite_normal.png */,
 				A194935C1AA7F64900A7791E /* favorite_highlight.png */,
+				A1E8A69B1AC91C2100007B8A /* learn_record.png */,
 			);
 			name = images;
 			sourceTree = "<group>";
@@ -632,6 +640,8 @@
 				A1E8A6901AC6407500007B8A /* WrongViewController.m */,
 				A1E8A6921AC656F400007B8A /* WrongSheetViewController.h */,
 				A1E8A6931AC656F400007B8A /* WrongSheetViewController.m */,
+				A1E8A6951AC6712500007B8A /* WebViewController.h */,
+				A1E8A6961AC6712500007B8A /* WebViewController.m */,
 				A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */,
 				A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */,
 			);
@@ -643,7 +653,6 @@
 			children = (
 				A199C9F91A73ADD400A31587 /* ETUserView.h */,
 				A199C9FA1A73ADD400A31587 /* ETUserView.m */,
-				A199C9FC1A73B0E800A31587 /* ETUserViewDelegate.h */,
 				A199CA011A74A33500A31587 /* ETHomePanelView.h */,
 				A199CA021A74A33500A31587 /* ETHomePanelView.m */,
 				A199CA001A7487AB00A31587 /* ETHomePanelViewDelegate.h */,
@@ -700,6 +709,8 @@
 			children = (
 				A1EE7DD91A70A8B80071C76D /* SettingsViewController.h */,
 				A1EE7DDA1A70A8B80071C76D /* SettingsViewController.m */,
+				A1E8A6981AC6931300007B8A /* DateViewController.h */,
+				A1E8A6991AC6931300007B8A /* DateViewController.m */,
 				A199CB851A7761030094FE50 /* ScreenViewController.h */,
 				A199CB861A7761030094FE50 /* ScreenViewController.m */,
 				A1E279081A78DFED00F23A20 /* FeedbackViewController.h */,
@@ -905,6 +916,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A199CA2A1A74CD8D00A31587 /* guide_normal.png in Resources */,
+				A1E8A69C1AC91C2100007B8A /* learn_record.png in Resources */,
 				A199CA161A74C77000A31587 /* renewal_normal.png in Resources */,
 				A13A4DBB1AC4FCD200BBD1D2 /* feedback_post_normal.png in Resources */,
 				A151102E1A6E4A7800FE59A9 /* guide_3.png in Resources */,
@@ -1037,6 +1049,7 @@
 				A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */,
 				A1B1C42C1AC23F020018741B /* LearnRecordService.m in Sources */,
 				A17F78D31AA55D1400C671A9 /* PaperRecord.m in Sources */,
+				A1E8A6971AC6712500007B8A /* WebViewController.m in Sources */,
 				A18CCF351A85BD2A00C20555 /* TextFieldValidator.m in Sources */,
 				A10008FB1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m in Sources */,
 				A1E279001A7887B000F23A20 /* ETNavigationController.m in Sources */,
@@ -1048,6 +1061,7 @@
 				A18995991A7A2F5E00D591FF /* ProtocolViewController.m in Sources */,
 				A19493671AA8242800A7791E /* ETTimerView.m in Sources */,
 				A15DFF431AA1857200C8A7B7 /* PaperData.m in Sources */,
+				A1E8A69A1AC6931300007B8A /* DateViewController.m in Sources */,
 				A1D02F051A7B70F9004C484D /* AESCrypt.m in Sources */,
 				A1AA7CCC1A81F761003A5137 /* LoginData.m in Sources */,
 				A15DFF491AA2D5B000C8A7B7 /* PaperDataDao.m in Sources */,

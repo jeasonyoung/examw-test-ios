@@ -6,6 +6,19 @@
 	<array>
 		<dict>
 			<key>key</key>
+			<string>account</string>
+			<key>title</key>
+			<string>当前账号</string>
+			<key>type</key>
+			<string>cell_data</string>
+			<key>data</key>
+			<string></string>
+		</dict>
+	</array>
+	<key>group-1</key>
+	<array>
+		<dict>
+			<key>key</key>
 			<string>date</string>
 			<key>title</key>
 			<string>考试日期设置</string>
@@ -25,7 +38,7 @@
 			<string></string>
 		</dict>
 	</array>
-	<key>group-1</key>
+	<key>group-2</key>
 	<array>
 		<dict>
 			<key>key</key>
@@ -38,7 +51,7 @@
 			<string></string>
 		</dict>
 	</array>
-	<key>group-2</key>
+	<key>group-3</key>
 	<array>
 		<dict>
 			<key>key</key>
@@ -51,7 +64,7 @@
 			<string>http://m.examw.com</string>
 		</dict>
 	</array>
-	<key>group-3</key>
+	<key>group-4</key>
 	<array>
 		<dict>
 			<key>key</key>
@@ -78,19 +91,6 @@
 			<string>about</string>
 			<key>title</key>
 			<string>关于应用</string>
-			<key>type</key>
-			<string>cell_data</string>
-			<key>data</key>
-			<string></string>
-		</dict>
-	</array>
-	<key>group-4</key>
-	<array>
-		<dict>
-			<key>key</key>
-			<string>account</string>
-			<key>title</key>
-			<string>当前账号</string>
 			<key>type</key>
 			<string>cell_data</string>
 			<key>data</key>

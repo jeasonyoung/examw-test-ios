@@ -13,7 +13,5 @@
 //主页面板委托
 @property(nonatomic,assign)id<ETHomePanelViewDelegate> delegate;
 //创建面板
--(void)createPanelWithFrame:(CGRect)frame;
-//创建面板
 -(void)createPanel;
 @end

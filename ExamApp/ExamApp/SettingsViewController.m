@@ -17,6 +17,7 @@
 #import "ProtocolViewController.h"//隐私协议控制器
 #import "AboutViewController.h"//关于应用控制器
 #import "AccountViewController.h"//当前账号控制器
+#import "DateViewController.h"//考试日期设置控制器
 
 #import "ETAlert.h"
 #import "WaitForAnimation.h"
@@ -99,7 +100,7 @@
     NSString *value = data.key;
     UIViewController *controller;
     if([@"date" isEqualToString:value]){//1.考试日期设置
-        
+        controller = [[DateViewController alloc]init];
     }else if([@"sync" isEqualToString:value]){//2.同步与更新
         [self syncDataAlter];
         return;

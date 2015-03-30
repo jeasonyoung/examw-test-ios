@@ -11,7 +11,15 @@
 #import "NSString+Size.h"
 #import "HomeData.h"
 
-#define __k_image_lable_margin 5
+#import "UIViewUtils.h"
+
+#define __kETImageButton_margin 5
+#define __kETImageButton_normalFontColor 0x3277EC//设置常态字体颜色
+#define __kETImageButton_highlightFontColor 0xF5F4F9//高亮字体颜色
+#define __kETImageButton_borderColor 0xDEDEDE//边框颜色
+
+#define __kETImageButton_borderWith 0.28//边框宽度
+
 //图片按钮成员变量
 @interface ETImageButton(){
     UIFont *_font;
@@ -29,17 +37,15 @@
         //设置默认字体
         _font = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
         //设置常态字体颜色
-        _normalFontColor = [UIColor colorWithHex:0x3277EC];
+        _normalFontColor = [UIColor colorWithHex:__kETImageButton_normalFontColor];
         //设置高亮字体颜色
-        _highlightFontColor = [UIColor colorWithHex:0xF5F4F9];
+        _highlightFontColor = [UIColor colorWithHex:__kETImageButton_highlightFontColor];
         //设置常态背景颜色
         _normalBackgroundColor = _highlightFontColor;
         //设置高亮背景色
         _highlightBackgroundColor = _normalFontColor;
         //边框颜色
-        _borderColor = [UIColor colorWithHex:0xDEDEDE];
-        
-        //NSLog(@"initWithFrame");
+        _borderColor = [UIColor colorWithHex:__kETImageButton_borderColor];
     }
     return self;
 }
@@ -48,7 +54,7 @@
     if(data == nil)return;
     _title = data.title;
     _value = data.value;
-    [self setBackgroundColor:_normalBackgroundColor];
+    //[self setBackgroundColor:_normalBackgroundColor];
     [self setTitle:data.title forState:UIControlStateNormal];
     [self.titleLabel setFont:_font];
     [self setTitleColor:_normalFontColor forState:UIControlStateNormal];
@@ -70,18 +76,17 @@
         }
         _titleSize = titleSize;
         marginHeight =  (height - imageSize.height - titleSize.height) / 3;
-        _titleCenter = CGPointMake(width / 2, marginHeight + imageSize.height + __k_image_lable_margin + (_titleSize.height / 2));
+        _titleCenter = CGPointMake(width / 2, marginHeight + imageSize.height + __kETImageButton_margin + (_titleSize.height / 2));
         
     }
     _imageView.center = CGPointMake(width / 2, marginHeight + (imageSize.height / 2));
     [self addSubview:_imageView];
     
-    self.layer.masksToBounds = YES;
-    self.layer.cornerRadius = 0.5;
-    self.layer.borderWidth = 0.2;
-    self.layer.borderColor = [_borderColor CGColor];
     
-    //NSLog(@"createPanelWithData ....");
+    [UIViewUtils addBorderWithView:self
+                       BorderColor:_borderColor
+                       BorderWidth:__kETImageButton_borderWith
+                   BackgroundColor:_normalBackgroundColor];
 }
 -(void)layoutSubviews{
     [super layoutSubviews];

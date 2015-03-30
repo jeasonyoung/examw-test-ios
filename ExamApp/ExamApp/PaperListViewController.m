@@ -23,7 +23,6 @@
 #define __k_paperlist_segment_margin_left 20//左边间隔
 #define __k_paperlist_segment_margin_right 20//右边间隔
 #define __k_paperlist_segment_height 30//高度
-//#define __k_paperlist_segment_data @[@"历年真题",@"模拟试题",@"预测试题",@"练习题"]
 
 #define __k_paperlist_table_cellIdentifier @"cell"
 #define __k_paperlist_cell_textLabel_font_size 13//字体大小
