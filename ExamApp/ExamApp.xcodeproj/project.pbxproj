@@ -137,6 +137,7 @@
 		A1E8A6971AC6712500007B8A /* WebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E8A6961AC6712500007B8A /* WebViewController.m */; };
 		A1E8A69A1AC6931300007B8A /* DateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E8A6991AC6931300007B8A /* DateViewController.m */; };
 		A1E8A69C1AC91C2100007B8A /* learn_record.png in Resources */ = {isa = PBXBuildFile; fileRef = A1E8A69B1AC91C2100007B8A /* learn_record.png */; };
+		A1E8A6A21AC92FEA00007B8A /* LearnTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1E8A6A11AC92FEA00007B8A /* LearnTableViewCell.m */; };
 		A1EC0A941AAAC9E000167B83 /* ItemContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EC0A931AAAC9E000167B83 /* ItemContentView.m */; };
 		A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A1ED101A1A6F4EA9004DAD90 /* NSQueue.m */; };
 		A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1ED101F1A6F80BA004DAD90 /* MainViewController.m */; };
@@ -382,6 +383,8 @@
 		A1E8A6981AC6931300007B8A /* DateViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateViewController.h; sourceTree = "<group>"; };
 		A1E8A6991AC6931300007B8A /* DateViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateViewController.m; sourceTree = "<group>"; };
 		A1E8A69B1AC91C2100007B8A /* learn_record.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = learn_record.png; sourceTree = "<group>"; };
+		A1E8A6A01AC92FEA00007B8A /* LearnTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearnTableViewCell.h; sourceTree = "<group>"; };
+		A1E8A6A11AC92FEA00007B8A /* LearnTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearnTableViewCell.m; sourceTree = "<group>"; };
 		A1EC0A921AAAC9E000167B83 /* ItemContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemContentView.h; sourceTree = "<group>"; };
 		A1EC0A931AAAC9E000167B83 /* ItemContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemContentView.m; sourceTree = "<group>"; };
 		A1ED10191A6F4EA9004DAD90 /* NSQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSQueue.h; path = Utils/NSQueue.h; sourceTree = "<group>"; };
@@ -666,6 +669,8 @@
 				A1CCBEE41AAFD60F00705643 /* ItemContentGroupView.m */,
 				A140403E1AB6DA5000799A65 /* ItemAnswerView.h */,
 				A140403F1AB6DA5000799A65 /* ItemAnswerView.m */,
+				A1E8A6A01AC92FEA00007B8A /* LearnTableViewCell.h */,
+				A1E8A6A11AC92FEA00007B8A /* LearnTableViewCell.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -1048,6 +1053,7 @@
 				A140418D1A78E61B00669D46 /* ETextView.m in Sources */,
 				A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */,
 				A1B1C42C1AC23F020018741B /* LearnRecordService.m in Sources */,
+				A1E8A6A21AC92FEA00007B8A /* LearnTableViewCell.m in Sources */,
 				A17F78D31AA55D1400C671A9 /* PaperRecord.m in Sources */,
 				A1E8A6971AC6712500007B8A /* WebViewController.m in Sources */,
 				A18CCF351A85BD2A00C20555 /* TextFieldValidator.m in Sources */,

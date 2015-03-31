@@ -100,6 +100,13 @@
     [rs close];
     return data;
 }
+#pragma mark 删除数据
+-(BOOL)deleteRecordWithCode:(NSString *)code{
+    if(!code || code.length == 0 || !_db || ![_db tableExists:__k_paperrecorddao_tableName]) return NO;
+    NSString *delete_sql = [NSString stringWithFormat:@"delete from %@ where %@ = ?",
+                            __k_paperrecorddao_tableName,__k_paperrecord_fields_code];
+    return [_db executeUpdate:delete_sql,code];
+}
 #pragma mark 更新数据
 -(BOOL)updateRecord:(PaperRecord *__autoreleasing *)record{
     if(_db && [_db tableExists:__k_paperrecorddao_tableName] && (*record)){

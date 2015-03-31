@@ -18,4 +18,6 @@
 -(void)loadRecordAtRow:(NSInteger)row Data:(void(^)(NSString *paperTypeName,NSString *paperTitle,PaperRecord *record))block;
 //根据试卷ID加载试卷数据
 -(PaperReview *)loadPaperReviewWithPaperCode:(NSString *)paperCode;
+//删除数据
+-(void)deleteWithPaperRecordCode:(NSString *)paperRecordCode;
 @end

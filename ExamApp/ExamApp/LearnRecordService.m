@@ -14,6 +14,8 @@
 #import "PaperRecord.h"
 #import "PaperRecordDao.h"
 
+#import "PaperItemRecordDao.h"
+
 #import "PaperData.h"
 #import "PaperDataDao.h"
 
@@ -74,5 +76,17 @@
         paperReview = [dao loadPaperContentWithCode:paperCode];
     }];
     return paperReview;
+}
+#pragma mark 根据试卷记录ID删除数据
+-(void)deleteWithPaperRecordCode:(NSString *)paperRecordCode{
+    if(!_dbQueue || !paperRecordCode || paperRecordCode.length == 0)return;
+    [_dbQueue inDatabase:^(FMDatabase *db) {
+        //1.先删除试卷记录下的试题
+        PaperItemRecordDao *itemRecordDao = [[PaperItemRecordDao alloc]initWithDb:db];
+        [itemRecordDao deleteRecordWithPaperRecordCode:paperRecordCode];
+        //2.再删除试卷记录
+        PaperRecordDao *paperRecordDao = [[PaperRecordDao alloc]initWithDb:db];
+        [paperRecordDao deleteRecordWithCode:paperRecordCode];
+    }];
 }
 @end

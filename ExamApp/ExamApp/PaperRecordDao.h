@@ -23,6 +23,8 @@
 -(PaperRecord *)loadDataAtRow:(NSInteger)row;
 //更新数据
 -(BOOL)updateRecord:(PaperRecord **)record;
+//删除数据
+-(BOOL)deleteRecordWithCode:(NSString *)code;
 //加载需同步的数据集合
 -(NSArray*)loadSyncRecords;
 //更新同步标示

@@ -14,6 +14,8 @@
 #import "NSString+Date.h"
 #import "WaitForAnimation.h"
 
+#import "LearnTableViewCell.h"
+
 #import "PaperDetailViewController.h"
 
 #define __kLearnRecordViewController_title @"学习记录"
@@ -29,7 +31,7 @@
 //学习记录视图控制器成员变量
 @interface LearnRecordViewController ()<UITableViewDataSource,UITableViewDelegate>{
     LearnRecordService *_service;
-    NSMutableDictionary *_rowCodeCache;
+    NSMutableDictionary *_rowCodeCache,*_rowHeightCache;
     UIFont *_cellTitleFont,*_cellDetailFont;
 }
 @end
@@ -44,6 +46,8 @@
     _service = [[LearnRecordService alloc]init];
     //初始化缓存
     _rowCodeCache = [NSMutableDictionary dictionary];
+    //初始化高度缓存
+    _rowHeightCache = [NSMutableDictionary dictionary];
     //初始化字体
     _cellTitleFont = [UIFont systemFontOfSize:__kLearnRecordViewController_cellTitleFontSize];
     _cellDetailFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
@@ -61,60 +65,45 @@
 }
 //加载数据
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    __block UITableViewCell *cell;
+    __block LearnTableViewCell *cell;
     [WaitForAnimation animationWithView:self.view WaitTitle:__kLearnRecordViewController_title Block:^{
         cell = [tableView dequeueReusableCellWithIdentifier:__kLearnRecordViewController_cellIdentifier];
         if(!cell){
-            cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle
-                                         reuseIdentifier:__kLearnRecordViewController_cellIdentifier];
-//            //设置图片
-//            cell.imageView.image = [UIImage imageNamed:__kLearnRecordViewController_cellImage];
-//            //调整大小
-//            CGSize imageSize = CGSizeMake(__kLearnRecordViewController_cellImageWith, __kLearnRecordViewController_cellImageHeight);
-//            UIGraphicsBeginImageContextWithOptions(imageSize, NO, UIScreen.mainScreen.scale);
-//            CGRect imageRect = CGRectMake(0, 0, imageSize.width, imageSize.height);
-//            [cell.imageView.image drawInRect:imageRect];
-//            cell.imageView.image = UIGraphicsGetImageFromCurrentImageContext();
-//            UIGraphicsEndImageContext();
-            
-            UIImageView *imgView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:__kLearnRecordViewController_cellImage]];
-            imgView.frame =  CGRectMake(0, 0, __kLearnRecordViewController_cellImageWith, __kLearnRecordViewController_cellImageHeight);
-            [cell.contentView addSubview:imgView];
-            cell.indentationLevel = 1;
-            cell.indentationWidth = __kLearnRecordViewController_cellImageWith;
-            
-            //
+            cell = [[LearnTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                             reuseIdentifier:__kLearnRecordViewController_cellIdentifier];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            
-            cell.textLabel.font = _cellTitleFont;
-            cell.textLabel.numberOfLines = 0;
-            
-            cell.detailTextLabel.font = _cellDetailFont;
-            cell.detailTextLabel.textColor = [UIColor darkTextColor];
-            cell.detailTextLabel.numberOfLines = 0;
         }
-        cell.textLabel.text = cell.detailTextLabel.text = @"";
         [_service loadRecordAtRow:indexPath.row Data:^(NSString *paperTypeName, NSString *paperTitle, PaperRecord *record) {
             if(_rowCodeCache && record && record.paperCode && record.paperCode.length > 0){
                 [_rowCodeCache setObject:@[record.code,record.paperCode] forKey:[NSNumber numberWithInteger:indexPath.row]];
             }
-            
-            cell.textLabel.text = [NSString stringWithFormat:@"[%@]%@",paperTypeName,paperTitle];
-            float minute = record.useTimes.floatValue / 60;
-            NSMutableString *detail = [NSMutableString string];
-            [detail appendFormat:@"耗时:%d分%d秒", (int)minute,(int)((minute - (int)minute) *60)];
-            if([record.status isEqualToNumber:[NSNumber numberWithBool:YES]] && record.score && record.score.floatValue > 0){
-                [detail appendFormat:@" 得分:%.1f",record.score.floatValue];
+            cell.paperTypeName = paperTypeName;
+            cell.paperTitle = paperTitle;
+            cell.useTimes = record.useTimes;
+            cell.score = record.score;
+            cell.lastTime = record.lastTime;
+            CGFloat height = [cell loadData];
+            if(_rowHeightCache){
+                [_rowHeightCache setObject:[NSNumber numberWithFloat:height]
+                                    forKey:[NSNumber numberWithInteger:indexPath.row]];
             }
-            [detail appendFormat:@"  %@",[NSString stringFromDate:record.lastTime]];
-            cell.detailTextLabel.text = detail;
         }];
         
     }];
     return cell;
 }
-
 #pragma mark UITableViewDelegate
+//获取Cell高度
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(_rowHeightCache){
+        NSNumber *height = [_rowHeightCache objectForKey:[NSNumber numberWithInteger:indexPath.row]];
+        if(height){
+            return  height.floatValue;
+        }
+    }
+    return 0;
+}
+//选中事件
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"click:%d", indexPath.row);
     if(_rowCodeCache && _rowCodeCache.count > 0){
@@ -129,8 +118,34 @@
         [self.navigationController pushViewController:pdvc animated:NO];
     }
 }
+//删除事件处理
+-(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
+     NSLog(@"%d=>(section:%d,row:%d)",editingStyle,indexPath.section,indexPath.row);
+    //
+    if(editingStyle == UITableViewCellEditingStyleDelete && _rowCodeCache && _rowCodeCache.count > 0){//删除数据
+        NSArray *arrays = [_rowCodeCache objectForKey:[NSNumber numberWithInteger:indexPath.row]];
+        NSString *paperRecordCode = [arrays objectAtIndex:0];
+        if(_service){//删除数据库中数据
+            [_service deleteWithPaperRecordCode:paperRecordCode];
+        }
+        //删除缓存
+        [_rowCodeCache removeObjectForKey:[NSNumber numberWithInteger:indexPath.row]];
+        if(_rowHeightCache && _rowHeightCache.count > 0){
+            [_rowHeightCache removeObjectForKey:[NSNumber numberWithInteger:indexPath.row]];
+        }
+        //删除动画
+        [tableView reloadData];
+        //[tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+    }
+}
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    if(_rowHeightCache && _rowHeightCache.count > 0){
+        [_rowHeightCache removeAllObjects];
+    }
+    if(_rowCodeCache && _rowCodeCache.count > 0){
+        [_rowCodeCache removeAllObjects];
+    }
 }
 @end

@@ -371,4 +371,11 @@
         [_db executeUpdate:update_sql,[NSNumber numberWithBool:YES],[NSNumber numberWithBool:NO]];
     }
 }
+#pragma mark 根据试卷记录ID删除试题记录
+-(BOOL)deleteRecordWithPaperRecordCode:(NSString *)paperRecordCode{
+    if(!paperRecordCode || paperRecordCode.length == 0 || !_db || ![_db tableExists:__k_paperitemrecorddao_tableName]) return NO;
+    NSString *delete_sql = [NSString stringWithFormat:@"delete from %@ where %@ = ?",
+                            __k_paperitemrecorddao_tableName,__k_paperitemrecord_fields_paperRecordCode];
+    return [_db executeUpdate:delete_sql,paperRecordCode];
+}
 @end

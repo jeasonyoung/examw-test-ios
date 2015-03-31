@@ -46,4 +46,6 @@
 -(NSArray *)loadSyncRecords;
 //更新同步标示
 -(void)updateSyncFlagWithIgnoreRecords:(NSArray *)ignores;
+//根据试卷记录ID删除试题记录
+-(BOOL)deleteRecordWithPaperRecordCode:(NSString *)paperRecordCode;
 @end
