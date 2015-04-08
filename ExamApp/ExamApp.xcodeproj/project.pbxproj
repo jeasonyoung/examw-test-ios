@@ -12,6 +12,8 @@
 		A10008FB1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A10008FA1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m */; };
 		A10008FE1ABC5B0300F2BD81 /* FavoriteService.m in Sources */ = {isa = PBXBuildFile; fileRef = A10008FD1ABC5B0300F2BD81 /* FavoriteService.m */; };
 		A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */; };
+		A12DC55E1ACE7D9700832DF9 /* ProductData.m in Sources */ = {isa = PBXBuildFile; fileRef = A12DC55D1ACE7D9700832DF9 /* ProductData.m */; };
+		A12EAF481ACD239F0049C272 /* AppClientSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A12EAF471ACD239F0049C272 /* AppClientSettings.m */; };
 		A135278D1AAE864D00630C72 /* ItemOptionView.m in Sources */ = {isa = PBXBuildFile; fileRef = A135278C1AAE864D00630C72 /* ItemOptionView.m */; };
 		A13527911AAE94E000630C72 /* option_multy_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A135278F1AAE94E000630C72 /* option_multy_normal.png */; };
 		A13527921AAE94E000630C72 /* option_multy_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A13527901AAE94E000630C72 /* option_multy_selected.png */; };
@@ -172,6 +174,10 @@
 		A10008FD1ABC5B0300F2BD81 /* FavoriteService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteService.m; sourceTree = "<group>"; };
 		A10187C51A84B568002D2F37 /* LoginViewController+UserLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginViewController+UserLogin.h"; sourceTree = "<group>"; };
 		A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginViewController+UserLogin.m"; sourceTree = "<group>"; };
+		A12DC55C1ACE7D9700832DF9 /* ProductData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductData.h; sourceTree = "<group>"; };
+		A12DC55D1ACE7D9700832DF9 /* ProductData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductData.m; sourceTree = "<group>"; };
+		A12EAF461ACD239F0049C272 /* AppClientSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppClientSettings.h; sourceTree = "<group>"; };
+		A12EAF471ACD239F0049C272 /* AppClientSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppClientSettings.m; sourceTree = "<group>"; };
 		A135278B1AAE864D00630C72 /* ItemOptionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ItemOptionView.h; path = Utils/ItemOptionView.h; sourceTree = "<group>"; };
 		A135278C1AAE864D00630C72 /* ItemOptionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ItemOptionView.m; path = Utils/ItemOptionView.m; sourceTree = "<group>"; };
 		A135278F1AAE94E000630C72 /* option_multy_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = option_multy_normal.png; sourceTree = "<group>"; };
@@ -326,7 +332,6 @@
 		A19DCE771A83442C0019856D /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUtils.m; sourceTree = "<group>"; };
 		A1AA7CC41A81B336003A5137 /* RegisterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterData.h; sourceTree = "<group>"; };
 		A1AA7CC51A81B336003A5137 /* RegisterData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterData.m; sourceTree = "<group>"; };
-		A1AA7CC71A81D3AD003A5137 /* AppConstant.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConstant.h; sourceTree = "<group>"; };
 		A1AA7CCA1A81F761003A5137 /* LoginData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginData.h; sourceTree = "<group>"; };
 		A1AA7CCB1A81F761003A5137 /* LoginData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginData.m; sourceTree = "<group>"; };
 		A1B1C4271AC23D4D0018741B /* LearnRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearnRecordViewController.h; sourceTree = "<group>"; };
@@ -480,7 +485,6 @@
 			children = (
 				A1910E6F1A6D3AC800377160 /* AppDelegate.h */,
 				A1910E701A6D3AC800377160 /* AppDelegate.m */,
-				A1AA7CC71A81D3AD003A5137 /* AppConstant.h */,
 				A1510F811A6DEF4C00FE59A9 /* LaunchViewController.h */,
 				A1510F821A6DEF4C00FE59A9 /* LaunchViewController.m */,
 				A1ED101E1A6F80BA004DAD90 /* MainViewController.h */,
@@ -760,12 +764,16 @@
 				A19DCE731A82F5DF0019856D /* AppClient.m */,
 				A188277B1AA06CE0008C734D /* AppClientSync.h */,
 				A188277C1AA06CE0008C734D /* AppClientSync.m */,
+				A12EAF461ACD239F0049C272 /* AppClientSettings.h */,
+				A12EAF471ACD239F0049C272 /* AppClientSettings.m */,
 				A1AA7CC41A81B336003A5137 /* RegisterData.h */,
 				A1AA7CC51A81B336003A5137 /* RegisterData.m */,
 				A1AA7CCA1A81F761003A5137 /* LoginData.h */,
 				A1AA7CCB1A81F761003A5137 /* LoginData.m */,
 				A1904FA61A94E36900541B9E /* AppRegisterCode.h */,
 				A1904FA71A94E36900541B9E /* AppRegisterCode.m */,
+				A12DC55C1ACE7D9700832DF9 /* ProductData.h */,
+				A12DC55D1ACE7D9700832DF9 /* ProductData.m */,
 				A15EB7A51A84EC8B009199D1 /* JSONCallback.h */,
 				A15EB7A61A84EC8B009199D1 /* JSONCallback.m */,
 			);
@@ -1038,6 +1046,7 @@
 				A15EB7A71A84EC8B009199D1 /* JSONCallback.m in Sources */,
 				A1762B291A874428008E5656 /* AccountViewController+Logout.m in Sources */,
 				A1913F8F1AA42F2A003BFEA0 /* PaperDetailViewController.m in Sources */,
+				A12DC55E1ACE7D9700832DF9 /* ProductData.m in Sources */,
 				A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */,
 				A199CA301A74CFBF00A31587 /* HomeData.m in Sources */,
 				A18B9F671AA6997B00C135DB /* PaperItemRecordDao.m in Sources */,
@@ -1071,6 +1080,7 @@
 				A1D02F051A7B70F9004C484D /* AESCrypt.m in Sources */,
 				A1AA7CCC1A81F761003A5137 /* LoginData.m in Sources */,
 				A15DFF491AA2D5B000C8A7B7 /* PaperDataDao.m in Sources */,
+				A12EAF481ACD239F0049C272 /* AppClientSettings.m in Sources */,
 				A18827741AA053E5008C734D /* ETAlert.m in Sources */,
 				A1B1C4291AC23D4D0018741B /* LearnRecordViewController.m in Sources */,
 				A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */,

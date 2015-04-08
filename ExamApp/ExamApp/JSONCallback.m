@@ -20,11 +20,10 @@
 @implementation JSONCallback
 #pragma mark 初始化
 -(instancetype)initWithDictionary:(NSDictionary *)dict{
-    if(self = [super init]){
-        if(dict && dict.count > 0){
-            for(NSString *key in dict.allKeys){
-                [self setValue:[dict objectForKey:key] forKey:key];
-            }
+    if((self = [super init]) && dict && dict.count > 0){
+        for(NSString *key in dict.allKeys){
+            if(!key || key.length == 0)continue;
+            [self setValue:[dict objectForKey:key] forKey:key];
         }
     }
     return self;

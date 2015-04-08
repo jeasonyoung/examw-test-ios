@@ -12,6 +12,7 @@
 #import "ETHomePanelView.h"
 #import "DefaultViewController.h"
 #import "UserAccountData.h"
+#import "AppClientSettings.h"
 
 #import "ImitateSubjectViewController.h"
 #import "FavoriteSubjectViewController.h"
@@ -19,7 +20,6 @@
 #import "WrongSubjectViewController.h"
 #import "WebViewController.h"
 
-#import "AppConstant.h"
 #import "HomeData.h"
 
 #define __kHomeViewController_Top 4 //顶部间距
@@ -64,7 +64,8 @@
 #pragma mark 用户信息面板代理方法
 #pragma mark 倒计时目标日期
 -(NSDate *)userViewForExamDate{
-    return [HomeData loadExamDate];
+    return [AppClientSettings clientSettings].appClientExamDate;
+    //return [HomeData loadExamDate];
 }
 #pragma mark 当前用户名
 -(NSString *)userViewForCurrentUser{
@@ -88,7 +89,7 @@
     NSLog(@"homePanelView => %@,  value = %@", homePanelView, value);
     UIViewController *controller;
     if([@"everyday" isEqualToString:value]){//1.每日知识
-        controller = [[WebViewController alloc]initWithURL:_kAppClientHomeUrl];
+        controller = [[WebViewController alloc]initWithURL:[AppClientSettings clientSettings].homeUrl];
     }else if([@"practice" isEqualToString:value]){//2.章节练习
         
     }else if([@"collect" isEqualToString:value]){//3.我的收藏
@@ -100,11 +101,11 @@
     }else if([@"notes" isEqualToString:value]){//6.我的笔记
         
     }else if([@"forum" isEqualToString:value]){//7.论坛交流
-        controller = [[WebViewController alloc]initWithURL:_kAppClientBBSUrl];
+        controller = [[WebViewController alloc]initWithURL:[AppClientSettings clientSettings].bbsUrl];
     }else if([@"record" isEqualToString:value]){//8.学习记录
         controller = [[LearnRecordViewController alloc] init];
     }else if([@"guide" isEqualToString:value]){//9.考试指南
-        controller = [[WebViewController alloc]initWithURL:_kAppClientGuideUrl];
+        controller = [[WebViewController alloc]initWithURL:[AppClientSettings clientSettings].guideUrl];
     }
     
     if(controller == nil){

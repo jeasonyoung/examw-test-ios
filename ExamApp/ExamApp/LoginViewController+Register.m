@@ -384,11 +384,12 @@ WaitForAnimation *_regWaitHud;
             return;
         }
         //提交数据
-        [HttpUtils JSONDataDigestWithUrl:_kAppClientUserRegisterUrl
+        AppClientSettings *appSetings = [AppClientSettings clientSettings];
+        [HttpUtils JSONDataDigestWithUrl:appSetings.registerPostUrl//_kAppClientUserRegisterUrl
                                   Method:HttpUtilsMethodPOST
                               Parameters:[user serializeJSON]
-                                Username:_kAppClientUserName
-                                Password:_kAppClientPassword
+                                Username:appSetings.digestUsername//_kAppClientUserName
+                                Password:appSetings.digestPassword//_kAppClientPassword
                                  Success:^(NSDictionary *json) {//网路正常
                                      JSONCallback *callback = [[JSONCallback alloc] initWithDictionary:json];
                                      //关闭等待动画

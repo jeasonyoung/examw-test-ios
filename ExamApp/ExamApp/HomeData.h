@@ -21,8 +21,8 @@
 +(instancetype)homeDataWithDict:(NSDictionary *)dict;
 //加载对象集合
 +(NSArray *)loadHomeData;
-//加载考试日期
-+(NSDate *)loadExamDate;
-//更新考试日期
-+(void)updateExamDate:(NSDate *)date;
+////加载考试日期
+//+(NSDate *)loadExamDate;
+////更新考试日期
+//+(void)updateExamDate:(NSDate *)date;
 @end

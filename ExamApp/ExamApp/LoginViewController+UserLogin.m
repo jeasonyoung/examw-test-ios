@@ -136,12 +136,13 @@ UIAlertController *_alterController;
 }
 //网络验证用户
 -(void)networkAuthentication:(LoginData *)login{
+    AppClientSettings *appSettings = [AppClientSettings clientSettings];
     //调用网络
-    [HttpUtils JSONDataDigestWithUrl:_kAppClientUserLoginUrl
+    [HttpUtils JSONDataDigestWithUrl:appSettings.loginPostUrl//_kAppClientUserLoginUrl
                               Method:HttpUtilsMethodPOST
                           Parameters:[login serializeJSON]
-                            Username:_kAppClientUserName
-                            Password:_kAppClientPassword
+                            Username:appSettings.digestUsername//_kAppClientUserName
+                            Password:appSettings.digestPassword//_kAppClientPassword
                              Success:^(NSDictionary *json) {//网络交互成功
                                  JSONCallback *callback = [[JSONCallback alloc] initWithDictionary:json];
                                  if(callback.success){//验证成功
@@ -156,7 +157,7 @@ UIAlertController *_alterController;
                                      if(callback.data){
                                           userAccount.accountId = callback.data;
                                      }
-                                     userAccount.version = _kAppClientVersion;
+                                     userAccount.version = appSettings.appClientVersion;//_kAppClientVersion;
                                      //保存为当前用户
                                      [userAccount saveForCurrent];
                                      //关闭等待动画

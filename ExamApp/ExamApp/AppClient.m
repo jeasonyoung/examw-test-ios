@@ -22,16 +22,18 @@
 #pragma mark 初始化函数
 -(instancetype)init{
     if(self = [super init]){
+        //初始化
+        appSettings = [AppClientSettings clientSettings];
         //客户端唯一标示
-        self.clientId = _kAppClientID;
+        _clientId = appSettings.appClientID;
         //客户端名称
-        self.clientName = _kAppClientName;
+        _clientName = appSettings.appClientName;
         //软件版本
-        self.clientVersion = [[NSNumber numberWithDouble:_kAppClientVersion] stringValue];
+        _clientVersion = [[NSNumber numberWithDouble:appSettings.appClientVersion] stringValue];
         //客户端类型代码
-        self.clientTypeCode = [[NSNumber numberWithInt:_kAppClientTypeCode] stringValue];
+        _clientTypeCode = [[NSNumber numberWithInt:appSettings.appClientTypeCode] stringValue];
         //产品ID
-        self.productId = _kAppClientProductId;
+        _productId = appSettings.appClientProductID;
         //设备唯一标示(先获取广告标示)
         self.clientMachine = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
         if(!self.clientMachine){//当无法获取广告标示时使用idfv

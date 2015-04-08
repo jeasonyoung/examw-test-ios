@@ -8,9 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "JSONSerialize.h"
-#import "AppConstant.h"
+#import "AppClientSettings.h"
 //应用客户端基类
-@interface AppClient : NSObject<JSONSerialize>
+@interface AppClient : NSObject<JSONSerialize>{
+    @protected
+    AppClientSettings *appSettings;
+}
 //客户端ID
 @property(nonatomic,copy)NSString *clientId;
 //客户端名称

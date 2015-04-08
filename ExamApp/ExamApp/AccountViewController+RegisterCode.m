@@ -13,6 +13,8 @@
 #import "JSONCallback.h"
 #import "WaitForAnimation.h"
 
+#import "AppClientSettings.h"
+
 #define __k_account_view_register_title @"软件注册码"//
 #define __k_account_view_register_msg @"请输入软件注册码"//
 
@@ -87,12 +89,13 @@ UIAlertController *_registerAlterController,*_showAlterController;
             }
             //注册码请求数据
             AppRegisterCode *appRegCode = [[AppRegisterCode alloc] initWithCode:regCode];
+            AppClientSettings *appSettings = [AppClientSettings clientSettings];
             //网络处理
-            [HttpUtils JSONDataDigestWithUrl:_kAppClientRegisterCodeUrl
+            [HttpUtils JSONDataDigestWithUrl:appSettings.appRegCodeValidUrl/*_kAppClientRegisterCodeUrl*/
                                       Method:HttpUtilsMethodPOST
                                   Parameters:[appRegCode serializeJSON]
-                                    Username:_kAppClientUserName
-                                    Password:_kAppClientPassword
+                                    Username:appSettings.digestUsername
+                                    Password:appSettings.digestPassword
                                      Success:^(NSDictionary *json) {
                                          //获取反馈
                                          JSONCallback *callback = [[JSONCallback alloc] initWithDictionary:json];

@@ -7,6 +7,7 @@
 //
 
 #import "RegisterData.h"
+#import "AppClientSettings.h"
 
 #define __k_register_data_parameters_account @"account"//用户名
 #define __k_register_data_parameters_password @"password"//密码
@@ -37,12 +38,15 @@
 }
 #pragma mark 重载序列化
 -(NSDictionary *)serializeJSON{
+    AppClientSettings *appClientSettings = [AppClientSettings clientSettings];
+    NSString *channel = appClientSettings.appClientChannel;
+    
     NSDictionary *local_dict = @{__k_register_data_parameters_account:self.account,
                                  __k_register_data_parameters_password:self.password,
                                  __k_register_data_parameters_username:self.username,
                                  __k_register_data_parameters_email:self.email,
                                  __k_register_data_parameters_phone:self.phone,
-                                 __k_register_data_parameters_channel:_kAppClientChannel};
+                                 __k_register_data_parameters_channel:channel};
     
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[super serializeJSON]];
     [dict addEntriesFromDictionary:local_dict];

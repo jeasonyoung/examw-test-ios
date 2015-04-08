@@ -67,11 +67,12 @@
 }
 #pragma mark 同步考试科目数据
 -(void)syncExamsWithReq:(AppClientSync *)req Result:(void(^)(NSString *))result{
-    [HttpUtils JSONDataDigestWithUrl:_kAppClientSyncExamsUrl
+    AppClientSettings *appSettings = [AppClientSettings clientSettings];
+    [HttpUtils JSONDataDigestWithUrl:appSettings.syncExamSubjecstUrl /*_kAppClientSyncExamsUrl*/
                               Method:HttpUtilsMethodPOST
                           Parameters:[req serializeJSON]
-                            Username:_kAppClientUserName
-                            Password:_kAppClientPassword
+                            Username:appSettings.digestUsername //_kAppClientUserName
+                            Password:appSettings.digestPassword//_kAppClientPassword
                              Success:^(NSDictionary *data) {
                                  JSONCallback *callback = [JSONCallback callbackWithDictionary:data];
                                  if(!callback.success){
@@ -113,11 +114,12 @@
             //加载更新起始时间
             req.startTime = [paperDao loadLastSyncTime];
             //从服务器获取数据
-            [HttpUtils JSONDataDigestWithUrl:_kAppClientSyncPapersUrl
+            AppClientSettings *appSettings = [AppClientSettings clientSettings];
+            [HttpUtils JSONDataDigestWithUrl:appSettings.syncPapersUrl//_kAppClientSyncPapersUrl
                                       Method:HttpUtilsMethodPOST
                                   Parameters:[req serializeJSON]
-                                    Username:_kAppClientUserName
-                                    Password:_kAppClientPassword
+                                    Username:appSettings.digestUsername//_kAppClientUserName
+                                    Password:appSettings.digestPassword//_kAppClientPassword
                                      Success:^(NSDictionary *data) {
                                          //反馈数据反序列化
                                          JSONCallback *callback = [JSONCallback callbackWithDictionary:data];
