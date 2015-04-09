@@ -12,79 +12,81 @@
 #import "AppRegisterCode.h"
 #import "JSONCallback.h"
 #import "WaitForAnimation.h"
+#import "ETAlert.h"
 
 #import "AppClientSettings.h"
 
-#define __k_account_view_register_title @"软件注册码"//
-#define __k_account_view_register_msg @"请输入软件注册码"//
+#define __kAccountViewController_register_title @"软件注册码"//
+#define __kAccountViewController_register_msg @"请输入软件注册码"//
 
-#define __k_account_view_register_btn_cancel @"取消"//
-#define __k_account_view_register_btn_submit @"确定"//
+#define __kAccountViewController_register_btnSubmit @"确定"//
+#define __kAccountViewController_register_btnCancel @"取消"//
 
-#define __k_account_view_register_alter_title @"提示"//
-#define __k_account_view_register_alter_error @"无网络，请联网再试！"//
+#define __kAccountViewController_register_waitting @"正在注册..."//
+
+#define __kAccountViewController_register_alterTitle @"提示"//
+#define __kAccountViewController_register_alterError @"无网络，请联网再试！"//
+
+#define __kAccountViewController_register_registerCode @"registerCode"
 
 //注册码处理分类
 @implementation AccountViewController (RegisterCode)
-WaitForAnimation *_registerWaitHud;
-UIAlertController *_registerAlterController,*_showAlterController;
+ETAlert *registerAlert;
 //注册码处理。
 -(void)registerWithAccount:(UserAccountData *)account{
-    if(!_registerAlterController){//惰性加载
-        _registerAlterController = [UIAlertController alertControllerWithTitle:__k_account_view_register_title
-                                                                       message:nil
-                                                                preferredStyle:UIAlertControllerStyleAlert];
-        //添加输入框
-        [_registerAlterController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-            textField.placeholder = __k_account_view_register_msg;
-            textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-            textField.keyboardType = UIKeyboardTypeNumberPad;
-            textField.delegate = self;
-            //添加通知，监听的注册码内容的变化
-            [[NSNotificationCenter defaultCenter] addObserver:self
-                                                     selector:@selector(registerCodeFieldTextDidChangeNotification:)
-                                                         name:UITextFieldTextDidChangeNotification
-                                                       object:textField];
-        }];
-        //取消按钮
-        UIAlertAction *btnCancel = [UIAlertAction actionWithTitle:__k_account_view_register_btn_cancel
-                                                            style:UIAlertActionStyleCancel
-                                                          handler:^(UIAlertAction *action) {
-                                                             [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-                                                              NSLog(@"注销...");
-                                                          }];
-        //确定按钮
-        UIAlertAction *btnSubmit = [UIAlertAction actionWithTitle:__k_account_view_register_btn_submit
-                                                            style:UIAlertActionStyleDefault
-                                                          handler:^(UIAlertAction *action) {
-                                                              NSLog(@"确定...=>...");
-                                                              [self saveRegisterCodeWithAccount:account];//保存注册码
-                                                          }];
-        btnSubmit.enabled = NO;
-        //添加按钮
-        [_registerAlterController addAction:btnCancel];
-        [_registerAlterController addAction:btnSubmit];
+    //初始化弹出框
+    registerAlert = [[ETAlert alloc]initWithTitle:__kAccountViewController_register_title Message:nil];
+    //添加输入框
+    [registerAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
+        textField.placeholder = __kAccountViewController_register_msg;
+        textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+        textField.keyboardType = UIKeyboardTypeNumberPad;
+        textField.delegate = self;
+        //添加通知，监听的注册码内容的变化
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(registerCodeFieldTextDidChangeNotification:)
+                                                     name:UITextFieldTextDidChangeNotification
+                                                   object:textField];
+    }];
+    //添加确定按钮
+    [registerAlert addConfirmActionWithTitle:__kAccountViewController_register_btnSubmit Handler:^(UIAlertAction *action) {
+        [self saveRegisterCodeWithAccount:account];//保存注册码
+    }];
+    //添加取消按钮
+    [registerAlert addCancelActionWithTitle:__kAccountViewController_register_btnCancel Handler:nil];
+    //确定按钮不可用
+    NSArray *actions = [registerAlert actions];
+    if(actions && actions.count > 0){
+        ((UIAlertAction *)actions[0]).enabled = NO;
     }
-    //弹出界面
-    [self presentViewController:_registerAlterController animated:YES completion:nil];
-    
-    NSLog(@"registerWithAccount=>%@", account);
+    //弹出弹出框
+    [registerAlert showWithController:self];
 }
 //保存注册码
 -(void)saveRegisterCodeWithAccount:(UserAccountData *)account{
-    if(!_registerWaitHud){//初始化等待动画
-        _registerWaitHud = [[WaitForAnimation alloc] initWithView:self.view WaitTitle:@"正在注册..."];
-    }
-    [_registerWaitHud show];//开启等待动画
-    if(account && _registerAlterController){
-       NSString *regCode = [((UITextField *)_registerAlterController.textFields[0]).text stringByTrimmingCharactersInSet :[NSCharacterSet whitespaceCharacterSet]];
+    WaitForAnimation *regWait = [[WaitForAnimation alloc] initWithView:self.view
+                                                             WaitTitle:__kAccountViewController_register_waitting];
+    //开启等待动画
+    [regWait show];
+    //注册码处理
+    if(account && registerAlert){
+        NSArray *textFields = registerAlert.textFields;
+        if(textFields && textFields.count > 0){
+            //关闭等待动画
+            [regWait hide];
+            return;
+        }
+        //获取输入的注册码
+        NSString *regCode = [((UITextField *)textFields[0]).text
+                            stringByTrimmingCharactersInSet :[NSCharacterSet whitespaceCharacterSet]];
+        //检查网络
         [HttpUtils netWorkStatus:^(BOOL statusValue) {
             if(!statusValue){
                 //关闭等待动画
-                [_registerWaitHud hide];
+                [regWait hide];
                 //显示提示信息
-                [self showAlterWithTitle:__k_account_view_register_alter_title
-                                 Message:__k_account_view_register_alter_error];
+                [self showAlterWithTitle:__kAccountViewController_register_alterTitle
+                                 Message:__kAccountViewController_register_alterError];
                 return;
             }
             //注册码请求数据
@@ -97,67 +99,54 @@ UIAlertController *_registerAlterController,*_showAlterController;
                                     Username:appSettings.digestUsername
                                     Password:appSettings.digestPassword
                                      Success:^(NSDictionary *json) {
+                                         //关闭等待动画
+                                         [regWait hide];
                                          //获取反馈
                                          JSONCallback *callback = [[JSONCallback alloc] initWithDictionary:json];
                                          if(callback.success){
                                              //重置注册码数据
-                                             [account setValue:regCode forKey:@"registerCode"];
+                                             [account setValue:regCode forKey:__kAccountViewController_register_registerCode];
                                              //保存数据
                                              [account save];
                                          }else{
                                              //反馈错误
-                                             [self showAlterWithTitle:__k_account_view_register_alter_title
+                                             [self showAlterWithTitle:__kAccountViewController_register_alterTitle
                                                               Message:callback.msg];
                                          }
-                                         //关闭等待动画
-                                         [_registerWaitHud hide];
+                                         
                                      } Fail:^(NSString *err) {
                                          //关闭等待动画
-                                         [_registerWaitHud hide];
+                                         [regWait hide];
                                          //显示错误信息
-                                         [self showAlterWithTitle:__k_account_view_register_alter_title
+                                         [self showAlterWithTitle:__kAccountViewController_register_alterTitle
                                                           Message:err];
                                      }];
         }];
     }else{
         //关闭等待动画
-        [_registerWaitHud hide];
+        [regWait hide];
     }
 }
 //显示提示信息
 -(void)showAlterWithTitle:(NSString *)title Message:(NSString *)msg{
-    if(!_showAlterController){
-        _showAlterController = [UIAlertController alertControllerWithTitle:title
-                                                                   message:msg
-                                                            preferredStyle:UIAlertControllerStyleAlert];
-        UIAlertAction *btnSumbit = [UIAlertAction actionWithTitle:__k_account_view_register_btn_submit
-                                                            style:UIAlertActionStyleCancel
-                                                          handler:^(UIAlertAction *action) {
-                                                              NSLog(@"alter_title");
-                                                              [self.presentedViewController dismissViewControllerAnimated:NO completion:nil];
-                                                          }];
-        [_showAlterController addAction:btnSumbit];
-    }
-    [_showAlterController setTitle:title];//设置标题
-    [_showAlterController setMessage:msg];//设置提示内容
-    //弹出提示框
-    [self presentViewController:_showAlterController animated:YES completion:nil];
+    [ETAlert alertWithTitle:title
+                    Message:msg
+                ButtonTitle:__kAccountViewController_register_btnSubmit
+                 Controller:self];
 }
-
 //注册码内容变化通知处理
 -(void)registerCodeFieldTextDidChangeNotification:(NSNotification *)note{
     UITextField *tf = note.object;
-    if(tf && _registerAlterController){
-        NSArray *actions = _registerAlterController.actions;
-        if(actions.count > 0){
-            ((UIAlertAction *)actions[1]).enabled = tf.text.length > 0;
+    if(registerAlert && tf){
+        NSArray *actions = registerAlert.actions;
+        if(actions && actions.count > 0){
+            ((UIAlertAction *)actions[0]).enabled = tf.text.length > 0;
         }
     }
 }
 #pragma mark UITextFieldDelegate
 -(void)textFieldDidEndEditing:(UITextField *)textField{
-    NSLog(@"textFieldDidEndEditing==>");
+    //NSLog(@"textFieldDidEndEditing==>");
     [textField resignFirstResponder];
 }
-
 @end

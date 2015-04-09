@@ -21,7 +21,7 @@
 -(void)gotoController{
     //设置转场动画
     CATransition *trans = [self createCustomTransitionAnimation];
-    if(trans != nil){
+    if(trans){
         //设置转场动画
         [self.view.layer addAnimation:trans forKey:@"home_trans"];
     }

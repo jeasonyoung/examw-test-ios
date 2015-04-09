@@ -7,7 +7,8 @@
 //
 #import <QuartzCore/QuartzCore.h>
 #import "LaunchViewController.h"
-#import "MainViewController.h"
+//#import "MainViewController.h"
+#import "ChoiceProductsViewController.h"
 
 #define __k_launch_total 3//引导页总数
 #define __k_launch_margin_bottom 20//底部间距
@@ -151,7 +152,8 @@
 #pragma mark 按钮事件处理
 -(void)btnClick:(id)sender{
     NSLog(@"btnClick===== begin");
-    [[[MainViewController alloc] init] gotoController];
+    //[[[MainViewController alloc] init] gotoController];
+    [[[ChoiceProductsViewController alloc]init]gotoController];
     NSLog(@"btnClick===== end");
 }
 #pragma 内存警告处理

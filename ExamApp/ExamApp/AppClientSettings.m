@@ -42,7 +42,7 @@
 //服务器地址前缀
 #define __kAppClientSettings_hostPrefix @"http://localhost:8080/examw-test"//
 //同步产品数据URL
-#define __kAppClientSettings_syncProductsSuffix @"/sync/products/%@"//
+#define __kAppClientSettings_syncProductsSuffix @"/api/m/sync/products/%@"//
 //注册提交URL
 #define __kAppClientSettings_registerPostSuffix @"/api/m/user/register"//
 //登录提交URL

@@ -23,6 +23,12 @@
     }
     return self;
 }
+#pragma mark 添加文本输入框
+-(void)addTextFieldWithConfigurationHandler:(void (^)(UITextField *))handler{
+    if(_alertController && handler){
+        [_alertController addTextFieldWithConfigurationHandler:handler];
+    }
+}
 #pragma mark 添加取消按钮
 -(void)addCancelActionWithTitle:(NSString *)title Handler:(void (^)(UIAlertAction *))handler{
     if(title){
@@ -48,6 +54,14 @@
                                                            }];
         [_alertController addAction:btnConfirm];
     }
+}
+#pragma mark 获取按钮集合
+-(NSArray *)actions{
+    return _alertController ? _alertController.actions : nil;
+}
+#pragma mark 获取输入框集合
+-(NSArray *)textFields{
+    return _alertController ? _alertController.textFields : nil;
 }
 #pragma mark 显示弹出框
 -(void)showWithController:(UIViewController *)controller{

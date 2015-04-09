@@ -20,9 +20,35 @@
 #pragma mark 初始化
 -(instancetype)initWithDict:(NSDictionary *)dict{
     if((self = [super init]) && dict && dict.count > 0){
-        for(NSString *key in dict.allKeys){
-            if(!key || key.length == 0)continue;
-            [self setValue:[dict objectForKey:key] forKey:key];
+        //产品ID
+        if([dict.allKeys containsObject:__kProductData_code]){
+            _code = [dict objectForKey:__kProductData_code];
+        }
+        //产品名称
+        if([dict.allKeys containsObject:__kProductData_name]){
+            _name = [dict objectForKey:__kProductData_name];
+        }
+        //所属地区
+        if([dict.allKeys containsObject:__kProductData_areaName]){
+            _areaName = [dict objectForKey:__kProductData_areaName];
+        }
+        //产品价格
+        if([dict.allKeys containsObject:__kProductData_price]){
+           _price = [dict objectForKey:__kProductData_price];
+        }
+        //产品优惠价格
+        if([dict.allKeys containsObject:__kProductData_discount]){
+            _discount = [dict objectForKey:__kProductData_discount];
+        }
+        //试卷总数
+        if([dict.allKeys containsObject:__kProductData_paperTotal]){
+            NSNumber *total = [dict objectForKey:__kProductData_paperTotal];
+            _paperTotal = total.integerValue;
+        }
+        //试题总数
+        if([dict.allKeys containsObject:__kProductData_itemTotal]){
+            NSNumber *total = [dict objectForKey:__kProductData_itemTotal];
+            _itemTotal = total.integerValue;
         }
     }
     return self;
@@ -36,5 +62,15 @@
              __kProductData_discount:(_discount ? _discount : [NSNumber numberWithFloat:0]),
              __kProductData_paperTotal:[NSNumber numberWithInteger:_paperTotal],
              __kProductData_itemTotal:[NSNumber numberWithInteger:_itemTotal]};
+}
+#pragma mark 重构输出字符串
+-(NSString *)description{
+    NSDictionary *dict = [self serializeJSON];
+    NSError *err = nil;
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&err];
+    if(err){
+        return [super description];
+    }
+    return [[NSString alloc]initWithData:data encoding:NSUTF8StringEncoding];
 }
 @end

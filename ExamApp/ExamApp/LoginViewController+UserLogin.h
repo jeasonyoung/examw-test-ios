@@ -13,5 +13,5 @@
 //登录界面
 -(void)alterLoginViewWithMessage:(NSString *)msg Account:(NSString *)account;
 //用户验证
--(void)authentication:(LoginData *)login;
+//-(void)authentication:(LoginData *)login;
 @end
