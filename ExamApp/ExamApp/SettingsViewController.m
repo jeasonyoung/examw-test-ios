@@ -18,25 +18,26 @@
 #import "AboutViewController.h"//关于应用控制器
 #import "AccountViewController.h"//当前账号控制器
 #import "DateViewController.h"//考试日期设置控制器
+#import "ChoiceProductsViewController.h"//选择产品
 
 #import "ETAlert.h"
 #import "WaitForAnimation.h"
 #import "DataSyncService.h"
 
-#define __k_settingsviewcontroller_alert_sync_title @"同步确认"
-#define __k_settingsviewcontroller_alert_sync_msg @"是否确定从服务器同步数据?"
-#define __k_settingsviewcontroller_alert_sync_btn_cancel @"取消"
-#define __k_settingsviewcontroller_alert_sync_btn_submit @"确定"
-#define __k_settingsviewcontroller_alert_sync_waiting @"正在同步数据，请稍后..."
-#define __k_settingsviewcontroller_alert_sync_success @"同步成功!"
-#define __k_settingsviewcontroller_alert_sync_failure @"同步失败!"
+#define __kSettingsViewController_syncTitle @"同步确认"
+#define __kSettingsViewController_syncMsg @"是否确定从服务器同步数据?"
+#define __kSettingsViewController_syncBtnSubmit @"确定"
+#define __kSettingsViewController_syncBtnCancel @"取消"
+#define __kSettingsViewController_syncWaitting @"正在同步数据，请稍后..."
+#define __kSettingsViewController_syncSuccess @"同步成功!"
+#define __kSettingsViewController_syncFailure @"同步失败!"
 
 //设置页控制器成员变量
 @interface SettingsViewController ()<UITableViewDataSource,UITableViewDelegate>{
     //设置分组数据
     NSDictionary *_groups;
     //同步数据等待动画
-    WaitForAnimation *_syncWaiting;
+    //WaitForAnimation *_syncWaiting;
 }
 @end
 //设置页控制器实现类
@@ -101,6 +102,8 @@
     UIViewController *controller;
     if([@"date" isEqualToString:value]){//1.考试日期设置
         controller = [[DateViewController alloc]init];
+    }else if([@"product" isEqualToString:value]){//变更产品
+        controller = [[ChoiceProductsViewController alloc]init];
     }else if([@"sync" isEqualToString:value]){//2.同步与更新
         [self syncDataAlter];
         return;
@@ -143,24 +146,29 @@
 #pragma mark 同步数据
 -(void)syncDataAlter{
     //初始化弹出框
-    ETAlert *alert = [[ETAlert alloc] initWithTitle:__k_settingsviewcontroller_alert_sync_title
-                                            Message:__k_settingsviewcontroller_alert_sync_msg];
-    //添加取消按钮
-    [alert addCancelActionWithTitle:__k_settingsviewcontroller_alert_sync_btn_cancel Handler:nil];
+    ETAlert *alert = [[ETAlert alloc] initWithTitle:__kSettingsViewController_syncTitle
+                                            Message:__kSettingsViewController_syncMsg];
     //添加确定按钮
-    [alert addConfirmActionWithTitle:__k_settingsviewcontroller_alert_sync_btn_submit
+    [alert addConfirmActionWithTitle:__kSettingsViewController_syncBtnSubmit
                              Handler:^(UIAlertAction *action) {
-                                 NSLog(@"确定同步...");
-                                 _syncWaiting = [[WaitForAnimation alloc] initWithView:self.view WaitTitle:__k_settingsviewcontroller_alert_sync_waiting];
-                                 [_syncWaiting show];
-                                 [[[DataSyncService alloc] init] sync:^(NSString *msg) {
-                                     [_syncWaiting hide];
-                                     [ETAlert alertWithTitle:(msg ? __k_settingsviewcontroller_alert_sync_failure : __k_settingsviewcontroller_alert_sync_success)
-                                                     Message:msg
-                                                 ButtonTitle:__k_settingsviewcontroller_alert_sync_btn_submit
+                                 //初始化等待动画
+                                 WaitForAnimation *waitForAni = [[WaitForAnimation alloc]initWithView:self.view
+                                                                                    WaitTitle:__kSettingsViewController_syncWaitting];
+                                 //开启等待动画
+                                 [waitForAni show];
+                                 //开始同步
+                                 [[[DataSyncService alloc]init]sync:^(NSString *err) {
+                                     //关闭等待动画
+                                     [waitForAni hide];
+                                     //显示同步结果
+                                     [ETAlert alertWithTitle:(err?__kSettingsViewController_syncFailure: __kSettingsViewController_syncSuccess)
+                                                     Message:err
+                                                 ButtonTitle:__kSettingsViewController_syncBtnSubmit
                                                   Controller:self];
                                  }];
                              }];
+    //添加取消按钮
+    [alert addCancelActionWithTitle:__kSettingsViewController_syncBtnCancel Handler:nil];
     //显示弹出框
     [alert showWithController:self];
 }

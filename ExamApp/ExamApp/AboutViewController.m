@@ -12,23 +12,23 @@
 #import "NSString+Date.h"
 #import "NSString+Size.h"
 
-#import "AboutData.h"
+#import "AppClientSettings.h"
 
-#define __k_about_margin_top 25//顶部间距
-#define __k_about_margin_bottom 20//底部间距
-#define __k_about_margin_inner_max 15//内部间距
-#define __k_about_margin_inner_min 2//相邻的间距
-#define __k_about_title_width_per 0.4//标题所占宽度的比例
-#define __k_about_title_font_size 13.0//标题字体大小
-#define __k_about_title_ver "版本："//
-#define __k_about_title_website "官网："//
-#define __k_about_title_tel "客服热线："//
-#define __k_about_copyright "版权所有 © 2006-%@ %@"//
-#define __k_about_copyright_font_size 11.0//版权信息字体大小
+#define __kAboutViewController_marginTop 25//顶部间距
+#define __kAboutViewController_marginMax 15//内部间距
+#define __kAboutViewController_marginMin 2//相邻的间距
+
+#define __kAboutViewController_titleTel @"客服热线:4000-525-585"//
+#define __kAboutViewController_titleCopyright @"版权所有 © 2006-%@ 中华考试网(Examw.com)"//
+#define __kAboutViewController_titleCopyrightFontSize 11.0//版权信息字体大小
+
+#define __kAboutViewController_icon @"AppIcon60x60@3x.png"//
+
+#define __kAboutViewController_dateFormat @"yyyy"
 
 //关于应用控制器成员变量
 @interface AboutViewController (){
-    AboutData *_data;
+    
 }
 @end
 //关于应用控制器实现类
@@ -36,142 +36,96 @@
 #pragma mark 入口函数
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //加载数据
-    _data = [AboutData loadAboutData];
+    //初始化设置
+    AppClientSettings *settings = [AppClientSettings clientSettings];
     //
-    CGRect tempFrame = self.view.frame;
-    CGFloat x = tempFrame.size.width / 2, y = [self loadTopHeight] + __k_about_margin_top;
-    //图标
-    y = [self createIconWithX:x Y:y];
-    //标题
-    UIColor *titleFontColor = [UIColor blackColor];
-    y = [self createTitleWithFontColor:titleFontColor X:x Y:y];
-    //子标题
-    y = [self createSubTitleWithFontColor:titleFontColor X:x Y:y];
-    //详细信息
-    y = [self createDetailWithWidth:tempFrame.size.width Y:y];
-    y += __k_about_margin_inner_max;
-    //版权信息
-    [self createCopyRightWithSize:tempFrame.size X:x Y:y];
+    NSNumber *ty = [NSNumber numberWithFloat:([self loadTopHeight] + __kAboutViewController_marginTop)];
+    //设置图标
+    [self setupIconWithOutY:&ty];
+    //设置软件名称
+    ty = [NSNumber numberWithFloat:(ty.floatValue + __kAboutViewController_marginMax)];
+    [self setupTitle:settings.appClientName OutY:&ty labelBlock:^(UILabel *label) {
+        label.font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];;
+    }];
+    //设置产品名称
+    //设置字体
+    UIFont *font = [UIFont systemFontOfSize:__kAboutViewController_titleCopyrightFontSize];
+    ty = [NSNumber numberWithFloat:(ty.floatValue + __kAboutViewController_marginMin)];
+    [self setupTitle:settings.appClientProductName OutY:&ty labelBlock:^(UILabel *label) {
+        label.font = font;
+    }];
+    //获取屏幕y中点
+    CGFloat my = CGRectGetMidY(self.view.frame);
+    if(ty.floatValue < my){
+        ty = [NSNumber numberWithFloat:(my * 1.5 + __kAboutViewController_marginMax)];
+    }else{
+        ty = [NSNumber numberWithFloat:(ty.floatValue +__kAboutViewController_marginMax)];
+    }
+    //设置客服热线
+    [self setupTitle:__kAboutViewController_titleTel OutY:&ty labelBlock:^(UILabel *label) {
+        label.font = font;
+    }];
+    //设置版本信息
+    ty = [NSNumber numberWithFloat:(ty.floatValue + __kAboutViewController_marginMin)];
+    NSString *copyright = [NSString stringWithFormat:__kAboutViewController_titleCopyright,
+                           [NSString stringFromDate:[NSDate date] withDateFormat:__kAboutViewController_dateFormat]];
+    [self setupTitle:copyright OutY:&ty labelBlock:^(UILabel *label) {
+        label.font = font;
+        label.textColor = [UIColor darkTextColor];
+    }];
 }
-#pragma mark 创建图标
--(CGFloat)createIconWithX:(CGFloat)x
-                        Y:(CGFloat)y{
-    if(_data.icon != nil && _data.icon.length > 0){
-        UIImage *iconImage = [UIImage imageNamed:_data.icon];
+//设置图标
+-(void)setupIconWithOutY:(NSNumber **)ty{
+    //设置图标图片
+    NSString *iconName = __kAboutViewController_icon;
+    //判断图标是否存在
+    if(iconName && iconName.length > 0){
+        //加载图标图片
+        UIImage *iconImage = [UIImage imageNamed:iconName];
+        //获取图标尺寸
         CGSize iconSize = iconImage.size;
+        //将图标装载到视图
         UIImageView *iconView = [[UIImageView alloc] initWithImage:iconImage];
+        //设置视图尺寸
         iconView.frame = CGRectMake(0, 0, iconSize.width, iconSize.height);
+        //设置内容模式
         iconView.contentMode = UIViewContentModeScaleAspectFit;
-        iconView.center = CGPointMake(x, y + (iconSize.height / 2));
+        //设置居中
+        iconView.center = CGPointMake(CGRectGetWidth(self.view.frame)/2, (*ty).floatValue + (iconSize.height/2));
+        //添加到容器
         [self.view addSubview:iconView];
-        y += iconView.bounds.size.height;
+        //输出y坐标
+        *ty = [NSNumber numberWithFloat:CGRectGetMaxY(iconView.frame)];
     }
-    return y;
 }
-#pragma mark 创建标题
--(CGFloat)createTitleWithFontColor:(UIColor *)fontColor
-                                 X:(CGFloat)x
-                                 Y:(CGFloat)y{
-    if(_data.title != nil && _data.title.length > 0){
-        y += __k_about_margin_inner_max;
-        UIFont *titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-        CGSize titleSize = [_data.title sizeWithFont:titleFont];
-        UILabel *lbTitle =[[UILabel alloc] initWithFrame:CGRectMake(0, 0, titleSize.width, titleSize.height)];
-        lbTitle.font = titleFont;
-        lbTitle.text = _data.title;
-        lbTitle.textColor = fontColor;
-        lbTitle.textAlignment = NSTextAlignmentCenter;
-        lbTitle.center = CGPointMake(x, y + (titleSize.height / 2));
-        [self.view addSubview:lbTitle];
-        y += lbTitle.bounds.size.height;
-    }
-    return y;
-}
-#pragma mark 创建子标题
--(CGFloat)createSubTitleWithFontColor:(UIColor *)fontColor
-                                    X:(CGFloat)x
-                                    Y:(CGFloat)y{
-    if(_data.subTitle != nil && _data.subTitle.length > 0){
-        y += __k_about_margin_inner_min;
-        UIFont *subTitleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
-        CGSize subTitleSize = [_data.subTitle sizeWithFont:subTitleFont];
-        UILabel *lbSubTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, subTitleSize.width, subTitleSize.height)];
-        lbSubTitle.font = subTitleFont;
-        lbSubTitle.text = _data.subTitle;
-        lbSubTitle.textColor = fontColor;
-        lbSubTitle.textAlignment = NSTextAlignmentCenter;
-        lbSubTitle.center = CGPointMake(x, y + (subTitleSize.height / 2));
-        [self.view addSubview:lbSubTitle];
-        y += lbSubTitle.bounds.size.height;
-    }
-    return y;
-}
-#pragma mark 创建详细信息
--(CGFloat)createDetailWithWidth:(CGFloat)width
-                              Y:(CGFloat)y{
-    y += __k_about_margin_inner_max;
-    UIFont *font = [UIFont systemFontOfSize:__k_about_title_font_size];
-    //版本
-    y = [self createDetailWithFont:font Title:@__k_about_title_ver Value:[_data.version stringValue] Width:width Y:y];
-    y += __k_about_margin_inner_min;
-    //官网
-    y = [self createDetailWithFont:font Title:@__k_about_title_website Value:_data.website Width:width Y:y];
-    y += __k_about_margin_inner_min;
-    //客服热线
-    y = [self createDetailWithFont:font Title:@__k_about_title_tel Value:_data.title Width:width Y:y];
-    
-    return y;
-}
-//创建详细信息
--(CGFloat)createDetailWithFont:(UIFont *)font
-                         Title:(NSString *)title
-                         Value:(NSString *)value
-                          Width:(CGFloat)width
-                             Y:(CGFloat)y{
-    if(title != nil && title.length > 0){
-        //标题
-        CGSize titleSize = [title sizeWithFont:font];
-        UILabel *lbTitle = [[UILabel alloc] initWithFrame:CGRectMake((width * __k_about_title_width_per) - titleSize.width , y, titleSize.width, titleSize.height)];
-        lbTitle.font = font;
-        lbTitle.text = title;
-        lbTitle.textColor = [UIColor darkGrayColor];
-        lbTitle.textAlignment = NSTextAlignmentRight;
-        [self.view addSubview:lbTitle];
-        //内容
-        if(value != nil && value.length > 0){
-            CGSize valueSize = [value sizeWithFont:font];
-            UILabel *lbValue = [[UILabel alloc] initWithFrame:CGRectMake(width * __k_about_title_width_per, y, valueSize.width, valueSize.height)];
-            lbValue.font = font;
-            lbValue.text = value;
-            lbValue.textColor = [UIColor blueColor];
-            lbValue.textAlignment = NSTextAlignmentLeft;
-            [self.view addSubview:lbValue];
+//设置内容
+-(void)setupTitle:(NSString *)title OutY:(NSNumber **)ty labelBlock:(void(^)(UILabel *label))block{
+    if(title && title.length > 0){
+        //初始化
+        UILabel *lbContent = [[UILabel alloc]init];
+        //设置字体居中
+        lbContent.textAlignment = NSTextAlignmentCenter;
+        //设置多行
+        lbContent.numberOfLines = 0;
+        //属性设置
+        if(block){
+            block(lbContent);
         }
-        y += titleSize.height;
+        //获取宽度
+        CGFloat width = CGRectGetWidth(self.view.frame);
+        //内容尺寸
+        CGSize titleSize = [title sizeWithFont:lbContent.font
+                             constrainedToSize:CGSizeMake(width, CGFLOAT_MAX)
+                                 lineBreakMode:NSLineBreakByWordWrapping];
+        //设置尺寸
+        lbContent.frame = CGRectMake(0, (*ty).floatValue, width, titleSize.height);
+        //设置内容
+        lbContent.text = title;
+        //添加到容器
+        [self.view addSubview:lbContent];
+        //输出y坐标
+        *ty = [NSNumber numberWithFloat:CGRectGetMaxY(lbContent.frame)];
     }
-    return y;
-}
-#pragma mark 创建版权信息
--(void)createCopyRightWithSize:(CGSize)size
-                               X:(CGFloat)x
-                               Y:(CGFloat)y{
-    
-    NSString *year = [NSString stringFromDate:[NSDate currentLocalTime] withDateFormat:@"yyyy"];
-    NSString *copyright = [NSString stringWithFormat:@__k_about_copyright,year,_data.copyright];
-    UIFont *font = [UIFont systemFontOfSize:__k_about_copyright_font_size];
-    CGSize copyrightSize = [copyright sizeWithFont:font];
-    CGRect tempFrame = CGRectMake(x, y, size.width, copyrightSize.height);
-    if(size.height - y > (copyrightSize.height + __k_about_margin_bottom)){
-        tempFrame.origin.y = size.height - __k_about_margin_bottom - copyrightSize.height;
-    }
-    UILabel *lbCopyright = [[UILabel alloc] initWithFrame:tempFrame];
-    lbCopyright.center = CGPointMake(x, tempFrame.origin.y + copyrightSize.height/2);
-    lbCopyright.font = font;
-    lbCopyright.text = copyright;
-    lbCopyright.textColor = [UIColor darkGrayColor];
-    lbCopyright.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:lbCopyright];
 }
 
 #pragma mark 内存告警

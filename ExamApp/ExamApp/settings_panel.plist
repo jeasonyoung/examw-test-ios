@@ -14,6 +14,16 @@
 			<key>data</key>
 			<string></string>
 		</dict>
+		<dict>
+			<key>key</key>
+			<string>product</string>
+			<key>title</key>
+			<string>更换产品</string>
+			<key>type</key>
+			<string>cell_data</string>
+			<key>data</key>
+			<string></string>
+		</dict>
 	</array>
 	<key>group-1</key>
 	<array>

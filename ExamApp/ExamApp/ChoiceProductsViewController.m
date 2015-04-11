@@ -219,7 +219,9 @@
     //启动等待动画
     [syncWaitfor show];
     //开始同步数据
-    [[[DataSyncService alloc] init] sync:^(NSString *err) {
+    DataSyncService *syncService = [[DataSyncService alloc] init];
+    syncService.ignoreCode = YES;
+    [syncService sync:^(NSString *err){
         //关闭等待动画
         [syncWaitfor hide];
         //显示弹出框
@@ -228,6 +230,8 @@
                             Message:err
                         ButtonTitle:__kChoiceProductsViewController_btnSubmit
                          Controller:self];
+        }else{//同步完成后的跳转
+            [self gotoController];
         }
     }];
 }

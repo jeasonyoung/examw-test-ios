@@ -9,44 +9,63 @@
 #import "AESCrypt.h"
 #import "NSString+Hex.h"
 
-#define __k_useraccountdata_current_user_key @"current_user"//首选项存储当前用户信息主键
+#import "AppClientSettings.h"
 
-#define __k_useraccountdata_databaseFileName @"exam-XXX-default.sqlite"//产品数据库文件名称
-#define __k_useraccountdata_defaultUserId @"_nologin__"//未登录用户ID
+//#define __k_useraccountdata_current_user_key @"current_user"//首选项存储当前用户信息主键
+#define __kUserAccountData_userStorageKey @"current_user"//首选项存储当前用户信息主键
 
-#define __k_useraccountdata_database_error_defaultFileError @"产品数据库文件文件不存在！"
+//#define __k_useraccountdata_databaseFileName @"exam-XXX-default.sqlite"//产品数据库文件名称
+#define __kUserAccountData_databaseFileName @"exam-XXX-default.sqlite"//产品数据库文件名称
+//#define __k_useraccountdata_defaultUserId @"_nologin__"//未登录用户ID
+
+#define __kUserAccountData_nologinUserId @"_nologin__"//未登录用户ID
+
+#define __kUserAccountData_dbError @"产品数据库文件文件不存在！"
 //账号数据私有成员变量
 @interface UserAccountData(){
     BOOL _currentUserIsValid;
+    AppClientSettings *_clientSettings;
     NSString *_save_defaults_key;
     NSMutableDictionary *_validation_cache;
 }
 @end
 //账号数据实现类
 @implementation UserAccountData
-//初始化
+#pragma mark 初始化
 -(instancetype)initWithAccount:(NSString *)account{
     if(self = [super init]){
+        //设置当前用户验证为No
         _currentUserIsValid = NO;
+        //初始化设置
+        _clientSettings = [AppClientSettings clientSettings];
+        //判断账号是否存在
+        if(!account || account.length == 0)return self;
+        //设置账号存储键
         _save_defaults_key = account;
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];//初始化用户存储
-        NSData *json_data = [defaults dataForKey:_save_defaults_key];//加载账号下的数据
-        if(json_data == nil)return self;
+        //初始化用户存储
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        //加载账号下的数据
+        NSData *json_data = [defaults dataForKey:_save_defaults_key];
+        //存储不存在
+        if(!json_data || json_data.length == 0)return self;
+        //
         NSError *err = nil;
         //反JSON处理
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:json_data
                                                              options:NSJSONReadingAllowFragments
                                                                error:&err];
-        if(err){//JSON异常
-            NSLog(@"currentUser—json-err:%@",err);
+        //反JSON异常
+        if(err){
+            NSLog(@"UserAccountData—initWithAccount-json:%@",err);
             return self;
         }
-        if(dict.count == 0)return self;
+        //未得到格式数据
+        if(!dict || dict.count == 0)return self;
         //KVC数据插入
         for(NSString *key in dict.allKeys){
             id obj_value = [dict objectForKey:key];
-            if(obj_value == [NSNull null]) continue;
-            
+            if(!obj_value || (obj_value == [NSNull null])) continue;
+            //
             [self setValue:obj_value forKey:[NSString stringWithFormat:@"_%@",key]];
         }
         //验证数据存储的完整性
@@ -70,15 +89,15 @@
 }
 #pragma mark 初始化用户
 +(instancetype)userWithAcount:(NSString *)account{
-    if(account == nil || account.length == 0) return nil;
     return [[self alloc] initWithAccount:account];
 }
 #pragma mark 获取当前用户
 //静态变量
 static UserAccountData *_current_account;
+//当前用户
 +(instancetype)currentUser{
     if(!_current_account){//惰性加载
-        _current_account = [[self alloc] initWithAccount:__k_useraccountdata_current_user_key];
+        _current_account = [[self alloc] initWithAccount:__kUserAccountData_userStorageKey];
     }
     return _current_account;
 }
@@ -87,25 +106,26 @@ static UserAccountData *_current_account;
     return _currentUserIsValid;
 }
 #pragma mark 加载数据库路径
+//静态变量
 static NSMutableDictionary *_dbPathCache;
+//加载数据库链接字符串
 -(NSString *)loadDatabasePath:(NSError *__autoreleasing *)err{
-    if(!_dbPathCache){//初始化数据库缓存
+    //惰性初始化数据库缓存
+    if(!_dbPathCache){
         _dbPathCache = [NSMutableDictionary dictionary];
     }
-    NSString *userId;
-    //加载当前用户
-    if(self.accountId){
-        userId =  self.accountId;
-    }
+    //加载当前用户ID
+    NSString *userId = _accountId;
     //当前用户为空（未登录）
     if(!userId || userId.length == 0){
-        userId = __k_useraccountdata_defaultUserId;
+        userId = __kUserAccountData_nologinUserId;//加载当前用户;
     }
+    NSString *dbPathKey = [NSString stringWithFormat:@"%@-%@",userId, _clientSettings.appClientProductID];
     //从缓存中加载路径
-    NSString *path = [_dbPathCache objectForKey:userId];
-    if(!path){//缓存中没有
+    NSString *path = [_dbPathCache objectForKey:dbPathKey];
+    if(!path || path.length == 0){//缓存中没有
         //当前用户的数据库文件名称
-        NSString *dbFilename = [NSString stringWithFormat:@"%@$%@",userId,__k_useraccountdata_databaseFileName];
+        NSString *dbFilename = [NSString stringWithFormat:@"%@$%@$%@",userId,_clientSettings.appClientProductID,__kUserAccountData_databaseFileName];
         //根路径
         NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         //当前用户数据库文件路径
@@ -114,11 +134,11 @@ static NSMutableDictionary *_dbPathCache;
         NSFileManager *fileMgr = [NSFileManager defaultManager];
         if(![fileMgr fileExistsAtPath:path]){//用户数据库文件不存在
             //默认封装的原始数据库路径
-            NSString *def_db_path = [[NSBundle mainBundle] pathForResource:__k_useraccountdata_databaseFileName ofType:nil];
+            NSString *def_db_path = [[NSBundle mainBundle] pathForResource:__kUserAccountData_databaseFileName ofType:nil];
             if(![fileMgr fileExistsAtPath:def_db_path]){//原始数据库文件也不存在
                 *err = [NSError errorWithDomain:@"UserAccountData.loadDatabasePath"
                                            code:-1
-                                       userInfo:@{NSLocalizedDescriptionKey:__k_useraccountdata_database_error_defaultFileError,
+                                       userInfo:@{NSLocalizedDescriptionKey:__kUserAccountData_dbError,
                                                   NSLocalizedFailureReasonErrorKey:def_db_path}];
                 return nil;
             }
@@ -141,7 +161,7 @@ static NSMutableDictionary *_dbPathCache;
 }
 #pragma mark 保存为当前用户
 -(void)saveForCurrent{
-    [self saveForAccount:__k_useraccountdata_current_user_key];
+    [self saveForAccount:__kUserAccountData_userStorageKey];
 }
 //保存用户数据
 -(void)saveForAccount:(NSString *)account{
@@ -189,7 +209,7 @@ static NSMutableDictionary *_dbPathCache;
             block(json_Data);
         }
         //保存当前用户成功后必须将静态变量重置，否则加密数据会出问题
-        if(_current_account && [account isEqualToString:__k_useraccountdata_current_user_key]){
+        if(_current_account && [account isEqualToString:__kUserAccountData_userStorageKey]){
             _current_account = nil;
         }
         //清空验证缓存
@@ -272,7 +292,7 @@ static NSMutableDictionary *_dbPathCache;
     //加载持久化数据
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     //如果清空当前用户，则将当前用户以账号另存
-    if([_save_defaults_key isEqualToString:__k_useraccountdata_current_user_key]){
+    if([_save_defaults_key isEqualToString:__kUserAccountData_userStorageKey]){
         //将当前用户以用户账号为主键存储
         [self saveForAccount:self.account Block:^(NSData *json) {
             //设置数据

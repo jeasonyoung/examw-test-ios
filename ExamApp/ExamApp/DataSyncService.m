@@ -47,6 +47,7 @@
         return;
     }
     AppClientSync *syncReq = [[AppClientSync alloc] init];
+    syncReq.ignoreCode = _ignoreCode;
     syncReq.code = current.registerCode;
     if(!_queue){
         _queue = [FMDatabaseQueue databaseQueueWithPath:dbPath];

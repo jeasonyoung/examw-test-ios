@@ -12,7 +12,7 @@
 //客户端唯一标示
 #define __kAppClientSettings_id @"357070005327186"
 //客户端名称
-#define __kAppClientSettings_name @"焚题库 iOS v%fBate"
+#define __kAppClientSettings_name @"焚题库 iOS v%.1fBate"
 //客户端软件版本
 #define __kAppClientSettings_version 1.0//
 //客户端类型代码
