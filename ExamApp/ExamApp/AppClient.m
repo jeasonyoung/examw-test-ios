@@ -31,7 +31,7 @@
         //软件版本
         _clientVersion = [[NSNumber numberWithDouble:appSettings.appClientVersion] stringValue];
         //客户端类型代码
-        _clientTypeCode = [[NSNumber numberWithInt:appSettings.appClientTypeCode] stringValue];
+        _clientTypeCode = [[NSNumber numberWithInteger:appSettings.appClientTypeCode] stringValue];
         //产品ID
         _productId = appSettings.appClientProductID;
         //设备唯一标示(先获取广告标示)

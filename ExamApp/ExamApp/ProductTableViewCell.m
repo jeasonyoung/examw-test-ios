@@ -87,6 +87,7 @@
         _lbItems.textAlignment = NSTextAlignmentLeft;
         [self.contentView addSubview:_lbItems];
 }
+
 #pragma mark 选中重载
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];

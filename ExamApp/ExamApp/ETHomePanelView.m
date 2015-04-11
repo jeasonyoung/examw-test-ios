@@ -34,7 +34,7 @@
     
     for(NSInteger i = 0; i < count; i++){
         int col = i % __k_homepanelview_columns;//列
-        int row = i / __k_homepanelview_columns;//行
+        int row = (int)(i / __k_homepanelview_columns);//行
         CGRect tempFrame = CGRectMake(col * w, row * h, w, h);
         
         ETImageButton *btn = [ETImageButton buttonWithType:UIButtonTypeCustom];

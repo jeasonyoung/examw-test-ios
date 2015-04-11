@@ -22,15 +22,27 @@
     if((self = [super init]) && dict && dict.count > 0){
         //产品ID
         if([dict.allKeys containsObject:__kProductData_code]){
-            _code = [dict objectForKey:__kProductData_code];
+            id obj = [dict objectForKey:__kProductData_code];
+            if(obj != [NSNull null] && [obj isKindOfClass:[NSString class]]){
+                _code = (NSString *)obj;
+            }
+            //_code = [dict objectForKey:__kProductData_code];
         }
         //产品名称
         if([dict.allKeys containsObject:__kProductData_name]){
-            _name = [dict objectForKey:__kProductData_name];
+            id obj = [dict objectForKey:__kProductData_name];
+            if(obj != [NSNull null] && [obj isKindOfClass:[NSString class]]){
+                _name = (NSString *)obj;
+            }
+            //_name = [dict objectForKey:__kProductData_name];
         }
         //所属地区
         if([dict.allKeys containsObject:__kProductData_areaName]){
-            _areaName = [dict objectForKey:__kProductData_areaName];
+            id obj = [dict objectForKey:__kProductData_areaName];
+            if(obj != [NSNull null] && [obj isKindOfClass:[NSString class]]){
+                _areaName = (NSString *)obj;
+            }
+            //_areaName = [dict objectForKey:__kProductData_areaName];
         }
         //产品价格
         if([dict.allKeys containsObject:__kProductData_price]){

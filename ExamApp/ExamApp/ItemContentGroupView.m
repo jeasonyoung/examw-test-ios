@@ -61,9 +61,9 @@
             if(!_currentContentView){
                 _currentContentView = [[ItemContentView alloc] initWithFrame:tempFrame];
                 _currentContentView.itemDelegate = self;
-                NSLog(@"新增:%d",order);
+                //NSLog(@"新增:%d",(int)order);
             }else{
-                NSLog(@"从缓存池重复利用:%d",order);
+                //NSLog(@"从缓存池重复利用:%d",order);
                 _currentContentView.frame = tempFrame;
             }
             //加入到队列

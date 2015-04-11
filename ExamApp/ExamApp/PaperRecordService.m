@@ -269,7 +269,7 @@
             favorite.subjectCode = subjectCode;
             favorite.itemCode = itemCodeIndex;
         }
-        favorite.itemType = [NSNumber numberWithInt:indexPath.item.type];
+        favorite.itemType = [NSNumber numberWithInteger:indexPath.item.type];
         favorite.itemContent = [indexPath.item serialize];
         favorite.status = [NSNumber numberWithBool:YES];
         [dao updateFavorite:&favorite];

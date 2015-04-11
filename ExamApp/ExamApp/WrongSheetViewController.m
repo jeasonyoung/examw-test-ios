@@ -221,7 +221,7 @@
 }
 //试题点击事件
 -(void)btnItemOrderClick:(UIButton *)sender{
-    NSLog(@"%@,%d",sender,sender.tag);
+    //NSLog(@"%@,%d",sender,(int)sender.tag);
     NSArray *controllers = self.navigationController.viewControllers;
     if(controllers && controllers.count > 0){
         WrongViewController *target;

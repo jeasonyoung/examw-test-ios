@@ -18,9 +18,9 @@
 //客户端类型代码
 #define __kAppClientSettings_typeCode 7//
 //客户端考试EN简称
-#define __kAppClientSettings_examAbbr @"cy"//考试代码
+#define __kAppClientSettings_examAbbr @"jzs1"//考试代码cy
 //默认考试日期
-#define __kAppClientSettings_defaultExamDate @"2015-04-15"//默认考试日期
+#define __kAppClientSettings_defaultExamDate @"2015-09-19"//默认考试日期
 //考试日期键名
 #define __kAppClientSettings_examDateKey @"_exam_date_key"//考试日期储存键名
 //产品信息键名
@@ -57,9 +57,9 @@
 //首页地址
 #define __kAppClientSettings_homeUrl @"http://m.examw.com/"//
 //考试指南地址
-#define __kAppClientSettings_guideUrl @"http://m.examw.com/cy/"//
+#define __kAppClientSettings_guideUrl @"http://m.examw.com/%@/"//
 //论坛地址
-#define __kAppClientSettings_bbsUrl @"http://bbs.examw.com/forum-37-1.html"//
+#define __kAppClientSettings_bbsUrl @"http://bbs.examw.com/forum-47-1.html"//@"http://bbs.examw.com/forum-37-1.html"//
 
 //应用程序设置实现
 @implementation AppClientSettings
@@ -91,7 +91,7 @@
     
         //链接地址部分
         _homeUrl = __kAppClientSettings_homeUrl;
-        _guideUrl = __kAppClientSettings_guideUrl;
+        _guideUrl = [NSString stringWithFormat:__kAppClientSettings_guideUrl,__kAppClientSettings_examAbbr];//__kAppClientSettings_guideUrl;
         _bbsUrl = __kAppClientSettings_bbsUrl;
     }
     return self;

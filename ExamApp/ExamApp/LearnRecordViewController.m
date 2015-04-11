@@ -105,7 +105,7 @@
 }
 //选中事件
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSLog(@"click:%d", indexPath.row);
+    //NSLog(@"click:%d", indexPath.row);
     if(_rowCodeCache && _rowCodeCache.count > 0){
         NSArray *arrays = [_rowCodeCache objectForKey:[NSNumber numberWithInteger:indexPath.row]];
         if(!arrays || arrays.count < 2)return;
@@ -120,7 +120,7 @@
 }
 //删除事件处理
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
-     NSLog(@"%d=>(section:%d,row:%d)",editingStyle,indexPath.section,indexPath.row);
+    //NSLog(@"%d=>(section:%d,row:%d)",editingStyle,indexPath.section,indexPath.row);
     //
     if(editingStyle == UITableViewCellEditingStyleDelete && _rowCodeCache && _rowCodeCache.count > 0){//删除数据
         NSArray *arrays = [_rowCodeCache objectForKey:[NSNumber numberWithInteger:indexPath.row]];

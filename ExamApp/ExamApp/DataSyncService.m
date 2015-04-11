@@ -34,7 +34,7 @@
         result(__k_datasyncservice_err_user);
         return;
     }
-    if(!current.registerCode || current.registerCode.length == 0){
+    if((!_ignoreCode) && (!current.registerCode || current.registerCode.length == 0)){
         result(__k_datasyncservice_err_code);
         return;
     }
