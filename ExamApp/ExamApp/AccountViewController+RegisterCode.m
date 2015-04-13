@@ -71,7 +71,7 @@ ETAlert *registerAlert;
     //注册码处理
     if(account && registerAlert){
         NSArray *textFields = registerAlert.textFields;
-        if(textFields && textFields.count > 0){
+        if(!textFields || textFields.count == 0){
             //关闭等待动画
             [regWait hide];
             return;
@@ -91,6 +91,7 @@ ETAlert *registerAlert;
             }
             //注册码请求数据
             AppRegisterCode *appRegCode = [[AppRegisterCode alloc] initWithCode:regCode];
+            appRegCode.userId = account.accountId;
             AppClientSettings *appSettings = [AppClientSettings clientSettings];
             //网络处理
             [HttpUtils JSONDataDigestWithUrl:appSettings.appRegCodeValidUrl/*_kAppClientRegisterCodeUrl*/

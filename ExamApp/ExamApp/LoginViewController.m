@@ -25,7 +25,7 @@
     UIBarButtonItem *leftButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(goToRootViewController)];
     self.navigationItem.leftBarButtonItem = leftButton;
     //登录框
-    [self createLoginAlterWithAccount:@"fw121fw41"];
+    [self createLoginAlterWithAccount:nil];
     //添加注册UI
     self.navigationItem.title = __k_login_view_title;
     //显示注册界面

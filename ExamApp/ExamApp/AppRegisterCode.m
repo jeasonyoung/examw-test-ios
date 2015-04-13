@@ -8,8 +8,8 @@
 
 #import "AppRegisterCode.h"
 
-#define __k_appregistercode_parameters_code @"code"
-
+#define __kAppRegisterCode_code @"code"
+#define __kAppRegisterCode_userId @"userId"
 @implementation AppRegisterCode
 //初始化处理
 -(instancetype)initWithCode:(NSString *)code{
@@ -21,7 +21,10 @@
 //JSON序列化
 -(NSDictionary *)serializeJSON{
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[super serializeJSON]];
-    [dict setValue:self.code forKey:__k_appregistercode_parameters_code];
+    [dict setValue:self.code forKey:__kAppRegisterCode_code];
+    if(_userId && _userId.length > 0){
+        [dict setValue:_userId forKey:__kAppRegisterCode_userId];
+    }
     return dict;
 }
 @end

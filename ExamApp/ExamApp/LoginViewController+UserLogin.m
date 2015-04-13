@@ -11,7 +11,8 @@
 #import "LoginData.h"
 #import "UserAccountData.h"
 #import "JSONCallback.h"
-#import "MainViewController.h"
+//#import "MainViewController.h"
+#import "ChoiceProductsViewController.h"
 #import "WaitForAnimation.h"
 #import "ETAlert.h"
 
@@ -230,6 +231,7 @@ ETAlert *loginAlert;
 }
 //跳转到入口控制器
 -(void)goToMainViewController{
-    [[[MainViewController alloc] init] gotoController];
+    //[[[MainViewController alloc] init] gotoController];
+    [[[ChoiceProductsViewController alloc]init]gotoController];
 }
 @end
