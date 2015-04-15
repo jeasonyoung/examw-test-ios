@@ -170,7 +170,7 @@ WaitForAnimation *_regWaitHud;
     CGFloat offset = 0;
     if((offset = (_current_textField_y + (block_panel_height * __k_login_register_per) + keyboard_height - CGRectGetHeight(self.view.frame)) >= 0)){
         CGFloat keyboard_y = CGRectGetHeight(self.view.frame) - keyboard_height;
-        _current_offset_y = abs(CGRectGetMaxY(_regPanel.frame) - keyboard_y) - offset;
+        _current_offset_y = fabsf(CGRectGetMaxY(_regPanel.frame) - keyboard_y) - offset;
         CGFloat duration = [notification.userInfo [UIKeyboardAnimationDurationUserInfoKey] doubleValue];
         CGRect tempFrame = self.view.frame;
         tempFrame.origin.y -= _current_offset_y;
