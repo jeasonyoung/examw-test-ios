@@ -55,7 +55,7 @@ UserAccountData *_account;
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSLog(@"buttonIndex=>%d",buttonIndex);
-    if(!_account)return;
+    if(!_account || buttonIndex == 0)return;
     //获取输入框
     UITextField *tf = [alertView textFieldAtIndex:0];
     if(!tf)return;

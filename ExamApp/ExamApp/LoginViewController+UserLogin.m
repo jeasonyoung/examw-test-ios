@@ -67,11 +67,23 @@
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSLog(@"buttonIndex=>%d",buttonIndex);
+    if(buttonIndex == 0)return;
     //获取账号密码
     UITextField *tfUser = [alertView textFieldAtIndex:0],
     *tfPwd = [alertView textFieldAtIndex:1];
-    //初始化账户对象
-    if(!tfUser || tfUser.text.length == 0 || !tfPwd || tfPwd.text.length == 0)return;
+    //账号
+    if(!tfUser || tfUser.text.length == 0){
+        //弹出登录框
+        [self alterLoginViewWithMessage:__kLoginViewController_login_errorAccount Account:nil];
+        return;
+    }
+    //密码
+    if(!tfPwd || tfPwd.text.length == 0){
+        //弹出登录框
+        [self alterLoginViewWithMessage:__kLoginViewController_login_errorPassword Account:tfUser.text];
+        return;
+    }
+    //if(!tfUser || tfUser.text.length == 0 || !tfPwd || tfPwd.text.length == 0)return;
     //初始化登录等待动画
     WaitForAnimation *loginWait = [[WaitForAnimation alloc]initWithView:self.view WaitTitle:__kLoginViewController_login_waitting];
     //开启等待动画
