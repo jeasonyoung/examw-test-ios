@@ -13,7 +13,6 @@
 #import "WaitForAnimation.h"
 #import "HttpUtils.h"
 #import "MainViewController.h"
-#import "ETAlert.h"
 
 #import "ProductData.h"
 #import "ProductDataCellFrame.h"
@@ -31,7 +30,7 @@
 #define __kChoiceProductsViewController_identity @"_ChoiceProductsViewController_cell"
 #define __kChoiceProductsViewController_defultRowHeight 70//
 //选择产品视图控制器成员变量
-@interface ChoiceProductsViewController ()<UITableViewDataSource,UITableViewDelegate>{
+@interface ChoiceProductsViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>{
     //应用客户端设置
     AppClientSettings *_appSettings;
     //数据缓存
@@ -152,10 +151,12 @@
 //显示弹出信息
 -(void)showAlterWithTitle:(NSString *)title Message:(NSString *)msg{
     if(msg && msg.length > 0){
-        [ETAlert alertWithTitle:title
-                        Message:msg
-                    ButtonTitle:__kChoiceProductsViewController_btnSubmit
-                     Controller:self];
+        UIAlertView *alterView = [[UIAlertView alloc]initWithTitle:title
+                                                           message:msg
+                                                          delegate:nil
+                                                 cancelButtonTitle:__kChoiceProductsViewController_btnSubmit
+                                                 otherButtonTitles:nil, nil];
+        [alterView show];
     }
 }
 #pragma mark UITableViewDataSource
@@ -199,23 +200,32 @@
 }
 //选中行数据
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(_dataCache && _dataCache.count > indexPath.row){
+    if(_dataCache && indexPath.row < _dataCache.count){
         ProductDataCellFrame *cellData = (ProductDataCellFrame *)[_dataCache objectAtIndex:indexPath.row];
         if(!cellData) return;
         //初始化弹出框
-        ETAlert *alert = [[ETAlert alloc]initWithTitle:__kChoiceProductsViewController_title Message:cellData.product];
-        //添加确定按钮
-        [alert addConfirmActionWithTitle:__kChoiceProductsViewController_btnSubmit Handler:^(UIAlertAction *action) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:__kChoiceProductsViewController_title
+                                                       message:cellData.product
+                                                      delegate:self
+                                             cancelButtonTitle:__kChoiceProductsViewController_btnCancel
+                                             otherButtonTitles:__kChoiceProductsViewController_btnSubmit, nil];
+        alert.tag = indexPath.row;
+        [alert show];
+    }
+}
+#pragma mark UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if(buttonIndex == 0)return;
+    if(_appSettings && _dataCache && _dataCache.count > alertView.tag){
+        NSLog(@"buttonIndex=>%d",buttonIndex);
+        ProductDataCellFrame *cellData = (ProductDataCellFrame *)[_dataCache objectAtIndex:alertView.tag];
+        if(cellData && cellData.data){
             ProductData *product = cellData.data;
             //更新保存产品数据
             [_appSettings updateWithProductID:product.code andProductName:product.name];
             //调用同步数据
             [self startSyncData];
-        }];
-        //添加取消按钮
-        [alert addCancelActionWithTitle:__kChoiceProductsViewController_btnCancel Handler:nil];
-        //弹出框
-        [alert showWithController:self];
+        }
     }
 }
 //开始同步数据
@@ -233,10 +243,7 @@
         [syncWaitfor hide];
         //显示弹出框
         if(err && err.length > 0){
-            [ETAlert alertWithTitle:__kChoiceProductsViewController_errTitle
-                            Message:err
-                        ButtonTitle:__kChoiceProductsViewController_btnSubmit
-                         Controller:self];
+            [self showAlterWithTitle:__kChoiceProductsViewController_errTitle Message:err];
         }else{//同步完成后的跳转
             [self gotoController];
         }

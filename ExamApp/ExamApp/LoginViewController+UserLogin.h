@@ -9,9 +9,7 @@
 #import "LoginViewController.h"
 @class LoginData;
 //用户登录验证
-@interface LoginViewController (UserLogin)
+@interface LoginViewController (UserLogin)<UIAlertViewDelegate>
 //登录界面
 -(void)alterLoginViewWithMessage:(NSString *)msg Account:(NSString *)account;
-//用户验证
-//-(void)authentication:(LoginData *)login;
 @end

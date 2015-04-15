@@ -49,7 +49,6 @@
 		A17F78D61AA5695700C671A9 /* PaperItemRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = A17F78D51AA5695700C671A9 /* PaperItemRecord.m */; };
 		A182E4731AA596DE00730ECC /* PaperItemFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = A182E4721AA596DE00730ECC /* PaperItemFavorite.m */; };
 		A182E4761AA5A58F00730ECC /* PaperRecordDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A182E4751AA5A58F00730ECC /* PaperRecordDao.m */; };
-		A18827741AA053E5008C734D /* ETAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = A18827731AA053E5008C734D /* ETAlert.m */; };
 		A188277A1AA064AD008C734D /* DataSyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = A18827791AA064AD008C734D /* DataSyncService.m */; };
 		A188277D1AA06CE0008C734D /* AppClientSync.m in Sources */ = {isa = PBXBuildFile; fileRef = A188277C1AA06CE0008C734D /* AppClientSync.m */; };
 		A18962E61AA33D970065B70C /* PaperListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18962E51AA33D970065B70C /* PaperListViewController.m */; };
@@ -238,8 +237,6 @@
 		A182E4721AA596DE00730ECC /* PaperItemFavorite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperItemFavorite.m; sourceTree = "<group>"; };
 		A182E4741AA5A58F00730ECC /* PaperRecordDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperRecordDao.h; sourceTree = "<group>"; };
 		A182E4751AA5A58F00730ECC /* PaperRecordDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperRecordDao.m; sourceTree = "<group>"; };
-		A18827721AA053E5008C734D /* ETAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETAlert.h; path = Utils/ETAlert.h; sourceTree = "<group>"; };
-		A18827731AA053E5008C734D /* ETAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETAlert.m; path = Utils/ETAlert.m; sourceTree = "<group>"; };
 		A18827781AA064AD008C734D /* DataSyncService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSyncService.h; sourceTree = "<group>"; };
 		A18827791AA064AD008C734D /* DataSyncService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSyncService.m; sourceTree = "<group>"; };
 		A188277B1AA06CE0008C734D /* AppClientSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppClientSync.h; sourceTree = "<group>"; };
@@ -822,8 +819,6 @@
 				A18CCF331A85BD2A00C20555 /* TextFieldValidator.m */,
 				A1936A9E1A9F1A6200A0F45C /* WaitForAnimation.h */,
 				A1936A9F1A9F1A6200A0F45C /* WaitForAnimation.m */,
-				A18827721AA053E5008C734D /* ETAlert.h */,
-				A18827731AA053E5008C734D /* ETAlert.m */,
 				A195EFAF1AA970E3002695A9 /* UIViewUtils.h */,
 				A195EFB01AA970E3002695A9 /* UIViewUtils.m */,
 				A1DAE05D1AB15E21001D5091 /* UIViewQueue.h */,
@@ -1088,7 +1083,6 @@
 				A1AA7CCC1A81F761003A5137 /* LoginData.m in Sources */,
 				A15DFF491AA2D5B000C8A7B7 /* PaperDataDao.m in Sources */,
 				A12EAF481ACD239F0049C272 /* AppClientSettings.m in Sources */,
-				A18827741AA053E5008C734D /* ETAlert.m in Sources */,
 				A1B1C4291AC23D4D0018741B /* LearnRecordViewController.m in Sources */,
 				A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */,
 				A199CA031A74A33500A31587 /* ETHomePanelView.m in Sources */,

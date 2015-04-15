@@ -20,7 +20,6 @@
 #import "DateViewController.h"//考试日期设置控制器
 #import "ChoiceProductsViewController.h"//选择产品
 
-#import "ETAlert.h"
 #import "WaitForAnimation.h"
 #import "DataSyncService.h"
 
@@ -33,11 +32,9 @@
 #define __kSettingsViewController_syncFailure @"同步失败!"
 
 //设置页控制器成员变量
-@interface SettingsViewController ()<UITableViewDataSource,UITableViewDelegate>{
+@interface SettingsViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>{
     //设置分组数据
     NSDictionary *_groups;
-    //同步数据等待动画
-    //WaitForAnimation *_syncWaiting;
 }
 @end
 //设置页控制器实现类
@@ -146,31 +143,36 @@
 #pragma mark 同步数据
 -(void)syncDataAlter{
     //初始化弹出框
-    ETAlert *alert = [[ETAlert alloc] initWithTitle:__kSettingsViewController_syncTitle
-                                            Message:__kSettingsViewController_syncMsg];
-    //添加确定按钮
-    [alert addConfirmActionWithTitle:__kSettingsViewController_syncBtnSubmit
-                             Handler:^(UIAlertAction *action) {
-                                 //初始化等待动画
-                                 WaitForAnimation *waitForAni = [[WaitForAnimation alloc]initWithView:self.view
-                                                                                    WaitTitle:__kSettingsViewController_syncWaitting];
-                                 //开启等待动画
-                                 [waitForAni show];
-                                 //开始同步
-                                 [[[DataSyncService alloc]init]sync:^(NSString *err) {
-                                     //关闭等待动画
-                                     [waitForAni hide];
-                                     //显示同步结果
-                                     [ETAlert alertWithTitle:(err?__kSettingsViewController_syncFailure: __kSettingsViewController_syncSuccess)
-                                                     Message:err
-                                                 ButtonTitle:__kSettingsViewController_syncBtnSubmit
-                                                  Controller:self];
-                                 }];
-                             }];
-    //添加取消按钮
-    [alert addCancelActionWithTitle:__kSettingsViewController_syncBtnCancel Handler:nil];
-    //显示弹出框
-    [alert showWithController:self];
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:__kSettingsViewController_syncTitle
+                                                   message:__kSettingsViewController_syncMsg
+                                                  delegate:self
+                                         cancelButtonTitle:__kSettingsViewController_syncBtnCancel
+                                         otherButtonTitles:__kSettingsViewController_syncBtnSubmit, nil];
+    //弹出
+    [alert show];
+}
+#pragma mark UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSLog(@"buttonIndex=>%d",buttonIndex);
+    //初始化等待动画
+    WaitForAnimation *waitForAni = [[WaitForAnimation alloc]initWithView:self.view
+                                                               WaitTitle:__kSettingsViewController_syncWaitting];
+    
+    //开启等待动画
+    [waitForAni show];
+    //开始同步
+    [[[DataSyncService alloc]init]sync:^(NSString *err) {
+        //关闭等待动画
+        [waitForAni hide];
+        NSString *title = (err?__kSettingsViewController_syncFailure :__kSettingsViewController_syncSuccess);
+        //显示同步结果
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:title
+                                                       message:err
+                                                      delegate:nil
+                                             cancelButtonTitle:__kSettingsViewController_syncBtnSubmit
+                                             otherButtonTitles:nil, nil];
+        [alert show];
+    }];
 }
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
