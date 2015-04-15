@@ -12,6 +12,7 @@
 		A10008FB1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A10008FA1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m */; };
 		A10008FE1ABC5B0300F2BD81 /* FavoriteService.m in Sources */ = {isa = PBXBuildFile; fileRef = A10008FD1ABC5B0300F2BD81 /* FavoriteService.m */; };
 		A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */; };
+		A103B5C81ADE087700FF8071 /* ProductDataCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A103B5C71ADE087700FF8071 /* ProductDataCellFrame.m */; };
 		A11490A91AD4DAC80020F116 /* ChoiceProductsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A11490A81AD4DAC80020F116 /* ChoiceProductsViewController.m */; };
 		A11490AC1AD500890020F116 /* ProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A11490AB1AD500890020F116 /* ProductTableViewCell.m */; };
 		A12DC55E1ACE7D9700832DF9 /* ProductData.m in Sources */ = {isa = PBXBuildFile; fileRef = A12DC55D1ACE7D9700832DF9 /* ProductData.m */; };
@@ -174,6 +175,8 @@
 		A10008FD1ABC5B0300F2BD81 /* FavoriteService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteService.m; sourceTree = "<group>"; };
 		A10187C51A84B568002D2F37 /* LoginViewController+UserLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginViewController+UserLogin.h"; sourceTree = "<group>"; };
 		A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginViewController+UserLogin.m"; sourceTree = "<group>"; };
+		A103B5C61ADE087700FF8071 /* ProductDataCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDataCellFrame.h; sourceTree = "<group>"; };
+		A103B5C71ADE087700FF8071 /* ProductDataCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDataCellFrame.m; sourceTree = "<group>"; };
 		A11490A71AD4DAC80020F116 /* ChoiceProductsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoiceProductsViewController.h; sourceTree = "<group>"; };
 		A11490A81AD4DAC80020F116 /* ChoiceProductsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoiceProductsViewController.m; sourceTree = "<group>"; };
 		A11490AA1AD500890020F116 /* ProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductTableViewCell.h; sourceTree = "<group>"; };
@@ -776,6 +779,8 @@
 				A1904FA71A94E36900541B9E /* AppRegisterCode.m */,
 				A12DC55C1ACE7D9700832DF9 /* ProductData.h */,
 				A12DC55D1ACE7D9700832DF9 /* ProductData.m */,
+				A103B5C61ADE087700FF8071 /* ProductDataCellFrame.h */,
+				A103B5C71ADE087700FF8071 /* ProductDataCellFrame.m */,
 				A15EB7A51A84EC8B009199D1 /* JSONCallback.h */,
 				A15EB7A61A84EC8B009199D1 /* JSONCallback.m */,
 			);
@@ -899,6 +904,7 @@
 				TargetAttributes = {
 					A1910E671A6D3AC800377160 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = V272W7YD5Y;
 					};
 					A1910E861A6D3AC800377160 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -1105,6 +1111,7 @@
 				A15EB7AA1A84FCF0009199D1 /* LoginViewController+Register.m in Sources */,
 				A182E4731AA596DE00730ECC /* PaperItemFavorite.m in Sources */,
 				A1913F8C1AA40107003BFEA0 /* PaperService.m in Sources */,
+				A103B5C81ADE087700FF8071 /* ProductDataCellFrame.m in Sources */,
 				A1E8A6941AC656F400007B8A /* WrongSheetViewController.m in Sources */,
 				A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */,
 				A1DAE05F1AB15E21001D5091 /* UIViewQueue.m in Sources */,

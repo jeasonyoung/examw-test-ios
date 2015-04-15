@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ProductData.h"
+
+@class ProductDataCellFrame;
 //产品列表数据
 @interface ProductTableViewCell : UITableViewCell
 //加载数据
--(CGFloat)loadDataWithProduct:(ProductData *)data;
+-(void)loadDataWithProduct:(ProductDataCellFrame *)cellData;
 @end

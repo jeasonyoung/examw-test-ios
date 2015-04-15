@@ -16,6 +16,7 @@
 #import "ETAlert.h"
 
 #import "ProductData.h"
+#import "ProductDataCellFrame.h"
 #import "ProductTableViewCell.h"
 #import "DataSyncService.h"
 
@@ -27,18 +28,16 @@
 #define __kChoiceProductsViewController_btnSubmit @"确定"
 #define __kChoiceProductsViewController_btnCancel @"取消"
 
-
 #define __kChoiceProductsViewController_identity @"_ChoiceProductsViewController_cell"
+#define __kChoiceProductsViewController_defultRowHeight 70//
 //选择产品视图控制器成员变量
 @interface ChoiceProductsViewController ()<UITableViewDataSource,UITableViewDelegate>{
     //应用客户端设置
     AppClientSettings *_appSettings;
     //数据缓存
-    NSArray *_dataCache;
+    NSMutableArray *_dataCache;
     //数据显示
     UITableView *_tableView;
-    //数据行高度缓存
-    NSMutableDictionary *_dataRowHeightCache;
 }
 @end
 //选择产品视图控制器实现
@@ -47,7 +46,6 @@
 -(instancetype)init{
     if(self = [super init]){
         _appSettings = [AppClientSettings clientSettings];
-        _dataRowHeightCache = [NSMutableDictionary dictionary];
     }
     return self;
 }
@@ -114,10 +112,8 @@
                                          if(callback.success){
                                              
                                              if(callback.data && [callback.data isKindOfClass:[NSArray class]]){
-                                                 _dataCache = (NSArray *)callback.data;
-                                                 if(_dataCache && _dataCache.count > 0 && _tableView){
-                                                     [_tableView reloadData];
-                                                 }
+                                                 //数据转换
+                                                 [self transToProductsWithArrays:((NSArray *)callback.data)];
                                              }
                                              
                                          }else{//服务器错误
@@ -135,6 +131,23 @@
                                         }];
         }
     }];
+}
+//加载数据
+-(void)transToProductsWithArrays:(NSArray *)arrays{
+    _dataCache = [NSMutableArray array];
+    if(arrays && arrays.count > 0){
+        //循环创建
+        for(NSDictionary *dict in arrays){
+            if(!dict || dict.count == 0)continue;
+            ProductDataCellFrame *cellData = [[ProductDataCellFrame alloc]init];
+            cellData.data = [[ProductData alloc]initWithDict:dict];
+            [_dataCache addObject:cellData];
+        }
+        //
+        if(_dataCache.count > 0 && _tableView){
+            [_tableView reloadData];
+        }
+    }
 }
 //显示弹出信息
 -(void)showAlterWithTitle:(NSString *)title Message:(NSString *)msg{
@@ -164,42 +177,36 @@
 //显示每个数据
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     if(_dataCache && indexPath.row < _dataCache.count){
-        NSDictionary *dict = [_dataCache objectAtIndex:indexPath.row];
-        if(dict && dict.count > 0){
-            ProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:__kChoiceProductsViewController_identity];
-            if(!cell){
-                cell = [[ProductTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle
-                                                  reuseIdentifier:__kChoiceProductsViewController_identity];
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            }
-            CGFloat height = [cell loadDataWithProduct:[[ProductData alloc]initWithDict:dict]];
-            [_dataRowHeightCache setObject:[NSNumber numberWithFloat:height] forKey:[NSNumber numberWithInteger:indexPath.row]];
-            return cell;
+        ProductTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:__kChoiceProductsViewController_identity];
+        if(!cell){
+            cell = [[ProductTableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle
+                                              reuseIdentifier:__kChoiceProductsViewController_identity];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
+        //加载数据
+        [cell loadDataWithProduct:[_dataCache objectAtIndex:indexPath.row]];
+        return cell;
     }
     return nil;
 }
 #pragma mark UITableViewDelegate
 //加载每行数据高度
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(_dataRowHeightCache && indexPath.row < _dataRowHeightCache.count){
-        NSNumber *num = [_dataRowHeightCache objectForKey:[NSNumber numberWithInteger:indexPath.row]];
-        if(num){
-            return num.floatValue;
-        }
+    if(_dataCache && indexPath.row < _dataCache.count){
+        return [[_dataCache objectAtIndex:indexPath.row] rowHeight];
     }
-    return 0;
+    return __kChoiceProductsViewController_defultRowHeight;
 }
 //选中行数据
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(_dataCache && _dataCache.count > indexPath.row){
-        NSDictionary *dict = [_dataCache objectAtIndex:indexPath.row];
-        if(!dict || dict.count == 0)return;
-        ProductData *product = [[ProductData alloc]initWithDict:dict];
+        ProductDataCellFrame *cellData = (ProductDataCellFrame *)[_dataCache objectAtIndex:indexPath.row];
+        if(!cellData) return;
         //初始化弹出框
-        ETAlert *alert = [[ETAlert alloc]initWithTitle:__kChoiceProductsViewController_title Message:product.name];
+        ETAlert *alert = [[ETAlert alloc]initWithTitle:__kChoiceProductsViewController_title Message:cellData.product];
         //添加确定按钮
         [alert addConfirmActionWithTitle:__kChoiceProductsViewController_btnSubmit Handler:^(UIAlertAction *action) {
+            ProductData *product = cellData.data;
             //更新保存产品数据
             [_appSettings updateWithProductID:product.code andProductName:product.name];
             //调用同步数据
