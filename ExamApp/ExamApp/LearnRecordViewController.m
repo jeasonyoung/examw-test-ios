@@ -94,11 +94,10 @@
 #pragma mark UITableViewDataSource
 //数据总数
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSUInteger rows = 0;
-    if(_cellDataCache && (rows = _cellDataCache.count) > 0){
-        return (rows == _service.rowsOfPage) ? rows + 1 : rows;
+    if(_cellDataCache){
+        return _cellDataCache.count + 1;
     }
-    return rows;
+    return 0;
 }
 //加载数据
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -173,34 +172,38 @@
 //添加数据到缓存和TableView
 -(void)appendCacheAndTableCellWithArrays:(NSArray *)arrays{
     if(!_cellDataCache || !arrays || arrays.count == 0)return;
+    NSInteger pos = _cellDataCache.count;
     //追加到缓存
     [_cellDataCache addObjectsFromArray:arrays];
-    //加载数据
-    [_tableView reloadData];
+    //加载数据到TableView
+    NSMutableArray *insertIndexPaths = [NSMutableArray array];
+    for(NSInteger i = 0; i < arrays.count; i++){
+        [insertIndexPaths addObject:[NSIndexPath indexPathForRow:(pos + i) inSection:0]];
+    }
+    [_tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
+    //[_tableView reloadData];
 }
 //删除事件处理
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
     if((indexPath.row < _cellDataCache.count) && (editingStyle == UITableViewCellEditingStyleDelete)){
-        //开启等待动画
-        [_waitingAnimation show];
         //加载数据
         LearnRecordCellData *cellData = (LearnRecordCellData *)[_cellDataCache objectAtIndex:indexPath.row];
-        if(!cellData || !cellData.record){
-            //关闭等待动画
-            [_waitingAnimation hide];
-            return;
-        }
-        //删除数据库
-        [_service deleteWithPaperRecordCode:cellData.record.code];
-        //删除缓存
+        if(!cellData || !cellData.record)return;
+        
+        //删除缓存中数据
         [_cellDataCache removeObjectAtIndex:indexPath.row];
-        //重新加载数据
-        [tableView reloadData];
-        //取消选中
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        //关闭等待动画
-        [_waitingAnimation hide];
+        
+        //删除数据库
+        [self performSelectorInBackground:@selector(deleteDataFromServiceWithPaperRecordCode:) withObject:cellData.record.code];
+        //从TableView中删除
+        [_tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
     }
+}
+//从服务删除数据
+-(void)deleteDataFromServiceWithPaperRecordCode:(NSString *)paperRecordCode{
+    if(!_service || !paperRecordCode || paperRecordCode.length == 0)return;
+    //从数据库总删除
+    [_service deleteWithPaperRecordCode:paperRecordCode];
 }
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
