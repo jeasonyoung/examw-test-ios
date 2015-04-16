@@ -42,6 +42,8 @@
 		A15DFF491AA2D5B000C8A7B7 /* PaperDataDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A15DFF481AA2D5B000C8A7B7 /* PaperDataDao.m */; };
 		A15EB7A71A84EC8B009199D1 /* JSONCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = A15EB7A61A84EC8B009199D1 /* JSONCallback.m */; };
 		A15EB7AA1A84FCF0009199D1 /* LoginViewController+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = A15EB7A91A84FCF0009199D1 /* LoginViewController+Register.m */; };
+		A161D3DC1ADF48D400E89094 /* LearnRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = A161D3DB1ADF48D400E89094 /* LearnRecord.m */; };
+		A161D3DF1ADF53DA00E89094 /* LearnRecordCellData.m in Sources */ = {isa = PBXBuildFile; fileRef = A161D3DE1ADF53D900E89094 /* LearnRecordCellData.m */; };
 		A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */ = {isa = PBXBuildFile; fileRef = A1647B611A728679007B12EA /* NSDate+TimeZone.m */; };
 		A1762B261A873FB1008E5656 /* AccountViewController+RegisterCode.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762B251A873FB1008E5656 /* AccountViewController+RegisterCode.m */; };
 		A1762B291A874428008E5656 /* AccountViewController+Logout.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762B281A874428008E5656 /* AccountViewController+Logout.m */; };
@@ -223,6 +225,10 @@
 		A15EB7A61A84EC8B009199D1 /* JSONCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONCallback.m; sourceTree = "<group>"; };
 		A15EB7A81A84FCF0009199D1 /* LoginViewController+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginViewController+Register.h"; sourceTree = "<group>"; };
 		A15EB7A91A84FCF0009199D1 /* LoginViewController+Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginViewController+Register.m"; sourceTree = "<group>"; };
+		A161D3DA1ADF48D400E89094 /* LearnRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearnRecord.h; sourceTree = "<group>"; };
+		A161D3DB1ADF48D400E89094 /* LearnRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearnRecord.m; sourceTree = "<group>"; };
+		A161D3DD1ADF53D900E89094 /* LearnRecordCellData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearnRecordCellData.h; sourceTree = "<group>"; };
+		A161D3DE1ADF53D900E89094 /* LearnRecordCellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearnRecordCellData.m; sourceTree = "<group>"; };
 		A1647B601A728679007B12EA /* NSDate+TimeZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+TimeZone.h"; path = "Utils/NSDate+TimeZone.h"; sourceTree = "<group>"; };
 		A1647B611A728679007B12EA /* NSDate+TimeZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+TimeZone.m"; path = "Utils/NSDate+TimeZone.m"; sourceTree = "<group>"; };
 		A1762B241A873FB1008E5656 /* AccountViewController+RegisterCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AccountViewController+RegisterCode.h"; sourceTree = "<group>"; };
@@ -700,6 +706,10 @@
 				A17F78D51AA5695700C671A9 /* PaperItemRecord.m */,
 				A182E4711AA596DE00730ECC /* PaperItemFavorite.h */,
 				A182E4721AA596DE00730ECC /* PaperItemFavorite.m */,
+				A161D3DA1ADF48D400E89094 /* LearnRecord.h */,
+				A161D3DB1ADF48D400E89094 /* LearnRecord.m */,
+				A161D3DD1ADF53D900E89094 /* LearnRecordCellData.h */,
+				A161D3DE1ADF53D900E89094 /* LearnRecordCellData.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -1050,7 +1060,9 @@
 				A1762B291A874428008E5656 /* AccountViewController+Logout.m in Sources */,
 				A1913F8F1AA42F2A003BFEA0 /* PaperDetailViewController.m in Sources */,
 				A12DC55E1ACE7D9700832DF9 /* ProductData.m in Sources */,
+				A161D3DC1ADF48D400E89094 /* LearnRecord.m in Sources */,
 				A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */,
+				A161D3DF1ADF53DA00E89094 /* LearnRecordCellData.m in Sources */,
 				A199CA301A74CFBF00A31587 /* HomeData.m in Sources */,
 				A18B9F671AA6997B00C135DB /* PaperItemRecordDao.m in Sources */,
 				A1936AA01A9F1A6200A0F45C /* WaitForAnimation.m in Sources */,

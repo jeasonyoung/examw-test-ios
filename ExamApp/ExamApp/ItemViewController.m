@@ -141,10 +141,10 @@
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSLog(@"buttonIndex=>%d",buttonIndex);
-    if(buttonIndex == 0){//交卷
+    if(buttonIndex == 1){//交卷
         NSLog(@"交卷");
         [self btnSubmitClick:nil];
-    }else if(buttonIndex == 1){//下次再做
+    }else if(buttonIndex == 2){//下次再做
         NSLog(@"下次再做");
         [self popViewController];
     }

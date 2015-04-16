@@ -21,6 +21,7 @@
 
 #import "PaperReview.h"
 
+#define __kLearnRecordService_rowsOfPage 10//每页数据
 //学习记录服务成员变量
 @interface LearnRecordService (){
     FMDatabaseQueue *_dbQueue;
@@ -31,6 +32,8 @@
 #pragma mark 重构初始化
 -(instancetype)init{
     if(self = [super init]){
+        _rowsOfPage = __kLearnRecordService_rowsOfPage;
+        
         NSError *err;
         NSString *dbPath = [[UserAccountData currentUser] loadDatabasePath:&err];
         if(!dbPath){
@@ -41,41 +44,15 @@
     }
     return self;
 }
-#pragma mark 加载试卷记录全部的数据统计
--(NSInteger)loadAllTotal{
-    if(!_dbQueue) return 0;
-    __block NSInteger total = 0;
+#pragma mark 按页加载数据
+-(NSArray *)loadRecordsWithPageIndex:(NSUInteger)pageIndex{
+    if(!_dbQueue)return nil;
+    __block NSArray *arrays;
     [_dbQueue inDatabase:^(FMDatabase *db) {
         PaperRecordDao *dao = [[PaperRecordDao alloc]initWithDb:db];
-        total = [dao total];
+        arrays = [dao loadRecordsWithPageIndex:pageIndex RowsOfPage:_rowsOfPage];
     }];
-    return total;
-}
-#pragma mark 加载试卷记录数据
--(void)loadRecordAtRow:(NSInteger)row Data:(void (^)(NSString *, NSString *, PaperRecord *))block{
-    if(!_dbQueue || !block)return;
-    [_dbQueue inDatabase:^(FMDatabase *db) {
-        PaperRecordDao *paperRecordDao = [[PaperRecordDao alloc]initWithDb:db];
-        PaperRecord *record = [paperRecordDao loadDataAtRow:row];
-        if(record && record.paperCode && record.paperCode.length > 0){
-            PaperDataDao *paperDao = [[PaperDataDao alloc]initWithDb:db];
-            PaperData *paper = [paperDao loadPaperWithCode:record.paperCode];
-            if(paper){
-                NSString *paperTypeName = [PaperReview paperTypeName:(PaperType)paper.type];
-                block(paperTypeName, paper.title, record);
-            }
-        }
-    }];
-}
-#pragma mark 根据试卷ID加载试卷数据
--(PaperReview *)loadPaperReviewWithPaperCode:(NSString *)paperCode{
-    if(!_dbQueue || !paperCode || paperCode.length == 0) return nil;
-    __block PaperReview *paperReview;
-    [_dbQueue inDatabase:^(FMDatabase *db) {
-        PaperDataDao *dao = [[PaperDataDao alloc]initWithDb:db];
-        paperReview = [dao loadPaperContentWithCode:paperCode];
-    }];
-    return paperReview;
+    return arrays;
 }
 #pragma mark 根据试卷记录ID删除数据
 -(void)deleteWithPaperRecordCode:(NSString *)paperRecordCode{
@@ -89,4 +66,42 @@
         [paperRecordDao deleteRecordWithCode:paperRecordCode];
     }];
 }
+
+
+//#pragma mark 加载试卷记录全部的数据统计
+//-(NSInteger)loadAllTotal{
+//    if(!_dbQueue) return 0;
+//    __block NSInteger total = 0;
+//    [_dbQueue inDatabase:^(FMDatabase *db) {
+//        PaperRecordDao *dao = [[PaperRecordDao alloc]initWithDb:db];
+//        total = [dao total];
+//    }];
+//    return total;
+//}
+//#pragma mark 加载试卷记录数据
+//-(void)loadRecordAtRow:(NSInteger)row Data:(void (^)(NSString *, NSString *, PaperRecord *))block{
+//    if(!_dbQueue || !block)return;
+//    [_dbQueue inDatabase:^(FMDatabase *db) {
+//        PaperRecordDao *paperRecordDao = [[PaperRecordDao alloc]initWithDb:db];
+//        PaperRecord *record = [paperRecordDao loadDataAtRow:row];
+//        if(record && record.paperCode && record.paperCode.length > 0){
+//            PaperDataDao *paperDao = [[PaperDataDao alloc]initWithDb:db];
+//            PaperData *paper = [paperDao loadPaperWithCode:record.paperCode];
+//            if(paper){
+//                NSString *paperTypeName = [PaperReview paperTypeName:(PaperType)paper.type];
+//                block(paperTypeName, paper.title, record);
+//            }
+//        }
+//    }];
+//}
+//#pragma mark 根据试卷ID加载试卷数据
+//-(PaperReview *)loadPaperReviewWithPaperCode:(NSString *)paperCode{
+//    if(!_dbQueue || !paperCode || paperCode.length == 0) return nil;
+//    __block PaperReview *paperReview;
+//    [_dbQueue inDatabase:^(FMDatabase *db) {
+//        PaperDataDao *dao = [[PaperDataDao alloc]initWithDb:db];
+//        paperReview = [dao loadPaperContentWithCode:paperCode];
+//    }];
+//    return paperReview;
+//}
 @end

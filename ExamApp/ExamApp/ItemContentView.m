@@ -145,7 +145,13 @@
             tempFrame.size.height = textSize.height + __kItemContentView_marginMin;
         }
         _lbTitle.frame = tempFrame;
-        _lbTitle.text = text;
+        
+        NSAttributedString *textAttri = [[NSAttributedString alloc]initWithData:[text dataUsingEncoding:NSUnicodeStringEncoding]
+                                                                        options:@{NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType}
+                                                             documentAttributes:nil
+                                                                          error:nil];
+        _lbTitle.attributedText = textAttri;
+        //_lbTitle.text = text;
         
         *outY = [NSNumber numberWithFloat:CGRectGetMaxY(_lbTitle.frame)];
         
