@@ -13,6 +13,8 @@
 		A10008FE1ABC5B0300F2BD81 /* FavoriteService.m in Sources */ = {isa = PBXBuildFile; fileRef = A10008FD1ABC5B0300F2BD81 /* FavoriteService.m */; };
 		A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */; };
 		A103B5C81ADE087700FF8071 /* ProductDataCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A103B5C71ADE087700FF8071 /* ProductDataCellFrame.m */; };
+		A10DAD6D1AE097E200DA9CFA /* ExamSection.m in Sources */ = {isa = PBXBuildFile; fileRef = A10DAD6C1AE097E200DA9CFA /* ExamSection.m */; };
+		A10DAD701AE09C4000DA9CFA /* SubjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A10DAD6F1AE09C4000DA9CFA /* SubjectCell.m */; };
 		A11490A91AD4DAC80020F116 /* ChoiceProductsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A11490A81AD4DAC80020F116 /* ChoiceProductsViewController.m */; };
 		A11490AC1AD500890020F116 /* ProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A11490AB1AD500890020F116 /* ProductTableViewCell.m */; };
 		A12DC55E1ACE7D9700832DF9 /* ProductData.m in Sources */ = {isa = PBXBuildFile; fileRef = A12DC55D1ACE7D9700832DF9 /* ProductData.m */; };
@@ -178,6 +180,10 @@
 		A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginViewController+UserLogin.m"; sourceTree = "<group>"; };
 		A103B5C61ADE087700FF8071 /* ProductDataCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDataCellFrame.h; sourceTree = "<group>"; };
 		A103B5C71ADE087700FF8071 /* ProductDataCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDataCellFrame.m; sourceTree = "<group>"; };
+		A10DAD6B1AE097E200DA9CFA /* ExamSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamSection.h; sourceTree = "<group>"; };
+		A10DAD6C1AE097E200DA9CFA /* ExamSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamSection.m; sourceTree = "<group>"; };
+		A10DAD6E1AE09C4000DA9CFA /* SubjectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectCell.h; sourceTree = "<group>"; };
+		A10DAD6F1AE09C4000DA9CFA /* SubjectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectCell.m; sourceTree = "<group>"; };
 		A11490A71AD4DAC80020F116 /* ChoiceProductsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoiceProductsViewController.h; sourceTree = "<group>"; };
 		A11490A81AD4DAC80020F116 /* ChoiceProductsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoiceProductsViewController.m; sourceTree = "<group>"; };
 		A11490AA1AD500890020F116 /* ProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductTableViewCell.h; sourceTree = "<group>"; };
@@ -694,8 +700,12 @@
 				A199CA2F1A74CFBF00A31587 /* HomeData.m */,
 				A1580A4D1A960B370082C1E2 /* ExamData.h */,
 				A1580A4E1A960B370082C1E2 /* ExamData.m */,
+				A10DAD6B1AE097E200DA9CFA /* ExamSection.h */,
+				A10DAD6C1AE097E200DA9CFA /* ExamSection.m */,
 				A1580A4A1A95D56A0082C1E2 /* SubjectData.h */,
 				A1580A4B1A95D56A0082C1E2 /* SubjectData.m */,
+				A10DAD6E1AE09C4000DA9CFA /* SubjectCell.h */,
+				A10DAD6F1AE09C4000DA9CFA /* SubjectCell.m */,
 				A15DFF411AA1857200C8A7B7 /* PaperData.h */,
 				A15DFF421AA1857200C8A7B7 /* PaperData.m */,
 				A15DFF441AA1AC5D00C8A7B7 /* PaperReview.h */,
@@ -1111,8 +1121,10 @@
 				A18C607A1ABD4B8E00D96AD6 /* FavoriteSheetViewController.m in Sources */,
 				A1EE7DDB1A70A8B80071C76D /* SettingsViewController.m in Sources */,
 				A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */,
+				A10DAD6D1AE097E200DA9CFA /* ExamSection.m in Sources */,
 				A18B9F6A1AA6CF9F00C135DB /* PaperItemFavoriteDao.m in Sources */,
 				A18C60771ABD3ADB00D96AD6 /* FavoriteViewController.m in Sources */,
+				A10DAD701AE09C4000DA9CFA /* SubjectCell.m in Sources */,
 				A1904FA81A94E36900541B9E /* AppRegisterCode.m in Sources */,
 				A15EB7AA1A84FCF0009199D1 /* LoginViewController+Register.m in Sources */,
 				A182E4731AA596DE00730ECC /* PaperItemFavorite.m in Sources */,

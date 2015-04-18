@@ -105,12 +105,13 @@
     if(indexPath.row == _cellDataCache.count){
         UITableViewCell *moreCell = [tableView dequeueReusableCellWithIdentifier:__kLearnRecordViewController_moreIdentifier];
         if(!moreCell){
-            moreCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault reuseIdentifier:__kLearnRecordViewController_moreIdentifier];
+            moreCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault
+                                             reuseIdentifier:__kLearnRecordViewController_moreIdentifier];
             moreCell.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
             moreCell.textLabel.textColor = [UIColor darkGrayColor];
             moreCell.textLabel.textAlignment = NSTextAlignmentCenter;
         }
-        moreCell.textLabel.text = __kLearnRecordViewController_more;
+        moreCell.textLabel.text = (indexPath.row < _service.rowsOfPage ? @"" : __kLearnRecordViewController_more);
         return moreCell;
     }
     //越界
@@ -131,13 +132,14 @@
     if(indexPath.row < _cellDataCache.count){
        return [[_cellDataCache objectAtIndex:indexPath.row] rowHeight];
     }
-    return __kLearnRecordViewController_moreCellHeight;
+    return (_cellDataCache.count < _service.rowsOfPage) ? 0 : __kLearnRecordViewController_moreCellHeight;
 }
 //选中事件
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(!_cellDataCache || _cellDataCache.count == 0)return;
     //加载数据
     if(indexPath.row == _cellDataCache.count){
+        if(indexPath.row < _service.rowsOfPage)return;
         //开启等待动画
         [_waitingAnimation show];
         //加载数据
@@ -181,7 +183,6 @@
         [insertIndexPaths addObject:[NSIndexPath indexPathForRow:(pos + i) inSection:0]];
     }
     [_tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationBottom];
-    //[_tableView reloadData];
 }
 //删除事件处理
 -(void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -208,5 +209,10 @@
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    if(_cellDataCache)[_cellDataCache removeAllObjects];
+}
+#pragma mark 内存回收
+-(void)dealloc{
+    if(_cellDataCache)[_cellDataCache removeAllObjects];
 }
 @end

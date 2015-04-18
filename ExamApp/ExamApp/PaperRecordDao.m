@@ -64,6 +64,7 @@
         
         [arrays addObject:record];
     }
+    [rs close];
     return arrays;
 }
 //#pragma mark 统计做题记录数据
