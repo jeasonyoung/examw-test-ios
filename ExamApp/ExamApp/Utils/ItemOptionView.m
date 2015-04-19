@@ -280,7 +280,16 @@
                         //加载数据
                         [optionView loadDataWithType:optType OptionCode:option.code OptionText:option.content];
                         if(data.selectedOptCode && data.selectedOptCode.length > 0){
-                            BOOL isSelected = [data.selectedOptCode containsString:option.code];
+                            BOOL isSelected = NO;
+                            NSString *selectOptCode = data.selectedOptCode;
+                            //iOS8
+                            if([selectOptCode respondsToSelector:@selector(containsString:)]){
+                                isSelected = [selectOptCode containsString:option.code];
+                            }else{//iOS7
+                                NSRange rang = [selectOptCode rangeOfString:option.code];
+                                isSelected = rang.length > 0;
+                            }
+                            //BOOL isSelected = [data.selectedOptCode containsString:option.code];
                             if(isSelected){
                                 optionView.optSelected = isSelected;
                             }
@@ -348,7 +357,17 @@
             ItemOptionView *optView = [_optionViewsCache objectAtIndex:i];
             if(optView && optView.isOptSelected){//选项被选中
                 if(displayAnswer){
-                    if(_answer && [_answer containsString:optView.optCode]){//选对
+                    BOOL isRight = NO;
+                    if(_answer){
+                        //iOS8
+                        if([_answer respondsToSelector:@selector(containsString:)]){
+                            isRight = [_answer containsString:optView.optCode];
+                        }else{//iOS7
+                            NSRange rang = [_answer rangeOfString:optView.optCode];
+                            isRight = rang.length > 0;
+                        }
+                    }
+                    if(isRight){//选对
                         optType = (optType == ItemOptionViewTypeSingle ?
                                    ItemOptionViewTypeSingleRight :
                                    ItemOptionViewTypeMultyRight);

@@ -183,7 +183,7 @@
     if(moreArrays && moreArrays.count > 0){
         [_currentPageIndexCache setObject:[NSNumber numberWithInteger:index] forKey:section];
         //前台线程追加数据
-        [self performSelectorInBackground:@selector(appendCacheUpdate:) withObject:@[section,moreArrays]];
+        [self performSelectorOnMainThread:@selector(appendCacheUpdate:) withObject:@[section,moreArrays] waitUntilDone:NO];
     }
 }
 //追加数据

@@ -339,10 +339,27 @@
         if(_rightAnswer && _rightAnswer.length > 0 && _optionArrays && _optionArrays.count > 0){
             for(PaperItem *item in _optionArrays){
                 if(!item || !item.code || item.code.length == 0) continue;
-                if([_rightAnswer containsString:item.code]){
+                BOOL isAnswerRight = NO;
+                if([_rightAnswer respondsToSelector:@selector(containsString:)]){//IOS8
+                    isAnswerRight = [_rightAnswer containsString:item.code];
+                }else{//iOS7
+                    NSRange rang = [_rightAnswer rangeOfString:item.code];
+                    isAnswerRight = rang.length > 0;
+                }
+                if(isAnswerRight){
                     [rightAnswerText appendFormat:@"%@ ", [item.content substringWithRange:NSMakeRange(0, 1)]];
                 }
-                if (_itemSource && _itemSource.value && _itemSource.value.length > 0 && [_itemSource.value containsString:item.code]) {
+                BOOL isMyAnswerRight = (_itemSource && _itemSource.value && _itemSource.value.length > 0);
+                if(isMyAnswerRight){
+                    NSString *sourceValue = _itemSource.value;
+                    if([sourceValue respondsToSelector:@selector(containsString:)]){//iOS8
+                        isMyAnswerRight = [sourceValue containsString:item.code];
+                    }else{//ios7
+                        NSRange rang = [sourceValue rangeOfString:item.code];
+                        isMyAnswerRight = rang.length > 0;
+                    }
+                }
+                if (isMyAnswerRight) {
                     [myAnswerText appendFormat:@"%@ ",[item.content substringWithRange:NSMakeRange(0, 1)]];
                 }
             }

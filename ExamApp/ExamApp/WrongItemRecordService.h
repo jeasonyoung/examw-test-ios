@@ -15,7 +15,7 @@
 @property(nonatomic,assign,readonly)NSUInteger rowsOfPage;
 //加载考试数据
 -(NSArray *)loadExams;
-//分页加载收藏的考试科目集合
+//分页加载错题的考试科目集合
 -(NSArray *)loadSubjectsWithExamCode:(NSString *)examCode Index:(NSUInteger)index;
 ////加载考试数据统计
 //-(NSInteger)loadAllExamTotal;

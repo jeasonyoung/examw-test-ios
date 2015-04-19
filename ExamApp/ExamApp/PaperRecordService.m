@@ -238,56 +238,56 @@
 #pragma mark 检查试题收藏是否存在
 -(BOOL)exitFavoriteWithPaperCode:(NSString *)code ItemCode:(NSString *)itemCode atIndex:(NSInteger)index{
     if(_dbQueue && code && code.length > 0 && itemCode && itemCode.length > 0){
-        if(index < 0) index = 0;
-        __block BOOL result = NO;
-        [_dbQueue inDatabase:^(FMDatabase *db) {
-            PaperDataDao *paperDao = [[PaperDataDao alloc] initWithDb:db];
-            NSString *subjectCode = [paperDao loadSubjectCodeWithPaperCode:code];
-            if(!subjectCode || subjectCode.length == 0)return;
-            
-            PaperItemFavoriteDao *dao = [[PaperItemFavoriteDao alloc] initWithDb:db];
-            NSString *itemCodeIndex = [NSString stringWithFormat:@"%@$%ld",itemCode,(long)index];
-            result = [dao existFavoriteWithSubjectCode:subjectCode ItemCode:itemCodeIndex];
-        }];
-        return result;
+//        if(index < 0) index = 0;
+//        __block BOOL result = NO;
+//        [_dbQueue inDatabase:^(FMDatabase *db) {
+//            PaperDataDao *paperDao = [[PaperDataDao alloc] initWithDb:db];
+//            NSString *subjectCode = [paperDao loadSubjectCodeWithPaperCode:code];
+//            if(!subjectCode || subjectCode.length == 0)return;
+//            
+//            PaperItemFavoriteDao *dao = [[PaperItemFavoriteDao alloc] initWithDb:db];
+//            NSString *itemCodeIndex = [NSString stringWithFormat:@"%@$%ld",itemCode,(long)index];
+//            result = [dao existFavoriteWithSubjectCode:subjectCode ItemCode:itemCodeIndex];
+//        }];
+//        return result;
     }
     return NO;
 }
 #pragma mark 添加收藏
 -(void)addFavoriteWithPaperCode:(NSString *)code Data:(PaperItemOrderIndexPath *)indexPath{
-    if(!_dbQueue || !code || code.length == 0 || !indexPath || !indexPath.item) return;
-    [_dbQueue inDatabase:^(FMDatabase *db) {
-        PaperDataDao *paperDao = [[PaperDataDao alloc] initWithDb:db];
-        NSString *subjectCode = [paperDao loadSubjectCodeWithPaperCode:code];
-        if(!subjectCode || subjectCode.length == 0)return;
-        
-        PaperItemFavoriteDao *dao = [[PaperItemFavoriteDao alloc] initWithDb:db];
-        NSString *itemCodeIndex = [NSString stringWithFormat:@"%@$%ld",indexPath.item.code,(long)indexPath.index];
-        PaperItemFavorite *favorite = [dao loadFavoriteWithSubjectCode:subjectCode ItemCode:itemCodeIndex];
-        if(!favorite){
-            favorite = [[PaperItemFavorite alloc] init];
-            favorite.subjectCode = subjectCode;
-            favorite.itemCode = itemCodeIndex;
-        }
-        favorite.itemType = [NSNumber numberWithInteger:indexPath.item.type];
-        favorite.itemContent = [indexPath.item serialize];
-        favorite.status = [NSNumber numberWithBool:YES];
-        [dao updateFavorite:&favorite];
-    }];
+//    if(!_dbQueue || !code || code.length == 0 || !indexPath || !indexPath.item) return;
+//    [_dbQueue inDatabase:^(FMDatabase *db) {
+//        PaperDataDao *paperDao = [[PaperDataDao alloc] initWithDb:db];
+//        NSString *subjectCode = [paperDao loadSubjectCodeWithPaperCode:code];
+//        if(!subjectCode || subjectCode.length == 0)return;
+//        
+//        PaperItemFavoriteDao *dao = [[PaperItemFavoriteDao alloc] initWithDb:db];
+//        NSString *itemCodeIndex = [NSString stringWithFormat:@"%@$%ld",indexPath.item.code,(long)indexPath.index];
+//        PaperItemFavorite *favorite = [dao loadFavoriteWithSubjectCode:subjectCode ItemCode:itemCodeIndex];
+//        if(!favorite){
+//            favorite = [[PaperItemFavorite alloc] init];
+//            favorite.subjectCode = subjectCode;
+//            favorite.itemCode = itemCodeIndex;
+//        }
+//        favorite.itemType = [NSNumber numberWithInteger:indexPath.item.type];
+//        favorite.itemContent = [indexPath.item serialize];
+//        favorite.status = [NSNumber numberWithBool:YES];
+//        [dao updateFavorite:&favorite];
+//    }];
 }
 #pragma mark 移除收藏
 -(void)removeFavoriteWithPaperCode:(NSString *)code ItemCode:(NSString *)itemCode atIndex:(NSInteger)index{
-    if(!_dbQueue || !code || code.length == 0 || !itemCode || itemCode.length == 0)return;
-    if(index < 0) index = 0;
-    [_dbQueue inDatabase:^(FMDatabase *db) {
-        PaperDataDao *paperDao = [[PaperDataDao alloc] initWithDb:db];
-        NSString *subjectCode = [paperDao loadSubjectCodeWithPaperCode:code];
-        if(!subjectCode || subjectCode.length == 0)return;
-        
-        PaperItemFavoriteDao *dao = [[PaperItemFavoriteDao alloc] initWithDb:db];
-        NSString *itemCodeIndex = [NSString stringWithFormat:@"%@$%ld",itemCode,(long)index];
-        [dao removeFavoriteWithSubjectCode:subjectCode ItemCode:itemCodeIndex];
-    }];
+//    if(!_dbQueue || !code || code.length == 0 || !itemCode || itemCode.length == 0)return;
+//    if(index < 0) index = 0;
+//    [_dbQueue inDatabase:^(FMDatabase *db) {
+//        PaperDataDao *paperDao = [[PaperDataDao alloc] initWithDb:db];
+//        NSString *subjectCode = [paperDao loadSubjectCodeWithPaperCode:code];
+//        if(!subjectCode || subjectCode.length == 0)return;
+//        
+//        PaperItemFavoriteDao *dao = [[PaperItemFavoriteDao alloc] initWithDb:db];
+//        NSString *itemCodeIndex = [NSString stringWithFormat:@"%@$%ld",itemCode,(long)index];
+//        [dao removeFavoriteWithSubjectCode:subjectCode ItemCode:itemCodeIndex];
+//    }];
 }
 
 #pragma mark 内存回收
