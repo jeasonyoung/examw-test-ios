@@ -89,9 +89,9 @@
                 if(arrays && arrays.count > 0){
                     [wrongArrays addObjectsFromArray:arrays];
                     [_subjectWrongCache setObject:wrongArrays forKey:sectionKey];
+                    return wrongArrays.count + 1;
                 }
             }
-            return wrongArrays.count + 1;
         }
     }
     return 0;

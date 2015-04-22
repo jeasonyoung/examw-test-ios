@@ -66,7 +66,7 @@
 }
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSLog(@"buttonIndex=>%d",buttonIndex);
+    NSLog(@"buttonIndex=>%d",(int)buttonIndex);
     if(buttonIndex == 0)return;
     //获取账号密码
     UITextField *tfUser = [alertView textFieldAtIndex:0],

@@ -217,7 +217,7 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     if(buttonIndex == 0)return;
     if(_appSettings && _dataCache && _dataCache.count > alertView.tag){
-        NSLog(@"buttonIndex=>%d",buttonIndex);
+        NSLog(@"buttonIndex=>%d",(int)buttonIndex);
         ProductDataCellFrame *cellData = (ProductDataCellFrame *)[_dataCache objectAtIndex:alertView.tag];
         if(cellData && cellData.data){
             ProductData *product = cellData.data;

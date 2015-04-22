@@ -10,6 +10,7 @@
 #import "UIColor+Hex.h"
 #import "NSString+Size.h"
 #import "UIViewUtils.h"
+#import "NSStringUtils.h"
 
 //答案及其解析的数据源实现
 @implementation ItemAnswerViewSource
@@ -198,15 +199,15 @@
         }
         //答案解析
         NSString *analysisText = data.analysis ? data.analysis : @"";
-        CGSize textSize = [analysisText sizeWithFont:_lbAnalysis.font
-                                   constrainedToSize:CGSizeMake(CGRectGetWidth(_lbAnalysis.frame), CGFLOAT_MAX)
-                                       lineBreakMode:NSLineBreakByWordWrapping];
+        NSMutableAttributedString *analysisTextAttri = [NSStringUtils toHtmlWithText:analysisText];
+        CGSize analysisTextAttriSize = [NSStringUtils boundingRectWithHtml:analysisTextAttri
+                                                        constrainedToWidth:CGRectGetWidth(_lbAnalysis.frame)];
         //重置答案解析的高度
         CGRect tempFrame = _lbAnalysis.frame;
-        tempFrame.size.height = textSize.height;
+        tempFrame.size.height = analysisTextAttriSize.height;
         _lbAnalysis.frame = tempFrame;
         //
-         _lbAnalysis.text = analysisText;
+        _lbAnalysis.attributedText = analysisTextAttri;
         //重置高度
         [self resizeAnalysisSize];
     }

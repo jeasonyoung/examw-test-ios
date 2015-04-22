@@ -11,6 +11,7 @@
 #import "UIColor+Hex.h"
 
 #import "UIViewUtils.h"
+#import "NSStringUtils.h"
 
 #import "ItemOptionView.h"
 #import "ItemAnswerView.h"
@@ -64,7 +65,7 @@
     ItemAnswerView *_answerView;
     
     NSArray *_optionArrays;
-    NSString *_rightAnswer, *_analysis;
+    NSString *_rightAnswer, *_analysis,*_answerOrderRegex;
 }
 @end
 //考试试题视图构造函数
@@ -72,6 +73,8 @@
 #pragma mark 初始化
 -(instancetype)initWithFrame:(CGRect)frame{
     if(self = [super initWithFrame:frame]){
+        //初始化答案序号正则表达式
+        _answerOrderRegex = @"[A-Z]\\.";
         //默认不显示答案
         _displayAnswer = NO;
         //初始化字体
@@ -82,7 +85,8 @@
         _lbTitle.textAlignment = NSTextAlignmentLeft;
         _lbTitle.numberOfLines = 0;
         UIColor *bgColor = [UIColor colorWithHex:__kItemContentView_titlebgColor];
-        [UIViewUtils addBorderWithView:_lbTitle BorderColor:bgColor BackgroundColor:bgColor];
+        //[UIViewUtils addBorderWithView:_lbTitle BorderColor:bgColor BackgroundColor:bgColor];
+        [UIViewUtils addBoundsRadiusWithView:_lbTitle CornerRadius:5 BorderColor:bgColor BorderWidth:0.1 BackgroundColor:bgColor];
         [self addSubview:_lbTitle];
         //初始化二级标题
         _lbSubTitle = [[UILabel alloc] init];
@@ -131,31 +135,18 @@
 //创建标题
 -(void)setupItemTitle:(NSString *)title Order:(NSInteger)order ItemType:(PaperItemType)itemType OutY:(NSNumber **)outY{
     if(_lbTitle){
+        NSString *titleText = ((title&&title.length>0)?title:@"");
+        if((itemType != PaperItemTypeShareTitle) && (itemType != PaperItemTypeShareAnswer)){
+            titleText = [NSString stringWithFormat:@"%d.%@",(int)order,titleText];
+        }
+        NSMutableAttributedString *titleTextAttri = [NSStringUtils toHtmlWithText:titleText];
         CGRect tempFrame = CGRectMake(__kItemContentView_marginMin,(*outY).floatValue,
                                       CGRectGetWidth(self.frame) - __kItemContentView_marginMin*2,0);
-        NSString *text = @"";
-        if(title && title.length > 0){
-            text = [NSString stringWithFormat:@"%d.%@",(int)order,title];
-            if(itemType == PaperItemTypeShareTitle || itemType == PaperItemTypeShareAnswer){
-                text = title;
-            }
-            CGSize textSize = [text sizeWithFont:_lbTitle.font
-                               constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame), CGFLOAT_MAX)
-                                   lineBreakMode:NSLineBreakByWordWrapping];
-            tempFrame.size.height = textSize.height + __kItemContentView_marginMin;
-        }
+        CGSize titleTextAttriSize = [NSStringUtils boundingRectWithHtml:titleTextAttri constrainedToWidth:CGRectGetWidth(tempFrame)];
+        tempFrame.size.height = titleTextAttriSize.height + __kItemContentView_marginMin;
         _lbTitle.frame = tempFrame;
-        
-        NSAttributedString *textAttri = [[NSAttributedString alloc]initWithData:[text dataUsingEncoding:NSUnicodeStringEncoding]
-                                                                        options:@{NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType}
-                                                             documentAttributes:nil
-                                                                          error:nil];
-        _lbTitle.attributedText = textAttri;
-        //_lbTitle.text = text;
-        
+        _lbTitle.attributedText = titleTextAttri;
         *outY = [NSNumber numberWithFloat:CGRectGetMaxY(_lbTitle.frame)];
-        
-        //NSLog(@"setupItemTitle-frame:%@, outY:%f",NSStringFromCGRect(_lbTitle.frame), (*outY).floatValue);
     }
 }
 //创建题目内容
@@ -258,22 +249,17 @@
 //创建子标题
 -(void)setupItemSubTitle:(NSString *)title Order:(NSInteger)order ItemType:(PaperItemType)itemType OutY:(NSNumber **)outY{
     if(_lbSubTitle){
+        NSString *subTitleText = (title && title.length > 0)?title:@"";
+        if((itemType == PaperItemTypeShareTitle) || (itemType == PaperItemTypeShareAnswer)){
+            subTitleText = [NSString stringWithFormat:@"%d.%@",(int)order,subTitleText];
+        }
+        NSMutableAttributedString *subTitleTextAttri = [NSStringUtils toHtmlWithText:subTitleText];
         CGRect tempFrame = CGRectMake(__kItemContentView_marginMin,(*outY).floatValue + __kItemContentView_marginMax,
                                       CGRectGetWidth(self.frame) - __kItemContentView_marginMin*2, 0);
-        NSString *text = @"";
-        if(title && title.length){
-            text = title;
-            if(itemType == PaperItemTypeShareTitle){
-                text = [NSString stringWithFormat:@"%d.%@",(int)order,title];
-            }
-            CGSize textSize = [text sizeWithFont:_lbTitle.font
-                               constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame), CGFLOAT_MAX)
-                                   lineBreakMode:NSLineBreakByWordWrapping];
-            tempFrame.size.height = textSize.height + __kItemContentView_marginMin;
-        }
+        CGSize subTitleTextAttriSize = [NSStringUtils boundingRectWithHtml:subTitleTextAttri constrainedToWidth:CGRectGetWidth(tempFrame)];
+        tempFrame.size.height = subTitleTextAttriSize.height + __kItemContentView_marginMin;
         _lbSubTitle.frame = tempFrame;
-        _lbSubTitle.text = text;
-        
+        _lbSubTitle.attributedText = subTitleTextAttri;
         *outY = [NSNumber numberWithFloat:CGRectGetMaxY(tempFrame)];
     }
 }
@@ -339,28 +325,14 @@
         if(_rightAnswer && _rightAnswer.length > 0 && _optionArrays && _optionArrays.count > 0){
             for(PaperItem *item in _optionArrays){
                 if(!item || !item.code || item.code.length == 0) continue;
-                BOOL isAnswerRight = NO;
-                if([_rightAnswer respondsToSelector:@selector(containsString:)]){//IOS8
-                    isAnswerRight = [_rightAnswer containsString:item.code];
-                }else{//iOS7
-                    NSRange rang = [_rightAnswer rangeOfString:item.code];
-                    isAnswerRight = rang.length > 0;
+                if([NSStringUtils existContains:_rightAnswer subText:item.code]){
+                    [rightAnswerText appendFormat:@"%@ ",[NSStringUtils findFirstContent:item.content regex:_answerOrderRegex]];
                 }
-                if(isAnswerRight){
-                    [rightAnswerText appendFormat:@"%@ ", [item.content substringWithRange:NSMakeRange(0, 1)]];
-                }
-                BOOL isMyAnswerRight = (_itemSource && _itemSource.value && _itemSource.value.length > 0);
-                if(isMyAnswerRight){
-                    NSString *sourceValue = _itemSource.value;
-                    if([sourceValue respondsToSelector:@selector(containsString:)]){//iOS8
-                        isMyAnswerRight = [sourceValue containsString:item.code];
-                    }else{//ios7
-                        NSRange rang = [sourceValue rangeOfString:item.code];
-                        isMyAnswerRight = rang.length > 0;
+                if(_itemSource && _itemSource.value && _itemSource.value.length > 0){
+                    NSString *myAnswer = _itemSource.value;
+                    if([NSStringUtils existContains:myAnswer subText:item.code]){
+                        [myAnswerText appendFormat:@"%@ ",[NSStringUtils findFirstContent:item.content regex:_answerOrderRegex]];
                     }
-                }
-                if (isMyAnswerRight) {
-                    [myAnswerText appendFormat:@"%@ ",[item.content substringWithRange:NSMakeRange(0, 1)]];
                 }
             }
         }

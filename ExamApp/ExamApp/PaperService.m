@@ -45,7 +45,7 @@
     __block NSArray *arrarys;
     [_dbQueue inDatabase:^(FMDatabase *db) {
         PaperDataDao *dao = [[PaperDataDao alloc]initWithDb:db];
-        arrarys = [dao loadPapersWithSubjectCode:subjectCode PaperType:typeValue Index:index RowsOfPage:_rowsOfPage];
+        arrarys = [dao loadPapersWithSubjectCode:subjectCode PaperType:(PaperType)typeValue Index:index RowsOfPage:_rowsOfPage];
     }];
     return arrarys;
 }

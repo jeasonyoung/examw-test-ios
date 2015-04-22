@@ -9,6 +9,7 @@
 #import "ItemOptionView.h"
 #import "NSString+Size.h"
 #import "UIColor+Hex.h"
+#import "NSStringUtils.h"
 
 #define __kItemOptionView_Top 2//顶部间隔
 #define __kItemOptionView_Bottom 2//底部间隔
@@ -17,7 +18,7 @@
 #define __kItemOptionView_MarginMin 5//内部间隔
 #define __kItemOptionView_MarginMax 10//选项间隔
 
-#define __kItemOptionView_fontSize 13//字体尺寸
+//#define __kItemOptionView_fontSize 13//字体尺寸
 #define __kItemOptionView_fontColor 0x000000//默认字体颜色
 #define __kItemOptionView_rightFontColor 0x00FF00//做对
 #define __kItemOptionView_errorFontColor 0xFF0000//做错
@@ -35,6 +36,7 @@
 
 //选项组件成员变量
 @interface ItemOptionView (){
+    UIColor *_normalColor,*_rightColor,*_errorColor;
     UIImageView *_iconView;
     UILabel *_lbContentView;
 }
@@ -59,6 +61,11 @@
 }
 //初始化视图
 -(void)initilizeOptionView{
+    //初始化颜色
+    _normalColor = [UIColor colorWithHex:__kItemOptionView_fontColor];
+    _rightColor = [UIColor colorWithHex:__kItemOptionView_rightFontColor];
+    _errorColor = [UIColor colorWithHex:__kItemOptionView_errorFontColor];
+    
     //初始化选项图标UI
     CGRect tempFrame = CGRectMake(__kItemOptionView_Left,__kItemOptionView_Top,
                                   __kItemOptionView_iconWith, __kItemOptionView_iconHeight);
@@ -68,7 +75,7 @@
     tempFrame.origin.x = CGRectGetMaxX(tempFrame) + __kItemOptionView_MarginMin;
     tempFrame.size.width = CGRectGetWidth(self.frame) - CGRectGetMinX(tempFrame) - __kItemOptionView_Right;
     _lbContentView = [[UILabel alloc] initWithFrame:tempFrame];
-    _lbContentView.font = [UIFont systemFontOfSize:__kItemOptionView_fontSize];
+    //_lbContentView.font = [UIFont systemFontOfSize:__kItemOptionView_fontSize];
     _lbContentView.textAlignment = NSTextAlignmentLeft;
     _lbContentView.numberOfLines = 0;
     [self addSubview:_lbContentView];
@@ -91,6 +98,9 @@
     }else if(self.type == ItemOptionViewTypeMulty){
         self.optSelected = !self.optSelected;
     }
+    if(self.delegate && [self.delegate respondsToSelector:@selector(itemOptionClick:)]){
+        [self.delegate itemOptionClick:sender];
+    }
 }
 #pragma mark加载数据
 -(void)loadDataWithType:(ItemOptionViewType)type OptionCode:(NSString *)code OptionText:(NSString *)text{
@@ -101,22 +111,17 @@
 }
 #pragma mark 加载数据
 -(void)loadData{
-    //绘制选项内容
-    [self drawOptionContent];
-}
-//绘制选项内容
--(void)drawOptionContent{
     //字体颜色
-    UIColor *fontColor = [UIColor colorWithHex:__kItemOptionView_fontColor];
+    UIColor *fontColor = _normalColor;
     CGRect tempFrame = CGRectZero;
     //设置图标图片
     if(_iconView){
         tempFrame = _iconView.frame;
         if(_type == ItemOptionViewTypeSingleRight || _type == ItemOptionViewTypeMultyRight){
-            fontColor = [UIColor colorWithHex:__kItemOptionView_rightFontColor];
+            fontColor = _rightColor;
             [_iconView setImage:[UIImage imageNamed:__kItemOptionView_iconRight]];
         }else if(_type == ItemOptionViewTypeSingleError || _type == ItemOptionViewTypeMultyError){
-            fontColor = [UIColor colorWithHex:__kItemOptionView_errorFontColor];
+            fontColor = _errorColor;
             [_iconView setImage:[UIImage imageNamed:__kItemOptionView_iconError]];
         }else{
             self.optSelected = NO;
@@ -124,33 +129,28 @@
     }
     //设置选项内容
     if(_lbContentView){
-        CGFloat maxHeight = __kItemOptionView_iconHeight;
-        //清空文字
-         _lbContentView.text = @"";
-        tempFrame = _lbContentView.frame;
-        if(!_optText || _optText.length == 0){
-            _optText = @"";
+        //设置字体颜色
+        //_lbContentView.textColor = fontColor;
+        //内容
+        NSString *contentText = ((_optText && _optText.length > 0) ? _optText : @"");
+        NSMutableAttributedString *contentTextAttri = [NSStringUtils toHtmlWithText:contentText];
+        //设置颜色
+        [contentTextAttri addAttribute:NSForegroundColorAttributeName value:fontColor range:NSMakeRange(0, contentText.length)];
+        //做错时
+        if(self.type == ItemOptionViewTypeSingleError || self.type == ItemOptionViewTypeMultyError){
+            [contentTextAttri addAttribute:NSStrikethroughStyleAttributeName
+                                       value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle)
+                                       range:NSMakeRange(0, contentText.length)];
         }
-        CGSize contentSize = [_optText sizeWithFont:_lbContentView.font
-                                  constrainedToSize:CGSizeMake(CGRectGetWidth(tempFrame), CGFLOAT_MAX)
-                                      lineBreakMode:NSLineBreakByWordWrapping];
-        if(maxHeight < contentSize.height){
-            maxHeight = contentSize.height;
+        tempFrame = _lbContentView.frame;
+        CGSize contentTextAttrSize = [NSStringUtils boundingRectWithHtml:contentTextAttri constrainedToWidth:CGRectGetWidth(tempFrame)];
+        CGFloat maxHeight = __kItemOptionView_iconHeight;
+        if(maxHeight < contentTextAttrSize.height){
+            maxHeight = contentTextAttrSize.height;
         }
         tempFrame.size.height = maxHeight;
         _lbContentView.frame = tempFrame;
-        //设置字体颜色
-        _lbContentView.textColor = fontColor;
-        //做错时
-        if(self.type == ItemOptionViewTypeSingleError || self.type == ItemOptionViewTypeMultyError){
-            NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithString:_optText];
-            [attri addAttribute:NSStrikethroughStyleAttributeName
-                          value:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle)
-                          range:NSMakeRange(0, _optText.length)];
-            _lbContentView.attributedText = attri;
-        }else{
-            _lbContentView.text = _optText;
-        }
+        _lbContentView.attributedText = contentTextAttri;
     }
     //重置容器高度
     CGFloat h = CGRectGetMaxY(tempFrame);
@@ -184,7 +184,7 @@
 -(void)changeOptionType:(ItemOptionViewType)type{
     if(_type != type){
         _type = type;
-        [self drawOptionContent];
+        [self loadData];
     }
 }
 #pragma mark 内存回收
@@ -239,7 +239,7 @@
 
 #define __kItemOptionGroupView_Margin 5//
 //选项组合成员变量
-@interface ItemOptionGroupView (){
+@interface ItemOptionGroupView ()<ItemOptionViewDelegate>{
     ItemOptionGroupType _optGroupType;
     NSInteger _optCount;
     NSMutableArray *_optionViewsCache;
@@ -280,18 +280,8 @@
                         //加载数据
                         [optionView loadDataWithType:optType OptionCode:option.code OptionText:option.content];
                         if(data.selectedOptCode && data.selectedOptCode.length > 0){
-                            BOOL isSelected = NO;
-                            NSString *selectOptCode = data.selectedOptCode;
-                            //iOS8
-                            if([selectOptCode respondsToSelector:@selector(containsString:)]){
-                                isSelected = [selectOptCode containsString:option.code];
-                            }else{//iOS7
-                                NSRange rang = [selectOptCode rangeOfString:option.code];
-                                isSelected = rang.length > 0;
-                            }
-                            //BOOL isSelected = [data.selectedOptCode containsString:option.code];
-                            if(isSelected){
-                                optionView.optSelected = isSelected;
+                            if([NSStringUtils existContains:data.selectedOptCode subText:option.code]){
+                                optionView.optSelected = YES;
                             }
                         }
                         tempFrame = optionView.frame;
@@ -321,8 +311,9 @@
     }
     //初始化选项
     optView = [[ItemOptionView alloc] initWithFrame:frame];
+    optView.delegate = self;
     //添加选项点击处理
-    [optView addTarget:self action:@selector(OptionClick:) forControlEvents:UIControlEventTouchUpInside];
+    //[optView addTarget:self action:@selector(OptionClick:) forControlEvents:UIControlEventTouchUpInside];
     //添加到缓存
     [_optionViewsCache addObject:optView];
     //添加到界面
@@ -330,18 +321,16 @@
     //返回选项
     return optView;
 }
+#pragma mark ItemOptionViewDelegate
 //选项点击事件
--(void)OptionClick:(ItemOptionView *)sender{
+-(void)itemOptionClick:(ItemOptionView *)sender{
     if(!sender || !_optionViewsCache)return;
-    if(_optGroupType == ItemOptionGroupTypeSingle && _optCount <= _optionViewsCache.count){
-        for(int i = 0; i < _optCount;i++){
-            ItemOptionView *optView = [_optionViewsCache objectAtIndex:i];
+    if(_optGroupType == ItemOptionGroupTypeSingle){
+        for(ItemOptionView *optView in _optionViewsCache){
             if(!optView || [sender.optCode isEqualToString:optView.optCode]){
                 continue;
             }
-            if(optView.optSelected){
-                optView.optSelected = NO;
-            }
+            if(optView.optSelected) optView.optSelected = NO;
         }
     }
     //触发委托
@@ -353,21 +342,11 @@
 -(void)showDisplayAnswer:(BOOL)displayAnswer{
     if(_optCount > 0 &&_optionViewsCache && _optionViewsCache.count >= _optCount){
         for(NSInteger i = 0; i < _optCount; i++){
-            ItemOptionViewType optType = (_optGroupType == ItemOptionGroupTypeSingle ? ItemOptionViewTypeSingle : ItemOptionViewTypeMulty);
+            ItemOptionViewType optType = (_optGroupType==ItemOptionGroupTypeSingle?ItemOptionViewTypeSingle:ItemOptionViewTypeMulty);
             ItemOptionView *optView = [_optionViewsCache objectAtIndex:i];
             if(optView && optView.isOptSelected){//选项被选中
                 if(displayAnswer){
-                    BOOL isRight = NO;
-                    if(_answer){
-                        //iOS8
-                        if([_answer respondsToSelector:@selector(containsString:)]){
-                            isRight = [_answer containsString:optView.optCode];
-                        }else{//iOS7
-                            NSRange rang = [_answer rangeOfString:optView.optCode];
-                            isRight = rang.length > 0;
-                        }
-                    }
-                    if(isRight){//选对
+                    if([NSStringUtils existContains:_answer subText:optView.optCode]){//选对
                         optType = (optType == ItemOptionViewTypeSingle ?
                                    ItemOptionViewTypeSingleRight :
                                    ItemOptionViewTypeMultyRight);

@@ -153,7 +153,7 @@
 }
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSLog(@"buttonIndex=>%d",buttonIndex);
+    NSLog(@"buttonIndex=>%d",(int)buttonIndex);
     if(buttonIndex == 0)return;
     //初始化等待动画
     WaitForAnimation *waitForAni = [[WaitForAnimation alloc]initWithView:self.view

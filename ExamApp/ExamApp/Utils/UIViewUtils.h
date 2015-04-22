@@ -12,6 +12,12 @@
 @interface UIViewUtils : NSObject
 //添加圆角边框
 +(void)addBoundsRadiusWithView:(UIView *)view
+                  CornerRadius:(CGFloat)radius
+                   BorderColor:(UIColor *)borderColor
+                   BorderWidth:(CGFloat)borderWidth
+               BackgroundColor:(UIColor *)bgColor;
+//添加圆角边框
++(void)addBoundsRadiusWithView:(UIView *)view
                    BorderColor:(UIColor *)borderColor
                BackgroundColor:(UIColor *)bgColor;
 //添加边框
