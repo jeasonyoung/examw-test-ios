@@ -148,7 +148,7 @@
 }
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSLog(@"buttonIndex=>%d",buttonIndex);
+    NSLog(@"buttonIndex=>%d",(int)buttonIndex);
     switch (alertView.tag) {//弹出框判断
         case __kItemViewController_topbar_backTag:{//左边返回按钮
             if(buttonIndex == 1){//交卷

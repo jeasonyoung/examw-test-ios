@@ -62,7 +62,12 @@
     [rs close];
     return arrys;
 }
-
+#pragma mark 根据试题ID加载试题所属科目代码
+-(NSString *)loadSubjectCodeWithPaperCode:(NSString *)code{
+    if(!_db)return nil;
+    NSString *query_sql = @"select subjectCode from tbl_papers where id = ? limit 0,1";
+    return [_db stringForQuery:query_sql,code];
+}
 #pragma mark 根据试卷ID加载试卷内容
 -(PaperReview *)loadPaperContentWithCode:(NSString *)code{
     if(!_db || !code || code.length == 0 || ![_db tableExists:__k_paperdatadao_tableName])return nil;

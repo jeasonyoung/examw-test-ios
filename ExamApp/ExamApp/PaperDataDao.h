@@ -26,7 +26,7 @@
 //加载试卷数据(无试卷内容)
 //-(PaperData *)loadPaperWithCode:(NSString *)code;
 //根据试题ID加载试题所属科目代码
-//-(NSString *)loadSubjectCodeWithPaperCode:(NSString *)code;
+-(NSString *)loadSubjectCodeWithPaperCode:(NSString *)code;
 //加载最新的数据同步时间
 -(NSString *)loadLastSyncTime;
 //同步数据

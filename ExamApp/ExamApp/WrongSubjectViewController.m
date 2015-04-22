@@ -21,11 +21,7 @@
 #define __kWrongSubjectViewController_title @"错题重做"
 
 #define __kWrongSubjectViewController_waiting @"加载中..."
-
-//#define __kWrongSubjectViewController_more @"加载更多..."
-
 #define __kWrongSubjectViewController_cellIdentifier @"row_cell"//
-//#define __kWrongSubjectViewController_moreIdentifier @"row_more"//
 
 #define __kWrongSubjectViewController_cellDetail @"做错%d题次"
 
@@ -36,7 +32,6 @@
     WrongItemRecordService *_service;
     NSArray *_examSectionCache;
     NSMutableDictionary *_subjectWrongCache,*_currentPageIndexCache;
-    //WaitForAnimation *_wattingAnimation;
 }
 @end
 //错题重做科目视图控制器实现
@@ -58,8 +53,6 @@
     _tableView.dataSource = self;
     _tableView.delegate = self;
     [self.view addSubview:_tableView];
-    //初始化等待动画
-    //_wattingAnimation = [[WaitForAnimation alloc]initWithView:self.view WaitTitle:__kWrongSubjectViewController_waiting];
 }
 
 #pragma mark UITableViewDataSource
@@ -143,9 +136,11 @@
     //选中科目
     SubjectCell *data = [wrongsCache objectAtIndex:indexPath.row];
     if(!data || !data.code || data.code.length == 0)return;
-    WrongViewController *wvc = [[WrongViewController alloc]initWithSubjectCode:data.code];
-    wvc.hidesBottomBarWhenPushed = NO;
-    [self.navigationController pushViewController:wvc animated:NO];
+    if(data.total && data.total.integerValue > 0){
+        WrongViewController *wvc = [[WrongViewController alloc]initWithSubjectCode:data.code];
+        wvc.hidesBottomBarWhenPushed = NO;
+        [self.navigationController pushViewController:wvc animated:NO];
+    }
 }
 //加载更多数据
 -(void)loadMoreDataWithSection:(NSNumber *)section{

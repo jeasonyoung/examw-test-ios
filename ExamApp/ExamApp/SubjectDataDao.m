@@ -62,14 +62,14 @@
     
     [query_sql appendString:@" left outer join tbl_papers b on b.subjectCode = a.code "];
     [query_sql appendString:@" left outer join tbl_paperRecords c on c.paperId = b.id "];
-    [query_sql appendString:@" left outer join tbl_itemRecords d on d.paperRecordId = c.id "];
+    [query_sql appendFormat:@" left outer join tbl_itemRecords d on d.paperRecordId = c.id and d.status = %d",[NSNumber numberWithBool:NO].intValue];
     
-    [query_sql appendString:@" where a.examCode = ? and d.status = ? "];
+    [query_sql appendString:@" where a.examCode = ? and a.status = ?  "];
     [query_sql appendString:@" group by a.code,a.name"];
     [query_sql appendFormat:@" order by a.code limit %d,%d ", (int)((pageIndex - 1) * rowsOfPage), (int)rowsOfPage];
     
     NSMutableArray *arrays = [NSMutableArray array];
-    FMResultSet *rs = [_db executeQuery:query_sql,examCode,[NSNumber numberWithBool:NO]];
+    FMResultSet *rs = [_db executeQuery:query_sql,examCode,[NSNumber numberWithBool:YES]];
     while ([rs next]) {
         SubjectCell *data = [[SubjectCell alloc]init];
         data.code = [rs stringForColumn:@"code"];
