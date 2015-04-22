@@ -30,10 +30,10 @@
 #define __kPaperListViewController_title @"试卷详情"
 #define __kPaperListViewController_waiting @"加载数据..."
 
-#define __kPaperListViewController_more @"加载更多..."
+//#define __kPaperListViewController_more @"加载更多..."
 
 #define __kPaperListViewController_cellIdentifier @"row_cell"//
-#define __kPaperListViewController_moreIdentifier @"row_more"//
+//#define __kPaperListViewController_moreIdentifier @"row_more"//
 
 #define __kPaperListViewController_detail @"试题:%d  发布时间:%@"//
 #define __kPaperListViewController_dateFormatter @"yyyy-MM-dd"//
@@ -59,7 +59,7 @@
         //设置科目代码
         _subjectCode = subjectCode;
         //设置题型
-        _currentPaperTypeValue = 0;
+        _currentPaperTypeValue = 1;
     }
     return self;
 }
@@ -79,13 +79,10 @@
     [self setupSegmentControls];
     //添加列表
     [self setupTableViews];
-    //初次加载数据
-    NSArray *arrays = [_service loadPapersWithSubjectCode:_subjectCode PaperTypeValue:_currentPaperTypeValue Index:_currentPageIndex];
-    if(arrays && arrays.count > 0){
-        [_papersCache addObjectsFromArray:arrays];
-    }
     //初始化动画
     _wattingAnimation = [[WaitForAnimation alloc]initWithView:self.view WaitTitle:__kPaperListViewController_waiting];
+    //加载数据
+    [self loadFristSegmentData];
 }
 //安装分段控制器
 -(void)setupSegmentControls{
@@ -109,19 +106,10 @@
 //分段器选中事件处理
 -(void)segmentActionClick:(UISegmentedControl *)sender{
     if(sender && _tableView){
-        //加载数据动画
-        [_wattingAnimation show];
-        
-        _currentPageIndex = 1;
+        //试卷类型赋值
         _currentPaperTypeValue = sender.selectedSegmentIndex + 1;
-        //重载数据
-        _papersCache = (NSMutableArray *)[_service loadPapersWithSubjectCode:_subjectCode
-                                                              PaperTypeValue:_currentPaperTypeValue
-                                                                       Index:_currentPageIndex];
-        //关闭动画
-        [_wattingAnimation hide];
-        
-        [_tableView reloadData];
+        //加载数据
+        [self loadFristSegmentData];
     }
 }
 //添加tableview
@@ -136,32 +124,36 @@
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
 }
+//第一次加载分选器数据
+-(void)loadFristSegmentData{
+    //开启加载动画
+    if(_wattingAnimation)[_wattingAnimation show];
+    //重置当前页码索引
+    _currentPageIndex = 1;
+    //重载数据
+    _papersCache = (NSMutableArray *)[_service loadPapersWithSubjectCode:_subjectCode
+                                                          PaperTypeValue:_currentPaperTypeValue
+                                                                   Index:_currentPageIndex];
+    //关闭加载动画
+    if(_wattingAnimation)[_wattingAnimation hide];
+    //重新加载列表数据
+    [_tableView reloadData];
+}
 #pragma mark tableView_dataSource
 //数据总数
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if(_papersCache && _papersCache.count > 0){
-        return _papersCache.count + 1;
+    if(_papersCache){
+        return _papersCache.count;
     }
     return 0;
 }
 //每条数据展示
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    if(!_papersCache || _papersCache.count == 0)return nil;
     //加载更多
-    if(indexPath.row == _papersCache.count){
-        UITableViewCell *moreCell = [tableView dequeueReusableCellWithIdentifier:__kPaperListViewController_moreIdentifier];
-        if(!moreCell){
-            moreCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault
-                                             reuseIdentifier:__kPaperListViewController_moreIdentifier];
-            moreCell.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
-            moreCell.textLabel.textColor = [UIColor darkGrayColor];
-            moreCell.textLabel.textAlignment = NSTextAlignmentCenter;
-        }
-        moreCell.textLabel.text = (indexPath.row < _service.rowsOfPage ? @"" : __kPaperListViewController_more);
-        return moreCell;
+    if((indexPath.row > 0) && ((indexPath.row + 1)/_service.rowsOfPage >= _currentPageIndex)){
+        //后台线程处理
+        [self performSelectorInBackground:@selector(loadMoreData) withObject:nil];
     }
-    //越界
-    if(indexPath.row > _papersCache.count) return nil;
     //查询数据
     PaperData *data = [_papersCache objectAtIndex:indexPath.row];
     if(!data)return nil;
@@ -195,8 +187,7 @@
         //修改文字
         UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
         cell.textLabel.text = __kPaperListViewController_waiting;
-        //后台线程处理
-        [self performSelectorInBackground:@selector(loadMoreData) withObject:nil];
+       
         //关闭等待动画
         [_wattingAnimation hide];
         //取消选中

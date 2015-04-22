@@ -26,6 +26,7 @@
 #import "ItemContentGroupView.h"
 
 #import "UIViewUtils.h"
+#import "NSStringUtils.h"
 
 #define __kItemViewController_alert_title @"退出"//
 #define __kItemViewController_alert_msg @"是否退出考试?"
@@ -43,6 +44,12 @@
 #define __kItemViewController_timer_height 30//计时器高度
 
 #define __kItemViewController_submit_title @"交卷"//交卷
+#define __kItemViewController_submit_alert @"确认"//交卷
+#define __kItemViewController_submit_alert_msg @"确认交卷？"//
+
+#define __kItemViewController_topbar_backTag 0//顶部返回按钮
+#define __kItemViewController_toolbar_submitTag 1//底部工具栏交卷
+
 
 //试题考试视图控制器成员变量
 @interface ItemViewController ()<ItemContentGroupViewDataSource,UIAlertViewDelegate>{
@@ -133,6 +140,7 @@
                                                       delegate:self
                                              cancelButtonTitle:__kItemViewController_alert_btn_cancel
                                              otherButtonTitles:__kItemViewController_alert_btn_submit,__kItemViewController_alert_btn_confirm, nil];
+        alert.tag = __kItemViewController_topbar_backTag;
         [alert show];
     }else{
         [self popViewController];
@@ -141,15 +149,27 @@
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSLog(@"buttonIndex=>%d",buttonIndex);
-    if(buttonIndex == 1){//交卷
-        NSLog(@"交卷");
-        [self btnSubmitClick:nil];
-    }else if(buttonIndex == 2){//下次再做
-        NSLog(@"下次再做");
-        [self popViewController];
+    switch (alertView.tag) {//弹出框判断
+        case __kItemViewController_topbar_backTag:{//左边返回按钮
+            if(buttonIndex == 1){//交卷
+                NSLog(@"交卷");
+                [self submitHandler];
+            }else if(buttonIndex == 2){//下次再做
+                NSLog(@"下次再做");
+                [self popViewController];
+            }
+            break;
+        }
+        case __kItemViewController_toolbar_submitTag:{//交卷
+            if(buttonIndex == 1){//交卷
+                NSLog(@"交卷");
+                [self submitHandler];
+            }
+        }
+        default:
+            break;
     }
 }
-//
 -(void)popViewController{
     NSArray *controllers = self.navigationController.viewControllers;
     if(controllers && controllers.count > 0){
@@ -362,7 +382,7 @@
                     if(arrays && arrays.count > 0){
                         for(NSString *str in arrays){
                             if(!str || str.length == 0)continue;
-                            if([rightAnswer containsString:str]){
+                            if([NSStringUtils existContains:rightAnswer subText:str]){
                                 itemRecord.score = ps.min;
                                 break;
                             }
@@ -460,6 +480,16 @@
 }
 //交卷
 -(void)btnSubmitClick:(UIBarButtonItem *)sender{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:__kItemViewController_submit_alert
+                                                   message:__kItemViewController_submit_alert_msg
+                                                  delegate:self
+                                         cancelButtonTitle:__kItemViewController_alert_btn_cancel
+                                         otherButtonTitles:__kItemViewController_alert_btn_submit, nil];
+    alert.tag = __kItemViewController_toolbar_submitTag;
+    [alert show];
+}
+//交卷处理
+-(void)submitHandler{
     if(_itemContentView){
         [_itemContentView submit];
     }

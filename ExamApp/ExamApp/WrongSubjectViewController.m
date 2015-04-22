@@ -22,10 +22,10 @@
 
 #define __kWrongSubjectViewController_waiting @"加载中..."
 
-#define __kWrongSubjectViewController_more @"加载更多..."
+//#define __kWrongSubjectViewController_more @"加载更多..."
 
 #define __kWrongSubjectViewController_cellIdentifier @"row_cell"//
-#define __kWrongSubjectViewController_moreIdentifier @"row_more"//
+//#define __kWrongSubjectViewController_moreIdentifier @"row_more"//
 
 #define __kWrongSubjectViewController_cellDetail @"做错%d题次"
 
@@ -36,7 +36,7 @@
     WrongItemRecordService *_service;
     NSArray *_examSectionCache;
     NSMutableDictionary *_subjectWrongCache,*_currentPageIndexCache;
-    WaitForAnimation *_wattingAnimation;
+    //WaitForAnimation *_wattingAnimation;
 }
 @end
 //错题重做科目视图控制器实现
@@ -59,7 +59,7 @@
     _tableView.delegate = self;
     [self.view addSubview:_tableView];
     //初始化等待动画
-    _wattingAnimation = [[WaitForAnimation alloc]initWithView:self.view WaitTitle:__kWrongSubjectViewController_waiting];
+    //_wattingAnimation = [[WaitForAnimation alloc]initWithView:self.view WaitTitle:__kWrongSubjectViewController_waiting];
 }
 
 #pragma mark UITableViewDataSource
@@ -89,7 +89,7 @@
                 if(arrays && arrays.count > 0){
                     [wrongArrays addObjectsFromArray:arrays];
                     [_subjectWrongCache setObject:wrongArrays forKey:sectionKey];
-                    return wrongArrays.count + 1;
+                    return wrongArrays.count;
                 }
             }
         }
@@ -111,20 +111,13 @@
     NSArray *wrongsCache = [_subjectWrongCache objectForKey:sectionKey];
     if(wrongsCache && wrongsCache.count > 0){
         //加载更多
-        if(indexPath.row == wrongsCache.count){
-            UITableViewCell *moreCell = [tableView dequeueReusableCellWithIdentifier:__kWrongSubjectViewController_moreIdentifier];
-            if(!moreCell){
-                moreCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault
-                                                 reuseIdentifier:__kWrongSubjectViewController_moreIdentifier];
-                moreCell.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
-                moreCell.textLabel.textColor = [UIColor darkGrayColor];
-                moreCell.textLabel.textAlignment = NSTextAlignmentCenter;
+        if(indexPath.row > 0){
+            NSNumber *pageIndex = [_currentPageIndexCache objectForKey:sectionKey];
+            if((indexPath.row + 1)/_service.rowsOfPage >= pageIndex.integerValue){
+                //后台线程处理加载更多数据
+                [self performSelectorInBackground:@selector(loadMoreDataWithSection:) withObject:sectionKey];
             }
-            moreCell.textLabel.text = (indexPath.row < _service.rowsOfPage ? @"" : __kWrongSubjectViewController_more);
-            return moreCell;
         }
-        //越界
-        if(indexPath.row > wrongsCache.count) return nil;
         //加载内容
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:__kWrongSubjectViewController_cellIdentifier];
         if(!cell){
@@ -147,22 +140,6 @@
     NSNumber *sectionKey = [NSNumber numberWithInteger:indexPath.section];
     NSArray *wrongsCache = [_subjectWrongCache objectForKey:sectionKey];
     if(!wrongsCache || wrongsCache.count == 0)return;
-    //加载更多数据
-    if(indexPath.row == wrongsCache.count){
-        if(indexPath.row < _service.rowsOfPage)return;
-        //开启等待动画
-        [_wattingAnimation show];
-        //修改文字
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell.textLabel.text = __kWrongSubjectViewController_waiting;
-        //后台线程处理
-        [self performSelectorInBackground:@selector(loadMoreDataWithSection:) withObject:sectionKey];
-        //关闭等待动画
-        [_wattingAnimation hide];
-        //取消选中
-        [_tableView deselectRowAtIndexPath:indexPath animated:YES];
-        return;
-    }
     //选中科目
     SubjectCell *data = [wrongsCache objectAtIndex:indexPath.row];
     if(!data || !data.code || data.code.length == 0)return;

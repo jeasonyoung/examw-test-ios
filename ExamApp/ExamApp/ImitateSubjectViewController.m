@@ -19,10 +19,10 @@
 #define __kImitateSubjectViewController_title @"选择科目"
 #define __kImitateSubjectViewController_waiting @"加载中..."
 
-#define __kImitateSubjectViewController_more @"加载更多..."
+//#define __kImitateSubjectViewController_more @"加载更多..."
 
 #define __kImitateSubjectViewController_cellIdentifier @"row_cell"//
-#define __kImitateSubjectViewController_moreIdentifier @"row_more"//
+//#define __kImitateSubjectViewController_moreIdentifier @"row_more"//
 
 #define __kImitateSubjectViewController_cellDetail @"试题%d套"
 
@@ -33,7 +33,7 @@
     ImitateSubjectService *_service;
     NSArray *_examSectionCache;
     NSMutableDictionary *_subjectPapersCache,*_currentPageIndexCache;
-    WaitForAnimation *_wattingAnimation;
+    //WaitForAnimation *_wattingAnimation;
 }
 @end
 //模拟考场科目视图控制器实现类。
@@ -56,7 +56,7 @@
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
     //初始化等待动画
-    _wattingAnimation = [[WaitForAnimation alloc]initWithView:self.view WaitTitle:__kImitateSubjectViewController_waiting];
+    //_wattingAnimation = [[WaitForAnimation alloc]initWithView:self.view WaitTitle:__kImitateSubjectViewController_waiting];
 }
 #pragma mark tableView数据
 //分组总数
@@ -87,7 +87,7 @@
                     [_subjectPapersCache setObject:papersArrays forKey:sectionKey];
                 }
             }
-            return papersArrays.count + 1;
+            return papersArrays.count;
         }
     }
     return 0;
@@ -107,20 +107,13 @@
     NSArray *papersCache = [_subjectPapersCache objectForKey:sectionKey];
     if(papersCache && papersCache.count > 0){
         //加载更多
-        if((indexPath.row == papersCache.count)){
-            UITableViewCell *moreCell = [tableView dequeueReusableCellWithIdentifier:__kImitateSubjectViewController_moreIdentifier];
-            if(!moreCell){
-                moreCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault
-                                                 reuseIdentifier:__kImitateSubjectViewController_moreIdentifier];
-                moreCell.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
-                moreCell.textLabel.textColor = [UIColor darkGrayColor];
-                moreCell.textLabel.textAlignment = NSTextAlignmentCenter;
+        if(indexPath.row > 0 && _currentPageIndexCache){
+            NSNumber *pageIndex = [_currentPageIndexCache objectForKey:sectionKey];
+            if((indexPath.row + 1)/_service.rowsOfPage >= pageIndex.integerValue){
+                //后台线程处理
+                [self performSelectorInBackground:@selector(loadMoreDataWithSection:) withObject:sectionKey];
             }
-            moreCell.textLabel.text = (indexPath.row < _service.rowsOfPage ? @"" : __kImitateSubjectViewController_more);
-            return moreCell;
         }
-        //越界
-        if(indexPath.row > papersCache.count) return nil;
         //加载内容
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:__kImitateSubjectViewController_cellIdentifier];
         if(!cell){
@@ -143,22 +136,6 @@
     NSNumber *sectionKey = [NSNumber numberWithInteger:indexPath.section];
     NSArray *papersCache = [_subjectPapersCache objectForKey:sectionKey];
     if(!papersCache || papersCache.count == 0)return;
-    //加载更多数据
-    if(indexPath.row == papersCache.count){
-        if(indexPath.row < _service.rowsOfPage)return;
-        //开启等待动画
-        [_wattingAnimation show];
-        //修改文字
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell.textLabel.text = __kImitateSubjectViewController_waiting;
-        //后台线程处理
-        [self performSelectorInBackground:@selector(loadMoreDataWithSection:) withObject:sectionKey];
-        //关闭等待动画
-        [_wattingAnimation hide];
-        //取消选中
-        [_tableView deselectRowAtIndexPath:indexPath animated:YES];
-        return;
-    }
     //选中科目
     SubjectCell *data = [papersCache objectAtIndex:indexPath.row];
     if(!data || !data.code || data.code.length == 0)return;

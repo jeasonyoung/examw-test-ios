@@ -21,12 +21,12 @@
 #define __kLearnRecordViewController_title @"学习记录"
 #define __kLearnRecordViewController_waiting @"加载数据..."
 
-#define __kLearnRecordViewController_more @"加载更多..."
+//#define __kLearnRecordViewController_more @"加载更多..."
 
 #define __kLearnRecordViewController_cellIdentifier @"row_cell"//
-#define __kLearnRecordViewController_moreIdentifier @"row_more"//
+//#define __kLearnRecordViewController_moreIdentifier @"row_more"//
 
-#define __kLearnRecordViewController_moreCellHeight 30//
+//#define __kLearnRecordViewController_moreCellHeight 30//
 
 //学习记录视图控制器成员变量
 @interface LearnRecordViewController ()<UITableViewDataSource,UITableViewDelegate>{
@@ -95,24 +95,15 @@
 //数据总数
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if(_cellDataCache){
-        return _cellDataCache.count + 1;
+        return _cellDataCache.count;
     }
     return 0;
 }
 //加载数据
 -(UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    //加载更多
-    if(indexPath.row == _cellDataCache.count){
-        UITableViewCell *moreCell = [tableView dequeueReusableCellWithIdentifier:__kLearnRecordViewController_moreIdentifier];
-        if(!moreCell){
-            moreCell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleDefault
-                                             reuseIdentifier:__kLearnRecordViewController_moreIdentifier];
-            moreCell.textLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
-            moreCell.textLabel.textColor = [UIColor darkGrayColor];
-            moreCell.textLabel.textAlignment = NSTextAlignmentCenter;
-        }
-        moreCell.textLabel.text = (indexPath.row < _service.rowsOfPage ? @"" : __kLearnRecordViewController_more);
-        return moreCell;
+    if((indexPath.row > 0) && ((indexPath.row + 1) / _service.rowsOfPage >= _currentPageIndex)){
+        //后台加载数据
+        [self performSelectorInBackground:@selector(loadMoreData) withObject:nil];
     }
     //越界
     if(indexPath.row > _cellDataCache.count) return nil;
@@ -132,26 +123,11 @@
     if(indexPath.row < _cellDataCache.count){
        return [[_cellDataCache objectAtIndex:indexPath.row] rowHeight];
     }
-    return (_cellDataCache.count < _service.rowsOfPage) ? 0 : __kLearnRecordViewController_moreCellHeight;
+    return 0;
 }
 //选中事件
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(!_cellDataCache || _cellDataCache.count == 0)return;
-    //加载数据
-    if(indexPath.row == _cellDataCache.count){
-        if(indexPath.row < _service.rowsOfPage)return;
-        //开启等待动画
-        [_waitingAnimation show];
-        //加载数据
-        UITableViewCell *moreCell = [tableView cellForRowAtIndexPath:indexPath];
-        moreCell.textLabel.text = __kLearnRecordViewController_waiting;
-        [self performSelectorInBackground:@selector(loadMoreData) withObject:nil];
-        //关闭等待动画
-        [_waitingAnimation hide];
-        //取消选中
-        [tableView deselectRowAtIndexPath:indexPath animated:YES];
-        return;
-    }
     //越界
     if(indexPath.row > _cellDataCache.count) return;
     //加载数据
@@ -173,7 +149,10 @@
 }
 //添加数据到缓存和TableView
 -(void)appendCacheAndTableCellWithArrays:(NSArray *)arrays{
-    if(!_cellDataCache || !arrays || arrays.count == 0)return;
+    if(!_cellDataCache || !arrays || arrays.count == 0){
+        _currentPageIndex--;
+        return;
+    }
     NSInteger pos = _cellDataCache.count;
     //追加到缓存
     [_cellDataCache addObjectsFromArray:arrays];
