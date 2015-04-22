@@ -203,7 +203,7 @@
                 btnItem.tag = order.integerValue;
                 
                 if(_answersCache && _answersCache.count > 0){
-                    NSString *answer = [_answersCache valueForKey:[NSString stringWithFormat:@"%ld",(long)order.integerValue]];
+                    NSString *answer = [_answersCache objectForKey:order];
                     btnItem.backgroundColor = (answer && answer.length > 0) ? _hasBgColor : _todoBgColor;
                 }
                 

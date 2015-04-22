@@ -246,7 +246,7 @@
             if(!subjectCode || subjectCode.length == 0)return;
             
             PaperItemFavoriteDao *dao = [[PaperItemFavoriteDao alloc] initWithDb:db];
-            NSString *itemCodeIndex = [NSString stringWithFormat:@"%@$%ld",itemCode,(long)index];
+            NSString *itemCodeIndex = [NSString stringWithFormat:@"%@$%d",itemCode,(int)index];
             result = [dao existFavoriteWithSubjectCode:subjectCode ItemCode:itemCodeIndex];
         }];
         return result;

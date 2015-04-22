@@ -31,9 +31,17 @@ typedef NS_ENUM(int, ItemOptionGroupType){
     ItemOptionGroupTypeMulty
 };
 
+@class ItemOptionView;
+//选项委托
+@protocol ItemOptionViewDelegate <NSObject>
+@required
+-(void)itemOptionClick:(ItemOptionView *)sender;
+@end
 
 //选项组件
 @interface ItemOptionView : UIControl<NSCoding>
+//委托
+@property(nonatomic,assign)id<ItemOptionViewDelegate> delegate;
 //选项值
 @property(nonatomic,copy,readonly)NSString *optCode;
 //选项显示内容

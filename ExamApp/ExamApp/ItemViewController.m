@@ -14,8 +14,6 @@
 #import "PaperItemRecord.h"
 #import "PaperRecordService.h"
 
-#import "ETAlert.h"
-
 #import "UIColor+Hex.h"
 #import "NSString+Size.h"
 
@@ -25,30 +23,36 @@
 #import "PaperListViewController.h"
 #import "ResultViewController.h"
 
-//#import "ItemContentView.h"
 #import "ItemContentGroupView.h"
 
 #import "UIViewUtils.h"
+#import "NSStringUtils.h"
 
-#define __k_itemviewcontroller_left_alert_title @"退出"//
-#define __k_itemviewcontroller_left_alert_msg @"是否退出考试?"
-#define __k_itemviewcontroller_left_alert_btn_submit @"交卷"
-#define __k_itemviewcontroller_left_alert_btn_confirm @"下次再做"
-#define __k_itemviewcontroller_left_alert_btn_cancel @"取消"
+#define __kItemViewController_alert_title @"退出"//
+#define __kItemViewController_alert_msg @"是否退出考试?"
+#define __kItemViewController_alert_btn_submit @"交卷"
+#define __kItemViewController_alert_btn_confirm @"下次再做"
+#define __kItemViewController_alert_btn_cancel @"取消"
 
-#define __k_itemviewcontroller_favorite_with 30//收藏宽度
-#define __k_itemviewcontroller_favorite_height 30//收藏高度
-#define __k_itemviewcontroller_favorite_bgColor 0xCCCCCC//收藏的背景色
-#define __k_itemviewcontroller_favorite_normal_img @"favorite_normal.png"//未被收藏
-#define __k_itemviewcontroller_favorite_highlight_img @"favorite_highlight.png"//已被收藏
+#define __kItemViewController_favorite_with 30//收藏宽度
+#define __kItemViewController_favorite_height 30//收藏高度
+#define __kItemViewController_favorite_bgColor 0xCCCCCC//收藏的背景色
+#define __kItemViewController_favorite_normal_img @"favorite_normal.png"//未被收藏
+#define __kItemViewController_favorite_highlight_img @"favorite_highlight.png"//已被收藏
 
-#define __k_itemviewcontroller_timer_with 80//计时器宽度
-#define __k_itemviewcontroller_timer_height 30//计时器高度
+#define __kItemViewController_timer_with 80//计时器宽度
+#define __kItemViewController_timer_height 30//计时器高度
 
-#define __k_itemviewcontroller_submit_title @"交卷"//交卷
+#define __kItemViewController_submit_title @"交卷"//交卷
+#define __kItemViewController_submit_alert @"确认"//交卷
+#define __kItemViewController_submit_alert_msg @"确认交卷？"//
+
+#define __kItemViewController_topbar_backTag 0//顶部返回按钮
+#define __kItemViewController_toolbar_submitTag 1//底部工具栏交卷
+
 
 //试题考试视图控制器成员变量
-@interface ItemViewController ()<ItemContentGroupViewDataSource>{
+@interface ItemViewController ()<ItemContentGroupViewDataSource,UIAlertViewDelegate>{
     NSDate *_startTime;
     NSInteger _order;
     UIButton *_btnFavorite;
@@ -78,8 +82,8 @@
         _record = record;
         _displayAnswer = displayAnswer;
         
-        _imgFavoriteNormal = [UIImage imageNamed:__k_itemviewcontroller_favorite_normal_img];
-        _imgFavoriteHighlight = [UIImage imageNamed:__k_itemviewcontroller_favorite_highlight_img];
+        _imgFavoriteNormal = [UIImage imageNamed:__kItemViewController_favorite_normal_img];
+        _imgFavoriteHighlight = [UIImage imageNamed:__kItemViewController_favorite_highlight_img];
         //关闭滚动条y轴自动下移
         self.automaticallyAdjustsScrollViewInsets = NO;
     }
@@ -131,23 +135,39 @@
 //左边返回按钮
 -(void)topLeftBarButtonClick:(UIBarButtonItem *)sender{
     if(!_displayAnswer){
-        ETAlert *alert = [[ETAlert alloc] initWithTitle:__k_itemviewcontroller_left_alert_title
-                                                Message:__k_itemviewcontroller_left_alert_msg];
-        [alert addConfirmActionWithTitle:__k_itemviewcontroller_left_alert_btn_submit
-                                 Handler:^(UIAlertAction *action) {
-                                     NSLog(@"交卷");
-                                     [self btnSubmitClick:nil];
-                                 }];
-        [alert addConfirmActionWithTitle:__k_itemviewcontroller_left_alert_btn_confirm
-                                 Handler:^(UIAlertAction *action) {
-                                     NSLog(@"下次再做");
-                                     [self popViewController];
-                                 }];
-    
-        [alert addCancelActionWithTitle:__k_itemviewcontroller_left_alert_btn_cancel Handler:nil];
-        [alert showWithController:self];
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:__kItemViewController_alert_title
+                                                       message:__kItemViewController_alert_msg
+                                                      delegate:self
+                                             cancelButtonTitle:__kItemViewController_alert_btn_cancel
+                                             otherButtonTitles:__kItemViewController_alert_btn_submit,__kItemViewController_alert_btn_confirm, nil];
+        alert.tag = __kItemViewController_topbar_backTag;
+        [alert show];
     }else{
         [self popViewController];
+    }
+}
+#pragma mark UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSLog(@"buttonIndex=>%d",(int)buttonIndex);
+    switch (alertView.tag) {//弹出框判断
+        case __kItemViewController_topbar_backTag:{//左边返回按钮
+            if(buttonIndex == 1){//交卷
+                NSLog(@"交卷");
+                [self submitHandler];
+            }else if(buttonIndex == 2){//下次再做
+                NSLog(@"下次再做");
+                [self popViewController];
+            }
+            break;
+        }
+        case __kItemViewController_toolbar_submitTag:{//交卷
+            if(buttonIndex == 1){//交卷
+                NSLog(@"交卷");
+                [self submitHandler];
+            }
+        }
+        default:
+            break;
     }
 }
 -(void)popViewController{
@@ -220,8 +240,8 @@
                                                                            action:nil];
     //收藏按钮
     _btnFavorite = [UIButton buttonWithType:UIButtonTypeCustom];
-    _btnFavorite.frame = CGRectMake(0, 0, __k_itemviewcontroller_favorite_with, __k_itemviewcontroller_favorite_height);
-    UIColor *favColor = [UIColor colorWithHex:__k_itemviewcontroller_favorite_bgColor];
+    _btnFavorite.frame = CGRectMake(0, 0, __kItemViewController_favorite_with, __kItemViewController_favorite_height);
+    UIColor *favColor = [UIColor colorWithHex:__kItemViewController_favorite_bgColor];
     [UIViewUtils addBoundsRadiusWithView:_btnFavorite BorderColor:favColor BackgroundColor:favColor];
     [_btnFavorite setBackgroundImage:[self loadFavoriteBackgroundImage] forState:UIControlStateNormal];
     [_btnFavorite addTarget:self action:@selector(btnFavoriteClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -231,12 +251,12 @@
     if(!_displayAnswer){
         //倒计时器
         _timerView = [[ETTimerView alloc] initWithFrame:CGRectMake(0, 0,
-                                                               __k_itemviewcontroller_timer_with,
-                                                               __k_itemviewcontroller_timer_height)
+                                                               __kItemViewController_timer_with,
+                                                               __kItemViewController_timer_height)
                                                   Total:_review.time];
         UIBarButtonItem *btnTimer = [[UIBarButtonItem alloc] initWithCustomView:_timerView];
         //交卷
-        UIBarButtonItem *btnSubmit = [[UIBarButtonItem alloc] initWithTitle:__k_itemviewcontroller_submit_title
+        UIBarButtonItem *btnSubmit = [[UIBarButtonItem alloc] initWithTitle:__kItemViewController_submit_title
                                                                       style:UIBarButtonItemStylePlain
                                                                      target:self
                                                                      action:@selector(btnSubmitClick:)];
@@ -362,7 +382,7 @@
                     if(arrays && arrays.count > 0){
                         for(NSString *str in arrays){
                             if(!str || str.length == 0)continue;
-                            if([rightAnswer containsString:str]){
+                            if([NSStringUtils existContains:rightAnswer subText:str]){
                                 itemRecord.score = ps.min;
                                 break;
                             }
@@ -460,6 +480,16 @@
 }
 //交卷
 -(void)btnSubmitClick:(UIBarButtonItem *)sender{
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:__kItemViewController_submit_alert
+                                                   message:__kItemViewController_submit_alert_msg
+                                                  delegate:self
+                                         cancelButtonTitle:__kItemViewController_alert_btn_cancel
+                                         otherButtonTitles:__kItemViewController_alert_btn_submit, nil];
+    alert.tag = __kItemViewController_toolbar_submitTag;
+    [alert show];
+}
+//交卷处理
+-(void)submitHandler{
     if(_itemContentView){
         [_itemContentView submit];
     }

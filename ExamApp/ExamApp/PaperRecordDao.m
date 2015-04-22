@@ -7,11 +7,15 @@
 //
 
 #import "PaperRecordDao.h"
-#import "PaperRecord.h"
+
 #import <FMDB/FMDB.h>
 #import "NSString+Date.h"
 #import "NSDate+TimeZone.h"
 #import "NSString+Date.h"
+
+#import "PaperRecord.h"
+#import "LearnRecord.h"
+#import "PaperReview.h"
 
 //试卷记录数据操作成员变量
 @interface PaperRecordDao (){
@@ -27,12 +31,48 @@
     }
     return self;
 }
-#pragma mark 统计做题记录数据
--(NSInteger)total{
-    if(!_db || ![_db tableExists:__k_paperrecorddao_tableName]) return 0;
-    NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@",__k_paperrecorddao_tableName ];
-    return [_db intForQuery:query_sql];
+#pragma mark 按页加载数据
+-(NSMutableArray *)loadRecordsWithPageIndex:(NSUInteger)pageIndex RowsOfPage:(NSUInteger)rows{
+    if(!_db) return nil;
+    if(pageIndex <= 1)pageIndex = 1;
+    
+    NSMutableString *query_sql = [NSMutableString stringWithString:@"select a.id,a.useTimes,a.score,a.lastTime,"];
+    [query_sql appendString:@" a.paperId,b.title,b.type "];
+    
+    [query_sql appendString:@" from tbl_paperRecords a "];
+    
+    [query_sql appendString:@" inner join tbl_papers b on b.id = a.paperId "];
+    
+    [query_sql appendString:@" order by a.lastTime desc "];
+    [query_sql appendFormat:@" limit %d,%d",(int)((pageIndex - 1) * rows),(int)rows];
+    
+    NSMutableArray *arrays = [NSMutableArray array];
+    FMResultSet *rs = [_db executeQuery:query_sql];
+    while ([rs next]) {
+        LearnRecord *record = [[LearnRecord alloc]init];
+        record.code = [rs stringForColumn:@"id"];
+        record.paperCode = [rs stringForColumn:@"paperId"];
+        record.paperTitle = [rs stringForColumn:@"title"];
+        record.paperTypeName = [PaperReview paperTypeName:(PaperType)[rs intForColumn:@"type"]];
+        record.useTimes = [NSNumber numberWithLong:[rs longForColumn:@"useTimes"]];
+        record.score = [NSNumber numberWithDouble:[rs doubleForColumn:@"score"]];
+        
+        NSString *lastTimeValue = [rs stringForColumn:@"lastTime"];
+        if(lastTimeValue && lastTimeValue.length > 0){
+            record.lastTime = [lastTimeValue toDateWithFormat:nil];
+        }
+        
+        [arrays addObject:record];
+    }
+    [rs close];
+    return arrays;
 }
+//#pragma mark 统计做题记录数据
+//-(NSInteger)total{
+//    if(!_db || ![_db tableExists:__k_paperrecorddao_tableName]) return 0;
+//    NSString *query_sql = [NSString stringWithFormat:@"select count(*) from %@",__k_paperrecorddao_tableName ];
+//    return [_db intForQuery:query_sql];
+//}
 #pragma mark 加载试卷记录
 -(PaperRecord *)loadPaperRecord:(NSString *)recordCode{
     if(!_db || !recordCode || recordCode.length == 0 || ![_db tableExists:__k_paperrecorddao_tableName]) return nil;

@@ -206,7 +206,7 @@
             NSLog(@"authc => %@", authc);
             NSString *realm = [self loadParameterWithAuthenticate:authc FieldName:__k_httputils_digest_realm],
             *nonce = [self loadParameterWithAuthenticate:authc FieldName:__k_httputils_digest_nonce],
-            *cnonce = [NSString stringWithFormat:@"%08d",abs(arc4random())],
+            *cnonce = [NSString stringWithFormat:@"%08d",(int)(arc4random())],
             *opaque = [self loadParameterWithAuthenticate:authc FieldName:__k_httputils_digest_opaque];
             NSString *nc = [NSString stringWithFormat:@"%08d",(counters + 1)];
             NSString *ha1 = [AESCrypt md5SumFromString:[NSString stringWithFormat:@"%@:%@:%@",username,realm,password]],

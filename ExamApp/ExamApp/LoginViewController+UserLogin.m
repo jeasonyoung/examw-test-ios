@@ -11,10 +11,9 @@
 #import "LoginData.h"
 #import "UserAccountData.h"
 #import "JSONCallback.h"
-//#import "MainViewController.h"
 #import "ChoiceProductsViewController.h"
 #import "WaitForAnimation.h"
-#import "ETAlert.h"
+//#import "ETAlert.h"
 
 #define __kLoginViewController_login_alterTitle @"用户登录"//登录窗口
 #define __kLoginViewController_login_accountHolder @"用户名"//
@@ -38,98 +37,81 @@
 //用户登录验证实现类
 @implementation LoginViewController (UserLogin)
 //登录框
-ETAlert *loginAlert;
+//ETAlert *loginAlert;
 #pragma mark 登录界面
 -(void)alterLoginViewWithMessage:(NSString *)msg Account:(NSString *)account{
     //初始化登陆框
-    loginAlert = [[ETAlert alloc]initWithTitle:__kLoginViewController_login_alterTitle Message:msg];
-    //添加用户名输入框
-    [loginAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = __kLoginViewController_login_accountHolder;
+    UIAlertView *alert = [[UIAlertView alloc]initWithTitle:__kLoginViewController_login_alterTitle
+                                                   message:msg
+                                                  delegate:self
+                                         cancelButtonTitle:__kLoginViewController_login_btnRegister
+                                         otherButtonTitles:__kLoginViewController_login_btnLogin, nil];
+    //设置输入框
+    alert.alertViewStyle = UIAlertViewStyleLoginAndPasswordInput;
+    //设置用户名输入框
+    UITextField *tfUser = [alert textFieldAtIndex:0];
+    if(tfUser){
+        tfUser.placeholder = __kLoginViewController_login_accountHolder;
         if(account && account.length > 0){
-            textField.text = account;
-        }
-        //添加通知，监听的用户名内容的变化
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(accountTextFieldTextDidChangeNotification:)
-                                                     name:UITextFieldTextDidChangeNotification
-                                                    object:textField];
-    }];
-    //添加密码输入框
-    [loginAlert addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-        textField.placeholder = __kLoginViewController_login_passwordHolder;
-        textField.secureTextEntry = YES;
-    }];
-    //登录按钮
-    [loginAlert addConfirmActionWithTitle:__kLoginViewController_login_btnLogin Handler:^(UIAlertAction *action) {
-        //初始化登录等待动画
-        WaitForAnimation *loginWait = [[WaitForAnimation alloc]initWithView:self.view WaitTitle:__kLoginViewController_login_waitting];
-        //开启等待动画
-        [loginWait show];
-        //移除用户名输入框的监听
-        [self removeAccountTextFieldObserver];
-        //登录验证
-        NSArray *textFileds = loginAlert.textFields;
-        if(!textFileds || textFileds.count == 0){
-            //关闭等待动画
-            [loginWait hide];
-            return;
-        }
-        //获取输入框
-        UITextField *tfAccount = (UITextField *)textFileds[0],*tfPassword = (UITextField *)textFileds[1];
-        //初始化账户对象
-        LoginData *login = [[LoginData alloc] init];
-        //获取账号
-        login.account = [tfAccount.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        //获取密码
-        login.password = [tfPassword.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-        //用户名为空
-        if(!login.account || login.account.length == 0){
-            //关闭等待动画
-            [loginWait hide];
-            //弹出登录框
-            [self alterLoginViewWithMessage:__kLoginViewController_login_errorAccount Account:nil];
-            return;
-        }
-        //密码为空
-        if(!login.password || login.password.length == 0){
-            //关闭等待动画
-            [loginWait hide];
-            //弹出登录框
-            [self alterLoginViewWithMessage:__kLoginViewController_login_errorPassword Account:login.account];
-            return;
-        }
-        //验证
-        [self authentication:login WaitAnimation:loginWait];
-    }];
-    //注册按钮
-    [loginAlert addCancelActionWithTitle:__kLoginViewController_login_btnRegister Handler:^(UIAlertAction *action) {
-        //移除用户名输入框的监听
-        [self removeAccountTextFieldObserver];
-    }];
-    //设置登录按钮是否可用
-    NSArray *btnActions = loginAlert.actions;
-    if(btnActions && btnActions.count > 0){
-        ((UIAlertAction *)btnActions[0]).enabled = (account && account.length > 0);
-    }
-    //弹出登录框
-    [loginAlert showWithController:self];
-}
-//处理监听用户名内容的变化
--(void)accountTextFieldTextDidChangeNotification:(NSNotification *)notification{
-    UITextField *tf = notification.object;
-    if(tf && loginAlert){//用户名长度
-        NSArray *actions = loginAlert.actions;
-        if(actions && actions.count > 0){
-            ((UIAlertAction *)actions[0]).enabled = (tf.text && (tf.text.length >= __kLoginViewController_login_accountMinLen));
+            tfUser.text = account;
         }
     }
+    //设置密码输入框
+    UITextField *tfPwd = [alert textFieldAtIndex:1];
+    if(tfPwd){
+        tfPwd.placeholder = __kLoginViewController_login_passwordHolder;
+    }
+    //弹出
+    [alert show];
 }
-//移除用户名输入框的监听
--(void)removeAccountTextFieldObserver{
-    [[NSNotificationCenter defaultCenter] removeObserver:self
-                                                    name:UITextFieldTextDidChangeNotification
-                                                  object:nil];
+#pragma mark UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSLog(@"buttonIndex=>%d",(int)buttonIndex);
+    if(buttonIndex == 0)return;
+    //获取账号密码
+    UITextField *tfUser = [alertView textFieldAtIndex:0],
+    *tfPwd = [alertView textFieldAtIndex:1];
+    //账号
+    if(!tfUser || tfUser.text.length == 0){
+        //弹出登录框
+        [self alterLoginViewWithMessage:__kLoginViewController_login_errorAccount Account:nil];
+        return;
+    }
+    //密码
+    if(!tfPwd || tfPwd.text.length == 0){
+        //弹出登录框
+        [self alterLoginViewWithMessage:__kLoginViewController_login_errorPassword Account:tfUser.text];
+        return;
+    }
+    //if(!tfUser || tfUser.text.length == 0 || !tfPwd || tfPwd.text.length == 0)return;
+    //初始化登录等待动画
+    WaitForAnimation *loginWait = [[WaitForAnimation alloc]initWithView:self.view WaitTitle:__kLoginViewController_login_waitting];
+    //开启等待动画
+    [loginWait show];
+    //初始化账户对象
+    LoginData *login = [[LoginData alloc] init];
+    //获取账号
+    login.account = [tfUser.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    //获取密码
+    login.password = [tfPwd.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    //用户名为空
+    if(!login.account || login.account.length == 0){
+        //关闭等待动画
+        [loginWait hide];
+        //弹出登录框
+        [self alterLoginViewWithMessage:__kLoginViewController_login_errorAccount Account:nil];
+        return;
+    }
+    //密码为空
+    if(!login.password || login.password.length == 0){
+        //关闭等待动画
+        [loginWait hide];
+        //弹出登录框
+        [self alterLoginViewWithMessage:__kLoginViewController_login_errorPassword Account:login.account];
+        return;
+    }
+    //验证
+    [self authentication:login WaitAnimation:loginWait];
 }
 #pragma mark 用户验证
 -(void)authentication:(LoginData *)login WaitAnimation:(WaitForAnimation *)loginWait{

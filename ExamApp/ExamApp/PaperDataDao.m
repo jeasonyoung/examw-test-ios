@@ -13,7 +13,8 @@
 #import "AESCrypt.h"
 #import "NSString+Date.h"
 
-#define __k_paperdatadao_encryptprefix @"0x"
+#define __kPaperDataDao_encryptprefix @"0x"
+#define __kPaperDataDao_dateFormatter @"yyyy-MM-dd HH:mm:ss"
 //试卷数据操作类成员变量
 @interface PaperDataDao (){
     FMDatabase *_db;
@@ -28,43 +29,44 @@
     }
     return self;
 }
-#pragma mark 加载最新的数据同步时间
--(NSString *)loadLastSyncTime{
-    if(_db && [_db tableExists:__k_paperdatadao_tableName]){
-        NSString *query_sql = [NSString stringWithFormat:@"select %@ from %@ order by %@ desc limit 0,1",
-                               __k_paperdata_fields_createTime,__k_paperdatadao_tableName,__k_paperdata_fields_createTime];
-        return [_db stringForQuery:query_sql];
-    }
-    return nil;
-}
-#pragma mark 加载试卷数据(无试卷内容)
--(PaperData *)loadPaperWithCode:(NSString *)code{
-    if(code && code.length > 0 && _db && [_db tableExists:__k_paperdatadao_tableName]){
-        NSString *query_sql = [NSString stringWithFormat:@"select %@,%@,%@,%@,%@ from %@ where %@ = ? limit 0,1",
-                               __k_paperdata_fields_title,
-                               __k_paperdata_fields_type,
-                               __k_paperdata_fields_total,
-                               __k_paperdata_fields_createTime,
-                               __k_paperdata_fields_subjectCode,
-                               
-                               __k_paperdatadao_tableName,
-                               __k_paperdata_fields_code];
-        PaperData *data;
-        FMResultSet *rs = [_db executeQuery:query_sql,code];
-        while ([rs next]) {
-            data = [[PaperData alloc]init];
-            data.code = code;
-            data.title = [rs stringForColumn:__k_paperdata_fields_title];
-            data.type = [rs intForColumn:__k_paperdata_fields_type];
-            data.total = [rs intForColumn:__k_paperdata_fields_total];
-            data.createTime = [rs dateForColumn:__k_paperdata_fields_createTime];
-            data.subjectCode = [rs stringForColumn:__k_paperdata_fields_subjectCode];
-            break;
+#pragma mark 根据科目和试卷类型分页数据集合
+-(NSArray *)loadPapersWithSubjectCode:(NSString *)subjectCode
+                            PaperType:(PaperType)type
+                                Index:(NSUInteger)index
+                           RowsOfPage:(NSUInteger)rowsOfPage{
+    if(!subjectCode || subjectCode.length == 0 || !_db || ![_db tableExists:__k_paperdatadao_tableName]) return nil;
+    if(index < 1) index = 1;
+    if(rowsOfPage <= 0) rowsOfPage = 10;
+    
+    NSMutableString *query_sql = [NSMutableString stringWithString:@"select id,title,type,total,subjectCode,createTime "];
+    [query_sql appendString:@" from tbl_papers "];
+    [query_sql appendString:@" where subjectCode = ? and type = ? "];
+    [query_sql appendString:@" order by createTime desc "];
+    [query_sql appendFormat:@" limit %d,%d", (int)((index - 1) * rowsOfPage), (int)rowsOfPage];
+    
+    NSMutableArray *arrys = [NSMutableArray arrayWithCapacity:rowsOfPage];
+    FMResultSet *rs = [_db executeQuery:query_sql,subjectCode,[NSNumber numberWithInteger:type]];
+    while ([rs next]) {
+        PaperData *data = [[PaperData alloc] init];
+        data.code = [rs stringForColumn:@"id"];
+        data.title = [rs stringForColumn:@"title"];
+        data.type = [rs intForColumn:@"type"];
+        data.total = [rs intForColumn:@"total"];
+        data.subjectCode = [rs stringForColumn:@"subjectCode"];
+        NSString *strCreateTime = [rs stringForColumn:@"createTime"];
+        if(strCreateTime && strCreateTime.length > 0){
+            data.createTime = [strCreateTime toDateWithFormat:__kPaperDataDao_dateFormatter];
         }
-        [rs close];
-        return data;
+        [arrys addObject:data];
     }
-    return nil;
+    [rs close];
+    return arrys;
+}
+#pragma mark 根据试题ID加载试题所属科目代码
+-(NSString *)loadSubjectCodeWithPaperCode:(NSString *)code{
+    if(!_db)return nil;
+    NSString *query_sql = @"select subjectCode from tbl_papers where id = ? limit 0,1";
+    return [_db stringForQuery:query_sql,code];
 }
 #pragma mark 根据试卷ID加载试卷内容
 -(PaperReview *)loadPaperContentWithCode:(NSString *)code{
@@ -92,49 +94,14 @@
     }
     return review;
 }
-#pragma mark 根据试卷ID加载所属科目代码
--(NSString *)loadSubjectCodeWithPaperCode:(NSString *)code{
-    if(!_db || !code || code.length == 0 || ![_db tableExists:__k_paperdatadao_tableName]) return nil;
-    NSString *query_sql = [NSString stringWithFormat:@"select %@ from %@ where %@ = ? order by %@ desc limit 0,1",
-                           __k_paperdata_fields_subjectCode,
-                           __k_paperdatadao_tableName,
-                           __k_paperdata_fields_code,
-                           __k_paperdata_fields_createTime];
-    return [_db stringForQuery:query_sql, code];
-}
-#pragma mark 根据科目ID和试卷类型加载试卷数据集合
--(NSArray *)loadPapersWithSubjectCode:(NSString *)subjectCode PaperType:(PaperType)type{
-    if(!_db || !subjectCode)return nil;
-    NSString *query_sql = [NSString stringWithFormat:@"select %@,%@,%@,%@,%@,%@ from %@ where %@ = ? and %@ = ? order by %@ desc",
-                           __k_paperdata_fields_code,
-                           __k_paperdata_fields_title,
-                           __k_paperdata_fields_type,
-                           __k_paperdata_fields_total,
-                           __k_paperdata_fields_subjectCode,
-                           __k_paperdata_fields_createTime,
-                           
-                           __k_paperdatadao_tableName,
-                           __k_paperdata_fields_subjectCode,
-                           __k_paperdata_fields_type,
-                           
-                           __k_paperdata_fields_createTime];
-    NSMutableArray *arrys = [NSMutableArray array];
-    FMResultSet *rs = [_db executeQuery:query_sql,subjectCode,[NSNumber numberWithInteger:type]];
-    while ([rs next]) {
-        PaperData *data = [[PaperData alloc] init];
-        data.code = [rs stringForColumn:__k_paperdata_fields_code];
-        data.title = [rs stringForColumn:__k_paperdata_fields_title];
-        data.type = [rs intForColumn:__k_paperdata_fields_type];
-        data.total = [rs intForColumn:__k_paperdata_fields_total];
-        data.subjectCode = [rs stringForColumn:__k_paperdata_fields_subjectCode];
-        NSString *strCreateTime = [rs stringForColumn:__k_paperdata_fields_createTime];
-        if(strCreateTime && strCreateTime.length > 0){
-            data.createTime = [strCreateTime toDateWithFormat:@"yyyy-MM-dd HH:mm:ss"];
-        }
-        [arrys addObject:data];
+#pragma mark 加载最新的数据同步时间
+-(NSString *)loadLastSyncTime{
+    if(_db && [_db tableExists:__k_paperdatadao_tableName]){
+        NSString *query_sql = [NSString stringWithFormat:@"select %@ from %@ order by %@ desc limit 0,1",
+                               __k_paperdata_fields_createTime,__k_paperdatadao_tableName,__k_paperdata_fields_createTime];
+        return [_db stringForQuery:query_sql];
     }
-    [rs close];
-    return [arrys mutableCopy];
+    return nil;
 }
 #pragma mark 同步数据
 -(void)syncWithData:(NSArray *)data{
@@ -186,19 +153,19 @@
 -(NSString *)encryptPaperContent:(PaperData *)paper{
     if(!paper || !paper.content) return nil;
     if(paper.content.length == 0) return paper.content;
-    if([paper.content hasPrefix:__k_paperdatadao_encryptprefix]){//密文数据
+    if([paper.content hasPrefix:__kPaperDataDao_encryptprefix]){//密文数据
         return paper.content;
     }
-    return [NSString stringWithFormat:@"%@%@",__k_paperdatadao_encryptprefix,[AESCrypt encryptFromString:paper.content password:paper.code]];
+    return [NSString stringWithFormat:@"%@%@",__kPaperDataDao_encryptprefix,[AESCrypt encryptFromString:paper.content password:paper.code]];
 }
 //解密试卷内容
 -(NSString *)decryptPaperContentWithEncrypt:(NSString *)encryptContent Password:(NSString *)pwd{
     if(!encryptContent) return nil;
     if(encryptContent.length == 0) return encryptContent;
-    if(![encryptContent hasPrefix:__k_paperdatadao_encryptprefix]){//未加密数据
+    if(![encryptContent hasPrefix:__kPaperDataDao_encryptprefix]){//未加密数据
         return encryptContent;
     }
-    NSString *content = [encryptContent substringFromIndex:(__k_paperdatadao_encryptprefix.length)];
+    NSString *content = [encryptContent substringFromIndex:(__kPaperDataDao_encryptprefix.length)];
     return [AESCrypt decryptFromString:content password:pwd];
 }
 @end

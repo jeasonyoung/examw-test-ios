@@ -12,6 +12,9 @@
 		A10008FB1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A10008FA1ABC1CBB00F2BD81 /* FavoriteSubjectViewController.m */; };
 		A10008FE1ABC5B0300F2BD81 /* FavoriteService.m in Sources */ = {isa = PBXBuildFile; fileRef = A10008FD1ABC5B0300F2BD81 /* FavoriteService.m */; };
 		A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */ = {isa = PBXBuildFile; fileRef = A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */; };
+		A103B5C81ADE087700FF8071 /* ProductDataCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A103B5C71ADE087700FF8071 /* ProductDataCellFrame.m */; };
+		A10DAD6D1AE097E200DA9CFA /* ExamSection.m in Sources */ = {isa = PBXBuildFile; fileRef = A10DAD6C1AE097E200DA9CFA /* ExamSection.m */; };
+		A10DAD701AE09C4000DA9CFA /* SubjectCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A10DAD6F1AE09C4000DA9CFA /* SubjectCell.m */; };
 		A11490A91AD4DAC80020F116 /* ChoiceProductsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A11490A81AD4DAC80020F116 /* ChoiceProductsViewController.m */; };
 		A11490AC1AD500890020F116 /* ProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A11490AB1AD500890020F116 /* ProductTableViewCell.m */; };
 		A12DC55E1ACE7D9700832DF9 /* ProductData.m in Sources */ = {isa = PBXBuildFile; fileRef = A12DC55D1ACE7D9700832DF9 /* ProductData.m */; };
@@ -41,6 +44,8 @@
 		A15DFF491AA2D5B000C8A7B7 /* PaperDataDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A15DFF481AA2D5B000C8A7B7 /* PaperDataDao.m */; };
 		A15EB7A71A84EC8B009199D1 /* JSONCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = A15EB7A61A84EC8B009199D1 /* JSONCallback.m */; };
 		A15EB7AA1A84FCF0009199D1 /* LoginViewController+Register.m in Sources */ = {isa = PBXBuildFile; fileRef = A15EB7A91A84FCF0009199D1 /* LoginViewController+Register.m */; };
+		A161D3DC1ADF48D400E89094 /* LearnRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = A161D3DB1ADF48D400E89094 /* LearnRecord.m */; };
+		A161D3DF1ADF53DA00E89094 /* LearnRecordCellData.m in Sources */ = {isa = PBXBuildFile; fileRef = A161D3DE1ADF53D900E89094 /* LearnRecordCellData.m */; };
 		A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */ = {isa = PBXBuildFile; fileRef = A1647B611A728679007B12EA /* NSDate+TimeZone.m */; };
 		A1762B261A873FB1008E5656 /* AccountViewController+RegisterCode.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762B251A873FB1008E5656 /* AccountViewController+RegisterCode.m */; };
 		A1762B291A874428008E5656 /* AccountViewController+Logout.m in Sources */ = {isa = PBXBuildFile; fileRef = A1762B281A874428008E5656 /* AccountViewController+Logout.m */; };
@@ -48,7 +53,6 @@
 		A17F78D61AA5695700C671A9 /* PaperItemRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = A17F78D51AA5695700C671A9 /* PaperItemRecord.m */; };
 		A182E4731AA596DE00730ECC /* PaperItemFavorite.m in Sources */ = {isa = PBXBuildFile; fileRef = A182E4721AA596DE00730ECC /* PaperItemFavorite.m */; };
 		A182E4761AA5A58F00730ECC /* PaperRecordDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A182E4751AA5A58F00730ECC /* PaperRecordDao.m */; };
-		A18827741AA053E5008C734D /* ETAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = A18827731AA053E5008C734D /* ETAlert.m */; };
 		A188277A1AA064AD008C734D /* DataSyncService.m in Sources */ = {isa = PBXBuildFile; fileRef = A18827791AA064AD008C734D /* DataSyncService.m */; };
 		A188277D1AA06CE0008C734D /* AppClientSync.m in Sources */ = {isa = PBXBuildFile; fileRef = A188277C1AA06CE0008C734D /* AppClientSync.m */; };
 		A18962E61AA33D970065B70C /* PaperListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18962E51AA33D970065B70C /* PaperListViewController.m */; };
@@ -70,6 +74,7 @@
 		A1910E8E1A6D3AC800377160 /* ExamAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A1910E8D1A6D3AC800377160 /* ExamAppTests.m */; };
 		A1913F8C1AA40107003BFEA0 /* PaperService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1913F8B1AA40107003BFEA0 /* PaperService.m */; };
 		A1913F8F1AA42F2A003BFEA0 /* PaperDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1913F8E1AA42F2A003BFEA0 /* PaperDetailViewController.m */; };
+		A1933CBC1AE720460020C5DA /* NSStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A1933CBB1AE720460020C5DA /* NSStringUtils.m */; };
 		A1936A911A9EC4E300A0F45C /* ExamDataDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A901A9EC4E300A0F45C /* ExamDataDao.m */; };
 		A1936A961A9EE01800A0F45C /* SubjectDataDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A951A9EE01800A0F45C /* SubjectDataDao.m */; };
 		A1936A9B1A9EF61000A0F45C /* ImitateSubjectService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936A9A1A9EF61000A0F45C /* ImitateSubjectService.m */; };
@@ -174,6 +179,12 @@
 		A10008FD1ABC5B0300F2BD81 /* FavoriteService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteService.m; sourceTree = "<group>"; };
 		A10187C51A84B568002D2F37 /* LoginViewController+UserLogin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginViewController+UserLogin.h"; sourceTree = "<group>"; };
 		A10187C61A84B568002D2F37 /* LoginViewController+UserLogin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginViewController+UserLogin.m"; sourceTree = "<group>"; };
+		A103B5C61ADE087700FF8071 /* ProductDataCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductDataCellFrame.h; sourceTree = "<group>"; };
+		A103B5C71ADE087700FF8071 /* ProductDataCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProductDataCellFrame.m; sourceTree = "<group>"; };
+		A10DAD6B1AE097E200DA9CFA /* ExamSection.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamSection.h; sourceTree = "<group>"; };
+		A10DAD6C1AE097E200DA9CFA /* ExamSection.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamSection.m; sourceTree = "<group>"; };
+		A10DAD6E1AE09C4000DA9CFA /* SubjectCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectCell.h; sourceTree = "<group>"; };
+		A10DAD6F1AE09C4000DA9CFA /* SubjectCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubjectCell.m; sourceTree = "<group>"; };
 		A11490A71AD4DAC80020F116 /* ChoiceProductsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoiceProductsViewController.h; sourceTree = "<group>"; };
 		A11490A81AD4DAC80020F116 /* ChoiceProductsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoiceProductsViewController.m; sourceTree = "<group>"; };
 		A11490AA1AD500890020F116 /* ProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProductTableViewCell.h; sourceTree = "<group>"; };
@@ -221,6 +232,10 @@
 		A15EB7A61A84EC8B009199D1 /* JSONCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONCallback.m; sourceTree = "<group>"; };
 		A15EB7A81A84FCF0009199D1 /* LoginViewController+Register.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "LoginViewController+Register.h"; sourceTree = "<group>"; };
 		A15EB7A91A84FCF0009199D1 /* LoginViewController+Register.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "LoginViewController+Register.m"; sourceTree = "<group>"; };
+		A161D3DA1ADF48D400E89094 /* LearnRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearnRecord.h; sourceTree = "<group>"; };
+		A161D3DB1ADF48D400E89094 /* LearnRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearnRecord.m; sourceTree = "<group>"; };
+		A161D3DD1ADF53D900E89094 /* LearnRecordCellData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LearnRecordCellData.h; sourceTree = "<group>"; };
+		A161D3DE1ADF53D900E89094 /* LearnRecordCellData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearnRecordCellData.m; sourceTree = "<group>"; };
 		A1647B601A728679007B12EA /* NSDate+TimeZone.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDate+TimeZone.h"; path = "Utils/NSDate+TimeZone.h"; sourceTree = "<group>"; };
 		A1647B611A728679007B12EA /* NSDate+TimeZone.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDate+TimeZone.m"; path = "Utils/NSDate+TimeZone.m"; sourceTree = "<group>"; };
 		A1762B241A873FB1008E5656 /* AccountViewController+RegisterCode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AccountViewController+RegisterCode.h"; sourceTree = "<group>"; };
@@ -235,8 +250,6 @@
 		A182E4721AA596DE00730ECC /* PaperItemFavorite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperItemFavorite.m; sourceTree = "<group>"; };
 		A182E4741AA5A58F00730ECC /* PaperRecordDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperRecordDao.h; sourceTree = "<group>"; };
 		A182E4751AA5A58F00730ECC /* PaperRecordDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperRecordDao.m; sourceTree = "<group>"; };
-		A18827721AA053E5008C734D /* ETAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ETAlert.h; path = Utils/ETAlert.h; sourceTree = "<group>"; };
-		A18827731AA053E5008C734D /* ETAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ETAlert.m; path = Utils/ETAlert.m; sourceTree = "<group>"; };
 		A18827781AA064AD008C734D /* DataSyncService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSyncService.h; sourceTree = "<group>"; };
 		A18827791AA064AD008C734D /* DataSyncService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSyncService.m; sourceTree = "<group>"; };
 		A188277B1AA06CE0008C734D /* AppClientSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppClientSync.h; sourceTree = "<group>"; };
@@ -278,6 +291,8 @@
 		A1913F8B1AA40107003BFEA0 /* PaperService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperService.m; sourceTree = "<group>"; };
 		A1913F8D1AA42F2A003BFEA0 /* PaperDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperDetailViewController.h; sourceTree = "<group>"; };
 		A1913F8E1AA42F2A003BFEA0 /* PaperDetailViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperDetailViewController.m; sourceTree = "<group>"; };
+		A1933CBA1AE720460020C5DA /* NSStringUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSStringUtils.h; path = Utils/NSStringUtils.h; sourceTree = "<group>"; };
+		A1933CBB1AE720460020C5DA /* NSStringUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSStringUtils.m; path = Utils/NSStringUtils.m; sourceTree = "<group>"; };
 		A1936A8F1A9EC4E300A0F45C /* ExamDataDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExamDataDao.h; sourceTree = "<group>"; };
 		A1936A901A9EC4E300A0F45C /* ExamDataDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExamDataDao.m; sourceTree = "<group>"; };
 		A1936A941A9EE01800A0F45C /* SubjectDataDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubjectDataDao.h; sourceTree = "<group>"; };
@@ -688,8 +703,12 @@
 				A199CA2F1A74CFBF00A31587 /* HomeData.m */,
 				A1580A4D1A960B370082C1E2 /* ExamData.h */,
 				A1580A4E1A960B370082C1E2 /* ExamData.m */,
+				A10DAD6B1AE097E200DA9CFA /* ExamSection.h */,
+				A10DAD6C1AE097E200DA9CFA /* ExamSection.m */,
 				A1580A4A1A95D56A0082C1E2 /* SubjectData.h */,
 				A1580A4B1A95D56A0082C1E2 /* SubjectData.m */,
+				A10DAD6E1AE09C4000DA9CFA /* SubjectCell.h */,
+				A10DAD6F1AE09C4000DA9CFA /* SubjectCell.m */,
 				A15DFF411AA1857200C8A7B7 /* PaperData.h */,
 				A15DFF421AA1857200C8A7B7 /* PaperData.m */,
 				A15DFF441AA1AC5D00C8A7B7 /* PaperReview.h */,
@@ -700,6 +719,10 @@
 				A17F78D51AA5695700C671A9 /* PaperItemRecord.m */,
 				A182E4711AA596DE00730ECC /* PaperItemFavorite.h */,
 				A182E4721AA596DE00730ECC /* PaperItemFavorite.m */,
+				A161D3DA1ADF48D400E89094 /* LearnRecord.h */,
+				A161D3DB1ADF48D400E89094 /* LearnRecord.m */,
+				A161D3DD1ADF53D900E89094 /* LearnRecordCellData.h */,
+				A161D3DE1ADF53D900E89094 /* LearnRecordCellData.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -776,6 +799,8 @@
 				A1904FA71A94E36900541B9E /* AppRegisterCode.m */,
 				A12DC55C1ACE7D9700832DF9 /* ProductData.h */,
 				A12DC55D1ACE7D9700832DF9 /* ProductData.m */,
+				A103B5C61ADE087700FF8071 /* ProductDataCellFrame.h */,
+				A103B5C71ADE087700FF8071 /* ProductDataCellFrame.m */,
 				A15EB7A51A84EC8B009199D1 /* JSONCallback.h */,
 				A15EB7A61A84EC8B009199D1 /* JSONCallback.m */,
 			);
@@ -817,10 +842,10 @@
 				A18CCF331A85BD2A00C20555 /* TextFieldValidator.m */,
 				A1936A9E1A9F1A6200A0F45C /* WaitForAnimation.h */,
 				A1936A9F1A9F1A6200A0F45C /* WaitForAnimation.m */,
-				A18827721AA053E5008C734D /* ETAlert.h */,
-				A18827731AA053E5008C734D /* ETAlert.m */,
 				A195EFAF1AA970E3002695A9 /* UIViewUtils.h */,
 				A195EFB01AA970E3002695A9 /* UIViewUtils.m */,
+				A1933CBA1AE720460020C5DA /* NSStringUtils.h */,
+				A1933CBB1AE720460020C5DA /* NSStringUtils.m */,
 				A1DAE05D1AB15E21001D5091 /* UIViewQueue.h */,
 				A1DAE05E1AB15E21001D5091 /* UIViewQueue.m */,
 			);
@@ -899,6 +924,7 @@
 				TargetAttributes = {
 					A1910E671A6D3AC800377160 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = V272W7YD5Y;
 					};
 					A1910E861A6D3AC800377160 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -1049,7 +1075,9 @@
 				A1762B291A874428008E5656 /* AccountViewController+Logout.m in Sources */,
 				A1913F8F1AA42F2A003BFEA0 /* PaperDetailViewController.m in Sources */,
 				A12DC55E1ACE7D9700832DF9 /* ProductData.m in Sources */,
+				A161D3DC1ADF48D400E89094 /* LearnRecord.m in Sources */,
 				A1E2790A1A78DFED00F23A20 /* FeedbackViewController.m in Sources */,
+				A161D3DF1ADF53DA00E89094 /* LearnRecordCellData.m in Sources */,
 				A199CA301A74CFBF00A31587 /* HomeData.m in Sources */,
 				A18B9F671AA6997B00C135DB /* PaperItemRecordDao.m in Sources */,
 				A1936AA01A9F1A6200A0F45C /* WaitForAnimation.m in Sources */,
@@ -1081,8 +1109,8 @@
 				A1D02F051A7B70F9004C484D /* AESCrypt.m in Sources */,
 				A1AA7CCC1A81F761003A5137 /* LoginData.m in Sources */,
 				A15DFF491AA2D5B000C8A7B7 /* PaperDataDao.m in Sources */,
+				A1933CBC1AE720460020C5DA /* NSStringUtils.m in Sources */,
 				A12EAF481ACD239F0049C272 /* AppClientSettings.m in Sources */,
-				A18827741AA053E5008C734D /* ETAlert.m in Sources */,
 				A1B1C4291AC23D4D0018741B /* LearnRecordViewController.m in Sources */,
 				A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */,
 				A199CA031A74A33500A31587 /* ETHomePanelView.m in Sources */,
@@ -1099,12 +1127,15 @@
 				A18C607A1ABD4B8E00D96AD6 /* FavoriteSheetViewController.m in Sources */,
 				A1EE7DDB1A70A8B80071C76D /* SettingsViewController.m in Sources */,
 				A1ED101B1A6F4EA9004DAD90 /* NSQueue.m in Sources */,
+				A10DAD6D1AE097E200DA9CFA /* ExamSection.m in Sources */,
 				A18B9F6A1AA6CF9F00C135DB /* PaperItemFavoriteDao.m in Sources */,
 				A18C60771ABD3ADB00D96AD6 /* FavoriteViewController.m in Sources */,
+				A10DAD701AE09C4000DA9CFA /* SubjectCell.m in Sources */,
 				A1904FA81A94E36900541B9E /* AppRegisterCode.m in Sources */,
 				A15EB7AA1A84FCF0009199D1 /* LoginViewController+Register.m in Sources */,
 				A182E4731AA596DE00730ECC /* PaperItemFavorite.m in Sources */,
 				A1913F8C1AA40107003BFEA0 /* PaperService.m in Sources */,
+				A103B5C81ADE087700FF8071 /* ProductDataCellFrame.m in Sources */,
 				A1E8A6941AC656F400007B8A /* WrongSheetViewController.m in Sources */,
 				A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */,
 				A1DAE05F1AB15E21001D5091 /* UIViewQueue.m in Sources */,
