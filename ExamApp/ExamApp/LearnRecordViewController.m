@@ -20,21 +20,18 @@
 
 #define __kLearnRecordViewController_title @"学习记录"
 #define __kLearnRecordViewController_waiting @"加载数据..."
-
-//#define __kLearnRecordViewController_more @"加载更多..."
-
 #define __kLearnRecordViewController_cellIdentifier @"row_cell"//
-//#define __kLearnRecordViewController_moreIdentifier @"row_more"//
-
-//#define __kLearnRecordViewController_moreCellHeight 30//
 
 //学习记录视图控制器成员变量
 @interface LearnRecordViewController ()<UITableViewDataSource,UITableViewDelegate>{
     LearnRecordService *_service;
+    
     NSInteger _currentPageIndex;
     UITableView *_tableView;
     WaitForAnimation *_waitingAnimation;
     NSMutableArray *_cellDataCache;
+    
+    PaperDetailViewController *_paperDetailController;
 }
 @end
 //学习记录视图控制器实现
@@ -136,11 +133,11 @@
     LearnRecord *record = cellData.record;
     if(!record)return;
     //跳转
-    PaperDetailViewController *pdvc = [[PaperDetailViewController alloc]initWithPaperCode:record.paperCode
-                                                                       andPaperRecordCode:record.code];
-    pdvc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:pdvc animated:NO];
+    _paperDetailController = [[PaperDetailViewController alloc]initWithPaperCode:record.paperCode paperRecordCode:record.code];
+    _paperDetailController.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:_paperDetailController animated:NO];
 }
+
 //加载更多数据
 -(void)loadMoreData{
     _currentPageIndex++;

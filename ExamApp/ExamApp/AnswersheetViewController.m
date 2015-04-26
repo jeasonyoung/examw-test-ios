@@ -271,8 +271,8 @@
         }
     }
     if(_targetItemControoler){
-        [_targetItemControoler loadDataAtOrder:sender.tag andDisplayAnswer:NO];
-        [self.navigationController popToViewController:_targetItemControoler animated:YES];
+       // [_targetItemControoler loadDataAtOrder:sender.tag andDisplayAnswer:NO];
+        //[self.navigationController popToViewController:_targetItemControoler animated:YES];
     }
 }
 #pragma mark 内存告警

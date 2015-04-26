@@ -13,7 +13,7 @@
 
 #import "UIViewUtils.h"
 
-#import "ItemContentGroupView.h"
+//#import "ItemContentGroupView.h"
 
 #import "FavoriteSheetViewController.h"
 
@@ -30,11 +30,11 @@
 #define __kFavoriteViewController_btnAnswerHighlightColor 0x00CD66
 #define __kFavoriteViewController_btnAnswerBorderColor 0x00C5CD
 //收藏试题控制器成员变量
-@interface FavoriteViewController ()<ItemContentGroupViewDataSource>{
+@interface FavoriteViewController ()/*<ItemContentGroupViewDataSource>*/{
     NSString *_subjectCode;
     BOOL _displayAnswer;
     FavoriteService *_service;
-    ItemContentGroupView *_itemContentView;
+    //ItemContentGroupView *_itemContentView;
     NSMutableDictionary *_itemAnswersCache;
 }
 @end
@@ -108,70 +108,70 @@
 //上一题按钮
 -(void)btnBarPrevClick:(UIBarButtonItem *)sender{
     //NSLog(@"%@",sender);
-    if(_itemContentView){
-        [_itemContentView loadPrevContent];
-    }
+//    if(_itemContentView){
+//        [_itemContentView loadPrevContent];
+//    }
 }
 //下一题按钮
 -(void)btnBarNextClick:(UIBarButtonItem *)sender{
     //NSLog(@"%@",sender);
-    if(_itemContentView){
-        [_itemContentView loadNextContent];
-    }
+//    if(_itemContentView){
+//        [_itemContentView loadNextContent];
+//    }
 }
 //答案按钮
 -(void)btnAnswerClick:(UIButton *)sender{
     _displayAnswer = !_displayAnswer;
      //NSLog(@"%d",_displayAnswer);
-    if(_itemContentView){
-        [_itemContentView showDisplayAnswer:_displayAnswer];
-    }
+//    if(_itemContentView){
+//        [_itemContentView showDisplayAnswer:_displayAnswer];
+//    }
 }
 //加载试题内容
 -(void)setupItemContentView{
-    CGRect itemFrame = [self loadVisibleViewFrame];
-    _itemContentView = [[ItemContentGroupView alloc]initWithFrame:itemFrame];
-    _itemContentView.dataSource = self;
-    [self.view addSubview:_itemContentView];
-    //加载数据
-    [self loadDataAtOrder:0];
+//    CGRect itemFrame = [self loadVisibleViewFrame];
+//    _itemContentView = [[ItemContentGroupView alloc]initWithFrame:itemFrame];
+//    _itemContentView.dataSource = self;
+//    [self.view addSubview:_itemContentView];
+//    //加载数据
+//    [self loadDataAtOrder:0];
 }
 #pragma mark 加载数据
 -(void)loadDataAtOrder:(NSInteger)order{
-    if(_itemContentView){
-        [_itemContentView loadContentAtOrder:order];
-    }
+//    if(_itemContentView){
+//        [_itemContentView loadContentAtOrder:order];
+//    }
 }
 #pragma mark ItemContentGroupViewDataSource
-//加载数据
--(ItemContentSource *)itemContentAtOrder:(NSInteger)order{
-    if(_service && _subjectCode && _subjectCode.length > 0){
-        PaperItemFavorite *favorite = [_service loadFavoriteWithSubjectCode:_subjectCode AtOrder:order];
-        if(favorite){
-            if(favorite.itemType){
-                self.title = [PaperItem itemTypeName:(PaperItemType)favorite.itemType.integerValue];
-            }
-            ItemContentSource *dataSource = [favorite toSourceAtOrder:order];
-            if(_displayAnswer && _itemAnswersCache && _itemAnswersCache.count > 0){
-                NSString *answer = [_itemAnswersCache objectForKey:[NSNumber numberWithInteger:order]];
-                if(answer && answer.length > 0){
-                    dataSource.value = answer;
-                }
-            }
-           return dataSource;
-        }
-    }
-    return nil;
-}
-//选中的数据
--(void)selectedData:(ItemContentSource *)data{
-    NSLog(@"selectedData:%@,%@",data,data.value);
-    if(!data || !_itemContentView)return;
-    _displayAnswer = YES;
-    [_itemAnswersCache setObject:data.value forKey:[NSNumber numberWithInteger:data.order]];
-    [_itemContentView loadContentAtOrder:data.order];
-    [_itemContentView showDisplayAnswer:_displayAnswer];
-}
+////加载数据
+//-(ItemContentSource *)itemContentAtOrder:(NSInteger)order{
+//    if(_service && _subjectCode && _subjectCode.length > 0){
+//        PaperItemFavorite *favorite = [_service loadFavoriteWithSubjectCode:_subjectCode AtOrder:order];
+//        if(favorite){
+//            if(favorite.itemType){
+//                self.title = [PaperItem itemTypeName:(PaperItemType)favorite.itemType.integerValue];
+//            }
+//            ItemContentSource *dataSource = [favorite toSourceAtOrder:order];
+//            if(_displayAnswer && _itemAnswersCache && _itemAnswersCache.count > 0){
+//                NSString *answer = [_itemAnswersCache objectForKey:[NSNumber numberWithInteger:order]];
+//                if(answer && answer.length > 0){
+//                    dataSource.value = answer;
+//                }
+//            }
+//           return dataSource;
+//        }
+//    }
+//    return nil;
+//}
+////选中的数据
+//-(void)selectedData:(ItemContentSource *)data{
+//    NSLog(@"selectedData:%@,%@",data,data.value);
+//    if(!data || !_itemContentView)return;
+//    _displayAnswer = YES;
+//    [_itemAnswersCache setObject:data.value forKey:[NSNumber numberWithInteger:data.order]];
+//    [_itemContentView loadContentAtOrder:data.order];
+//    [_itemContentView showDisplayAnswer:_displayAnswer];
+//}
 #pragma mark 试图将呈现
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];

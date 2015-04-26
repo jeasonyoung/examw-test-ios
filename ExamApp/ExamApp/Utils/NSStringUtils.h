@@ -15,11 +15,17 @@
 //将内容以HTML形式展示
 +(NSMutableAttributedString *)toHtmlWithText:(NSString *)text;
 //计算Html内容的尺寸
-+(CGSize)boundingRectWithHtml:(NSMutableAttributedString*)html constrainedToSize:(CGSize)size;
++(CGSize)boundingRectWithHtml:(NSAttributedString*)html constrainedToSize:(CGSize)size;
 //按指定宽度计算Html内容的尺寸
-+(CGSize)boundingRectWithHtml:(NSMutableAttributedString*)html constrainedToWidth:(CGFloat)width;
++(CGSize)boundingRectWithHtml:(NSAttributedString*)html constrainedToWidth:(CGFloat)width;
 //用正则表达式查找第一个匹配的内容
 +(NSString *)findFirstContent:(NSString *)source regex:(NSString *)regex;
+//用正则表达式的坐标数组
++(NSRange)findFirstRangeContent:(NSString *)source regex:(NSString *)regex searchRange:(NSRange)searchRange;
+//利用坐标进行替换
++(NSString *)replaceContent:(NSString *)source rang:(NSRange)range target:(NSString *)target;
+//用正则表达式替换第一个匹配的内容
++(NSString *)replaceFirstContent:(NSString *)source regex:(NSString *)regex target:(NSString *)target;
 //用正则表达式替换
-+(NSString *)replacementAll:(NSString *)source regex:(NSString *)regex target:(NSString *)target;
++(NSString *)replaceAllContent:(NSString *)source regex:(NSString *)regex target:(NSString *)target;
 @end

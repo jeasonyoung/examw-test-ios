@@ -12,15 +12,7 @@
 //试题考试视图控制器
 @interface ItemViewController : UIViewController
 //初始化
--(instancetype)initWithPaper:(PaperReview *)review
-                   andRecord:(PaperRecord *)record
-            andDisplayAnswer:(BOOL)displayAnswer;
-//初始化
--(instancetype)initWithPaper:(PaperReview *)review
-                       Order:(NSInteger)order
-                   andRecord:(PaperRecord *)record
-            andDisplayAnswer:(BOOL)displayAnswer;
+-(instancetype)initWithPaper:(PaperReview *)review record:(PaperRecord *)record displayAnswer:(BOOL)display order:(NSUInteger)order;
 //加载数据
--(void)loadDataAtOrder:(NSInteger)order
-      andDisplayAnswer:(BOOL)displayAnswer;
+-(void)loadDataAtOrder:(NSInteger)order displayAnswer:(BOOL)display;
 @end

@@ -7,7 +7,6 @@
 //
 
 #import "ImitateSubjectViewController.h"
-//#import "SubjectData.h"
 #import "ImitateSubjectService.h"
 #import "WaitForAnimation.h"
 
@@ -18,12 +17,7 @@
 
 #define __kImitateSubjectViewController_title @"选择科目"
 #define __kImitateSubjectViewController_waiting @"加载中..."
-
-//#define __kImitateSubjectViewController_more @"加载更多..."
-
 #define __kImitateSubjectViewController_cellIdentifier @"row_cell"//
-//#define __kImitateSubjectViewController_moreIdentifier @"row_more"//
-
 #define __kImitateSubjectViewController_cellDetail @"试题%d套"
 
 #define __kImitateSubjectViewController_fristPageIndex 1//第一页
@@ -33,7 +27,7 @@
     ImitateSubjectService *_service;
     NSArray *_examSectionCache;
     NSMutableDictionary *_subjectPapersCache,*_currentPageIndexCache;
-    //WaitForAnimation *_wattingAnimation;
+    PaperListViewController *_paperListController;
 }
 @end
 //模拟考场科目视图控制器实现类。
@@ -55,8 +49,6 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
-    //初始化等待动画
-    //_wattingAnimation = [[WaitForAnimation alloc]initWithView:self.view WaitTitle:__kImitateSubjectViewController_waiting];
 }
 #pragma mark tableView数据
 //分组总数
@@ -139,9 +131,10 @@
     //选中科目
     SubjectCell *data = [papersCache objectAtIndex:indexPath.row];
     if(!data || !data.code || data.code.length == 0)return;
-    PaperListViewController *plc = [[PaperListViewController alloc]initWithSubjectCode:data.code];
-    plc.hidesBottomBarWhenPushed = NO;
-    [self.navigationController pushViewController:plc animated:NO];
+    //试卷列表
+    _paperListController = [[PaperListViewController alloc]initWithSubjectCode:data.code];
+    _paperListController.hidesBottomBarWhenPushed = NO;
+    [self.navigationController pushViewController:_paperListController animated:NO];
 }
 //加载更多数据
 -(void)loadMoreDataWithSection:(NSNumber *)section{

@@ -502,18 +502,18 @@
             }
         }
     }
-    if(!target){
-        target = [[ItemViewController alloc] initWithPaper:_paperReview
-                                                     Order:order
-                                                 andRecord:_paperRecord
-                                          andDisplayAnswer:displayAnswer];
-        [self.navigationController pushViewController:target animated:NO];
-        return;
-    }
-    if(target){
-        [target loadDataAtOrder:order andDisplayAnswer:displayAnswer];
-        [self.navigationController popToViewController:target animated:YES];
-    }
+//    if(!target){
+//        target = [[ItemViewController alloc] initWithPaper:_paperReview
+//                                                     Order:order
+//                                                 andRecord:_paperRecord
+//                                          andDisplayAnswer:displayAnswer];
+//        [self.navigationController pushViewController:target animated:NO];
+//        return;
+//    }
+//    if(target){
+//        [target loadDataAtOrder:order andDisplayAnswer:displayAnswer];
+//        [self.navigationController popToViewController:target animated:YES];
+//    }
 }
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {

@@ -29,12 +29,7 @@
 
 #define __kPaperListViewController_title @"试卷详情"
 #define __kPaperListViewController_waiting @"加载数据..."
-
-//#define __kPaperListViewController_more @"加载更多..."
-
 #define __kPaperListViewController_cellIdentifier @"row_cell"//
-//#define __kPaperListViewController_moreIdentifier @"row_more"//
-
 #define __kPaperListViewController_detail @"试题:%d  发布时间:%@"//
 #define __kPaperListViewController_dateFormatter @"yyyy-MM-dd"//
 
@@ -49,6 +44,8 @@
     PaperService *_service;
     NSMutableArray *_papersCache;
     WaitForAnimation *_wattingAnimation;
+    
+    PaperDetailViewController *_paperDetailController;
 }
 @end
 //试卷列表视图控制器实现
@@ -119,7 +116,6 @@
     tempFrame.size.height -= tempFrame.origin.y;
     
     _tableView = [[UITableView alloc]initWithFrame:tempFrame style:UITableViewStylePlain];
-    //_tableView.translatesAutoresizingMaskIntoConstraints = NO;
     _tableView.delegate = self;
     _tableView.dataSource = self;
     [self.view addSubview:_tableView];
@@ -139,7 +135,7 @@
     //重新加载列表数据
     [_tableView reloadData];
 }
-#pragma mark tableView_dataSource
+#pragma mark UITableViewDataSource
 //数据总数
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if(_papersCache){
@@ -176,36 +172,23 @@
                                  [NSString stringFromDate:data.createTime withDateFormat:__kPaperListViewController_dateFormatter]];
     return cell;
 }
-#pragma mark tableView_delegate
+#pragma mark UITableViewDelegate
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if(!_papersCache || _papersCache.count == 0)return;
-    //加载更多数据
-    if(indexPath.row == _papersCache.count){
-        if(indexPath.row < _service.rowsOfPage)return;
-        //开启等待动画
-        [_wattingAnimation show];
-        //修改文字
-        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-        cell.textLabel.text = __kPaperListViewController_waiting;
-       
-        //关闭等待动画
-        [_wattingAnimation hide];
-        //取消选中
-        [_tableView deselectRowAtIndexPath:indexPath animated:YES];
-        return;
-    }
     //查询数据
     PaperData *data = [_papersCache objectAtIndex:indexPath.row];
     if(!data)return;
-    PaperDetailViewController *pdc = [[PaperDetailViewController alloc] initWithPaperCode:data.code];
-    pdc.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:pdc animated:NO];
+    //试卷详细
+    _paperDetailController = [[PaperDetailViewController alloc] initWithPaperCode:data.code];
+    _paperDetailController.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:_paperDetailController animated:NO];
 }
 //加载更多数据
 -(void)loadMoreData{
     if(!_service)return;
     _currentPageIndex++;
-    NSArray *moreArrays = [_service loadPapersWithSubjectCode:_subjectCode PaperTypeValue:_currentPaperTypeValue Index:_currentPageIndex];
+    NSArray *moreArrays = [_service loadPapersWithSubjectCode:_subjectCode
+                                               PaperTypeValue:_currentPaperTypeValue Index:_currentPageIndex];
     if(moreArrays && moreArrays.count > 0){
         //前台线程追加数据
         [self performSelectorOnMainThread:@selector(appendCacheUpdateWithData:) withObject:moreArrays waitUntilDone:NO];

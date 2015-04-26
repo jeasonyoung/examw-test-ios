@@ -30,7 +30,7 @@
 
 #define __kLearnRecordCellData_lastTimeFormate @"yyyy-MM-dd HH:mm:ss"//
 
-#define __kLearnRecordCellData_width 320//默认屏幕宽度
+//#define __kLearnRecordCellData_width 320//默认屏幕宽度
 
 //学习记录数据列表模型成员变量
 @interface LearnRecordCellData (){
@@ -58,7 +58,7 @@
     if(CGRectGetWidth(_imgFrame) > 0){
         x += __kLearnRecordCellData_margin;
     }
-    CGFloat width = __kLearnRecordCellData_width - x - __kLearnRecordCellData_right;
+    CGFloat width = CGRectGetWidth([UIScreen mainScreen].bounds) - x - __kLearnRecordCellData_right;
     //
     NSNumber *outY = [NSNumber numberWithFloat:__kLearnRecordCellData_top];
     //标题
