@@ -8,6 +8,7 @@
 
 #import "PaperDetailModel.h"
 #import "NSStringUtils.h"
+#import "NSString+Size.h"
 
 //试卷明细数据模型实现
 @implementation PaperDetailModel
@@ -32,11 +33,6 @@
 #define __kPaperDetailModelFrame_fontSize 14//标题字体大小
 
 #define __kPaperDetailModelFrame_btnHeight 30//按钮高度
-//试卷明细数据模型Frame成员变量
-@interface PaperDetailModelFrame (){
-    UIFont *_font;
-}
-@end
 //试卷明细数据模型Frame实现
 @implementation PaperDetailModelFrame
 -(instancetype)init{
@@ -53,11 +49,24 @@
         CGFloat y = __kPaperDetailModelFrame_top;
         switch (_modelType) {
             case __kPaperDetailModel_typeTitle://标题
+            {
+                _title = _model.title;
+                CGSize titleSize = [_title sizeWithFont:_font constrainedToSize:CGSizeMake(maxWidth, CGFLOAT_MAX)
+                                    lineBreakMode:NSLineBreakByWordWrapping];
+                CGFloat maxHeight = __kPaperDetailModelFrame_btnHeight;
+                if(maxHeight < titleSize.height){
+                    maxHeight = titleSize.height;
+                }
+                
+                _titleFrame = CGRectMake(__kPaperDetailModelFrame_left, y, maxWidth, maxHeight);
+                
+                break;
+            }
             case __kPaperDetailModel_typeDesc://描述
             {
                 NSString *title = _model.title;
                 NSMutableAttributedString *titleAttri = [NSStringUtils toHtmlWithText:title];
-                //[titleAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, title.length)];
+                [titleAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, titleAttri.length)];
                 CGSize titleAttriSize = [NSStringUtils boundingRectWithHtml:titleAttri constrainedToWidth:maxWidth];
                 _titleFrame = CGRectMake(__kPaperDetailModelFrame_left, y, maxWidth, titleAttriSize.height);
                 _titleAttri = titleAttri;
@@ -73,6 +82,7 @@
         }
         //输出行高
         _rowHeight = CGRectGetMaxY(_titleFrame) + __kPaperDetailModelFrame_bottom;
+        //NSLog(@"%@->rowHeight:%f",self,_rowHeight);
     }
 }
 @end

@@ -25,8 +25,12 @@
 @interface PaperDetailModelFrame : NSObject
 //模型数据类型
 @property(nonatomic,assign,readonly)NSUInteger modelType;
+//数据字体
+@property(nonatomic,copy,readonly)UIFont *font;
 //标题Frame
 @property(nonatomic,assign,readonly)CGRect titleFrame;
+//标题
+@property(nonatomic,copy,readonly)NSString *title;
 //标题Attri
 @property(nonatomic,copy,readonly)NSAttributedString *titleAttri;
 //行高

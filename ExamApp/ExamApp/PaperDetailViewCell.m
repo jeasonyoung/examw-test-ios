@@ -58,7 +58,8 @@
 -(void)loadModelFrame:(PaperDetailModelFrame *)modelFrame{
     if(modelFrame){
         _content.frame = modelFrame.titleFrame;
-        _content.attributedText = modelFrame.titleAttri;
+        _content.font = modelFrame.font;
+        _content.text = modelFrame.title;
     }
 }
 @end
@@ -69,10 +70,11 @@
 #define __kPaperDetailBtnsViewCell_btnContinue @"继续考试"
 #define __kPaperDetailBtnsViewCell_btnView @"查看成绩"
 #define __kPaperDetailBtnsViewCell_btnRenew @"重新开始"
-
+#define __kPaperDetailBtnsViewCell_btnBgNormal 0x3277ec//
+#define __kPaperDetailBtnsViewCell_btnBghighlight 0x008B00//
 #define __kPaperDetailBtnsViewCell_btnBorderColor 0xdedede
 @interface PaperDetailBtnsViewCell (){
-    UIColor *_borderColor;
+    UIColor *_borderColor,*_bgNormalColor,*_bgHiglightColor;
     UIButton *_btn1,*_btn2;
 }
 @end
@@ -82,16 +84,22 @@
 -(instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier{
     if(self = [super initWithReuseIdentifier:reuseIdentifier]){
         _borderColor = [UIColor colorWithHex:__kPaperDetailBtnsViewCell_btnBorderColor];
+        _bgNormalColor = [UIColor colorWithHex:__kPaperDetailBtnsViewCell_btnBgNormal];
+        _bgHiglightColor = [UIColor colorWithHex:__kPaperDetailBtnsViewCell_btnBghighlight];
         //
         _btn1 = [UIButton buttonWithType:UIButtonTypeCustom];
         [self addSubview:_btn1];
         [UIViewUtils addBoundsRadiusWithView:_btn1 BorderColor:_borderColor BackgroundColor:nil];
         [_btn1 addTarget:self action:@selector(btnOnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_btn1 setTitleColor:_bgNormalColor forState:UIControlStateNormal];
+        [_btn1 setTitleColor:_bgHiglightColor forState:UIControlStateHighlighted];
         //
         _btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
         [self addSubview:_btn2];
         [UIViewUtils addBoundsRadiusWithView:_btn2 BorderColor:_borderColor BackgroundColor:nil];
         [_btn2 addTarget:self action:@selector(btnOnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_btn2 setTitleColor:_bgNormalColor forState:UIControlStateNormal];
+        [_btn2 setTitleColor:_bgHiglightColor forState:UIControlStateHighlighted];
     }
     return self;
 }
@@ -104,6 +112,7 @@
 #pragma mark 加载模型Frame
 -(void)loadModelFrame:(PaperDetailModelFrame *)modelFrame{
     if(modelFrame){
+        _btn1.titleLabel.font = _btn2.titleLabel.font = modelFrame.font;
         NSString *content = (modelFrame.titleAttri ? [modelFrame.titleAttri string] : nil);
         if(!content || content.length == 0){//一个按钮
             [self setupSignWithRect:modelFrame.titleFrame];
@@ -159,6 +168,7 @@
 
 //试卷明细描述Cell成员变量
 @interface PaperDetailDescViewCell (){
+    UIColor *_borderColor;
     UILabel *_content;
 }
 @end
@@ -167,10 +177,12 @@
 #pragma mark 初始化
 -(instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier{
     if(self = [super initWithReuseIdentifier:reuseIdentifier]){
+         _borderColor = [UIColor colorWithHex:__kPaperDetailBtnsViewCell_btnBorderColor];
         _content = [[UILabel alloc]init];
         _content.textAlignment = NSTextAlignmentLeft;
         _content.numberOfLines = 0;
         [self addSubview:_content];
+        [UIViewUtils addBoundsRadiusWithView:_content BorderColor:_borderColor BackgroundColor:nil];
     }
     return self;
 }
