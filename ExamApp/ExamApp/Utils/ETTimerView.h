@@ -15,4 +15,6 @@
 -(NSNumber *)stop;
 //用时(秒)
 -(NSNumber *)useTimes;
+//转换为BarButtonItem
+-(UIBarButtonItem *)toBarButtonItem;
 @end

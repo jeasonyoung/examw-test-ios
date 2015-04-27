@@ -113,6 +113,9 @@
 		A199CBC01A7788EB0094FE50 /* slider-knob.png in Resources */ = {isa = PBXBuildFile; fileRef = A199CBBE1A7788EB0094FE50 /* slider-knob.png */; };
 		A19DCE741A82F5DF0019856D /* AppClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A19DCE731A82F5DF0019856D /* AppClient.m */; };
 		A19DCE781A83442C0019856D /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A19DCE771A83442C0019856D /* HttpUtils.m */; };
+		A1A74F5D1AEDCD8E009822E2 /* ItemViewExitAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A74F5C1AEDCD8E009822E2 /* ItemViewExitAlert.m */; };
+		A1A74F601AEDE01B009822E2 /* FavoriteBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A74F5F1AEDE01B009822E2 /* FavoriteBarItem.m */; };
+		A1A74F631AEDFFB7009822E2 /* SubmitBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A74F621AEDFFB7009822E2 /* SubmitBarItem.m */; };
 		A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AA7CC51A81B336003A5137 /* RegisterData.m */; };
 		A1AA7CCC1A81F761003A5137 /* LoginData.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AA7CCB1A81F761003A5137 /* LoginData.m */; };
 		A1B1C4291AC23D4D0018741B /* LearnRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B1C4281AC23D4D0018741B /* LearnRecordViewController.m */; };
@@ -346,6 +349,12 @@
 		A19DCE751A82F7EB0019856D /* JSONSerialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONSerialize.h; sourceTree = "<group>"; };
 		A19DCE761A83442C0019856D /* HttpUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HttpUtils.h; sourceTree = "<group>"; };
 		A19DCE771A83442C0019856D /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HttpUtils.m; sourceTree = "<group>"; };
+		A1A74F5B1AEDCD8E009822E2 /* ItemViewExitAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemViewExitAlert.h; sourceTree = "<group>"; };
+		A1A74F5C1AEDCD8E009822E2 /* ItemViewExitAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemViewExitAlert.m; sourceTree = "<group>"; };
+		A1A74F5E1AEDE01B009822E2 /* FavoriteBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoriteBarItem.h; sourceTree = "<group>"; };
+		A1A74F5F1AEDE01B009822E2 /* FavoriteBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteBarItem.m; sourceTree = "<group>"; };
+		A1A74F611AEDFFB7009822E2 /* SubmitBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitBarItem.h; sourceTree = "<group>"; };
+		A1A74F621AEDFFB7009822E2 /* SubmitBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitBarItem.m; sourceTree = "<group>"; };
 		A1AA7CC41A81B336003A5137 /* RegisterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterData.h; sourceTree = "<group>"; };
 		A1AA7CC51A81B336003A5137 /* RegisterData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterData.m; sourceTree = "<group>"; };
 		A1AA7CCA1A81F761003A5137 /* LoginData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginData.h; sourceTree = "<group>"; };
@@ -685,6 +694,12 @@
 				A1E8A6A11AC92FEA00007B8A /* LearnTableViewCell.m */,
 				A1B3A4DE1AECE96C00BA5259 /* PaperDetailViewCell.h */,
 				A1B3A4DF1AECE96C00BA5259 /* PaperDetailViewCell.m */,
+				A1A74F5B1AEDCD8E009822E2 /* ItemViewExitAlert.h */,
+				A1A74F5C1AEDCD8E009822E2 /* ItemViewExitAlert.m */,
+				A1A74F5E1AEDE01B009822E2 /* FavoriteBarItem.h */,
+				A1A74F5F1AEDE01B009822E2 /* FavoriteBarItem.m */,
+				A1A74F611AEDFFB7009822E2 /* SubmitBarItem.h */,
+				A1A74F621AEDFFB7009822E2 /* SubmitBarItem.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -1083,6 +1098,7 @@
 				A1D02F081A7B7E37004C484D /* NSString+Hex.m in Sources */,
 				A1647B621A728679007B12EA /* NSDate+TimeZone.m in Sources */,
 				A195EFB11AA970E3002695A9 /* UIViewUtils.m in Sources */,
+				A1A74F5D1AEDCD8E009822E2 /* ItemViewExitAlert.m in Sources */,
 				A140418D1A78E61B00669D46 /* ETextView.m in Sources */,
 				A1EE7DD81A70A52F0071C76D /* HomeViewController.m in Sources */,
 				A1B1C42C1AC23F020018741B /* LearnRecordService.m in Sources */,
@@ -1110,6 +1126,7 @@
 				A1ED10201A6F80BA004DAD90 /* MainViewController.m in Sources */,
 				A199CA031A74A33500A31587 /* ETHomePanelView.m in Sources */,
 				A1936A961A9EE01800A0F45C /* SubjectDataDao.m in Sources */,
+				A1A74F631AEDFFB7009822E2 /* SubmitBarItem.m in Sources */,
 				A199C9FF1A74874A00A31587 /* ETImageButton.m in Sources */,
 				A18962E61AA33D970065B70C /* PaperListViewController.m in Sources */,
 				A11490AC1AD500890020F116 /* ProductTableViewCell.m in Sources */,
@@ -1133,6 +1150,7 @@
 				A10187C71A84B568002D2F37 /* LoginViewController+UserLogin.m in Sources */,
 				A1DAE05F1AB15E21001D5091 /* UIViewQueue.m in Sources */,
 				A1C3B7771A763C05006EA38F /* SettingData.m in Sources */,
+				A1A74F601AEDE01B009822E2 /* FavoriteBarItem.m in Sources */,
 				A1D02EFF1A7B5BD1004C484D /* AccountViewController.m in Sources */,
 				A1910E6E1A6D3AC800377160 /* main.m in Sources */,
 				A199CB871A7761030094FE50 /* ScreenViewController.m in Sources */,

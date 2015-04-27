@@ -105,8 +105,8 @@
 }
 //添加事件
 -(void)btnOnClick:(UIButton *)sender{
-    if(sender && self.deletegate && [self.deletegate respondsToSelector:@selector(detailViewCell:didButtonClick:)]){
-        [self.deletegate detailViewCell:self didButtonClick:sender];
+    if(sender && self.delegate && [self.delegate respondsToSelector:@selector(detailViewCell:didButtonClick:)]){
+        [self.delegate detailViewCell:self didButtonClick:sender];
     }
 }
 #pragma mark 加载模型Frame

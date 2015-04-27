@@ -10,7 +10,7 @@
 @class PaperDetailModelFrame;
 
 //试卷明细Cell事件委托
-@protocol PaperDetailViewCellDeletegate <NSObject>
+@protocol PaperDetailViewCellDelegate <NSObject>
 @required
 //按钮点击事件
 -(void)detailViewCell:(UITableViewCell *)cell didButtonClick:(UIButton *)sender;
@@ -19,7 +19,7 @@
 //试卷明细Cell
 @interface PaperDetailViewCell : UITableViewCell
 //事件委托
-@property(nonatomic,assign)id<PaperDetailViewCellDeletegate> deletegate;
+@property(nonatomic,assign)id<PaperDetailViewCellDelegate> delegate;
 //初始化
 -(instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 //加载模型Frame

@@ -33,7 +33,7 @@
 
 #define __kPaperDetailViewController_cellIdentifierFormat @"cell_%d"
 //试卷明细视图控制器成员变量
-@interface PaperDetailViewController ()<UITableViewDataSource,UITableViewDelegate,PaperDetailViewCellDeletegate>{
+@interface PaperDetailViewController ()<UITableViewDataSource,UITableViewDelegate,PaperDetailViewCellDelegate>{
     NSString *_paperCode,*_paperRecordCode;
     PaperReview *_review;
     PaperRecordService *_paperRecordService;
@@ -184,7 +184,7 @@
             }
             case __kPaperDetailModel_typeButtons:{//按钮
                 cell = [[PaperDetailBtnsViewCell alloc]initWithReuseIdentifier:cellIdentifier];
-                cell.deletegate = self;
+                cell.delegate = self;
                 break;
             }
             case __kPaperDetailModel_typeDesc:{//描述
@@ -209,7 +209,7 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
-#pragma mark PaperDetailViewCellDeletegate
+#pragma mark PaperDetailViewCellDelegate
 //按钮事件
 -(void)detailViewCell:(UITableViewCell *)cell didButtonClick:(UIButton *)sender{
     switch (sender.tag) {

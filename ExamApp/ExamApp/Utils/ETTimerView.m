@@ -87,4 +87,8 @@
     }
     return [self useTimes];
 }
+#pragma mark 转换为BarButtonItem
+-(UIBarButtonItem *)toBarButtonItem{
+    return [[UIBarButtonItem alloc]initWithCustomView:self];
+}
 @end
