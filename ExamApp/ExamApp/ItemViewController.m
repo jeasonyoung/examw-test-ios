@@ -7,89 +7,41 @@
 //
 
 #import "ItemViewController.h"
+#import "UIViewController+VisibleView.h"
 
 #import "ItemViewExitAlert.h"
 #import "FavoriteBarItem.h"
 #import "ETTimerView.h"
 #import "SubmitBarItem.h"
+#import "ItemContentPanel.h"
 
 #import "PaperReview.h"
 #import "PaperRecord.h"
+#import "PaperRecordService.h"
 
 #import "PaperListViewController.h"
 #import "AnswersheetViewController.h"
 #import "ResultViewController.h"
 
-//#import "UIViewController+VisibleView.h"
-//
-//#import "PaperReview.h"
-//#import "PaperRecord.h"
-//#import "PaperItemRecord.h"
-//#import "PaperRecordService.h"
-//
-//#import "UIColor+Hex.h"
-//#import "NSString+Size.h"
-//
-//#import "ETTimerView.h"
-//
-//#import "AnswersheetViewController.h"
-//#import "PaperListViewController.h"
-//#import "ResultViewController.h"
-//
-//#import "ItemView.h"
-//
-//#import "UIViewUtils.h"
-//#import "NSStringUtils.h"
-//
-//#define __kItemViewController_alert_title @"退出"//
-//#define __kItemViewController_alert_msg @"是否退出考试?"
-//#define __kItemViewController_alert_btn_submit @"交卷"
-//#define __kItemViewController_alert_btn_confirm @"下次再做"
-//#define __kItemViewController_alert_btn_cancel @"取消"
-//
-//#define __kItemViewController_favorite_with 30//收藏宽度
-//#define __kItemViewController_favorite_height 30//收藏高度
-//#define __kItemViewController_favorite_bgColor 0xCCCCCC//收藏的背景色
-//#define __kItemViewController_favorite_normal_img @"favorite_normal.png"//未被收藏
-//#define __kItemViewController_favorite_highlight_img @"favorite_highlight.png"//已被收藏
-//
-
-//
-
-//
-//#define __kItemViewController_topbar_backTag 0//顶部返回按钮
-//#define __kItemViewController_toolbar_submitTag 1//底部工具栏交卷
-
 #define __kItemViewController_timerWith 80//计时器宽度
 #define __kItemViewController_timerHeight 30//计时器高度
 //试题考试视图控制器成员变量
-@interface ItemViewController ()<ItemViewExitAlertDelegate,FavoriteBarItemDelegate,SubmitBarItemDelegate>{
+@interface ItemViewController ()<ItemViewExitAlertDelegate,FavoriteBarItemDelegate,SubmitBarItemDelegate,ItemViewDataSource,ItemContentPanelDelegate>{
     PaperReview *_paperReview;
     PaperRecord *_paperRecord;
     BOOL _displayAnswer;
-    NSUInteger _currentOrder;
+    NSInteger _currentOrder,_itemsTotals;
     
-     
     ItemViewExitAlert *_exitAlert;
     ETTimerView *_timerView;
+    FavoriteBarItem *_btnFav;
+    ItemContentPanel *_itemPanel;
+    
+    PaperItemOrderIndexPath *_itemOrderIndexPath;
+    PaperRecordService *_paperRecordService;
     
     AnswersheetViewController *_sheetController;
     ResultViewController *_resultController;
-    
-//    NSDate *_startTime;
-//    NSInteger _order;
-//    UIButton *_btnFavorite;
-//    UIImage *_imgFavoriteNormal,*_imgFavoriteHighlight;
-//    
-//    PaperReview *_review;
-//    PaperRecord *_record;
-//    
-//    ItemView *_itemContentView;
-//    ETTimerView *_timerView;
-//    
-//    PaperRecordService *_recordService;
-//    
-//    BOOL _displayAnswer;
 }
 @end
 //试题考试视图控制器实现
@@ -101,6 +53,7 @@
         _paperRecord = record;
         _displayAnswer = display;
         _currentOrder = order;
+        _itemsTotals = review.total;
     }
     return self;
 }
@@ -113,6 +66,13 @@
     [self setupTopBars];
     //加载底部工具栏
     [self setupBottomBars];
+    //初始化服务
+    _paperRecordService = [[PaperRecordService alloc]init];
+    //试题视图
+    _itemPanel = [[ItemContentPanel alloc]initWithFrame:[self loadVisibleViewFrame]];
+    _itemPanel.dataSource = self;
+    _itemPanel.delegate = self;
+    [self.view addSubview:_itemPanel];
     
     //加载数据
     [self loadDataAtOrder:_currentOrder displayAnswer:_displayAnswer];
@@ -211,7 +171,7 @@
     UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                            target:nil action:nil];
     //收藏
-    FavoriteBarItem *btnFav = [[FavoriteBarItem alloc]initWidthDelegate:self];
+    _btnFav = [[FavoriteBarItem alloc]initWidthDelegate:self];
     
     NSArray *bars;
     if(!_displayAnswer){
@@ -221,9 +181,9 @@
         //交卷
         SubmitBarItem *btnSubmit = [[SubmitBarItem alloc]initWithDelegate:self];
         
-        bars = @[btnPrev,space,btnFav,space,btnTimer,space,btnSubmit,space,btnNext];
+        bars = @[btnPrev,space,_btnFav,space,btnTimer,space,btnSubmit,space,btnNext];
     }else{
-        bars = @[btnPrev,space,btnFav,space,btnNext];
+        bars = @[btnPrev,space,_btnFav,space,btnNext];
     }
     //设置底部工具栏
     [self setToolbarItems:bars animated:YES];    
@@ -231,22 +191,61 @@
 #pragma mark FavoriteBarItemDelegate
 //加载收藏状态
 -(BOOL)stateWithFavorite:(FavoriteBarItem *)favorite{
-    
+    if(_paperReview && _paperRecordService && _currentOrder >= 0 && _currentOrder < _itemsTotals){
+        __block BOOL state = NO;
+        [_paperReview loadItemAtOrder:_currentOrder ItemBlock:^(PaperItemOrderIndexPath *indexPath) {
+            if(indexPath && indexPath.item){
+                NSString *itemCode = indexPath.item.code;
+                NSInteger index = indexPath.index;
+                state = [_paperRecordService exitFavoriteWithPaperCode:_paperReview.code ItemCode:itemCode atIndex:index];
+            }
+        }];
+        return state;
+    }
     return NO;
 }
 //收藏状态点击事件
 -(void)clickWithFavorite:(FavoriteBarItem *)favorite{
-    
     NSLog(@"收藏状态：%d",favorite.state);
+    if(_paperReview && _paperRecordService && _currentOrder >= 0 && _currentOrder < _itemsTotals){
+        BOOL state = favorite.state;
+        [_paperReview loadItemAtOrder:_currentOrder ItemBlock:^(PaperItemOrderIndexPath *indexPath) {
+            if(indexPath && indexPath.item){
+                NSString *paperCode = _paperReview.code;
+                NSString *itemCode = indexPath.item.code;
+                NSInteger index = indexPath.index;
+                
+                if(state){//添加收藏
+                    [_paperRecordService addFavoriteWithPaperCode:paperCode Data:indexPath];
+                }else{//删除收藏
+                    [_paperRecordService removeFavoriteWithPaperCode:paperCode ItemCode:itemCode atIndex:index];
+                }
+            }
+        }];
+    }
 }
 
 //上一题
 -(void)btnPrevClick:(UIBarButtonItem *)sender{
-    
+    _currentOrder--;
+    if(_currentOrder < 0){
+        _currentOrder = 0;
+        return;
+    }
+    //加载收藏数据
+    if(_btnFav)[_btnFav reloadData];
+     ///TODO:加载数据
 }
 //下一题
 -(void)btnNextClick:(UIBarButtonItem *)sender{
-    
+    _currentOrder++;
+    if(_currentOrder > _itemsTotals -1){
+        _currentOrder = _itemsTotals - 1;
+        return;
+    }
+    //加载收藏数据
+    if(_btnFav)[_btnFav reloadData];
+    ///TODO:加载数据
 }
 
 #pragma mark SubmitBarItemDelegate
@@ -277,6 +276,65 @@
         }
     }
 }
+#pragma mark ItemViewDataSource
+//加载试题数据
+-(PaperItem*)dataWithItemView:(ItemView *)itemView{
+    __block PaperItem *item;
+    [_paperReview loadItemAtOrder:_currentOrder ItemBlock:^(PaperItemOrderIndexPath *indexPath) {
+        _itemOrderIndexPath = indexPath;
+        
+        self.navigationItem.title = indexPath.structureTitle;
+        item = indexPath.item;
+    }];
+    return item;;
+}
+//加载试题索引
+-(NSUInteger)itemIndexWithItemView:(ItemView *)itemView{
+    return (_itemOrderIndexPath ? _itemOrderIndexPath.index : 0);
+}
+//加载试题题序标题
+-(NSString *)itemOrderTitleWithItemView:(ItemView *)itemView{
+    return [NSString stringWithFormat:@"%d",(int)(_currentOrder + 1)];
+}
+//加载试题答案
+-(NSString *)answerWithItemView:(ItemView *)itemView{
+    NSString *answer = @"";
+    if(_paperRecordService && _paperRecord && _itemOrderIndexPath){
+        NSString *itemCode = _itemOrderIndexPath.item.code;
+        NSInteger itemIndex = _itemOrderIndexPath.index;
+        answer = [_paperRecordService loadAnswerRecordWithPaperRecordCode:_paperRecord.code ItemCode:itemCode atIndex:itemIndex];
+    }
+    return answer;
+}
+//是否显示答案解析
+-(BOOL)displayAnswerWithItemView:(ItemView *)itemView{
+    return _displayAnswer;
+}
+#pragma mark ItemContentPanelDelegate
+//加载试题总数
+-(NSUInteger)numbersOfItemContentPanel{
+    return _itemsTotals;
+}
+//加载当前题序
+-(NSUInteger)currentOfItemContentPanel{
+    return _currentOrder;
+}
+//上一题
+-(void)previousOfItemContentPanel{
+    NSLog(@"加载上一题...");
+    [self btnPrevClick:nil];
+}
+//下一题
+-(void)nextOfItemContentPanel{
+    NSLog(@"加载下一题...");
+    [self btnNextClick:nil];
+}
+//选中
+-(void)itemView:(ItemView *)itemView didSelectAtSelected:(ItemViewSelected *)selected{
+    NSLog(@"选中＝> %@",selected);
+}
+
+
 #pragma mark 试图将呈现
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -289,7 +347,11 @@
 }
 #pragma mark 加载数据
 -(void)loadDataAtOrder:(NSInteger)order displayAnswer:(BOOL)display{
+    _currentOrder = order;
+    _displayAnswer = display;
     
+    //加载数据
+    [_itemPanel loadData];
 }
 //#pragma mark 初始化
 //-(instancetype)initWithPaper:(PaperReview *)review
@@ -473,67 +535,6 @@
 //        second = [NSNumber numberWithDouble:timeInterval];
 //    }
 //    return second;
-//}
-////收藏
-//-(void)btnFavoriteClick:(UIButton *)sender{
-////    NSLog(@"Favorite:%@",sender);
-////    
-////    if(!_itemContentView)return;
-////    NSInteger order = _itemContentView.currentOrder;
-////    
-////    if([self isFavoriteWithOrder:order]){//如果已收藏则取消收藏
-////        [self removeFavoriteWithOrder:order];
-////        [sender setBackgroundImage:_imgFavoriteNormal forState:UIControlStateNormal];
-////        return;
-////    }
-////    //添加到收藏
-////    [self addFavoriteWithOrder:order];
-////    [sender setBackgroundImage:_imgFavoriteHighlight forState:UIControlStateNormal];
-//}
-////加载收藏图片
-//-(UIImage *)loadFavoriteBackgroundImage{
-////    if(_itemContentView && [self isFavoriteWithOrder:_itemContentView.currentOrder]){
-////        return _imgFavoriteHighlight;
-////    }
-//    return _imgFavoriteNormal;
-//}
-////判断是否收藏
-//-(BOOL)isFavoriteWithOrder:(NSInteger)order{
-//    if(_review && _recordService && order >= 0){
-//        __block BOOL result = NO;
-//        [_review loadItemAtOrder:order ItemBlock:^(PaperItemOrderIndexPath *indexPath) {
-//            if(indexPath && indexPath.item){
-//                result = [_recordService exitFavoriteWithPaperCode:_review.code
-//                                                          ItemCode:indexPath.item.code
-//                                                           atIndex:indexPath.index];
-//                
-//            }
-//        }];
-//        return result;
-//    }
-//    return NO;
-//}
-////添加收藏
-//-(void)addFavoriteWithOrder:(NSInteger)order{
-//    if(_review && _recordService && order >= 0){
-//        [_review loadItemAtOrder:order ItemBlock:^(PaperItemOrderIndexPath *indexPath) {
-//            if(indexPath && indexPath.item){
-//                [_recordService addFavoriteWithPaperCode:_review.code Data:indexPath];
-//            }
-//        }];
-//    }
-//}
-////移除收藏
-//-(void)removeFavoriteWithOrder:(NSInteger)order{
-//    if(_review && _recordService && order >= 0){
-//        [_review loadItemAtOrder:order ItemBlock:^(PaperItemOrderIndexPath *indexPath) {
-//            if(indexPath && indexPath.item){
-//                [_recordService removeFavoriteWithPaperCode:_review.code
-//                                                   ItemCode:indexPath.item.code
-//                                                    atIndex:indexPath.index];
-//            }
-//        }];
-//    }
 //}
 ////交卷
 //-(void)btnSubmitClick:(UIBarButtonItem *)sender{

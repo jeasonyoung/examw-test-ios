@@ -559,7 +559,6 @@
 #pragma mark 初始化
 -(instancetype)initWithFrame:(CGRect)frame{
     if(self =[super initWithFrame:frame]){
-        //初始化
         //初始化tableview
         CGRect tempFrame = CGRectMake(0, 0, CGRectGetWidth(frame), CGRectGetHeight(frame));
         _tableView = [[UITableView alloc]initWithFrame:tempFrame style:UITableViewStylePlain];
@@ -567,6 +566,12 @@
         _tableView.dataSource = self;
         _tableView.delegate = self;
         _tableView.scrollsToTop = NO;
+        _tableView.bounces = NO;
+        //隐藏横向滚动条
+        _tableView.showsHorizontalScrollIndicator = NO;
+        //隐藏纵向滚动条
+        _tableView.showsVerticalScrollIndicator = NO;
+        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     }
     return self;
 }
@@ -648,6 +653,9 @@
     if(self.dataSource && [self.dataSource respondsToSelector:@selector(dataWithItemView:)]){
         //试题
         if((_item = [self.dataSource dataWithItemView:self])){
+            //设置试题ID
+            _itemCode = _item.code;
+            //
             NSString *orderTitle;
             //题序标题
             if([self.dataSource respondsToSelector:@selector(itemOrderTitleWithItemView:)]){

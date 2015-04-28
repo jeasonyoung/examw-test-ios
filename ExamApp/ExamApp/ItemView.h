@@ -41,17 +41,19 @@
 @end
 
 //试题UI事件代理
-@protocol ItemViewDeletegate <NSObject>
+@protocol ItemViewDelegate <NSObject>
 //选中答案
 -(void)itemView:(ItemView *)itemView didSelectAtSelected:(ItemViewSelected *)selected;
 @end
 
 //试题UI
 @interface ItemView : UIView<UITableViewDataSource,UITableViewDelegate>
+//试题ID
+@property(nonatomic,copy,readonly)NSString *itemCode;
 //数据代理
 @property(nonatomic,assign)id<ItemViewDataSource> dataSource;
 //事件代理
-@property(nonatomic,assign)id<ItemViewDeletegate> delegate;
+@property(nonatomic,assign)id<ItemViewDelegate> delegate;
 //试题JSON集合
 -(NSDictionary*)toItemJSON;
 //重新加载数据

@@ -116,6 +116,7 @@
 		A1A74F5D1AEDCD8E009822E2 /* ItemViewExitAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A74F5C1AEDCD8E009822E2 /* ItemViewExitAlert.m */; };
 		A1A74F601AEDE01B009822E2 /* FavoriteBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A74F5F1AEDE01B009822E2 /* FavoriteBarItem.m */; };
 		A1A74F631AEDFFB7009822E2 /* SubmitBarItem.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A74F621AEDFFB7009822E2 /* SubmitBarItem.m */; };
+		A1A74F661AEE1900009822E2 /* ItemContentPanel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A74F651AEE1900009822E2 /* ItemContentPanel.m */; };
 		A1AA7CC61A81B336003A5137 /* RegisterData.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AA7CC51A81B336003A5137 /* RegisterData.m */; };
 		A1AA7CCC1A81F761003A5137 /* LoginData.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AA7CCB1A81F761003A5137 /* LoginData.m */; };
 		A1B1C4291AC23D4D0018741B /* LearnRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B1C4281AC23D4D0018741B /* LearnRecordViewController.m */; };
@@ -355,6 +356,8 @@
 		A1A74F5F1AEDE01B009822E2 /* FavoriteBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoriteBarItem.m; sourceTree = "<group>"; };
 		A1A74F611AEDFFB7009822E2 /* SubmitBarItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitBarItem.h; sourceTree = "<group>"; };
 		A1A74F621AEDFFB7009822E2 /* SubmitBarItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitBarItem.m; sourceTree = "<group>"; };
+		A1A74F641AEE1900009822E2 /* ItemContentPanel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemContentPanel.h; sourceTree = "<group>"; };
+		A1A74F651AEE1900009822E2 /* ItemContentPanel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemContentPanel.m; sourceTree = "<group>"; };
 		A1AA7CC41A81B336003A5137 /* RegisterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterData.h; sourceTree = "<group>"; };
 		A1AA7CC51A81B336003A5137 /* RegisterData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterData.m; sourceTree = "<group>"; };
 		A1AA7CCA1A81F761003A5137 /* LoginData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginData.h; sourceTree = "<group>"; };
@@ -690,6 +693,8 @@
 				A19493661AA8242800A7791E /* ETTimerView.m */,
 				A18C35371AE8D4C4005DA903 /* ItemView.h */,
 				A18C35381AE8D4C4005DA903 /* ItemView.m */,
+				A1A74F641AEE1900009822E2 /* ItemContentPanel.h */,
+				A1A74F651AEE1900009822E2 /* ItemContentPanel.m */,
 				A1E8A6A01AC92FEA00007B8A /* LearnTableViewCell.h */,
 				A1E8A6A11AC92FEA00007B8A /* LearnTableViewCell.m */,
 				A1B3A4DE1AECE96C00BA5259 /* PaperDetailViewCell.h */,
@@ -1130,6 +1135,7 @@
 				A199C9FF1A74874A00A31587 /* ETImageButton.m in Sources */,
 				A18962E61AA33D970065B70C /* PaperListViewController.m in Sources */,
 				A11490AC1AD500890020F116 /* ProductTableViewCell.m in Sources */,
+				A1A74F661AEE1900009822E2 /* ItemContentPanel.m in Sources */,
 				A188277A1AA064AD008C734D /* DataSyncService.m in Sources */,
 				A1959F931A7FABBB00C1F563 /* LoginViewController.m in Sources */,
 				A17F78D61AA5695700C671A9 /* PaperItemRecord.m in Sources */,
