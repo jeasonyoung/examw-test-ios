@@ -72,6 +72,7 @@
     if(self = [super init]){
         _type = type;
         _code = code;
+        _title = title;
         _content = content;
         _myAnswer = myAnswer;
         _rightAnswer = rightAnswer;
@@ -229,12 +230,17 @@
 }
 //创建普通标题
 -(void)setupNormalTitleWithWidth:(CGFloat)width OutY:(NSNumber **)outY{
-    NSString *title = _data.content;
-    if(_data.title && ![NSStringUtils existContains:_data.content subText:_data.title]){
-        NSString *content = [NSStringUtils replaceFirstContent:_data.content regex:@"([1-9]+\\.)" target:@""];
-        title = [NSString stringWithFormat:@"%@ %@",_data.title,content];
+    NSMutableString *titleContent = [NSMutableString string];
+    if(_data.title && _data.title.length > 0){
+        [titleContent appendFormat:@"%@ ",_data.title];
     }
-    [self setupTitleWithTitle:title Width:width OutY:outY];
+    [titleContent appendString:_data.content];
+//    if(title && ![NSStringUtils existContains:content subText:title]){
+//        NSString *contentText = [NSStringUtils replaceFirstContent:content regex:@"([1-9]+\\.)" target:@""];
+//        title = [NSString stringWithFormat:@"%@ %@",title, contentText];
+//        NSLog(@"setupNormalTitleWithWidth=>%@",title);
+//    }
+    [self setupTitleWithTitle:titleContent Width:width OutY:outY];
 }
 //创建共享一级标题
 -(void)setupTopTitleWithWidth:(CGFloat)width OutY:(NSNumber **)outY{
@@ -245,7 +251,7 @@
 -(void)setupTitleWithTitle:(NSString *)title Width:(CGFloat)width OutY:(NSNumber **)outY{
     if(!title || title.length == 0)return;
     NSMutableAttributedString *titleAttri = [NSStringUtils toHtmlWithText:title];
-    [titleAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, title.length)];
+    [titleAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, titleAttri.length)];
     _contentAttri = titleAttri;
     
     CGSize titleAttriSize = [NSStringUtils boundingRectWithHtml:titleAttri constrainedToWidth:width];
@@ -279,7 +285,7 @@
     NSString *img;
     
     NSMutableAttributedString *contentAttri = [NSStringUtils toHtmlWithText:content];
-    NSRange contentRange = NSMakeRange(0, content.length);
+    NSRange contentRange = NSMakeRange(0, contentAttri.length);
     
     [contentAttri addAttribute:NSFontAttributeName value:_font range:contentRange];
     if(_data.isSelected){//选中
@@ -337,7 +343,7 @@
     NSRange myAnswerTipRange = NSMakeRange(pos, myAnswer.length - pos);
     NSMutableAttributedString *myAnswerAttri = [NSStringUtils toHtmlWithText:myAnswer];
     //设置字体
-    [myAnswerAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, myAnswer.length)];
+    [myAnswerAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, myAnswerAttri.length)];
     //我的答案前景色
     [myAnswerAttri addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHex:__kItemViewModelFrame_analysisMyFontColor] range:myAnswerRang];
     //我的答案tip前景色
@@ -938,11 +944,12 @@
 //选中
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     BOOL deselectedAnimated = NO;
-    if(_dataArrays && indexPath.row > _dataArrays.count){
+    if(_dataArrays && indexPath.row < _dataArrays.count){
         ItemViewModelFrame *dataModelFrame = [_dataArrays objectAtIndex:indexPath.row];
         NSUInteger type = dataModelFrame.modelType;
         if(type == __kItemViewModelType_SingleOption){//单选
             NSString *selcetedCode = dataModelFrame.modelCode;
+            
             if(!_myAnswers || (_myAnswers.length == 0) || (![selcetedCode isEqualToString:_myAnswers])){
                 deselectedAnimated = YES;
                 _myAnswers = selcetedCode;
@@ -955,6 +962,7 @@
                         BOOL old = model.isSelected;
                         model.myAnswer = _myAnswers;
                         if(model.isSelected != old){//是否选中发生变化的
+                            optFrame.data = model;
                             [reloadIndexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
                         }
                     }
@@ -964,9 +972,10 @@
                     _answerAnalysisModel.myAnswer = _myAnswers;
                 }
                 //更新选项
-                if(reloadIndexPaths.count > 0){
-                    [tableView reloadRowsAtIndexPaths:reloadIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-                }
+                [tableView reloadData];
+//                if(reloadIndexPaths.count > 0){
+//                    [tableView reloadRowsAtIndexPaths:reloadIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+//                }
             }
         }else if(type == __kItemViewModelType_MultiOption){//多选
             NSString *selcetedCode = dataModelFrame.modelCode;

@@ -12,9 +12,10 @@
 //试题内容面板成员变量
 @interface ItemContentPanel ()<UIScrollViewDelegate>{
     UIScrollView *_contentView;
-    NSUInteger _total,_pageIndex;
+    NSInteger _total,_pageIndex;
     CGFloat _pageWidth,_pageHeight;
     NSMutableArray *_panelArrays;
+    BOOL _isScroll;
 }
 @end
 
@@ -70,20 +71,30 @@
     }else{
         offset = _pageWidth * 0.1;
     }
-    //NSLog(@"offset===>%f",offset);
-    
-    CGFloat index = ((scrollView.contentOffset.x + offset)/ _pageWidth);
-    NSLog(@"scrollViewDidScroll->index:%f,%f",index,ceil(index));
-    NSInteger page = index;//ceil(index);
-    if(page != _pageIndex){
-        NSLog(@"scrollViewDidScroll => %d", (int)page);
+    CGFloat index = ((offsetX + offset)/ _pageWidth);
+    NSInteger page = index;
+    NSLog(@"scrollViewDidScroll => %d ----- 0", (int)page);
+    if(!_isScroll && page != _pageIndex && self.delegate){
+        _isScroll = YES;
+        NSLog(@"scrollViewDidScroll => %d ----- 1", (int)page);
+        if(page > _pageIndex){//下一个
+            if([self.delegate respondsToSelector:@selector(nextOfItemContentPanel)]){
+                [self.delegate nextOfItemContentPanel];
+            }
+        }else{//上一个
+            if([self.delegate respondsToSelector:@selector(previousOfItemContentPanel)]){
+                [self.delegate previousOfItemContentPanel];
+            }
+        }
         [self loadPanelItemData];
+        _isScroll = NO;
     }
 }
 //加载数据
 -(void)loadPanelItemData{
     //当前数据页码
     _pageIndex = [self loadCurrentPageIndex];
+    if(_pageIndex < 0 || _pageIndex > _total -1) return;
     //View索引
     NSUInteger row = _pageIndex % _panelArrays.count;
     NSLog(@"_panelArrays-index:%d",row);
@@ -107,6 +118,8 @@
     if(self.delegate && [self.delegate respondsToSelector:@selector(numbersOfItemContentPanel)]){
         _total = [self.delegate numbersOfItemContentPanel];
     }
+    //重置滚动范围
+    _contentView.contentSize = CGSizeMake(_pageWidth *_total, _pageHeight);
     //加载Panel数据
     [self loadPanelItemData];
     //设置可视范围

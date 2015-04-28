@@ -227,25 +227,13 @@
 
 //上一题
 -(void)btnPrevClick:(UIBarButtonItem *)sender{
-    _currentOrder--;
-    if(_currentOrder < 0){
-        _currentOrder = 0;
-        return;
-    }
-    //加载收藏数据
-    if(_btnFav)[_btnFav reloadData];
-     ///TODO:加载数据
+    [self previousOfItemContentPanel];
+    [_itemPanel loadData];
 }
 //下一题
 -(void)btnNextClick:(UIBarButtonItem *)sender{
-    _currentOrder++;
-    if(_currentOrder > _itemsTotals -1){
-        _currentOrder = _itemsTotals - 1;
-        return;
-    }
-    //加载收藏数据
-    if(_btnFav)[_btnFav reloadData];
-    ///TODO:加载数据
+    [self nextOfItemContentPanel];
+    [_itemPanel loadData];
 }
 
 #pragma mark SubmitBarItemDelegate
@@ -321,13 +309,24 @@
 }
 //上一题
 -(void)previousOfItemContentPanel{
-    NSLog(@"加载上一题...");
-    [self btnPrevClick:nil];
+    _currentOrder--;
+    if(_currentOrder < 0){
+        _currentOrder = 0;
+        return;
+    }
+    //加载收藏数据
+    if(_btnFav)[_btnFav reloadData];
 }
 //下一题
 -(void)nextOfItemContentPanel{
     NSLog(@"加载下一题...");
-    [self btnNextClick:nil];
+    _currentOrder++;
+    if(_currentOrder > _itemsTotals -1){
+        _currentOrder = _itemsTotals - 1;
+        return;
+    }
+    //加载收藏数据
+    if(_btnFav)[_btnFav reloadData];
 }
 //选中
 -(void)itemView:(ItemView *)itemView didSelectAtSelected:(ItemViewSelected *)selected{
