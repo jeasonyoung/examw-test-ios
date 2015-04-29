@@ -22,7 +22,7 @@
 //更新试卷记录
 -(BOOL)updatePaperRecord:(PaperRecord **)paperRecord;
 //交卷
--(void)subjectWithPaperRecord:(PaperRecord *)record;
+-(void)submitWithPaperRecord:(PaperRecord *)record;
 
 //加载最新的做题记录
 -(PaperItemRecord *)loadLastRecordWithPaperRecordCode:(NSString *)paperRecordCode;
@@ -39,7 +39,7 @@
 //是否存在试题记录
 -(BOOL)exitItemRecordWithPaperRecordCode:(NSString *)paperRecordCode ItemCode:(NSString *)itemCode atIndex:(NSInteger)index;
 //提交试题记录
--(void)subjectWithItemRecord:(PaperItemRecord *)itemRecord;
+-(void)submitWithItemRecord:(PaperItemRecord *)itemRecord;
 
 //检查试题收藏是否存在
 -(BOOL)exitFavoriteWithPaperCode:(NSString *)code ItemCode:(NSString *)itemCode atIndex:(NSInteger)index;

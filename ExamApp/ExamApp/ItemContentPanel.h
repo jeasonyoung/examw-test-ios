@@ -11,24 +11,29 @@
 
 
 //试题内容面板事件
-@protocol ItemContentPanelDelegate <ItemViewDelegate>
+@protocol ItemContentPanelDelegate <NSObject>
 @required
 //总数
 -(NSUInteger)numbersOfItemContentPanel;
-//当前
--(NSUInteger)currentOfItemContentPanel;
-//前一题
--(void)previousOfItemContentPanel;
-//下一题
--(void)nextOfItemContentPanel;
+//加载数据
+-(PaperItem *)dataWithItemView:(ItemView *)itemView atOrder:(NSUInteger)order;
+//选中答案
+-(void)itemView:(ItemView *)itemView didSelectAtSelected:(ItemViewSelected *)selected atOrder:(NSUInteger)order;
+@optional
+//加载试题索引
+-(NSUInteger)itemIndexWithItemView:(ItemView *)itemView atOrder:(NSUInteger)order;
+//加载试题序号
+-(NSString *)itemOrderTitleWithItemView:(ItemView *)itemView atOrder:(NSUInteger)order;
+//加载答案
+-(NSString *)answerWithItemView:(ItemView *)itemView atOrder:(NSUInteger)order atIndex:(NSUInteger)index;
+//是否显示答案
+-(BOOL)displayAnswerWithItemView:(ItemView *)itemView atOrder:(NSUInteger)order;
 @end
 
 //试题内容面板
 @interface ItemContentPanel : UIView
-//数据代理
-@property(nonatomic,assign)id<ItemViewDataSource> dataSource;
 //事件代理
 @property(nonatomic,assign)id<ItemContentPanelDelegate> delegate;
 //重新加载数据
--(void)loadData;
+-(void)loadDataAtOrder:(NSUInteger)order;
 @end

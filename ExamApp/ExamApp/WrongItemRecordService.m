@@ -128,6 +128,18 @@
 //    }
 //    return nil;
 //}
+
+#pragma mark 加载科目下的错题总数;
+-(NSUInteger)loadWrongsWithSubjectCode:(NSString *)subjectCode{
+    __block NSUInteger total = 0;
+    if(_dbQueue && subjectCode && subjectCode.length > 0){
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            PaperItemRecordDao *dao = [[PaperItemRecordDao alloc]initWithDb:db];
+            total = [dao totalWrongItemsWithSubjectCode:subjectCode];
+        }];
+    }
+    return total;
+}
 #pragma mark 加载错题答题卡
 -(void)loadSheetWithSubjectCode:(NSString *)subjectCode
                     SheetsBlock:(void (^)(NSString *, NSArray *))block{

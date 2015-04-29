@@ -17,17 +17,25 @@
 //试题选中结果实现
 @implementation ItemViewSelected
 #pragma mark 初始化
--(instancetype)initWithItemCode:(NSString *)itemCode itemIndex:(NSUInteger)index selectedCode:(NSString *)selectedCode{
+-(instancetype)initWithItemCode:(NSString *)itemCode itemType:(NSUInteger)type itemIndex:(NSUInteger)index
+                   selectedCode:(NSString *)selectedCode rightAnswers:(NSString *)rightAnswers
+                       itemJSON:(NSString *)json{
     if(self = [super init]){
         _itemCode = itemCode;
+        _itemType = type;
         _itemIndex = index;
         _selectedCode = selectedCode;
+        _rightAnswers = rightAnswers;
+        _itemJSON = json;
     }
     return  self;
 }
 #pragma mark 静态初始化
-+(instancetype)selectedWithItemCode:(NSString *)itemCode itemIndex:(NSUInteger)index selectedCode:(NSString *)selectedCode{
-    return [[self alloc]initWithItemCode:itemCode itemIndex:index selectedCode:selectedCode];
++(instancetype)selectedWithItemCode:(NSString *)itemCode itemType:(NSUInteger)type itemIndex:(NSUInteger)index
+                       selectedCode:(NSString *)selectedCode rightAnswers:(NSString *)rightAnswers
+                           itemJSON:(NSString *)json{
+    return [[self alloc]initWithItemCode:itemCode itemType:type itemIndex:index
+                            selectedCode:selectedCode rightAnswers:rightAnswers itemJSON:json];
 }
 @end
 
@@ -160,7 +168,7 @@
 #define __kItemViewModelFrame_iconRight @"option_single_right.png"//选项选对
 #define __kItemViewModelFrame_iconError @"option_single_error.png"//选项选错
 
-//#define __k_itemanswerview_borderColor 0x00E5EE//答案边框颜色
+
 #define __kItemViewModelFrame_analysisMyTitle @"我的回答:"//
 #define __kItemViewModelFrame_analysisMyFontColor 0x0000FF//答案颜色
 #define __kItemViewModelFrame_analysisMyTipFontColor 0xFFFAFA//字体颜色
@@ -171,8 +179,6 @@
 
 #define __kItemViewModelFrame_analysisRightTitle @"正确答案:"//
 #define __kItemViewModelFrame_analysisAnalysisTitle @"答案解析"//
-
-//#define __k_itemanswerview_analysis_bgColor 0xFFEFDB//背景色
 
 //试题UI数据模型Frame成员变量
 @interface ItemViewModelFrame (){
@@ -327,29 +333,32 @@
 //答案解析
 -(void)setupAnalysisWithWidth:(CGFloat)width OutY:(NSNumber **)outY{
     //我的答案
-    NSMutableString *myAnswer = [NSMutableString stringWithString:__kItemViewModelFrame_analysisMyTitle];
-    NSUInteger pos = myAnswer.length;
-    [myAnswer appendFormat:@"%@ ",(_data.myAnswer ? _data.myAnswer : @"")];
-    NSRange myAnswerRang = NSMakeRange(pos, myAnswer.length - pos);
-    pos = myAnswer.length;
+    NSMutableAttributedString *myAnswerAttri = [[NSMutableAttributedString alloc]initWithString:__kItemViewModelFrame_analysisMyTitle];
+    //我的答案前景色
+    NSString *my = (_data.myAnswer ? _data.myAnswer : @" ");
+    if(my && my.length > 0){
+        NSDictionary *attr = @{NSForegroundColorAttributeName:[UIColor colorWithHex:__kItemViewModelFrame_analysisMyFontColor]};
+        NSAttributedString *myAttri = [[NSAttributedString alloc]initWithString:my attributes:attr];
+        [myAnswerAttri appendAttributedString:myAttri];
+    }
     UIColor *bgColor;
+    NSString *myTip;
     if(_data.rightAnswer && _data.myAnswer && [NSStringUtils existContains:_data.rightAnswer subText:_data.myAnswer]){//答对
         bgColor = [UIColor colorWithHex:__kItemViewModelFrame_analysisMyTipRightbgColor];
-        [myAnswer appendString:__kItemViewModelFrame_analysisMyTipRight];
+        myTip = __kItemViewModelFrame_analysisMyTipRight;
     }else{//答错
         bgColor = [UIColor colorWithHex:__kItemViewModelFrame_analysisMyTipWrongbgColor];
-        [myAnswer appendString:__kItemViewModelFrame_analysisMyTipWrong];
+        myTip = __kItemViewModelFrame_analysisMyTipWrong;
     }
-    NSRange myAnswerTipRange = NSMakeRange(pos, myAnswer.length - pos);
-    NSMutableAttributedString *myAnswerAttri = [NSStringUtils toHtmlWithText:myAnswer];
+    if(myTip && bgColor){
+        //我的答案tip前景色
+        NSDictionary *attr = @{NSForegroundColorAttributeName:[UIColor colorWithHex:__kItemViewModelFrame_analysisMyTipFontColor],
+                                NSBackgroundColorAttributeName:bgColor};
+        NSAttributedString *myTipAttri = [[NSAttributedString alloc]initWithString:myTip attributes:attr];
+        [myAnswerAttri appendAttributedString:myTipAttri];
+    }
     //设置字体
     [myAnswerAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, myAnswerAttri.length)];
-    //我的答案前景色
-    [myAnswerAttri addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHex:__kItemViewModelFrame_analysisMyFontColor] range:myAnswerRang];
-    //我的答案tip前景色
-    [myAnswerAttri addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithHex:__kItemViewModelFrame_analysisMyTipFontColor] range:myAnswerTipRange];
-    //我的答案tip背景色
-    [myAnswerAttri addAttribute:NSBackgroundColorAttributeName value:bgColor range:myAnswerTipRange];
     //我的答案
     CGSize myAnswerAttriSize = [NSStringUtils boundingRectWithHtml:myAnswerAttri constrainedToWidth:width];
     _myAnswerFrame = CGRectMake(__kItemViewModelFrame_Left, (*outY).floatValue, width, myAnswerAttriSize.height);
@@ -377,7 +386,7 @@
     NSString *analysis = _data.content;
     NSMutableAttributedString *analysisAttri = [NSStringUtils toHtmlWithText:analysis];
     //设置字体
-    [analysisAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, analysis.length)];
+    [analysisAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, analysisAttri.length)];
     CGFloat analysisWidth = width - __kItemViewModelFrame_Margin;
     CGSize analysisSize = [NSStringUtils boundingRectWithHtml:analysisAttri constrainedToWidth:analysisWidth];
     _contentFrame = CGRectMake(__kItemViewModelFrame_Left + (__kItemViewModelFrame_Margin/2),
@@ -487,12 +496,15 @@
 }
 @end
 
+#define __kItemViewAnalysisCell_borderColor 0x00E5EE//答案边框颜色
+#define __kItemViewAnalysisCell_bgColor 0xFFEFDB//背景色
 //试题UI答案解析行
 @interface ItemViewAnalysisCell : ItemViewCell
 @end
 //试题UI答案解析行成员变量
 @interface ItemViewAnalysisCell(){
     UILabel *myAnswer,*rightAnswer,*analysisTitle,*analysis;
+    UIView *panel;
 }
 @end
 //试题UI答案解析行实现
@@ -504,28 +516,46 @@
         myAnswer = [[UILabel alloc]init];
         myAnswer.numberOfLines = 0;
         myAnswer.textAlignment = NSTextAlignmentLeft;
-        [self.contentView addSubview:myAnswer];
+        //[self.contentView addSubview:myAnswer];
         //正确答案
         rightAnswer = [[UILabel alloc]init];
         rightAnswer.numberOfLines = 0;
         rightAnswer.textAlignment = NSTextAlignmentLeft;
-        [self.contentView addSubview:rightAnswer];
+        //[self.contentView addSubview:rightAnswer];
         //答案解析标题
         analysisTitle = [[UILabel alloc]init];
         analysisTitle.numberOfLines = 0;
         analysisTitle.textAlignment = NSTextAlignmentLeft;
-        [self.contentView addSubview:analysisTitle];
+        //[self.contentView addSubview:analysisTitle];
         //答案解析内容
         analysis = [[UILabel alloc]init];
         analysis.numberOfLines = 0;
         analysis.textAlignment = NSTextAlignmentLeft;
-        [self.contentView addSubview:analysis];
+        //[self.contentView addSubview:analysis];
+        
+        //容器
+        panel = [[UIView alloc]init];
+        [panel addSubview:myAnswer];
+        [panel addSubview:rightAnswer];
+        [panel addSubview:analysisTitle];
+        [panel addSubview:analysis];
+        //设置
+        [UIViewUtils addBoundsRadiusWithView:panel
+                                 BorderColor:[UIColor colorWithHex:__kItemViewAnalysisCell_borderColor]
+                             BackgroundColor:[UIColor colorWithHex:__kItemViewAnalysisCell_bgColor]];
+        //
+        [self.contentView addSubview:panel];
     }
     return self;
 }
 #pragma mark 加载试题UI模型Frame
 -(void)loadModelFrame:(ItemViewModelFrame *)modelFrame{
     if(!modelFrame)return;
+    CGRect tempFrame = modelFrame.myAnswerFrame;
+    tempFrame.origin.x = tempFrame.origin.y = 1;
+    tempFrame.size.height = modelFrame.rowHeight - 1;
+    panel.frame = tempFrame;
+    
     //我的答案
     myAnswer.frame = modelFrame.myAnswerFrame;
     myAnswer.attributedText = modelFrame.myAnswerAttri;
@@ -555,8 +585,9 @@
     NSMutableArray *_dataArrays;
     ItemViewModel *_answerAnalysisModel;
     
+    PaperItemType _paperItemType;
     NSUInteger _itemIndex;
-    NSString *_myAnswers;
+    NSString *_myAnswers,*_rightAnswers;
     bool _dispalyeAnswer;
 }
 @end
@@ -589,9 +620,9 @@
     _tableView.frame = tempFrame;
 }
 #pragma mark 试题JSON集合
--(NSDictionary *)toItemJSON{
+-(NSString *)toItemJSON{
     if(_item){
-        return [_item serializeJSON];
+        return [_item serialize];
     }
     return nil;
 }
@@ -661,15 +692,22 @@
         if((_item = [self.dataSource dataWithItemView:self])){
             //设置试题ID
             _itemCode = _item.code;
+            //试题类型
+            _itemType = _item.type;
             //
             NSString *orderTitle;
             //题序标题
             if([self.dataSource respondsToSelector:@selector(itemOrderTitleWithItemView:)]){
                 orderTitle = [self.dataSource itemOrderTitleWithItemView:self];
             }
-            //我的答案
-            if([self.dataSource respondsToSelector:@selector(answerWithItemView:)]){
-                _myAnswers = [self.dataSource answerWithItemView:self];
+            //试题索引
+            _itemIndex = 0;
+            if(_itemType != (NSUInteger)PaperItemTypeShareTitle || _itemType != (NSUInteger)PaperItemTypeShareAnswer){
+                //非共享题加载我的答案
+                //我的答案
+                if([self.dataSource respondsToSelector:@selector(answerWithItemView:atIndex:)]){
+                    _myAnswers = [self.dataSource answerWithItemView:self atIndex:_itemIndex];
+                }
             }
             //是否显示答案
             if([self.dataSource respondsToSelector:@selector(displayAnswerWithItemView:)]){
@@ -677,8 +715,6 @@
             }else{
                 _dispalyeAnswer = NO;
             }
-            //试题索引
-            _itemIndex = 0;
             _answerAnalysisModel = nil;
             //加载试题内容数据
             [self createItemContentWithItem:_item options:nil isCreateTitle:YES orderTitle:orderTitle];
@@ -696,14 +732,18 @@
 -(void)createItemContentWithItem:(PaperItem *)item options:(NSArray *)options isCreateTitle:(BOOL)isCreateTitle
                       orderTitle:(NSString *)orderTitle{
     if(!item)return;
+    //试题正确答案
+    _rightAnswers = item.answer;
+    //答案解析
+    NSString *analysis = item.analysis;
     //试题题型
-    PaperItemType itemType = PaperItemTypeSingle;
+    _paperItemType = PaperItemTypeSingle;
     if((item.type >= (int)PaperItemTypeSingle) && (item.type <= (int)PaperItemTypeShareAnswer)){
-        itemType = (PaperItemType)item.type;
+        _paperItemType = (PaperItemType)item.type;
     }
     static NSString *optOrderRegex = @"([A-Z]\\.)";
     
-    switch (itemType){
+    switch (_paperItemType){
         case PaperItemTypeSingle://单选
         case PaperItemTypeMulty://多选
         case PaperItemTypeUncertain://不定向选
@@ -715,7 +755,7 @@
                 [_dataArrays addObject:[self createNormalTitleFrameWithType:type orderTitle:orderTitle content:item.content]];
             }
             //选项
-            type = ((itemType == PaperItemTypeSingle) ? __kItemViewModelType_SingleOption : __kItemViewModelType_MultiOption);
+            type = ((_paperItemType == PaperItemTypeSingle) ? __kItemViewModelType_SingleOption : __kItemViewModelType_MultiOption);
             if(!options || options.count == 0) options = item.children;
             
             NSMutableArray *myAnswerArrays = [NSMutableArray array],*rightAnswerArrays = [NSMutableArray array];
@@ -725,7 +765,7 @@
                     //初始化选项数据
                     ItemViewModelFrame *optFrame = [[ItemViewModelFrame alloc]init];
                     optFrame.data = [ItemViewModel modelWithType:type itemCode:opt.code content:opt.content
-                                                        myAnswer:_myAnswers rightAnswer:item.answer displayAnswer:_dispalyeAnswer];
+                                                        myAnswer:_myAnswers rightAnswer:_rightAnswers displayAnswer:_dispalyeAnswer];
                     //添加数据缓存
                     [_dataArrays addObject:optFrame];
                     
@@ -737,7 +777,7 @@
                         }
                     }
                     //正确答案处理
-                    if(item.answer && item.answer.length > 0 && [NSStringUtils existContains:item.answer subText:opt.code]){
+                    if(_rightAnswers && _rightAnswers.length > 0 && [NSStringUtils existContains:_rightAnswers subText:opt.code]){
                         NSString *optOrder = [NSStringUtils findFirstContent:opt.content regex:optOrderRegex];
                         if(optOrder && optOrder.length > 0){
                             [rightAnswerArrays addObject:[optOrder substringWithRange:NSMakeRange(0, 1)]];
@@ -748,7 +788,7 @@
             //答案解析
             _answerAnalysisModel = [ItemViewModel modelWithRightAnswer:[rightAnswerArrays componentsJoinedByString:@" "]
                                                               myAnswer:[myAnswerArrays componentsJoinedByString:@" "]
-                                                              analysis:item.analysis];
+                                                              analysis: analysis];
             break;
         }
         case PaperItemTypeJudge:{//判断题
@@ -771,7 +811,7 @@
                 myAnswer = content;
             }
             //正确答案
-            if(item.answer && [NSStringUtils existContains:item.answer subText:code]) {
+            if(_rightAnswers && [NSStringUtils existContains:_rightAnswers subText:code]) {
                 rightAnswer = content;
             }
             
@@ -788,17 +828,17 @@
                 myAnswer = content;
             }
             //正确答案
-            if(item.answer && [NSStringUtils existContains:item.answer subText:code]) {
+            if(_rightAnswers && [NSStringUtils existContains:_rightAnswers subText:code]) {
                 rightAnswer = content;
             }
             
             ItemViewModelFrame *wrongOptFrame = [[ItemViewModelFrame alloc]init];
             wrongOptFrame.data = [ItemViewModel modelWithType:type itemCode:code content:content myAnswer:_myAnswers
-                                                rightAnswer:item.answer displayAnswer:_dispalyeAnswer];
+                                                rightAnswer:_rightAnswers displayAnswer:_dispalyeAnswer];
             [_dataArrays addObject:wrongOptFrame];
             
             //答案解析
-            _answerAnalysisModel = [ItemViewModel modelWithRightAnswer:rightAnswer myAnswer:myAnswer analysis:item.analysis];
+            _answerAnalysisModel = [ItemViewModel modelWithRightAnswer:rightAnswer myAnswer:myAnswer analysis:analysis];
         
         }
         case PaperItemTypeQanda:{//问答题
@@ -809,7 +849,7 @@
                 [_dataArrays addObject:[self createNormalTitleFrameWithType:type orderTitle:orderTitle content:item.content]];
             }
             //答案解析
-            _answerAnalysisModel = [ItemViewModel modelWithRightAnswer:item.answer myAnswer:_myAnswers analysis:item.analysis];
+            _answerAnalysisModel = [ItemViewModel modelWithRightAnswer:_rightAnswers myAnswer:_myAnswers analysis:analysis];
             break;
         }
         case PaperItemTypeShareTitle:{//共享题干题
@@ -818,6 +858,11 @@
             if([self.dataSource respondsToSelector:@selector(itemIndexWithItemView:)]){
                 _itemIndex = [self.dataSource itemIndexWithItemView:self];
             }
+            //我的答案
+            if([self.dataSource respondsToSelector:@selector(answerWithItemView:atIndex:)]){
+                _myAnswers = [self.dataSource answerWithItemView:self atIndex:_itemIndex];
+            }
+            
             NSUInteger type = __kItemViewModelType_ShareTopTitle;
             //创建一级标题并添加到数据缓存
             [_dataArrays addObject:[self createTopTitleFrameWithType:type content:item.content]];
@@ -838,6 +883,10 @@
             //加载试题索引
             if([self.dataSource respondsToSelector:@selector(itemIndexWithItemView:)]){
                 _itemIndex = [self.dataSource itemIndexWithItemView:self];
+            }
+            //我的答案
+            if([self.dataSource respondsToSelector:@selector(answerWithItemView:atIndex:)]){
+                _myAnswers = [self.dataSource answerWithItemView:self atIndex:_itemIndex];
             }
             NSUInteger type = __kItemViewModelType_ShareTopTitle;
             //创建一级标题并添加到数据缓存
@@ -925,6 +974,7 @@
         }else{//答案解析
             cell = [[ItemViewAnalysisCell alloc]initWithReuseIdentifier:identifier];
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     //加载数据
     [cell loadModelFrame:dataModelFrame];
@@ -943,6 +993,11 @@
 #pragma mark UITableViewDelegate
 //选中
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    //显示答案时不可重新选择答案
+    if(_dispalyeAnswer){
+        NSLog(@"显示答案时不可重新选择答案...");
+        return;
+    }
     BOOL deselectedAnimated = NO;
     if(_dataArrays && indexPath.row < _dataArrays.count){
         ItemViewModelFrame *dataModelFrame = [_dataArrays objectAtIndex:indexPath.row];
@@ -972,10 +1027,9 @@
                     _answerAnalysisModel.myAnswer = _myAnswers;
                 }
                 //更新选项
-                [tableView reloadData];
-//                if(reloadIndexPaths.count > 0){
-//                    [tableView reloadRowsAtIndexPaths:reloadIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-//                }
+                if(reloadIndexPaths.count > 0){
+                    [tableView reloadRowsAtIndexPaths:reloadIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+                }
             }
         }else if(type == __kItemViewModelType_MultiOption){//多选
             NSString *selcetedCode = dataModelFrame.modelCode;
@@ -1018,6 +1072,7 @@
                             BOOL old = model.isSelected;
                             model.myAnswer = _myAnswers;
                             if(model.isSelected != old){//是否选中发生变化的
+                                optFrame.data = model;
                                 [reloadIndexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
                             }
                         }
@@ -1044,8 +1099,12 @@
 //触发选中事件
 -(void)itemViewSelectedOnSelected{
     if(_item && self.delegate && [self.delegate respondsToSelector:@selector(itemView:didSelectAtSelected:)]){
-        ItemViewSelected *selectedData = [ItemViewSelected selectedWithItemCode:_item.code itemIndex:_itemIndex
-                                                                   selectedCode:_myAnswers];
+        ItemViewSelected *selectedData = [ItemViewSelected selectedWithItemCode:_itemCode
+                                                                       itemType:(NSUInteger)_paperItemType
+                                                                      itemIndex:_itemIndex
+                                                                   selectedCode:_myAnswers
+                                                                   rightAnswers:_rightAnswers
+                                                                       itemJSON:[self toItemJSON]];
         [self.delegate itemView:self didSelectAtSelected:selectedData];
     }
 }

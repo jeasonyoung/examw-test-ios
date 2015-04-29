@@ -97,7 +97,7 @@
     return result;
 }
 #pragma mark 交卷
--(void)subjectWithPaperRecord:(PaperRecord *)record{
+-(void)submitWithPaperRecord:(PaperRecord *)record{
     if(_dbQueue && record && record.code && record.code.length > 0){
         __block PaperRecord *paperRecord = record;
         [_dbQueue inDatabase:^(FMDatabase *db) {
@@ -220,7 +220,7 @@
     return result;
 }
 #pragma mark 提交试题记录
--(void)subjectWithItemRecord:(PaperItemRecord *)itemRecord{
+-(void)submitWithItemRecord:(PaperItemRecord *)itemRecord{
     if(_dbQueue && itemRecord && itemRecord.itemCode && itemRecord.itemCode.length > 0 &&
        itemRecord.paperRecordCode && itemRecord.paperRecordCode.length > 0){
        

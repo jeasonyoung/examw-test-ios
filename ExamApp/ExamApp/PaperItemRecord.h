@@ -24,8 +24,6 @@
 #define __k_paperitemrecord_fields_sync @"sync"//同步标示
 
 #define __k_paperitemrecorddao_tableName  @"tbl_itemRecords"//数据库表名称
-
-//@class ItemContentSource;
 //做题记录
 @interface PaperItemRecord : NSObject<JSONSerialize>
 //做题记录ID
@@ -54,6 +52,4 @@
 @property(nonatomic,copy)NSDate *lastTime;
 //同步标示(0-未同步，1-已同步)
 @property(nonatomic,copy)NSNumber *sync;
-//转换为视图数据源
-//-(ItemContentSource *)toSourceAtOrder:(NSInteger)order;
 @end

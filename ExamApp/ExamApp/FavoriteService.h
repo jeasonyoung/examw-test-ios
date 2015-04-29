@@ -35,6 +35,8 @@
 //                       Block:(void(^)(SubjectData *subject,NSInteger favorites))block;
 ////根据科目ID获取科目名称
 //-(NSString *)loadSubjectNameWithSubjectCode:(NSString *)subjectCode;
+//加载科目下收藏的试题总数
+-(NSUInteger)loadFavoritesWithSubjectCode:(NSString *)subjectCode;
 //加载收藏答题卡
 -(void)loadSheetWithSubjectCode:(NSString *)subjectCode
                     SheetsBlock:(void(^)(NSString *itemTypeName,NSArray *sheets))block;

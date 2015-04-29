@@ -257,6 +257,7 @@
     //输出y
     *outY = [NSNumber numberWithFloat:((*outY).floatValue + height + __k_answersheetviewcontroller_margin_max)];
 }
+//定位题目
 -(void)itemAnswersheetClick:(UIButton *)sender{
     //NSLog(@"itemAnswersheetClick->tag:%ld ＝>%@",(long)sender.tag,_record);
     if(!_targetItemControoler){
@@ -271,8 +272,8 @@
         }
     }
     if(_targetItemControoler){
-       // [_targetItemControoler loadDataAtOrder:sender.tag andDisplayAnswer:NO];
-        //[self.navigationController popToViewController:_targetItemControoler animated:YES];
+        [_targetItemControoler loadDataAtOrder:sender.tag displayAnswer:NO];
+        [self.navigationController popToViewController:_targetItemControoler animated:YES];
     }
 }
 #pragma mark 内存告警

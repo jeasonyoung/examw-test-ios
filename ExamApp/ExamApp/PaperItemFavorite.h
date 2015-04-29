@@ -9,7 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "JSONSerialize.h"
 
-//@class ItemContentSource;
 //试题收藏字段定义
 #define __k_paperitemfavorite_fields_code @"id"//试题收藏ID
 #define __k_paperitemfavorite_fields_subjectCode @"subjectCode"//所属科目代码
@@ -42,6 +41,4 @@
 @property(nonatomic,copy)NSDate *createTime;
 //同步标示(0-未同步，1-已同步)
 @property(nonatomic,copy)NSNumber *sync;
-//转换为数据源
-//-(ItemContentSource *)toSourceAtOrder:(NSInteger)order;
 @end

@@ -129,6 +129,17 @@
 //    }
 //    return nil;
 //}
+#pragma mark 加载科目下收藏的试题总数
+-(NSUInteger)loadFavoritesWithSubjectCode:(NSString *)subjectCode{
+    __block NSUInteger totals = 0;
+    if(_dbQueue && subjectCode && subjectCode.length > 0){
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            PaperItemFavoriteDao *dao =[[PaperItemFavoriteDao alloc]initWithDb:db];
+            totals = [dao totalWithSubjectCode:subjectCode];
+        }];
+    }
+    return totals;
+}
 #pragma mark 加载收藏答题卡
 -(void)loadSheetWithSubjectCode:(NSString *)subjectCode SheetsBlock:(void (^)(NSString *, NSArray *))block{
     if(_dbQueue && block && subjectCode && subjectCode.length > 0){

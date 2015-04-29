@@ -29,6 +29,8 @@
 //                               Data:(void(^)(SubjectData *subject,NSInteger wrongs))block;
 ////根据科目ID获取科目名称
 //-(NSString*)loadSubjectNameWithSubjectCode:(NSString *)subjectCode;
+//加载科目下的错题总数
+-(NSUInteger)loadWrongsWithSubjectCode:(NSString *)subjectCode;
 //加载错题答题卡
 -(void)loadSheetWithSubjectCode:(NSString *)subjectCode
                     SheetsBlock:(void(^)(NSString *itemTypeName,NSArray *sheets))block;

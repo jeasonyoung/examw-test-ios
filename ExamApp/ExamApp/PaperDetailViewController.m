@@ -194,6 +194,7 @@
             default:
                 break;
         }
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     [cell loadModelFrame:modelFrame];
     return cell;
