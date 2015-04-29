@@ -58,6 +58,8 @@
         CGRect tempFrame = CGRectMake(_pageWidth * i, 0, _pageWidth, _pageHeight);
         
         ItemView *itemPanel = [[ItemView alloc]initWithFrame:tempFrame];
+        itemPanel.dataSource = self;
+        itemPanel.delegate = self;
         [_contentView addSubview:itemPanel];
         [_panelArrays addObject:itemPanel];
     }
@@ -65,6 +67,7 @@
 
 #pragma mark UIScrollViewDelegate
 -(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+   // NSLog(@"1--------%s",__func__);
     //如果正在加载数据则忽略滚动
     if(_isLoading)return;
     //计算滚动边界偏移量
@@ -82,27 +85,34 @@
         _isLoading = YES;
         //当前页码赋值
         _pageIndex = index;
-        //后台线程加载数据
-        [self performSelectorInBackground:@selector(loadPanelItemDataWithPageIndex:)
-                               withObject:[NSNumber numberWithInteger:_pageIndex]];
+        //加载数据
+        NSLog(@"2--------%s",__func__);
+        [self loadPanelItemDataWithPageIndex:_pageIndex];
+        
     }
 }
 //加载数据
--(void)loadPanelItemDataWithPageIndex:(NSNumber *)index {
+-(void)loadPanelItemDataWithPageIndex:(NSUInteger)index {
     //View索引
     NSUInteger row = _pageIndex % _panelArrays.count;
     NSLog(@"_panelArrays-index:%d",row);
     //加载ItemPanel
     ItemView *itemPanel = [_panelArrays objectAtIndex:row];
     if(itemPanel){
-        itemPanel.dataSource = self;
-        itemPanel.delegate = self;
-        //
+        //开启等待动画
+        [itemPanel showWait];
+        
         CGRect tempFrame = itemPanel.frame;
         tempFrame.origin.x = _pageIndex * _pageWidth;
         itemPanel.frame = tempFrame;
         //加载数据
+        NSLog(@"4--------%s",__func__);
         [itemPanel loadData];
+        NSLog(@"5--------%s",__func__);
+        
+        //关闭等待动画
+        [itemPanel hideWait];
+        
         //数据加载完毕
         _isLoading = NO;
     }
@@ -123,7 +133,7 @@
     //重置滚动范围
     _contentView.contentSize = CGSizeMake(_pageWidth *_total, _pageHeight);
     //加载Panel数据
-    [self loadPanelItemDataWithPageIndex:[NSNumber numberWithInteger:_pageIndex]];
+    [self loadPanelItemDataWithPageIndex:_pageIndex];
     //设置可视范围
     CGPoint p = CGPointZero;
     p.x = _pageWidth * _pageIndex;

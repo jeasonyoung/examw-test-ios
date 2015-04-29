@@ -13,6 +13,7 @@
 
 #import "NSStringUtils.h"
 #import "UIViewUtils.h"
+#import "WaitForAnimation.h"
 
 //试题选中结果实现
 @implementation ItemViewSelected
@@ -577,6 +578,8 @@
 #define __kItemView_cellAnalysisPrefix @"3"//cell解析前缀
 
 #define __kItemView_cellIdentifierFormat @"cell_%@"//
+
+#define __kItemView_waittingMsg @"加载中..."
 //试题UI成员变量
 @interface ItemView (){
     UITableView *_tableView;
@@ -589,6 +592,8 @@
     NSUInteger _itemIndex;
     NSString *_myAnswers,*_rightAnswers;
     bool _dispalyeAnswer;
+    
+    WaitForAnimation *_waitFor;
 }
 @end
 //试题UI实现
@@ -609,15 +614,25 @@
         //隐藏纵向滚动条
         _tableView.showsVerticalScrollIndicator = NO;
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        //初始化等待动画
+        _waitFor = [[WaitForAnimation alloc]initWithView:self WaitTitle:__kItemView_waittingMsg];
     }
     return self;
 }
-#pragma mark 设置Frame
--(void)setFrame:(CGRect)frame{
-    [super setFrame:frame];
-    CGRect tempFrame = _tableView.frame;
-    tempFrame.size = frame.size;
-    _tableView.frame = tempFrame;
+//#pragma mark 设置Frame
+//-(void)setFrame:(CGRect)frame{
+//    [super setFrame:frame];
+//    CGRect tempFrame = _tableView.frame;
+//    tempFrame.size = frame.size;
+//    _tableView.frame = tempFrame;
+//}
+#pragma mark 开启等待动画
+-(void)showWait{
+    if(_waitFor)[_waitFor show];
+}
+#pragma mark 关闭等待动画
+-(void)hideWait{
+    if(_waitFor)[_waitFor hide];
 }
 #pragma mark 试题JSON集合
 -(NSString *)toItemJSON{

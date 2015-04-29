@@ -64,6 +64,10 @@
 @property(nonatomic,assign)id<ItemViewDataSource> dataSource;
 //事件代理
 @property(nonatomic,assign)id<ItemViewDelegate> delegate;
+//开启等待动画
+-(void)showWait;
+//关闭等待动画
+-(void)hideWait;
 //试题JSON集合
 -(NSString *)toItemJSON;
 //重新加载数据
