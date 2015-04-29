@@ -95,7 +95,7 @@
 -(void)loadPanelItemDataWithPageIndex:(NSUInteger)index {
     //View索引
     NSUInteger row = _pageIndex % _panelArrays.count;
-    NSLog(@"_panelArrays-index:%d",row);
+    NSLog(@"_panelArrays-index:%d",(int)row);
     //加载ItemPanel
     ItemView *itemPanel = [_panelArrays objectAtIndex:row];
     if(itemPanel){

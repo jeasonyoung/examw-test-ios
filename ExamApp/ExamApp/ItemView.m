@@ -150,12 +150,12 @@
 //设置模型数据
 @property(nonatomic,copy)ItemViewModel *data;
 @end
-#define __kItemViewModelFrame_Top 5//顶部间隔
-#define __kItemViewModelFrame_Bottom 5//底部间隔
+#define __kItemViewModelFrame_Top 10//顶部间隔
+#define __kItemViewModelFrame_Bottom 10//底部间隔
 #define __kItemViewModelFrame_Left 5//左边间隔
 #define __kItemViewModelFrame_Right 5//右边间隔
 #define __kItemViewModelFrame_Margin 5//内部间隔
-#define __kItemViewModelFrame_fontSize 14//字体尺寸
+#define __kItemViewModelFrame_fontSize 16//字体尺寸
 //#define __kItemViewModelFrame_fontColor 0x000000//默认字体颜色
 #define __kItemViewModelFrame_rightFontColor 0x00FF00//做对
 #define __kItemViewModelFrame_errorFontColor 0xFF0000//做错
@@ -179,7 +179,7 @@
 #define __kItemViewModelFrame_analysisMyTipWrongbgColor 0xFF0000//背景色
 
 #define __kItemViewModelFrame_analysisRightTitle @"正确答案:"//
-#define __kItemViewModelFrame_analysisAnalysisTitle @"答案解析"//
+#define __kItemViewModelFrame_analysisAnalysisTitle @"答案解析:"//
 
 //试题UI数据模型Frame成员变量
 @interface ItemViewModelFrame (){
@@ -192,6 +192,7 @@
 -(instancetype)init{
     if(self = [super init]){
         _font = [UIFont systemFontOfSize:__kItemViewModelFrame_fontSize];
+        //_font = [UIFont fontWithName:@"AppleGothic" size:__kItemViewModelFrame_fontSize];
     }
     return self;
 }
@@ -226,6 +227,7 @@
             }
             case __kItemViewModelType_AnswerAnalysis:{//答案解析
                 [self setupAnalysisWithWidth:width OutY:&outY];
+                outY = [NSNumber numberWithFloat:(outY.floatValue +  __kItemViewModelFrame_Bottom)];
                 break;
             }
             default:
@@ -239,14 +241,9 @@
 -(void)setupNormalTitleWithWidth:(CGFloat)width OutY:(NSNumber **)outY{
     NSMutableString *titleContent = [NSMutableString string];
     if(_data.title && _data.title.length > 0){
-        [titleContent appendFormat:@"%@ ",_data.title];
+        [titleContent appendFormat:@"%@. ",_data.title];
     }
     [titleContent appendString:_data.content];
-//    if(title && ![NSStringUtils existContains:content subText:title]){
-//        NSString *contentText = [NSStringUtils replaceFirstContent:content regex:@"([1-9]+\\.)" target:@""];
-//        title = [NSString stringWithFormat:@"%@ %@",title, contentText];
-//        NSLog(@"setupNormalTitleWithWidth=>%@",title);
-//    }
     [self setupTitleWithTitle:titleContent Width:width OutY:outY];
 }
 //创建共享一级标题
@@ -384,7 +381,7 @@
     _analysisTitleAttri = analysisTitleAttri;
     
     //答案解析
-    NSString *analysis = _data.content;
+    NSString *analysis = [NSString stringWithFormat:@"  %@", _data.content];
     NSMutableAttributedString *analysisAttri = [NSStringUtils toHtmlWithText:analysis];
     //设置字体
     [analysisAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, analysisAttri.length)];
@@ -428,9 +425,9 @@
 //试题UI标题行
 @interface ItemViewTitleCell : ItemViewCell
 @end
-#define __kItemViewTitleCell_titlebgColor 0xC9F28C//试题标题边框颜色
-#define __kItemViewTitleCell_cornerRadius 5//圆角曲度
-#define __kItemViewTitleCell_borderWidth 0.2//边线宽度
+//#define __kItemViewTitleCell_titlebgColor 0xC9F28C//试题标题边框颜色
+//#define __kItemViewTitleCell_cornerRadius 5//圆角曲度
+//#define __kItemViewTitleCell_borderWidth 0.2//边线宽度
 @interface ItemViewTitleCell (){
     UILabel *_content;
 }
@@ -442,12 +439,12 @@
         _content = [[UILabel alloc]init];
         _content.numberOfLines = 0;
         _content.textAlignment = NSTextAlignmentLeft;
-        UIColor *bgColor = [UIColor colorWithHex:__kItemViewTitleCell_titlebgColor];
-        [UIViewUtils addBoundsRadiusWithView:_content
-                                CornerRadius:__kItemViewTitleCell_cornerRadius
-                                 BorderColor:bgColor
-                                 BorderWidth:__kItemViewTitleCell_borderWidth
-                             BackgroundColor:bgColor];
+//        UIColor *bgColor = [UIColor colorWithHex:__kItemViewTitleCell_titlebgColor];
+//        [UIViewUtils addBoundsRadiusWithView:_content
+//                                CornerRadius:__kItemViewTitleCell_cornerRadius
+//                                 BorderColor:bgColor
+//                                 BorderWidth:__kItemViewTitleCell_borderWidth
+//                             BackgroundColor:bgColor];
         [self.contentView addSubview:_content];
     }
     return self;
@@ -497,8 +494,8 @@
 }
 @end
 
-#define __kItemViewAnalysisCell_borderColor 0x00E5EE//答案边框颜色
-#define __kItemViewAnalysisCell_bgColor 0xFFEFDB//背景色
+#define __kItemViewAnalysisCell_borderColor 0xCCCCCC//答案边框颜色
+#define __kItemViewAnalysisCell_bgColor 0xfefefe//背景色
 //试题UI答案解析行
 @interface ItemViewAnalysisCell : ItemViewCell
 @end
@@ -553,8 +550,8 @@
 -(void)loadModelFrame:(ItemViewModelFrame *)modelFrame{
     if(!modelFrame)return;
     CGRect tempFrame = modelFrame.myAnswerFrame;
-    tempFrame.origin.x = tempFrame.origin.y = 1;
-    tempFrame.size.height = modelFrame.rowHeight - 1;
+    //tempFrame.origin.x = tempFrame.origin.y = 1;
+    tempFrame.size.height = CGRectGetMaxY(modelFrame.contentFrame)+2;
     panel.frame = tempFrame;
     
     //我的答案
@@ -613,6 +610,7 @@
         _tableView.showsHorizontalScrollIndicator = NO;
         //隐藏纵向滚动条
         _tableView.showsVerticalScrollIndicator = NO;
+        //隐藏分割线
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         //初始化等待动画
         _waitFor = [[WaitForAnimation alloc]initWithView:self WaitTitle:__kItemView_waittingMsg];
