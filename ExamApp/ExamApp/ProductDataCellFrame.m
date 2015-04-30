@@ -5,7 +5,7 @@
 //  Created by jeasonyoung on 15/4/15.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
-
+#import "AppConstants.h"
 #import "ProductDataCellFrame.h"
 #import "ProductData.h"
 
@@ -20,8 +20,8 @@
 #define __kProductDataCellFrame_marginMin 3//
 #define __kProductDataCellFrame_marginMax 10//
 
-#define __kProductDataCellFrame_productFontSize 13//标题字体
-#define __kProductDataCellFrame_fontSize 12//内容字体
+#define __kProductDataCellFrame_productFontSize __kAppConstants_fontSize//标题字体
+#define __kProductDataCellFrame_fontSize (__kAppConstants_fontSize-2)//内容字体
 
 #define __kProductDataCellFrame_area @"所属地区:%@"//所属地区
 #define __kProductDataCellFrame_price @"原价:%.1f"//

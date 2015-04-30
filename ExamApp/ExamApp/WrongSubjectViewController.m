@@ -5,7 +5,7 @@
 //  Created by jeasonyoung on 15/3/27.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
-
+#import "AppConstants.h"
 #import "WrongSubjectViewController.h"
 
 #import "WaitForAnimation.h"
@@ -116,6 +116,7 @@
         if(!cell){
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle
                                          reuseIdentifier:__kWrongSubjectViewController_cellIdentifier];
+            cell.textLabel.font = [UIFont systemFontOfSize:__kAppConstants_fontSize];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         SubjectCell *data = [wrongsCache objectAtIndex:indexPath.row];

@@ -26,6 +26,7 @@
     if(!text)return nil;
     NSString *contentText = [self replaceAllContent:text regex:@"(<(/)?p>)" target:@""];
     NSData *textData = [contentText dataUsingEncoding:NSUnicodeStringEncoding allowLossyConversion:YES];
+        
     NSDictionary *options = @{NSDocumentTypeDocumentAttribute : NSHTMLTextDocumentType};
     NSError *err;
     NSMutableAttributedString *textAttri = [[NSMutableAttributedString alloc]initWithData:textData

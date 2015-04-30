@@ -368,6 +368,7 @@
 		A1B1C42B1AC23F020018741B /* LearnRecordService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LearnRecordService.m; sourceTree = "<group>"; };
 		A1B3A4DE1AECE96C00BA5259 /* PaperDetailViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperDetailViewCell.h; sourceTree = "<group>"; };
 		A1B3A4DF1AECE96C00BA5259 /* PaperDetailViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperDetailViewCell.m; sourceTree = "<group>"; };
+		A1BAECD81AF1F32A0052FB34 /* AppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConstants.h; sourceTree = "<group>"; };
 		A1C3B7611A75DB5F006EA38F /* DefaultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DefaultViewController.h; sourceTree = "<group>"; };
 		A1C3B7621A75DB5F006EA38F /* DefaultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DefaultViewController.m; sourceTree = "<group>"; };
 		A1C3B7671A75ED34006EA38F /* coming_soon.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = coming_soon.jpg; sourceTree = "<group>"; };
@@ -510,6 +511,7 @@
 			children = (
 				A1910E6F1A6D3AC800377160 /* AppDelegate.h */,
 				A1910E701A6D3AC800377160 /* AppDelegate.m */,
+				A1BAECD81AF1F32A0052FB34 /* AppConstants.h */,
 				A1510F811A6DEF4C00FE59A9 /* LaunchViewController.h */,
 				A1510F821A6DEF4C00FE59A9 /* LaunchViewController.m */,
 				A1ED101E1A6F80BA004DAD90 /* MainViewController.h */,

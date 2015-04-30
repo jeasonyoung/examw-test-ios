@@ -5,7 +5,7 @@
 //  Created by jeasonyoung on 15/3/20.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
-
+#import "AppConstants.h"
 #import "FavoriteSubjectViewController.h"
 
 #import "SubjectData.h"
@@ -20,11 +20,7 @@
 #define __kFavoriteSubjectViewController_title @"我的收藏"
 #define __kFavoriteSubjectViewController_waiting @"加载中..."
 
-//#define __kFavoriteSubjectViewController_more @"加载更多..."
-
 #define __kFavoriteSubjectViewController_cellIdentifier @"row_cell"//
-//#define __kFavoriteSubjectViewController_moreIdentifier @"row_more"//
-
 #define __kFavoriteSubjectViewController_cellDetail @"已收藏%d题"
 
 #define __kFavoriteSubjectViewController_fristPageIndex 1//
@@ -34,7 +30,6 @@
     FavoriteService *_service;
     NSArray *_examSectionCache;
     NSMutableDictionary *_subjectFavoriteCache,*_currentPageIndexCache;
-    //WaitForAnimation *_wattingAnimation;
 }
 @end
 //收藏科目列表实现
@@ -56,8 +51,6 @@
     _tableView.dataSource = self;
     _tableView.delegate = self;
     [self.view addSubview:_tableView];
-    //初始化等待动画
-    //_wattingAnimation = [[WaitForAnimation alloc]initWithView:self.view WaitTitle:__kFavoriteSubjectViewController_waiting];
 }
 
 #pragma mark UITableViewDataSource
@@ -121,6 +114,7 @@
         if(!cell){
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleSubtitle
                                          reuseIdentifier:__kFavoriteSubjectViewController_cellIdentifier];
+            cell.textLabel.font = [UIFont systemFontOfSize:__kAppConstants_fontSize];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
         SubjectCell *data = [favoritesCache objectAtIndex:indexPath.row];

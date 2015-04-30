@@ -5,7 +5,7 @@
 //  Created by jeasonyoung on 15/4/16.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
-
+#import "AppConstants.h"
 #import "LearnRecordCellData.h"
 #import "LearnRecord.h"
 
@@ -19,7 +19,7 @@
 
 #define __kLearnRecordCellData_margin 5//
 
-#define __kLearnRecordCellData_titleFontSize 13//标题字体大小
+#define __kLearnRecordCellData_titleFontSize 14//__kAppConstants_fontSize//标题字体大小
 
 #define __kLearnRecordCellData_imgWith 60//96
 #define __kLearnRecordCellData_imgHeight 60//96
@@ -29,8 +29,6 @@
 #define __kLearnRecordCellData_scoreFormate @"得分:%.1f"//
 
 #define __kLearnRecordCellData_lastTimeFormate @"yyyy-MM-dd HH:mm:ss"//
-
-//#define __kLearnRecordCellData_width 320//默认屏幕宽度
 
 //学习记录数据列表模型成员变量
 @interface LearnRecordCellData (){
@@ -42,6 +40,7 @@
 #pragma mark 重构初始化
 -(instancetype)init{
     if(self = [super init]){
+        //_font = [UIFont systemFontOfSize:__kAppConstants_fontSize];
         _font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
     }
     return self;

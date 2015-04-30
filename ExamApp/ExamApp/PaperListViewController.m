@@ -5,6 +5,7 @@
 //  Created by jeasonyoung on 15/3/1.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
+#import "AppConstants.h"
 
 #import "PaperListViewController.h"
 #import "UIViewController+VisibleView.h"
@@ -25,7 +26,7 @@
 #define __kPaperListViewController_marginMin 2//控件之间的最小间距
 #define __kPaperListViewController_segmentHeight 30//高度
 
-#define __kPaperListViewController_fontSize 13//字体大小
+#define __kPaperListViewController_fontSize __kAppConstants_fontSize//字体大小
 
 #define __kPaperListViewController_title @"试卷详情"
 #define __kPaperListViewController_waiting @"加载数据..."

@@ -5,6 +5,7 @@
 //  Created by jeasonyoung on 15/4/23.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
+#import "AppConstants.h"
 
 #import "ItemView.h"
 #import "PaperReview.h"
@@ -150,12 +151,12 @@
 //设置模型数据
 @property(nonatomic,copy)ItemViewModel *data;
 @end
-#define __kItemViewModelFrame_Top 10//顶部间隔
-#define __kItemViewModelFrame_Bottom 10//底部间隔
+#define __kItemViewModelFrame_Top 5//顶部间隔
+#define __kItemViewModelFrame_Bottom 5//底部间隔
 #define __kItemViewModelFrame_Left 5//左边间隔
 #define __kItemViewModelFrame_Right 5//右边间隔
 #define __kItemViewModelFrame_Margin 5//内部间隔
-#define __kItemViewModelFrame_fontSize 16//字体尺寸
+#define __kItemViewModelFrame_fontSize __kAppConstants_fontSize//字体尺寸
 //#define __kItemViewModelFrame_fontColor 0x000000//默认字体颜色
 #define __kItemViewModelFrame_rightFontColor 0x00FF00//做对
 #define __kItemViewModelFrame_errorFontColor 0xFF0000//做错
@@ -184,6 +185,7 @@
 //试题UI数据模型Frame成员变量
 @interface ItemViewModelFrame (){
     UIFont *_font;
+    NSMutableParagraphStyle *_paragraphStyle;
 }
 @end
 //试题UI数据模型Frame实现
@@ -192,7 +194,9 @@
 -(instancetype)init{
     if(self = [super init]){
         _font = [UIFont systemFontOfSize:__kItemViewModelFrame_fontSize];
-        //_font = [UIFont fontWithName:@"AppleGothic" size:__kItemViewModelFrame_fontSize];
+        //_font = [UIFont fontWithName:@"CourierNewPSMT" size:__kItemViewModelFrame_fontSize];
+        _paragraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        _paragraphStyle.minimumLineHeight = __kItemViewModelFrame_fontSize + 3;
     }
     return self;
 }
@@ -255,7 +259,9 @@
 -(void)setupTitleWithTitle:(NSString *)title Width:(CGFloat)width OutY:(NSNumber **)outY{
     if(!title || title.length == 0)return;
     NSMutableAttributedString *titleAttri = [NSStringUtils toHtmlWithText:title];
-    [titleAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, titleAttri.length)];
+    NSRange allRange = NSMakeRange(0, titleAttri.length);
+    [titleAttri addAttribute:NSFontAttributeName value:_font range:allRange];
+    [titleAttri addAttribute:NSParagraphStyleAttributeName value:_paragraphStyle range:allRange];
     _contentAttri = titleAttri;
     
     CGSize titleAttriSize = [NSStringUtils boundingRectWithHtml:titleAttri constrainedToWidth:width];
@@ -292,6 +298,7 @@
     NSRange contentRange = NSMakeRange(0, contentAttri.length);
     
     [contentAttri addAttribute:NSFontAttributeName value:_font range:contentRange];
+    [contentAttri addAttribute:NSParagraphStyleAttributeName value:_paragraphStyle range:contentRange];
     if(_data.isSelected){//选中
         if(_data.displayAnswer && _data.rightAnswer){//显示对错
             BOOL isRight = [NSStringUtils existContains:_data.rightAnswer subText:_data.code];
@@ -355,8 +362,11 @@
         NSAttributedString *myTipAttri = [[NSAttributedString alloc]initWithString:myTip attributes:attr];
         [myAnswerAttri appendAttributedString:myTipAttri];
     }
+    NSRange allRange = NSMakeRange(0, myAnswerAttri.length);
     //设置字体
-    [myAnswerAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, myAnswerAttri.length)];
+    [myAnswerAttri addAttribute:NSFontAttributeName value:_font range:allRange];
+    //设置行高
+    [myAnswerAttri addAttribute:NSParagraphStyleAttributeName value:_paragraphStyle range:allRange];
     //我的答案
     CGSize myAnswerAttriSize = [NSStringUtils boundingRectWithHtml:myAnswerAttri constrainedToWidth:width];
     _myAnswerFrame = CGRectMake(__kItemViewModelFrame_Left, (*outY).floatValue, width, myAnswerAttriSize.height);
@@ -365,8 +375,11 @@
     //正确答案
     NSString *rightAnswer = [NSString stringWithFormat:@"%@ %@",__kItemViewModelFrame_analysisRightTitle,(_data.rightAnswer ? _data.rightAnswer : @"")];
     NSMutableAttributedString *rightAnswerAttri = [NSStringUtils toHtmlWithText:rightAnswer];
+    allRange = NSMakeRange(0, rightAnswer.length);
     //设置字体
-    [rightAnswerAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, rightAnswer.length)];
+    [rightAnswerAttri addAttribute:NSFontAttributeName value:_font range:allRange];
+    //设置行高
+    [rightAnswerAttri addAttribute:NSParagraphStyleAttributeName value:_paragraphStyle range:allRange];
     CGSize rightAnswerSize = [NSStringUtils boundingRectWithHtml:rightAnswerAttri constrainedToWidth:width];
     _rightAnswerFrame = CGRectMake(__kItemViewModelFrame_Left, CGRectGetMaxY(_myAnswerFrame) + __kItemViewModelFrame_Margin, width, rightAnswerSize.height);
     _rightAnswerAttri = rightAnswerAttri;
@@ -374,8 +387,11 @@
     //答案解析标题
     NSString *analysisTitle = __kItemViewModelFrame_analysisAnalysisTitle;
     NSMutableAttributedString *analysisTitleAttri = [NSStringUtils toHtmlWithText:analysisTitle];
+    allRange = NSMakeRange(0, analysisTitleAttri.length);
     //设置字体
-    [analysisTitleAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, analysisTitle.length)];
+    [analysisTitleAttri addAttribute:NSFontAttributeName value:_font range:allRange];
+    //设置行高
+    [analysisTitleAttri addAttribute:NSParagraphStyleAttributeName value:_paragraphStyle range:allRange];
     CGSize analysisTitleSize = [NSStringUtils boundingRectWithHtml:analysisTitleAttri constrainedToWidth:width];
     _analysisTitleFrame = CGRectMake(__kItemViewModelFrame_Left, CGRectGetMaxY(_rightAnswerFrame) + __kItemViewModelFrame_Margin, width, analysisTitleSize.height);
     _analysisTitleAttri = analysisTitleAttri;
@@ -383,8 +399,15 @@
     //答案解析
     NSString *analysis = [NSString stringWithFormat:@"  %@", _data.content];
     NSMutableAttributedString *analysisAttri = [NSStringUtils toHtmlWithText:analysis];
+    allRange = NSMakeRange(0, analysisAttri.length);
     //设置字体
-    [analysisAttri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, analysisAttri.length)];
+    [analysisAttri addAttribute:NSFontAttributeName value:_font range:allRange];
+    //设置行高
+    NSMutableParagraphStyle *analyBody = [_paragraphStyle mutableCopy];
+    analyBody.firstLineHeadIndent = __kItemViewModelFrame_fontSize + 10;
+    [analysisAttri addAttribute:NSParagraphStyleAttributeName value:analyBody range:allRange];
+    //设置字间距
+    //[analysisAttri addAttribute:NSKernAttributeName value:@1 range:allRange];
     CGFloat analysisWidth = width - __kItemViewModelFrame_Margin;
     CGSize analysisSize = [NSStringUtils boundingRectWithHtml:analysisAttri constrainedToWidth:analysisWidth];
     _contentFrame = CGRectMake(__kItemViewModelFrame_Left + (__kItemViewModelFrame_Margin/2),

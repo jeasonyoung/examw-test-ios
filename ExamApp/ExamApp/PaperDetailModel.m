@@ -5,6 +5,7 @@
 //  Created by jeasonyoung on 15/4/25.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
+#import "AppConstants.h"
 
 #import "PaperDetailModel.h"
 #import "NSStringUtils.h"
@@ -30,7 +31,7 @@
 #define __kPaperDetailModelFrame_left 5//左边间距
 #define __kPaperDetailModelFrame_right 5//右边间距
 #define __kPaperDetailModelFrame_bottom 5//底部间距
-#define __kPaperDetailModelFrame_fontSize 14//标题字体大小
+#define __kPaperDetailModelFrame_fontSize __kAppConstants_fontSize//标题字体大小
 
 #define __kPaperDetailModelFrame_btnHeight 30//按钮高度
 //试卷明细数据模型Frame实现

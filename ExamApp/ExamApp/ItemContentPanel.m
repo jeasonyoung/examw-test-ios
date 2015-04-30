@@ -66,8 +66,9 @@
 }
 
 #pragma mark UIScrollViewDelegate
--(void)scrollViewDidScroll:(UIScrollView *)scrollView{
-   // NSLog(@"1--------%s",__func__);
+//滚动中
+-(void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView{
+//-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
     //如果正在加载数据则忽略滚动
     if(_isLoading)return;
     //计算滚动边界偏移量
@@ -78,9 +79,9 @@
         offset = _pageWidth * 0.1;
     }
     NSInteger index = ((offsetX + offset)/ _pageWidth);
-    NSLog(@"scrollViewDidScroll => %d ----- 0", (int)index);
+    //NSLog(@"scrollViewDidScroll => %d ----- 0", (int)index);
     if(index >= 0 && index < _total && index != _pageIndex){
-        NSLog(@"scrollViewDidScroll => %d ----- 1", (int)index);
+        //NSLog(@"scrollViewDidScroll => %d ----- 1", (int)index);
         //开始加载数据
         _isLoading = YES;
         //当前页码赋值
@@ -88,7 +89,6 @@
         //加载数据
         NSLog(@"2--------%s",__func__);
         [self loadPanelItemDataWithPageIndex:_pageIndex];
-        
     }
 }
 //加载数据
@@ -182,6 +182,12 @@
 -(void)itemView:(ItemView *)itemView didSelectAtSelected:(ItemViewSelected *)selected{
     if(self.delegate && [self.delegate respondsToSelector:@selector(itemView:didSelectAtSelected:atOrder:)]){
         [self.delegate itemView:itemView didSelectAtSelected:selected atOrder:_pageIndex];
+    }
+}
+#pragma mark 内存释放
+-(void)dealloc{
+    if(_contentView){
+        _contentView.delegate = nil;
     }
 }
 @end
