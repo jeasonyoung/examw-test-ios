@@ -1,8 +1,0 @@
-#$ pod install /pod update
-platform:ios,'7.0'
-#AFN
-pod "AFNetworking","~>2.0"
-#FMDB
-pod "FMDB"
-#MBProgress
-pod "MBProgressHUD","~>0.8"
