@@ -7,13 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
 		A1F7241F1B02F88A0023A3C8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F7241E1B02F88A0023A3C8 /* main.m */; };
 		A1F724221B02F88A0023A3C8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724211B02F88A0023A3C8 /* AppDelegate.m */; };
 		A1F724251B02F88A0023A3C8 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724241B02F88A0023A3C8 /* MasterViewController.m */; };
 		A1F724281B02F88A0023A3C8 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724271B02F88A0023A3C8 /* DetailViewController.m */; };
-		A1F7242B1B02F88A0023A3C8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A1F724291B02F88A0023A3C8 /* Main.storyboard */; };
 		A1F7242D1B02F88A0023A3C8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1F7242C1B02F88A0023A3C8 /* Images.xcassets */; };
-		A1F724301B02F88A0023A3C8 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = A1F7242E1B02F88A0023A3C8 /* LaunchScreen.xib */; };
 		A1F7243C1B02F88A0023A3C8 /* ExamwTestAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F7243B1B02F88A0023A3C8 /* ExamwTestAppTests.m */; };
 		A1F7249C1B02FD350023A3C8 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724781B02FD350023A3C8 /* UIWebView+AFNetworking.m */; };
 		A1F7249D1B02FD350023A3C8 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F7247A1B02FD350023A3C8 /* UIRefreshControl+AFNetworking.m */; };
@@ -34,12 +33,16 @@
 		A1F724AC1B02FD350023A3C8 /* AFHTTPRequestOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F7249A1B02FD350023A3C8 /* AFHTTPRequestOperation.m */; };
 		A1F724B01B02FDDE0023A3C8 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724AE1B02FDDE0023A3C8 /* MBProgressHUD.m */; };
 		A1F724B71B02FEED0023A3C8 /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724B61B02FEED0023A3C8 /* HttpUtils.m */; };
-		A1F724B91B02FFB50023A3C8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F724B81B02FFB50023A3C8 /* libsqlite3.dylib */; };
 		A1F724C51B0305C00023A3C8 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724BA1B0305BF0023A3C8 /* FMResultSet.m */; };
 		A1F724C61B0305C00023A3C8 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724BD1B0305BF0023A3C8 /* FMDatabaseQueue.m */; };
 		A1F724C71B0305C00023A3C8 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724BF1B0305BF0023A3C8 /* FMDatabasePool.m */; };
 		A1F724C81B0305C00023A3C8 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724C11B0305C00023A3C8 /* FMDatabaseAdditions.m */; };
 		A1F724C91B0305C00023A3C8 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724C31B0305C00023A3C8 /* FMDatabase.m */; };
+		A1F724CB1B033AAC0023A3C8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F724CA1B033AAC0023A3C8 /* libsqlite3.dylib */; };
+		A1F724D11B033F4A0023A3C8 /* AppSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724D01B033F4A0023A3C8 /* AppSettings.m */; };
+		A1F724D71B0342330023A3C8 /* SecureUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724D61B0342330023A3C8 /* SecureUtils.m */; };
+		A1F724DD1B03470B0023A3C8 /* NSData+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724DC1B03470B0023A3C8 /* NSData+Hex.m */; };
+		A1F724E01B034E950023A3C8 /* NSString+Reversed.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724DF1B034E950023A3C8 /* NSString+Reversed.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +56,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
+		A1B5AF381B0399780086F421 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hex.m"; path = "ExamwTestApp/Utils/UIColor+Hex.m"; sourceTree = "<group>"; };
 		A1F724191B02F88A0023A3C8 /* ExamwTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamwTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1F7241D1B02F88A0023A3C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1F7241E1B02F88A0023A3C8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -62,9 +67,7 @@
 		A1F724241B02F88A0023A3C8 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		A1F724261B02F88A0023A3C8 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
 		A1F724271B02F88A0023A3C8 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
-		A1F7242A1B02F88A0023A3C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A1F7242C1B02F88A0023A3C8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		A1F7242F1B02F88A0023A3C8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		A1F724351B02F88A0023A3C8 /* ExamwTestAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExamwTestAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1F7243A1B02F88A0023A3C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1F7243B1B02F88A0023A3C8 /* ExamwTestAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExamwTestAppTests.m; sourceTree = "<group>"; };
@@ -108,7 +111,6 @@
 		A1F724AF1B02FDDE0023A3C8 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = libs/MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
 		A1F724B51B02FEED0023A3C8 /* HttpUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpUtils.h; path = ExamwTestApp/Utils/HttpUtils.h; sourceTree = "<group>"; };
 		A1F724B61B02FEED0023A3C8 /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HttpUtils.m; path = ExamwTestApp/Utils/HttpUtils.m; sourceTree = "<group>"; };
-		A1F724B81B02FFB50023A3C8 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A1F724BA1B0305BF0023A3C8 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = libs/FMDB_v2.5/FMResultSet.m; sourceTree = "<group>"; };
 		A1F724BB1B0305BF0023A3C8 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = libs/FMDB_v2.5/FMResultSet.h; sourceTree = "<group>"; };
 		A1F724BC1B0305BF0023A3C8 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDB.h; path = libs/FMDB_v2.5/FMDB.h; sourceTree = "<group>"; };
@@ -120,6 +122,16 @@
 		A1F724C21B0305C00023A3C8 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseAdditions.h; path = libs/FMDB_v2.5/FMDatabaseAdditions.h; sourceTree = "<group>"; };
 		A1F724C31B0305C00023A3C8 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = libs/FMDB_v2.5/FMDatabase.m; sourceTree = "<group>"; };
 		A1F724C41B0305C00023A3C8 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = libs/FMDB_v2.5/FMDatabase.h; sourceTree = "<group>"; };
+		A1F724CA1B033AAC0023A3C8 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
+		A1F724CD1B033E260023A3C8 /* AppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConstants.h; sourceTree = "<group>"; };
+		A1F724CF1B033F4A0023A3C8 /* AppSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSettings.h; sourceTree = "<group>"; };
+		A1F724D01B033F4A0023A3C8 /* AppSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSettings.m; sourceTree = "<group>"; };
+		A1F724D51B0342330023A3C8 /* SecureUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SecureUtils.h; path = ExamwTestApp/Utils/SecureUtils.h; sourceTree = "<group>"; };
+		A1F724D61B0342330023A3C8 /* SecureUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SecureUtils.m; path = ExamwTestApp/Utils/SecureUtils.m; sourceTree = "<group>"; };
+		A1F724DB1B03470B0023A3C8 /* NSData+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSData+Hex.h"; path = "ExamwTestApp/Utils/NSData+Hex.h"; sourceTree = "<group>"; };
+		A1F724DC1B03470B0023A3C8 /* NSData+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Hex.m"; path = "ExamwTestApp/Utils/NSData+Hex.m"; sourceTree = "<group>"; };
+		A1F724DE1B034E950023A3C8 /* NSString+Reversed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Reversed.h"; path = "ExamwTestApp/Utils/NSString+Reversed.h"; sourceTree = "<group>"; };
+		A1F724DF1B034E950023A3C8 /* NSString+Reversed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Reversed.m"; path = "ExamwTestApp/Utils/NSString+Reversed.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,7 +139,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1F724B91B02FFB50023A3C8 /* libsqlite3.dylib in Frameworks */,
+				A1F724CB1B033AAC0023A3C8 /* libsqlite3.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -144,7 +156,6 @@
 		A1F724101B02F88A0023A3C8 = {
 			isa = PBXGroup;
 			children = (
-				A1F724B81B02FFB50023A3C8 /* libsqlite3.dylib */,
 				A1F7241B1B02F88A0023A3C8 /* ExamwTestApp */,
 				A1F724B41B02FE440023A3C8 /* Utils */,
 				A1F724451B02FABD0023A3C8 /* libs */,
@@ -165,15 +176,16 @@
 		A1F7241B1B02F88A0023A3C8 /* ExamwTestApp */ = {
 			isa = PBXGroup;
 			children = (
+				A1F724CD1B033E260023A3C8 /* AppConstants.h */,
+				A1F724CF1B033F4A0023A3C8 /* AppSettings.h */,
+				A1F724D01B033F4A0023A3C8 /* AppSettings.m */,
 				A1F724201B02F88A0023A3C8 /* AppDelegate.h */,
 				A1F724211B02F88A0023A3C8 /* AppDelegate.m */,
 				A1F724231B02F88A0023A3C8 /* MasterViewController.h */,
 				A1F724241B02F88A0023A3C8 /* MasterViewController.m */,
 				A1F724261B02F88A0023A3C8 /* DetailViewController.h */,
 				A1F724271B02F88A0023A3C8 /* DetailViewController.m */,
-				A1F724291B02F88A0023A3C8 /* Main.storyboard */,
 				A1F7242C1B02F88A0023A3C8 /* Images.xcassets */,
-				A1F7242E1B02F88A0023A3C8 /* LaunchScreen.xib */,
 				A1F7241C1B02F88A0023A3C8 /* Supporting Files */,
 			);
 			path = ExamwTestApp;
@@ -208,6 +220,7 @@
 		A1F724451B02FABD0023A3C8 /* libs */ = {
 			isa = PBXGroup;
 			children = (
+				A1F724CA1B033AAC0023A3C8 /* libsqlite3.dylib */,
 				A1F724461B02FB600023A3C8 /* FMDB */,
 				A1F724671B02FD000023A3C8 /* AFNetworking */,
 				A1F724AD1B02FD8A0023A3C8 /* MBProgressHUD */,
@@ -290,6 +303,14 @@
 			children = (
 				A1F724B51B02FEED0023A3C8 /* HttpUtils.h */,
 				A1F724B61B02FEED0023A3C8 /* HttpUtils.m */,
+				A1F724D51B0342330023A3C8 /* SecureUtils.h */,
+				A1F724D61B0342330023A3C8 /* SecureUtils.m */,
+				A1F724DB1B03470B0023A3C8 /* NSData+Hex.h */,
+				A1F724DC1B03470B0023A3C8 /* NSData+Hex.m */,
+				A1F724DE1B034E950023A3C8 /* NSString+Reversed.h */,
+				A1F724DF1B034E950023A3C8 /* NSString+Reversed.m */,
+				A1B5AF371B0399780086F421 /* UIColor+Hex.h */,
+				A1B5AF381B0399780086F421 /* UIColor+Hex.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -374,8 +395,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1F7242B1B02F88A0023A3C8 /* Main.storyboard in Resources */,
-				A1F724301B02F88A0023A3C8 /* LaunchScreen.xib in Resources */,
 				A1F7242D1B02F88A0023A3C8 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -394,21 +413,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1F724DD1B03470B0023A3C8 /* NSData+Hex.m in Sources */,
 				A1F724AC1B02FD350023A3C8 /* AFHTTPRequestOperation.m in Sources */,
 				A1F724A31B02FD350023A3C8 /* AFURLSessionManager.m in Sources */,
 				A1F724221B02F88A0023A3C8 /* AppDelegate.m in Sources */,
 				A1F724C91B0305C00023A3C8 /* FMDatabase.m in Sources */,
 				A1F724B71B02FEED0023A3C8 /* HttpUtils.m in Sources */,
 				A1F7249F1B02FD350023A3C8 /* UIImageView+AFNetworking.m in Sources */,
+				A1F724D11B033F4A0023A3C8 /* AppSettings.m in Sources */,
 				A1F724A01B02FD350023A3C8 /* UIButton+AFNetworking.m in Sources */,
 				A1F724C51B0305C00023A3C8 /* FMResultSet.m in Sources */,
 				A1F724A61B02FD350023A3C8 /* AFURLConnectionOperation.m in Sources */,
 				A1F724251B02F88A0023A3C8 /* MasterViewController.m in Sources */,
 				A1F7249C1B02FD350023A3C8 /* UIWebView+AFNetworking.m in Sources */,
+				A1F724D71B0342330023A3C8 /* SecureUtils.m in Sources */,
 				A1F724C61B0305C00023A3C8 /* FMDatabaseQueue.m in Sources */,
 				A1F724A71B02FD350023A3C8 /* AFSecurityPolicy.m in Sources */,
 				A1F7241F1B02F88A0023A3C8 /* main.m in Sources */,
+				A1F724E01B034E950023A3C8 /* NSString+Reversed.m in Sources */,
 				A1F7249E1B02FD350023A3C8 /* UIProgressView+AFNetworking.m in Sources */,
+				A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */,
 				A1F724281B02F88A0023A3C8 /* DetailViewController.m in Sources */,
 				A1F724C71B0305C00023A3C8 /* FMDatabasePool.m in Sources */,
 				A1F724B01B02FDDE0023A3C8 /* MBProgressHUD.m in Sources */,
@@ -442,25 +466,6 @@
 			targetProxy = A1F724361B02F88A0023A3C8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		A1F724291B02F88A0023A3C8 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A1F7242A1B02F88A0023A3C8 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		A1F7242E1B02F88A0023A3C8 /* LaunchScreen.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				A1F7242F1B02F88A0023A3C8 /* Base */,
-			);
-			name = LaunchScreen.xib;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A1F7243D1B02F88A0023A3C8 /* Debug */ = {
