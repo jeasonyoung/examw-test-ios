@@ -5,42 +5,59 @@
 //  Created by jeasonyoung on 15/5/13.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
-
 #import "AppDelegate.h"
 #import "DetailViewController.h"
-
-@interface AppDelegate ()
-
+//入口代理成员变量
+@interface AppDelegate(){
+    
+}
 @end
-
+//入口代理实现
 @implementation AppDelegate
 
-
+#pragma mark app开始运行时调用
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    //加载配置
+    _appSettings = [AppSettings settingsDefaults];
+    
+    //初始化主窗体
+    _window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen] bounds]];
+    //设置主窗体背景色
+    _window.backgroundColor = [UIColor whiteColor];
+    
+    UIViewController *root;
+    //是否加载产品选择主界面
+    if(![_appSettings verification]){//未有完整配置(新安装)
+        root = nil;
+    }else{//有完整
+        root = [[DetailViewController alloc]init];
+    }
+    //加载主界面
+    if(root){
+        _window.rootViewController = root;
+        //启动显示
+        [_window makeKeyAndVisible];
+    }
     return YES;
 }
-
+#pragma mark app将进入非激活状态
 - (void)applicationWillResignActive:(UIApplication *)application {
-    // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
-    // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
-}
 
+}
+#pragma mark app将进入后台模式
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    // Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
-    // If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
-}
 
+}
+#pragma mark app将进入前台模式
 - (void)applicationWillEnterForeground:(UIApplication *)application {
-    // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-}
 
+}
+#pragma mark app恢复激活状态
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
-}
 
+}
+#pragma mark app将关闭
 - (void)applicationWillTerminate:(UIApplication *)application {
-    // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-}
 
+}
 @end

@@ -153,6 +153,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A152FBFF1B048985006523CE /* SwitchProduct */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = SwitchProduct;
+			sourceTree = "<group>";
+		};
 		A1F724101B02F88A0023A3C8 = {
 			isa = PBXGroup;
 			children = (
@@ -181,6 +188,7 @@
 				A1F724D01B033F4A0023A3C8 /* AppSettings.m */,
 				A1F724201B02F88A0023A3C8 /* AppDelegate.h */,
 				A1F724211B02F88A0023A3C8 /* AppDelegate.m */,
+				A152FBFF1B048985006523CE /* SwitchProduct */,
 				A1F724231B02F88A0023A3C8 /* MasterViewController.h */,
 				A1F724241B02F88A0023A3C8 /* MasterViewController.m */,
 				A1F724261B02F88A0023A3C8 /* DetailViewController.h */,
