@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 //考试类别控制器
-@interface CategoryViewController : UIViewController
+@interface CategoryViewController : UITableViewController
 
 @end

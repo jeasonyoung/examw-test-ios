@@ -20,7 +20,7 @@
 +(instancetype)shareInstance{
     static SwitchViewController *controller;
     if(!controller){
-        UIViewController *root = [[CategoryViewController alloc]init];
+        UIViewController *root = [[CategoryViewController alloc]initWithStyle:UITableViewStylePlain];
         controller = [[self alloc]initWithRootViewController:root];
     }
     return controller;

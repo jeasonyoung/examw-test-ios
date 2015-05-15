@@ -22,6 +22,7 @@
 		A17098FE1B0599910083AF01 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098FA1B0599910083AF01 /* CategoryViewController.m */; };
 		A17098FF1B0599910083AF01 /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098FC1B0599910083AF01 /* SwitchViewController.m */; };
 		A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = A17099051B05DF290083AF01 /* XHRealTimeBlur.m */; };
+		A19D5B541B064706009F7360 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D5B531B064706009F7360 /* CategoryModel.m */; };
 		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
 		A1F7241F1B02F88A0023A3C8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F7241E1B02F88A0023A3C8 /* main.m */; };
 		A1F724221B02F88A0023A3C8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724211B02F88A0023A3C8 /* AppDelegate.m */; };
@@ -101,6 +102,8 @@
 		A17098FD1B0599910083AF01 /* SwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwitchViewController.h; path = SwitchProduct/controllers/SwitchViewController.h; sourceTree = "<group>"; };
 		A17099041B05DF290083AF01 /* XHRealTimeBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XHRealTimeBlur.h; path = libs/XHRealTimeBlur/XHRealTimeBlur.h; sourceTree = "<group>"; };
 		A17099051B05DF290083AF01 /* XHRealTimeBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XHRealTimeBlur.m; path = libs/XHRealTimeBlur/XHRealTimeBlur.m; sourceTree = "<group>"; };
+		A19D5B521B064706009F7360 /* CategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CategoryModel.h; path = SwitchProduct/models/CategoryModel.h; sourceTree = "<group>"; };
+		A19D5B531B064706009F7360 /* CategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CategoryModel.m; path = SwitchProduct/models/CategoryModel.m; sourceTree = "<group>"; };
 		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
 		A1B5AF381B0399780086F421 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hex.m"; path = "ExamwTestApp/Utils/UIColor+Hex.m"; sourceTree = "<group>"; };
 		A1F724191B02F88A0023A3C8 /* ExamwTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamwTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -204,6 +207,7 @@
 				A17099021B0599E80083AF01 /* views */,
 				A17098F91B0598DB0083AF01 /* controllers */,
 				A17099001B0599CE0083AF01 /* models */,
+				A19D5B511B063AD1009F7360 /* dao */,
 				A17099011B0599D80083AF01 /* services */,
 			);
 			name = SwitchProduct;
@@ -254,6 +258,8 @@
 		A17099001B0599CE0083AF01 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				A19D5B521B064706009F7360 /* CategoryModel.h */,
+				A19D5B531B064706009F7360 /* CategoryModel.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -279,6 +285,13 @@
 				A17099051B05DF290083AF01 /* XHRealTimeBlur.m */,
 			);
 			name = XHRealTimeBlur;
+			sourceTree = "<group>";
+		};
+		A19D5B511B063AD1009F7360 /* dao */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = dao;
 			sourceTree = "<group>";
 		};
 		A1F724101B02F88A0023A3C8 = {
@@ -564,6 +577,7 @@
 				A1F724251B02F88A0023A3C8 /* MasterViewController.m in Sources */,
 				A1F7249C1B02FD350023A3C8 /* UIWebView+AFNetworking.m in Sources */,
 				A1F724D71B0342330023A3C8 /* SecureUtils.m in Sources */,
+				A19D5B541B064706009F7360 /* CategoryModel.m in Sources */,
 				A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */,
 				A1F724C61B0305C00023A3C8 /* FMDatabaseQueue.m in Sources */,
 				A1F724A71B02FD350023A3C8 /* AFSecurityPolicy.m in Sources */,
