@@ -46,5 +46,7 @@
 #define _kAPP_API_PAPERS_URL @""
 
 
+//默认分页数据
+#define _kAPP_DEFAULT_PAGEROWS 10
 
 #endif

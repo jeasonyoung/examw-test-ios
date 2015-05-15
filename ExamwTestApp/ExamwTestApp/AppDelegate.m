@@ -6,10 +6,12 @@
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
 #import "AppDelegate.h"
+#import "SwitchViewController.h"
+
 #import "DetailViewController.h"
 //入口代理成员变量
 @interface AppDelegate(){
-    
+   
 }
 @end
 //入口代理实现
@@ -28,7 +30,7 @@
     UIViewController *root;
     //是否加载产品选择主界面
     if(![_appSettings verification]){//未有完整配置(新安装)
-        root = nil;
+        root = [SwitchViewController shareInstance];
     }else{//有完整
         root = [[DetailViewController alloc]init];
     }
@@ -40,6 +42,12 @@
     }
     return YES;
 }
+#pragma mark 屏幕旋转支持处理
+-(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
+    //固定竖屏
+    return  UIInterfaceOrientationMaskPortrait;
+}
+
 #pragma mark app将进入非激活状态
 - (void)applicationWillResignActive:(UIApplication *)application {
 
