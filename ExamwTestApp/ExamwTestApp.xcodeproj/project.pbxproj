@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A13BB77E1B096D8C0063C64B /* ExamModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB77D1B096D8C0063C64B /* ExamModel.m */; };
+		A13BB7811B0971B10063C64B /* ProductModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB7801B0971B10063C64B /* ProductModel.m */; };
+		A13BB7841B09B11B0063C64B /* SwitchService.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB7831B09B11B0063C64B /* SwitchService.m */; };
 		A17098E71B0581C00083AF01 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A17098CF1B0581C00083AF01 /* MJRefresh.bundle */; };
 		A17098E81B0581C00083AF01 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098D21B0581C00083AF01 /* MJRefreshComponent.m */; };
 		A17098E91B0581C00083AF01 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098D41B0581C00083AF01 /* MJRefreshConst.m */; };
@@ -72,6 +75,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A13BB77C1B096D8C0063C64B /* ExamModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExamModel.h; path = SwitchProduct/models/ExamModel.h; sourceTree = "<group>"; };
+		A13BB77D1B096D8C0063C64B /* ExamModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExamModel.m; path = SwitchProduct/models/ExamModel.m; sourceTree = "<group>"; };
+		A13BB77F1B0971B10063C64B /* ProductModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductModel.h; path = SwitchProduct/models/ProductModel.h; sourceTree = "<group>"; };
+		A13BB7801B0971B10063C64B /* ProductModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductModel.m; path = SwitchProduct/models/ProductModel.m; sourceTree = "<group>"; };
+		A13BB7821B09B11B0063C64B /* SwitchService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwitchService.h; path = SwitchProduct/services/SwitchService.h; sourceTree = "<group>"; };
+		A13BB7831B09B11B0063C64B /* SwitchService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwitchService.m; path = SwitchProduct/services/SwitchService.m; sourceTree = "<group>"; };
 		A17098CF1B0581C00083AF01 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MJRefresh.bundle; path = libs/MJRefresh/MJRefresh.bundle; sourceTree = "<group>"; };
 		A17098D01B0581C00083AF01 /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MJRefresh.h; path = libs/MJRefresh/MJRefresh.h; sourceTree = "<group>"; };
 		A17098D11B0581C00083AF01 /* MJRefreshComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MJRefreshComponent.h; path = libs/MJRefresh/MJRefreshComponent.h; sourceTree = "<group>"; };
@@ -260,6 +269,10 @@
 			children = (
 				A19D5B521B064706009F7360 /* CategoryModel.h */,
 				A19D5B531B064706009F7360 /* CategoryModel.m */,
+				A13BB77C1B096D8C0063C64B /* ExamModel.h */,
+				A13BB77D1B096D8C0063C64B /* ExamModel.m */,
+				A13BB77F1B0971B10063C64B /* ProductModel.h */,
+				A13BB7801B0971B10063C64B /* ProductModel.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -267,6 +280,8 @@
 		A17099011B0599D80083AF01 /* services */ = {
 			isa = PBXGroup;
 			children = (
+				A13BB7821B09B11B0063C64B /* SwitchService.h */,
+				A13BB7831B09B11B0063C64B /* SwitchService.m */,
 			);
 			name = services;
 			sourceTree = "<group>";
@@ -570,11 +585,13 @@
 				A1F724B71B02FEED0023A3C8 /* HttpUtils.m in Sources */,
 				A17098EF1B0581C00083AF01 /* MJRefreshLegendHeader.m in Sources */,
 				A1F7249F1B02FD350023A3C8 /* UIImageView+AFNetworking.m in Sources */,
+				A13BB7841B09B11B0063C64B /* SwitchService.m in Sources */,
 				A1F724D11B033F4A0023A3C8 /* AppSettings.m in Sources */,
 				A1F724A01B02FD350023A3C8 /* UIButton+AFNetworking.m in Sources */,
 				A1F724C51B0305C00023A3C8 /* FMResultSet.m in Sources */,
 				A1F724A61B02FD350023A3C8 /* AFURLConnectionOperation.m in Sources */,
 				A1F724251B02F88A0023A3C8 /* MasterViewController.m in Sources */,
+				A13BB7811B0971B10063C64B /* ProductModel.m in Sources */,
 				A1F7249C1B02FD350023A3C8 /* UIWebView+AFNetworking.m in Sources */,
 				A1F724D71B0342330023A3C8 /* SecureUtils.m in Sources */,
 				A19D5B541B064706009F7360 /* CategoryModel.m in Sources */,
@@ -585,6 +602,7 @@
 				A1F724E01B034E950023A3C8 /* NSString+Reversed.m in Sources */,
 				A1F7249E1B02FD350023A3C8 /* UIProgressView+AFNetworking.m in Sources */,
 				A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */,
+				A13BB77E1B096D8C0063C64B /* ExamModel.m in Sources */,
 				A1F724281B02F88A0023A3C8 /* DetailViewController.m in Sources */,
 				A1F724C71B0305C00023A3C8 /* FMDatabasePool.m in Sources */,
 				A1F724B01B02FDDE0023A3C8 /* MBProgressHUD.m in Sources */,
