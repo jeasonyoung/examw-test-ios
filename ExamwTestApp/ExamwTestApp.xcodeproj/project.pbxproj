@@ -10,6 +10,9 @@
 		A13BB77E1B096D8C0063C64B /* ExamModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB77D1B096D8C0063C64B /* ExamModel.m */; };
 		A13BB7811B0971B10063C64B /* ProductModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB7801B0971B10063C64B /* ProductModel.m */; };
 		A13BB7841B09B11B0063C64B /* SwitchService.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB7831B09B11B0063C64B /* SwitchService.m */; };
+		A13BB7881B0AD6270063C64B /* JSONCallback.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB7871B0AD6270063C64B /* JSONCallback.m */; };
+		A13BB78B1B0AE6A40063C64B /* CategoryModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB78A1B0AE6A40063C64B /* CategoryModelCellFrame.m */; };
+		A13BB7921B0B0B7F0063C64B /* CategoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB7911B0B0B7F0063C64B /* CategoryTableViewCell.m */; };
 		A17098E71B0581C00083AF01 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A17098CF1B0581C00083AF01 /* MJRefresh.bundle */; };
 		A17098E81B0581C00083AF01 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098D21B0581C00083AF01 /* MJRefreshComponent.m */; };
 		A17098E91B0581C00083AF01 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098D41B0581C00083AF01 /* MJRefreshConst.m */; };
@@ -81,6 +84,13 @@
 		A13BB7801B0971B10063C64B /* ProductModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductModel.m; path = SwitchProduct/models/ProductModel.m; sourceTree = "<group>"; };
 		A13BB7821B09B11B0063C64B /* SwitchService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwitchService.h; path = SwitchProduct/services/SwitchService.h; sourceTree = "<group>"; };
 		A13BB7831B09B11B0063C64B /* SwitchService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SwitchService.m; path = SwitchProduct/services/SwitchService.m; sourceTree = "<group>"; };
+		A13BB7851B0AD52A0063C64B /* JSONSerialize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONSerialize.h; path = ExamwTestApp/Utils/JSONSerialize.h; sourceTree = "<group>"; };
+		A13BB7861B0AD6270063C64B /* JSONCallback.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = JSONCallback.h; path = ExamwTestApp/Utils/JSONCallback.h; sourceTree = "<group>"; };
+		A13BB7871B0AD6270063C64B /* JSONCallback.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = JSONCallback.m; path = ExamwTestApp/Utils/JSONCallback.m; sourceTree = "<group>"; };
+		A13BB7891B0AE6A40063C64B /* CategoryModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CategoryModelCellFrame.h; path = SwitchProduct/models/CategoryModelCellFrame.h; sourceTree = "<group>"; };
+		A13BB78A1B0AE6A40063C64B /* CategoryModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CategoryModelCellFrame.m; path = SwitchProduct/models/CategoryModelCellFrame.m; sourceTree = "<group>"; };
+		A13BB7901B0B0B7F0063C64B /* CategoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CategoryTableViewCell.h; path = SwitchProduct/views/CategoryTableViewCell.h; sourceTree = "<group>"; };
+		A13BB7911B0B0B7F0063C64B /* CategoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CategoryTableViewCell.m; path = SwitchProduct/views/CategoryTableViewCell.m; sourceTree = "<group>"; };
 		A17098CF1B0581C00083AF01 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MJRefresh.bundle; path = libs/MJRefresh/MJRefresh.bundle; sourceTree = "<group>"; };
 		A17098D01B0581C00083AF01 /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MJRefresh.h; path = libs/MJRefresh/MJRefresh.h; sourceTree = "<group>"; };
 		A17098D11B0581C00083AF01 /* MJRefreshComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MJRefreshComponent.h; path = libs/MJRefresh/MJRefreshComponent.h; sourceTree = "<group>"; };
@@ -269,6 +279,8 @@
 			children = (
 				A19D5B521B064706009F7360 /* CategoryModel.h */,
 				A19D5B531B064706009F7360 /* CategoryModel.m */,
+				A13BB7891B0AE6A40063C64B /* CategoryModelCellFrame.h */,
+				A13BB78A1B0AE6A40063C64B /* CategoryModelCellFrame.m */,
 				A13BB77C1B096D8C0063C64B /* ExamModel.h */,
 				A13BB77D1B096D8C0063C64B /* ExamModel.m */,
 				A13BB77F1B0971B10063C64B /* ProductModel.h */,
@@ -289,6 +301,8 @@
 		A17099021B0599E80083AF01 /* views */ = {
 			isa = PBXGroup;
 			children = (
+				A13BB7901B0B0B7F0063C64B /* CategoryTableViewCell.h */,
+				A13BB7911B0B0B7F0063C64B /* CategoryTableViewCell.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -460,6 +474,9 @@
 		A1F724B41B02FE440023A3C8 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				A13BB7851B0AD52A0063C64B /* JSONSerialize.h */,
+				A13BB7861B0AD6270063C64B /* JSONCallback.h */,
+				A13BB7871B0AD6270063C64B /* JSONCallback.m */,
 				A1F724B51B02FEED0023A3C8 /* HttpUtils.h */,
 				A1F724B61B02FEED0023A3C8 /* HttpUtils.m */,
 				A1F724D51B0342330023A3C8 /* SecureUtils.h */,
@@ -589,6 +606,7 @@
 				A1F724D11B033F4A0023A3C8 /* AppSettings.m in Sources */,
 				A1F724A01B02FD350023A3C8 /* UIButton+AFNetworking.m in Sources */,
 				A1F724C51B0305C00023A3C8 /* FMResultSet.m in Sources */,
+				A13BB7881B0AD6270063C64B /* JSONCallback.m in Sources */,
 				A1F724A61B02FD350023A3C8 /* AFURLConnectionOperation.m in Sources */,
 				A1F724251B02F88A0023A3C8 /* MasterViewController.m in Sources */,
 				A13BB7811B0971B10063C64B /* ProductModel.m in Sources */,
@@ -601,7 +619,9 @@
 				A1F7241F1B02F88A0023A3C8 /* main.m in Sources */,
 				A1F724E01B034E950023A3C8 /* NSString+Reversed.m in Sources */,
 				A1F7249E1B02FD350023A3C8 /* UIProgressView+AFNetworking.m in Sources */,
+				A13BB78B1B0AE6A40063C64B /* CategoryModelCellFrame.m in Sources */,
 				A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */,
+				A13BB7921B0B0B7F0063C64B /* CategoryTableViewCell.m in Sources */,
 				A13BB77E1B096D8C0063C64B /* ExamModel.m in Sources */,
 				A1F724281B02F88A0023A3C8 /* DetailViewController.m in Sources */,
 				A1F724C71B0305C00023A3C8 /* FMDatabasePool.m in Sources */,

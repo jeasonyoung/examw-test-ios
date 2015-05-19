@@ -35,7 +35,7 @@
 //注册码校验API
 #define _kAPP_API_REGCODECHECK_URL @""
 //考试类别API
-#define _kAPP_API_CATEGORY_URL @""
+#define _kAPP_API_CATEGORY_URL @"http://localhost:8080/examw-test/api/m/download/categories"
 //考试数据API
 #define _kAPP_API_EXAMS_URL @""
 //科目数据API

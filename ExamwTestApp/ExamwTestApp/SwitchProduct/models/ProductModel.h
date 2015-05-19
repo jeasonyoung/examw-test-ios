@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "JSONSerialize.h"
 //产品数据模型
-@interface ProductModel : NSObject
+@interface ProductModel : NSObject<JSONSerialize>
 //产品ID
 @property(nonatomic,copy)NSString *Id;
 //产品名称
@@ -27,9 +28,4 @@
 @property(nonatomic,copy)NSNumber *items;
 //排序号
 @property(nonatomic,copy)NSNumber *order;
-
-//初始化
--(instancetype)initWithDict:(NSDictionary *)dict;
-//序列化
--(NSDictionary *)serialize;
 @end

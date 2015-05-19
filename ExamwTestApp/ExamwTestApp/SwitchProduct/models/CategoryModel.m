@@ -63,12 +63,22 @@
 #pragma mark 序列化
 -(NSDictionary *)serialize{
     NSLog(@"序列化考试类别:%@",_name);
+    NSMutableArray *examArrays = [NSMutableArray arrayWithCapacity:(_exams ? _exams.count : 0)];
+    if(_exams && _exams.count > 0){
+        for(ExamModel *exam in _exams){
+            if(!exam) continue;
+            NSDictionary *dict = [exam serialize];
+            if(!dict || dict.count == 0) continue;
+            [examArrays addObject:dict];
+        }
+    }
+    //
     return  @{
-              __kCategoryModel_keys_id:_Id,
-              __kCategoryModel_keys_code:_code,
-              __kCategoryModel_keys_name:_name,
-              __kCategoryModel_keys_abbr:_abbr,
-              __kCategoryModel_keys_exams:_exams
+              __kCategoryModel_keys_id:(_Id ? _Id : @""),
+              __kCategoryModel_keys_code:(_code ? _code : @0),
+              __kCategoryModel_keys_name:(_name ? _name : @""),
+              __kCategoryModel_keys_abbr:(_abbr ? _abbr : @""),
+              __kCategoryModel_keys_exams:examArrays
               };
 }
 #pragma mark 从本地文件中加载数据
@@ -76,6 +86,7 @@
     //本地存储根路径
     NSString *root = [[NSBundle mainBundle] resourcePath];
     NSString *path = [root stringByAppendingPathComponent:__kCategoryModel_localFileName];
+    NSLog(@"将从文件中加载离线数据:%@",path);
     //文件管理器
     NSFileManager *fileMgr = [NSFileManager defaultManager];
     if([fileMgr fileExistsAtPath:path]){
@@ -90,27 +101,48 @@
                 NSLog(@"考试分类反序列化失败:%@",err);
             }else if(arrays && arrays.count > 0){
                 NSLog(@"本地考试分类数据加载路径:%@", path);
-                NSMutableArray *categoryArrays = [NSMutableArray arrayWithCapacity:arrays.count];
-                for(NSDictionary *dict in arrays){
-                    if(dict && dict.count > 0){
-                        CategoryModel *cm = [[CategoryModel alloc]initWithDict:dict];
-                        if(cm){
-                            [categoryArrays addObject:cm];
-                        }
-                    }
-                }
-                return categoryArrays;
+                return [self categoriesFromJSON:arrays];
             }
         }
     }
     return nil;
 }
+#pragma mark 将JSON数组转化为考试分类数据模型数组
++(NSArray *)categoriesFromJSON:(NSArray *)arrays{
+    NSLog(@"将JSON数组转化为考试分类数据模型数组...");
+    if(!arrays || arrays.count == 0)return nil;
+    NSMutableArray *categoriesArrays = [NSMutableArray arrayWithCapacity:arrays.count];
+    for(NSDictionary *dict in arrays){
+        if(dict && dict.count > 0){
+            CategoryModel *cm = [[CategoryModel alloc]initWithDict:dict];
+            if(cm){
+                [categoriesArrays addObject:cm];
+            }
+        }
+    }
+    return categoriesArrays;
+}
 #pragma mark 保存到本地文件
 +(BOOL)saveLocalWithArrays:(NSArray *)categories{
+    NSLog(@"开始序列化后保存到本地...");
     BOOL result = NO;
     if(categories && categories.count > 0){
+        //序列化
+        NSMutableArray *arrays = [NSMutableArray arrayWithCapacity:categories.count];
+        for(CategoryModel *cm in categories){
+            if(!cm)continue;
+            NSDictionary *dict = [cm serialize];
+            if(!dict || dict.count == 0) continue;
+            [arrays addObject:dict];
+        }
+        //检测是否能序列化
+        if(![NSJSONSerialization isValidJSONObject:arrays]){
+            NSLog(@"不能被序列化!>>>%@",arrays);
+            return result;
+        }
         NSError *err;
-        NSData *data = [NSJSONSerialization dataWithJSONObject:categories options:NSJSONWritingPrettyPrinted error:&err];
+        
+        NSData *data = [NSJSONSerialization dataWithJSONObject:arrays options:NSJSONWritingPrettyPrinted error:&err];
         if(err){
             NSLog(@"序列化考试分类时异常 %@",err);
         }else{

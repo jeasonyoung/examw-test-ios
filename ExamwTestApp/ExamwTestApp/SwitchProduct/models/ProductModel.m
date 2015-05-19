@@ -68,15 +68,15 @@
 -(NSDictionary *)serialize{
     NSLog(@"序列化产品:%@",_name);
     return @{
-             __kProductModel_keys_id:_Id,
-             __kProductModel_keys_name:_name,
-             __kProductModel_keys_area:_area,
-             __kProductModel_keys_price:_price,
-             __kProductModel_keys_discount:_discount,
-             __kProductModel_keys_content:_content,
-             __kProductModel_keys_papers:_papers,
-             __kProductModel_keys_items:_items,
-             __kProductModel_keys_order:_order
+             __kProductModel_keys_id:(_Id ? _Id : @""),
+             __kProductModel_keys_name:(_name ? _name : @""),
+             __kProductModel_keys_area:(_area ? _area : @""),
+             __kProductModel_keys_price:(_price ? _price : @0),
+             __kProductModel_keys_discount:(_discount ? _discount : @0),
+             __kProductModel_keys_content:(_content ? _content : @""),
+             __kProductModel_keys_papers:(_papers ? _papers : @0),
+             __kProductModel_keys_items:(_items ? _items : @0),
+             __kProductModel_keys_order:(_order ? _order : @0)
              };
 }
 @end

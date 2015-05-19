@@ -63,12 +63,22 @@
 //序列化考试数据
 -(NSDictionary *)serialize{
     NSLog(@"序列化考试:%@",_name);
+    NSMutableArray *productsArrays = [NSMutableArray arrayWithCapacity:(_products ? _products.count : 0)];
+    if(_products && _products.count > 0){
+        for(ProductModel *p in _products){
+            if(!p) continue;
+            NSDictionary *dict = [p serialize];
+            if(!dict || dict.count == 0) continue;
+            [productsArrays addObject:dict];
+        }
+    }
+    //
     return @{
-             __kExamModel_keys_id:_Id,
-             __kExamModel_keys_code:_code,
-             __kExamModel_keys_name:_name,
-             __kExamModel_keys_abbr:_abbr,
-             __kExamModel_keys_products:_products
+             __kExamModel_keys_id:(_Id ? _Id : @""),
+             __kExamModel_keys_code:(_code ? _code : @0),
+             __kExamModel_keys_name:(_name ? _name : @""),
+             __kExamModel_keys_abbr:(_abbr ? _abbr : @""),
+             __kExamModel_keys_products:productsArrays
             };
 }
 @end
