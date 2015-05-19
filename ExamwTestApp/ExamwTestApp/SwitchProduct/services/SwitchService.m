@@ -144,6 +144,7 @@ static NSArray *localCategoriesCache;
                     NSRange rang = [exam.name rangeOfString:searchName];
                     if(rang.location == NSNotFound) continue;
                     //
+                    NSLog(@"线程搜索到考试:%@[%@]---",exam.name,NSStringFromRange(rang));
                     if(result){
                         result(exam);
                     }

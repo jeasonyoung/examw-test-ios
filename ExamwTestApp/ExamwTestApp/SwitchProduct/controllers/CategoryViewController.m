@@ -57,6 +57,13 @@
 }
 //加载考试分类数据
 -(void)loadAllCategories{
+    _isSearch = NO;
+    //清除数据
+    if(_dataSource && _dataSource.count > 0){
+        NSLog(@"清空原始数据...");
+        [_dataSource removeAllObjects];
+    }
+    //
     if(_service.hasCategories){
         NSLog(@"本地存在数据...");
         [self performSelectorInBackground:@selector(loadCategoriesInBackground) withObject:nil];
@@ -72,33 +79,22 @@
     NSLog(@"后台线程加载数据...");
     NSArray *arrays = [_service loadAllCategories];
     if(arrays && arrays.count > 0){
-        NSUInteger pos = _dataSource.count;
         //初始化插入数组
-        NSMutableArray *insertIndexPaths = [NSMutableArray arrayWithCapacity:arrays.count];
-        for(NSUInteger i = 0; i < arrays.count; i++){
+        for(CategoryModel *category in arrays){
+            if(!category) continue;
             CategoryModelCellFrame *cellFrame = [[CategoryModelCellFrame alloc]init];
-            cellFrame.model = (CategoryModel *)[arrays objectAtIndex:i];
+            cellFrame.model = category;
             //加载的数据追加到缓存
             [_dataSource addObject:cellFrame];
-            //
-            [insertIndexPaths addObject:[NSIndexPath indexPathForRow:(pos + i) inSection:0]];
         }
-        //
-        if(insertIndexPaths.count > 0){
-            //更新UI
-            [self performSelectorOnMainThread:@selector(loadEndDataOnMainUpdate:) withObject:insertIndexPaths waitUntilDone:YES];
-        }
+        //更新UI
+        [self performSelectorOnMainThread:@selector(loadEndDataOnMainUpdate) withObject:nil waitUntilDone:YES];
     }
 }
 //加载考试分类数据完成，前台更新
--(void)loadEndDataOnMainUpdate:(NSArray *)insertIndexPaths{
-    if(insertIndexPaths){
-        if(insertIndexPaths.count > 0){
-            [self.tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-        }
-    }else{
-        [self.tableView reloadData];
-    }
+-(void)loadEndDataOnMainUpdate{
+    NSLog(@"刷新数据显示UI...");
+    [self.tableView reloadData];
 }
 
 //加载搜索数据
@@ -123,7 +119,7 @@
         cellFrame.model = exam;
         [_dataSource addObject:cellFrame];
         //前台线程Update
-        [self performSelectorOnMainThread:@selector(loadEndDataOnMainUpdate:) withObject:nil waitUntilDone:YES];
+        [self performSelectorOnMainThread:@selector(loadEndDataOnMainUpdate) withObject:nil waitUntilDone:YES];
     }];
 }
 
@@ -221,7 +217,7 @@
     NSLog(@"选中行[%@]...", indexPath);
     if(_isSearch){
         NSLog(@"搜索...");
-        
+        ///TODO:产品控制器
     }else{
         NSLog(@"选中考试分类...");
         CategoryModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
