@@ -44,27 +44,13 @@ static NSArray *localCategoriesCache;
 }
 
 #pragma mark 分页加载考试分类数据
--(NSArray *)loadCategoriesWithPageIndex:(NSUInteger)pageIndex{
-    NSLog(@"加载[%d]页考试分类数据...",pageIndex);
-    //分页数据开始索引
-    NSUInteger start = pageIndex * __kSwitchService_pageRows;
+-(NSArray *)loadAllCategories{
+    NSLog(@"加载全部考试分类数据...");
     //加载本地数据
     if(!localCategoriesCache){
         localCategoriesCache = [CategoryModel categoriesFromLocal];
     }
-    //从本地数据中查询
-    if(localCategoriesCache && localCategoriesCache.count > 0){
-        if(start > localCategoriesCache.count - 1)return nil;
-        NSMutableArray *arrays = [NSMutableArray arrayWithCapacity:__kSwitchService_pageRows];
-        for(NSUInteger index = start;((index < (start + __kSwitchService_pageRows)) && (index < localCategoriesCache.count - 1));index++){
-            CategoryModel *categoryModel = [localCategoriesCache objectAtIndex:index];
-            if(categoryModel){
-                [arrays addObject:categoryModel];
-            }
-        }
-        return arrays;
-    }
-    return nil;
+    return localCategoriesCache;
 }
 
 #pragma mark 从网络下载数据
@@ -143,5 +129,27 @@ static NSArray *localCategoriesCache;
         }
     }
     return nil;
+}
+
+#pragma mark 根据考试名称模糊查询搜索考试
+-(void)findSearchExamsWithName:(NSString *)searchName resultBlock:(void (^)(ExamModel *))result{
+    NSLog(@"根据考试名称[%@]模糊查询搜索考试...",searchName);
+    if(searchName && searchName.length > 0 && localCategoriesCache && localCategoriesCache.count > 0){
+        for(CategoryModel *category in localCategoriesCache){
+            if(!category || !category.exams || category.exams.count == 0)continue;
+            //开启新线程查询
+            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                for(ExamModel *exam in category.exams){
+                    if(!exam || !exam.name) continue;
+                    NSRange rang = [exam.name rangeOfString:searchName];
+                    if(rang.location == NSNotFound) continue;
+                    //
+                    if(result){
+                        result(exam);
+                    }
+                }
+            });
+        }
+    }
 }
 @end
