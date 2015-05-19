@@ -13,15 +13,18 @@
 #import "CategoryTableViewCell.h"
 #import "SwitchService.h"
 
+#import "ExamViewController.h"
 #import "XHRealTimeBlur.h"
 
-#define __kCategoryViewController_title @"切换产品"//
+#define __kCategoryViewController_title @"考试分类"//
 #define __kCategoryViewController_search_height 40//查询框高度
 #define __kCategoryViewController_search_placeholder @"输入考试名称"//查询框提示文字
 
 #define __kCategoryViewController_cellIdentifierCategory @"_cellCategory"//
 //考试类别控制器成员变量
 @interface CategoryViewController ()<UISearchBarDelegate>{
+    //是否搜索
+    BOOL _isSearch;
     //数据源
     NSMutableArray *_dataSource;
     //当前页索引
@@ -106,15 +109,6 @@
     self.tableView.tableHeaderView = _searchBar;
 }
 #pragma mark 查询Bar委托UISearchBarDelegate
-//获取搜索条件
--(void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText{
-    NSLog(@"搜索条件:%@",searchText);
-    if(searchText.length == 0){
-        ///TODO:重新加载考试类别数据
-        return;
-    }
-    ///TODO:加载搜索的考试数据
-}
 //点击搜索按钮触发
 -(void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
     NSLog(@"点击搜索按钮出发:退下键盘,查询数据...");
@@ -137,10 +131,12 @@
     //退下键盘
     [searchBar resignFirstResponder];
     [self.tableView disMissRealTimeBlur];
+    _isSearch = NO;
 }
 //点击输入框时触发
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
     NSLog(@"点击输入框，呼叫键盘...");
+    _isSearch = YES;
     //呼叫键盘
     [searchBar becomeFirstResponder];
     [self.tableView showRealTimeBlurWithBlurStyle:XHBlurStyleTranslucent];
@@ -175,9 +171,15 @@
 //数据行选中事件处理
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"选中行[%@]...", indexPath);
-
-    
-    //[tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:(indexPath.row + 1) inSection:0] animated:YES scrollPosition:UITableViewScrollPositionBottom];
+    if(_isSearch){
+        NSLog(@"搜索...");
+        
+    }else{
+        NSLog(@"选中考试分类...");
+        CategoryModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
+        ExamViewController *examController = [[ExamViewController alloc]initWithCategoryId:cellFrame.model.Id];
+        [self.navigationController pushViewController:examController animated:YES];
+    }
 }
 
 #pragma mark 内存告警

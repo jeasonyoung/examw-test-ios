@@ -9,6 +9,8 @@
 #import "CategoryModelCellFrame.h"
 #import "ExamModel.h"
 
+#import "AppConstants.h"
+
 #define __kCategoryModelCellFrame_top 10//顶部间距
 #define __kCategoryModelCellFrame_bottom 10//底部间距
 #define __kCategoryModelCellFrame_left 10//左边间距
@@ -17,8 +19,7 @@
 
 //考试分类数据模型CellFrame成员变量
 @interface CategoryModelCellFrame (){
-    CGFloat _with;
-    NSStringDrawingOptions _options;
+    
 }
 @end
 //考试分类数据模型CellFrame实现
@@ -26,11 +27,6 @@
 #pragma mark 重载构造函数。
 -(instancetype)init{
     if(self = [super init]){
-        //屏幕宽度
-        _with = CGRectGetWidth([[UIScreen mainScreen] bounds]);
-        //
-        _options = (NSStringDrawingTruncatesLastVisibleLine | NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading);
-        
         //设置考试分类字体
         _categoryFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         //设置考试字体
@@ -40,30 +36,31 @@
 }
 #pragma mark 设置数据模型
 -(void)setModel:(CategoryModel *)model{
+    _model = model;
     //重置
     _categoryFrame = _exam1Frame = _exam2Frame = CGRectZero;
     
-    if(!model)return;
-    _categoryName = model.name;
-    if(model.exams && model.exams.count > 0){
-        _exam1Name = ((ExamModel *)[model.exams objectAtIndex:0]).name;
-        if(model.exams.count > 1){
-            _exam2Name = ((ExamModel *)[model.exams objectAtIndex:1]).name;
+    if(!_model)return;
+    _categoryName = _model.name;
+    if(_model.exams && _model.exams.count > 0){
+        _exam1Name = ((ExamModel *)[_model.exams objectAtIndex:0]).name;
+        if(_model.exams.count > 1){
+            _exam2Name = ((ExamModel *)[_model.exams objectAtIndex:1]).name;
         }
     }
-    CGFloat maxWith = _with - __kCategoryModelCellFrame_left - __kCategoryModelCellFrame_right;
+    CGFloat maxWith = SCREEN_WITH - __kCategoryModelCellFrame_left - __kCategoryModelCellFrame_right;
     //
     CGSize categoryNameSize = CGSizeZero,exam1NameSize = CGSizeZero,exam2NameSize = CGSizeZero;
     //考试分类
     categoryNameSize = [_categoryName boundingRectWithSize:CGSizeMake(maxWith, CGFLOAT_MAX)
-                                                   options:_options
+                                                   options:STR_SIZE_OPTIONS
                                                 attributes:@{NSFontAttributeName:_categoryFont}
                                                    context:nil].size;
     //考试1
     if(_exam1Name && _exam1Name.length > 0){
         maxWith -= categoryNameSize.width - __kCategoryModelCellFrame_maginMin;
         exam1NameSize = [_exam1Name boundingRectWithSize:CGSizeMake(maxWith, CGFLOAT_MAX)
-                                                 options:_options
+                                                 options:STR_SIZE_OPTIONS
                                               attributes:@{NSFontAttributeName:_examFont}
                                                  context:nil].size;
     }
@@ -72,7 +69,7 @@
         maxWith -= exam1NameSize.width - __kCategoryModelCellFrame_maginMin;
         if (maxWith > 0) {
             exam2NameSize = [_exam2Name boundingRectWithSize:CGSizeMake(maxWith, exam1NameSize.height)
-                                                     options:_options
+                                                     options:STR_SIZE_OPTIONS
                                                   attributes:@{NSFontAttributeName:_examFont}
                                                      context:nil].size;
         }

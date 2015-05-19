@@ -13,8 +13,13 @@
 @property(nonatomic,assign,readonly)NSUInteger pageOfRows;
 //是否有考试分类数据
 @property(nonatomic,assign,readonly)BOOL hasCategories;
+
 //加载考试分类数据
 -(NSArray *)loadCategoriesWithPageIndex:(NSUInteger)pageIndex;
+
 //从网络加载数据
 -(void)loadCategoriesFromNetWorks:(void(^)())complete;
+
+//加载考试分类下的考试集合
+-(NSArray *)loadExamsWithCategoryId:(NSString *)categoryId outCategoryName:(NSString **)categoryName;
 @end

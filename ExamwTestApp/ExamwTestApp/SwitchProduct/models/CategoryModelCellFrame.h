@@ -8,10 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+
+#import "DataModelCellFrame.h"
+
 #import "CategoryModel.h"
 
 //考试分类数据模型CellFrame
-@interface CategoryModelCellFrame : NSObject
+@interface CategoryModelCellFrame : NSObject<DataModelCellFrame>
 //考试分类名称
 @property(nonatomic,copy,readonly)NSString *categoryName;
 //考试分类字体
@@ -32,7 +35,6 @@
 
 //Cell高度
 @property(nonatomic,assign,readonly)CGFloat cellHeight;
-
 //数据模型
 @property(nonatomic,copy)CategoryModel *model;
 @end

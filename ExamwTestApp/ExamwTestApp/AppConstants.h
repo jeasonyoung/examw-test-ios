@@ -49,4 +49,8 @@
 //默认分页数据
 #define _kAPP_DEFAULT_PAGEROWS 10
 
+//计算文字尺寸选项
+#define STR_SIZE_OPTIONS (NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)//
+//屏幕宽度
+#define SCREEN_WITH CGRectGetWidth([[UIScreen mainScreen] bounds])//
 #endif

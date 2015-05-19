@@ -1,0 +1,118 @@
+//
+//  ExamViewController.m
+//  ExamwTestApp
+//
+//  Created by jeasonyoung on 15/5/19.
+//  Copyright (c) 2015年 com.examw. All rights reserved.
+//
+
+#import "ExamViewController.h"
+#import "SwitchService.h"
+
+#import "ExamModel.h"
+#import "ExamModelCellFrame.h"
+#import "ExamTableViewCell.h"
+
+#define __kExamViewController_title @"选择考试"
+#define __kExamViewController_cellIdentifier @"_cell_exam"
+
+//考试控制器成员变量
+@interface ExamViewController (){
+    //考试分类ID
+    NSString *_categoryId;
+    //切换服务
+    SwitchService *_service;
+    //数据源
+    NSMutableArray *_dataSource;
+}
+@end
+//考试控制器实现
+@implementation ExamViewController
+#pragma mark 初始化
+-(instancetype)initWithCategoryId:(NSString *)categoryId{
+    if(self = [super initWithStyle:UITableViewStylePlain]){
+        _categoryId = categoryId;
+    }
+    return self;
+}
+
+#pragma mark UI入口
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    //设置标题
+    self.title = __kExamViewController_title;
+    //初始化服务
+    _service = [[SwitchService alloc]init];
+    //初始化数据源
+    _dataSource = [NSMutableArray array];
+    //异步加载数据
+    [self performSelectorInBackground:@selector(loadDataInBackground) withObject:nil];
+}
+
+//后台线程加载数据
+-(void)loadDataInBackground{
+    NSLog(@"后台线程加载数据...");
+    NSString *categoryName;
+    NSArray *arrays = [_service loadExamsWithCategoryId:_categoryId outCategoryName:&categoryName];
+    if(arrays && arrays.count > 0){
+        for(NSUInteger i = 0; i < arrays.count; i++){
+            ExamModelCellFrame *cellFrame = [[ExamModelCellFrame alloc]init];
+            cellFrame.model = (ExamModel *)[arrays objectAtIndex:i];
+            [_dataSource addObject:cellFrame];
+        }
+    }
+    //前台UI更新
+    if(categoryName && categoryName.length > 0){
+        [self performSelectorOnMainThread:@selector(loadEndDataOnMainUpdateWithTitle:)
+                               withObject:categoryName
+                            waitUntilDone:YES];
+    }
+}
+//前台UI更新
+-(void)loadEndDataOnMainUpdateWithTitle:(NSString *)title{
+    NSLog(@"前台UI更新...");
+    //考试分类名称
+    if(title && title.length > 0){
+        self.title = title;
+    }
+    //刷新数据
+    [self.tableView reloadData];
+}
+
+#pragma mark 内存告警
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    NSLog(@"内存告警,释放数据源...");
+    if(_dataSource && _dataSource.count > 0){
+        [_dataSource removeAllObjects];
+    }
+}
+
+#pragma mark - Table view data source
+//数据量
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    NSLog(@"加载数据量...");
+    if(_dataSource){
+        return _dataSource.count;
+    }
+    return 0;
+}
+//创建数据行
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"开始创建数据行:%@...",indexPath);
+    ExamTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:__kExamViewController_cellIdentifier];
+    if(!cell){
+        cell = [[ExamTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault
+                                       reuseIdentifier:__kExamViewController_cellIdentifier];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        NSLog(@"创建行...");
+    }
+    //加载数据
+    [cell loadModelCellFrame:((ExamModelCellFrame *)[_dataSource objectAtIndex:indexPath.row])];
+    return cell;
+}
+//行高
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return [[_dataSource objectAtIndex:indexPath.row] cellHeight];
+}
+@end

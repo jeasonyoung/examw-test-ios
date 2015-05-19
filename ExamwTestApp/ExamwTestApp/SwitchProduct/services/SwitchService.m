@@ -8,6 +8,7 @@
 
 #import "SwitchService.h"
 #import "CategoryModel.h"
+#import "ExamModel.h"
 
 #import "AppConstants.h"
 #import "HttpUtils.h"
@@ -65,6 +66,7 @@ static NSArray *localCategoriesCache;
     }
     return nil;
 }
+
 #pragma mark 从网络下载数据
 -(void)loadCategoriesFromNetWorks:(void (^)())complete{
     NSLog(@"从网络下载数据...");
@@ -111,5 +113,35 @@ static NSArray *localCategoriesCache;
                                }];
         }
     }];
+}
+
+#pragma mark 加载考试分类下的考试集合
+-(NSArray *)loadExamsWithCategoryId:(NSString *)categoryId outCategoryName:(NSString *__autoreleasing *)categoryName{
+    NSLog(@"开始加载考试分类[%@]下的考试集合...",categoryId);
+    if(categoryId && categoryId.length > 0 && localCategoriesCache && localCategoriesCache.count > 0){
+        CategoryModel *category;
+        for(CategoryModel *cm in localCategoriesCache){
+            if(!cm || !cm.Id || cm.Id.length == 0) continue;
+            if([categoryId isEqualToString:cm.Id]){
+                category = cm;
+                break;
+            }
+        }
+        if(category){
+            NSLog(@"加载考试分类:%@", category.name);
+            *categoryName = [category name];
+            //
+            if(category.exams && category.exams.count > 0){
+                NSMutableArray *examsArrays = [NSMutableArray arrayWithCapacity:category.exams.count];
+                for(ExamModel *em in category.exams){
+                    if(!em || !em.name || em.name.length == 0) continue;
+                    [examsArrays addObject:em];
+                }
+                //
+                return examsArrays;
+            }
+        }
+    }
+    return nil;
 }
 @end
