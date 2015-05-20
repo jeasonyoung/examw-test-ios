@@ -33,6 +33,9 @@
 		A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = A17099051B05DF290083AF01 /* XHRealTimeBlur.m */; };
 		A19D5B541B064706009F7360 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D5B531B064706009F7360 /* CategoryModel.m */; };
 		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
+		A1C6AD4C1B0C0C790002BE81 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD4B1B0C0C790002BE81 /* ProductViewController.m */; };
+		A1C6AD4F1B0C0EC60002BE81 /* ProductModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD4E1B0C0EC60002BE81 /* ProductModelCellFrame.m */; };
+		A1C6AD521B0C31000002BE81 /* ProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD511B0C31000002BE81 /* ProductTableViewCell.m */; };
 		A1F7241F1B02F88A0023A3C8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F7241E1B02F88A0023A3C8 /* main.m */; };
 		A1F724221B02F88A0023A3C8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724211B02F88A0023A3C8 /* AppDelegate.m */; };
 		A1F724251B02F88A0023A3C8 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724241B02F88A0023A3C8 /* MasterViewController.m */; };
@@ -135,6 +138,12 @@
 		A19D5B531B064706009F7360 /* CategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CategoryModel.m; path = SwitchProduct/models/CategoryModel.m; sourceTree = "<group>"; };
 		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
 		A1B5AF381B0399780086F421 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hex.m"; path = "ExamwTestApp/Utils/UIColor+Hex.m"; sourceTree = "<group>"; };
+		A1C6AD4A1B0C0C790002BE81 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductViewController.h; path = SwitchProduct/controllers/ProductViewController.h; sourceTree = "<group>"; };
+		A1C6AD4B1B0C0C790002BE81 /* ProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductViewController.m; path = SwitchProduct/controllers/ProductViewController.m; sourceTree = "<group>"; };
+		A1C6AD4D1B0C0EC60002BE81 /* ProductModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductModelCellFrame.h; path = SwitchProduct/models/ProductModelCellFrame.h; sourceTree = "<group>"; };
+		A1C6AD4E1B0C0EC60002BE81 /* ProductModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductModelCellFrame.m; path = SwitchProduct/models/ProductModelCellFrame.m; sourceTree = "<group>"; };
+		A1C6AD501B0C31000002BE81 /* ProductTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductTableViewCell.h; path = SwitchProduct/views/ProductTableViewCell.h; sourceTree = "<group>"; };
+		A1C6AD511B0C31000002BE81 /* ProductTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductTableViewCell.m; path = SwitchProduct/views/ProductTableViewCell.m; sourceTree = "<group>"; };
 		A1F724191B02F88A0023A3C8 /* ExamwTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamwTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1F7241D1B02F88A0023A3C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1F7241E1B02F88A0023A3C8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -282,6 +291,8 @@
 				A17098FA1B0599910083AF01 /* CategoryViewController.m */,
 				A13BB7931B0B31930063C64B /* ExamViewController.h */,
 				A13BB7941B0B31930063C64B /* ExamViewController.m */,
+				A1C6AD4A1B0C0C790002BE81 /* ProductViewController.h */,
+				A1C6AD4B1B0C0C790002BE81 /* ProductViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -299,6 +310,8 @@
 				A13BB7971B0B38B00063C64B /* ExamModelCellFrame.m */,
 				A13BB77F1B0971B10063C64B /* ProductModel.h */,
 				A13BB7801B0971B10063C64B /* ProductModel.m */,
+				A1C6AD4D1B0C0EC60002BE81 /* ProductModelCellFrame.h */,
+				A1C6AD4E1B0C0EC60002BE81 /* ProductModelCellFrame.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -319,6 +332,8 @@
 				A13BB7911B0B0B7F0063C64B /* CategoryTableViewCell.m */,
 				A13BB79A1B0B47800063C64B /* ExamTableViewCell.h */,
 				A13BB79B1B0B47800063C64B /* ExamTableViewCell.m */,
+				A1C6AD501B0C31000002BE81 /* ProductTableViewCell.h */,
+				A1C6AD511B0C31000002BE81 /* ProductTableViewCell.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -616,6 +631,7 @@
 				A17098EA1B0581C00083AF01 /* MJRefreshFooter.m in Sources */,
 				A17098EE1B0581C00083AF01 /* MJRefreshLegendFooter.m in Sources */,
 				A1F724C91B0305C00023A3C8 /* FMDatabase.m in Sources */,
+				A1C6AD521B0C31000002BE81 /* ProductTableViewCell.m in Sources */,
 				A1F724B71B02FEED0023A3C8 /* HttpUtils.m in Sources */,
 				A17098EF1B0581C00083AF01 /* MJRefreshLegendHeader.m in Sources */,
 				A1F7249F1B02FD350023A3C8 /* UIImageView+AFNetworking.m in Sources */,
@@ -649,6 +665,7 @@
 				A1F724AB1B02FD350023A3C8 /* AFHTTPRequestOperationManager.m in Sources */,
 				A1F724A91B02FD350023A3C8 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				A17098F01B0581C00083AF01 /* UIScrollView+MJExtension.m in Sources */,
+				A1C6AD4C1B0C0C790002BE81 /* ProductViewController.m in Sources */,
 				A17098FE1B0599910083AF01 /* CategoryViewController.m in Sources */,
 				A17098F21B0581C00083AF01 /* UIView+MJExtension.m in Sources */,
 				A1F724A41B02FD350023A3C8 /* AFURLResponseSerialization.m in Sources */,
@@ -661,6 +678,7 @@
 				A17098EB1B0581C00083AF01 /* MJRefreshGifFooter.m in Sources */,
 				A1F7249D1B02FD350023A3C8 /* UIRefreshControl+AFNetworking.m in Sources */,
 				A17098F11B0581C00083AF01 /* UIScrollView+MJRefresh.m in Sources */,
+				A1C6AD4F1B0C0EC60002BE81 /* ProductModelCellFrame.m in Sources */,
 				A1F724A21B02FD350023A3C8 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				A13BB7981B0B38B00063C64B /* ExamModelCellFrame.m in Sources */,
 				A1F724A81B02FD350023A3C8 /* AFNetworkReachabilityManager.m in Sources */,

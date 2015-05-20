@@ -14,8 +14,6 @@
 #import "HttpUtils.h"
 
 #import "JSONCallback.h"
-
-#define __kSwitchService_pageRows _kAPP_DEFAULT_PAGEROWS//分页每页显示的数据
 //产品切换数据服务成员变量
 @interface SwitchService(){
     
@@ -23,13 +21,6 @@
 @end
 //产品切换数据服务实现
 @implementation SwitchService
-#pragma mark 重载初始化
--(instancetype)init{
-    if(self = [super init]){
-        _pageOfRows = __kSwitchService_pageRows;
-    }
-    return self;
-}
 
 //本地静态缓存
 static NSArray *localCategoriesCache;
@@ -104,27 +95,14 @@ static NSArray *localCategoriesCache;
 #pragma mark 加载考试分类下的考试集合
 -(NSArray *)loadExamsWithCategoryId:(NSString *)categoryId outCategoryName:(NSString *__autoreleasing *)categoryName{
     NSLog(@"开始加载考试分类[%@]下的考试集合...",categoryId);
-    if(categoryId && categoryId.length > 0 && localCategoriesCache && localCategoriesCache.count > 0){
-        CategoryModel *category;
-        for(CategoryModel *cm in localCategoriesCache){
-            if(!cm || !cm.Id || cm.Id.length == 0) continue;
-            if([categoryId isEqualToString:cm.Id]){
-                category = cm;
-                break;
-            }
-        }
-        if(category){
-            NSLog(@"加载考试分类:%@", category.name);
-            *categoryName = [category name];
-            //
-            if(category.exams && category.exams.count > 0){
-                NSMutableArray *examsArrays = [NSMutableArray arrayWithCapacity:category.exams.count];
-                for(ExamModel *em in category.exams){
-                    if(!em || !em.name || em.name.length == 0) continue;
-                    [examsArrays addObject:em];
+    if(categoryId && categoryId.length > 0 && [self hasCategories]){
+        for(CategoryModel *category in localCategoriesCache){
+            if(category && category.Id && [categoryId isEqualToString:category.Id]){
+                NSLog(@"加载考试分类:%@", category.name);
+                if(categoryName){
+                    *categoryName = category.name;
                 }
-                //
-                return examsArrays;
+                return [category.exams copy];
             }
         }
     }
@@ -134,7 +112,7 @@ static NSArray *localCategoriesCache;
 #pragma mark 根据考试名称模糊查询搜索考试
 -(void)findSearchExamsWithName:(NSString *)searchName resultBlock:(void (^)(ExamModel *))result{
     NSLog(@"根据考试名称[%@]模糊查询搜索考试...",searchName);
-    if(searchName && searchName.length > 0 && localCategoriesCache && localCategoriesCache.count > 0){
+    if(searchName && searchName.length > 0 && [self hasCategories]){
         for(CategoryModel *category in localCategoriesCache){
             if(!category || !category.exams || category.exams.count == 0)continue;
             //开启新线程查询
@@ -152,5 +130,25 @@ static NSArray *localCategoriesCache;
             });
         }
     }
+}
+
+#pragma mark 根据考试ID加载产品集合
+-(NSArray *)loadProductsWithExamId:(NSString *)examId outExamName:(NSString *__autoreleasing *)examName{
+    NSLog(@"根据考试ID[%@]加载产品集合...", examId);
+    if(examId && examId.length > 0 && [self hasCategories]){
+        for (CategoryModel *category in localCategoriesCache){
+            if(!category || !category.exams || category.exams.count == 0) continue;
+            for(ExamModel *exam in category.exams){
+                if(exam && exam.Id && [examId isEqualToString:exam.Id]){
+                    NSLog(@"加载考试分类:%@", exam.name);
+                    if(examName){
+                        *examName = exam.name;
+                    }
+                    return [exam.products copy];
+                }
+            }
+        }
+    }
+    return nil;
 }
 @end

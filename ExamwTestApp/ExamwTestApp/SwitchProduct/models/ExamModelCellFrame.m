@@ -35,12 +35,14 @@
     _model = model;
     //重置
     _nameFrame = CGRectZero;
+    _cellHeight = 0;
+    
     if(!_model)return;
     //设置考试名称
     _name = _model.name;
     //
     if(_name && _name.length > 0){
-        CGFloat maxWith = SCREEN_WITH - __kExamModelCellFrame_left - __kExamModelCellFrame_right;
+        CGFloat maxWith = SCREEN_WIDTH - __kExamModelCellFrame_left - __kExamModelCellFrame_right;
         CGSize nameSize = [_name boundingRectWithSize:CGSizeMake(maxWith, CGFLOAT_MAX)
                                               options:STR_SIZE_OPTIONS
                                            attributes:@{NSFontAttributeName:_nameFont}

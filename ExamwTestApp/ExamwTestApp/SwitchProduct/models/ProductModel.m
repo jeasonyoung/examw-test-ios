@@ -25,39 +25,48 @@
         NSArray *keys = dict.allKeys;
         //产品ID
         if([keys containsObject:__kProductModel_keys_id]){
-            _Id = [dict objectForKey:__kProductModel_keys_id];
+            id value = [dict objectForKey:__kProductModel_keys_id];
+            _Id = (value == [NSNull null] ? @"" : value);
         }
         //产品名称
         if([keys containsObject:__kProductModel_keys_name]){
-            _name = [dict objectForKey:__kProductModel_keys_name];
+            id value = [dict objectForKey:__kProductModel_keys_name];
+            _name = (value == [NSNull null] ? @"" : value);
         }
         //所属地区
         if([keys containsObject:__kProductModel_keys_area]){
-            _area = [dict objectForKey:__kProductModel_keys_area];
+            id value = [dict objectForKey:__kProductModel_keys_area];
+            _area = (value == [NSNull null] ? @"" : value);
         }
         //产品原价
         if([keys containsObject:__kProductModel_keys_price]){
-            _price = [dict objectForKey:__kProductModel_keys_price];
+            id value = [dict objectForKey:__kProductModel_keys_price];
+            _price = (value == [NSNull null] ? @0 : value);
         }
         //产品优惠价
         if([keys containsObject:__kProductModel_keys_discount]){
-            _discount = [dict objectForKey:__kProductModel_keys_discount];
+            id value = [dict objectForKey:__kProductModel_keys_discount];
+            _discount = (value == [NSNull null] ? @0 : value);
         }
         //产品介绍
         if([keys containsObject:__kProductModel_keys_content]){
-            _content = [dict objectForKey:__kProductModel_keys_content];
+            id value = [dict objectForKey:__kProductModel_keys_content];
+            _content = (value == [NSNull null] ? @"" : value);
         }
         //试卷总数
         if([keys containsObject:__kProductModel_keys_papers]){
-            _papers = [dict objectForKey:__kProductModel_keys_papers];
+            id value = [dict objectForKey:__kProductModel_keys_papers];
+            _papers = (value == [NSNull null] ? @0 : value);
         }
         //试题总数
         if([keys containsObject:__kProductModel_keys_items]){
-            _items = [dict objectForKey:__kProductModel_keys_items];
+            id value = [dict objectForKey:__kProductModel_keys_items];
+            _items = (value == [NSNull null] ? @0 : value);
         }
         //排序号
         if([keys containsObject:__kProductModel_keys_order]){
-            _order = [dict objectForKey:__kProductModel_keys_order];
+            id value = [dict objectForKey:__kProductModel_keys_order];
+            _order = (value == [NSNull null] ? @0 : value);
         }
         //
         NSLog(@"完成反序列化产品数据:%@",_name);

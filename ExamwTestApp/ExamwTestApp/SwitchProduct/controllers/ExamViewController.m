@@ -13,6 +13,8 @@
 #import "ExamModelCellFrame.h"
 #import "ExamTableViewCell.h"
 
+#import "ProductViewController.h"
+
 #define __kExamViewController_title @"选择考试"
 #define __kExamViewController_cellIdentifier @"_cell_exam"
 
@@ -41,10 +43,10 @@
     [super viewDidLoad];
     //设置标题
     self.title = __kExamViewController_title;
-    //初始化服务
-    _service = [[SwitchService alloc]init];
     //初始化数据源
     _dataSource = [NSMutableArray array];
+    //初始化服务
+    _service = [[SwitchService alloc]init];
     //异步加载数据
     [self performSelectorInBackground:@selector(loadDataInBackground) withObject:nil];
 }
@@ -108,11 +110,18 @@
         NSLog(@"创建行...");
     }
     //加载数据
-    [cell loadModelCellFrame:((ExamModelCellFrame *)[_dataSource objectAtIndex:indexPath.row])];
+    [cell loadModelCellFrame:[_dataSource objectAtIndex:indexPath.row]];
     return cell;
 }
 //行高
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return [[_dataSource objectAtIndex:indexPath.row] cellHeight];
+}
+//选中行
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"选中行[%@]...", indexPath);
+    ExamModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
+    ProductViewController *p = [[ProductViewController alloc]initWithExamId:cellFrame.model.Id];
+    [self.navigationController pushViewController:p animated:YES];
 }
 @end

@@ -52,5 +52,5 @@
 //计算文字尺寸选项
 #define STR_SIZE_OPTIONS (NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)//
 //屏幕宽度
-#define SCREEN_WITH CGRectGetWidth([[UIScreen mainScreen] bounds])//
+#define SCREEN_WIDTH CGRectGetWidth([[UIScreen mainScreen] bounds])//
 #endif

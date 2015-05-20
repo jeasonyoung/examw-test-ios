@@ -23,19 +23,23 @@
         NSArray *keys = dict.allKeys;
         //考试ID
         if([keys containsObject:__kExamModel_keys_id]){
-            _Id = [dict objectForKey:__kExamModel_keys_id];
+            id value = [dict objectForKey:__kExamModel_keys_id];
+            _Id = (value == [NSNull null] ? @"" : value);
         }
         //考试代码
         if([keys containsObject:__kExamModel_keys_code]){
-            _code = [dict objectForKey:__kExamModel_keys_code];
+            id value = [dict objectForKey:__kExamModel_keys_code];
+            _code = (value == [NSNull null] ? @0 : value);
         }
         //考试名称
         if([keys containsObject:__kExamModel_keys_name]){
-            _name = [dict objectForKey:__kExamModel_keys_name];
+            id value = [dict objectForKey:__kExamModel_keys_name];
+            _name = (value == [NSNull null] ? @"" : value);
         }
         //考试EN简称
         if([keys containsObject:__kExamModel_keys_abbr]){
-            _abbr = [dict objectForKey:__kExamModel_keys_abbr];
+            id value = [dict objectForKey:__kExamModel_keys_abbr];
+            _abbr = (value == [NSNull null] ? @"" : value);
         }
         //产品数据集合
         if([keys containsObject:__kExamModel_keys_products]){

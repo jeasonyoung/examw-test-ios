@@ -39,6 +39,7 @@
     _model = model;
     //重置
     _categoryFrame = _exam1Frame = _exam2Frame = CGRectZero;
+    _cellHeight = 0;
     
     if(!_model)return;
     _categoryName = _model.name;
@@ -48,7 +49,7 @@
             _exam2Name = ((ExamModel *)[_model.exams objectAtIndex:1]).name;
         }
     }
-    CGFloat maxWith = SCREEN_WITH - __kCategoryModelCellFrame_left - __kCategoryModelCellFrame_right;
+    CGFloat maxWith = SCREEN_WIDTH - __kCategoryModelCellFrame_left - __kCategoryModelCellFrame_right;
     //
     CGSize categoryNameSize = CGSizeZero,exam1NameSize = CGSizeZero,exam2NameSize = CGSizeZero;
     //考试分类

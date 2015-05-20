@@ -19,6 +19,7 @@
 #import "SwitchService.h"
 
 #import "ExamViewController.h"
+#import "ProductViewController.h"
 
 #define __kCategoryViewController_title @"考试分类"//
 #define __kCategoryViewController_search_height 40//查询框高度
@@ -48,10 +49,10 @@
     self.title = __kCategoryViewController_title;
     //查询Bar
     [self setupSearchBar];
+    //初始化数据缓存
+    _dataSource = [NSMutableArray array];
     //初始化切换服务
     _service = [[SwitchService alloc]init];
-    //初始化数据缓存
-    _dataSource = [NSMutableArray arrayWithCapacity:_service.pageOfRows];
     //加载数据
     [self loadAllCategories];
 }
@@ -153,13 +154,13 @@
 //点击取消按钮
 -(void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
     NSLog(@"点击取消，退下键盘...");
-    ///TODO:重新加载考试类别数据
-    searchBar.text = @"";
-    //退下键盘
-    [searchBar resignFirstResponder];
     _isSearch = NO;
     //加载数据
     [self loadAllCategories];
+    //
+    searchBar.text = @"";
+    //退下键盘
+    [searchBar resignFirstResponder];
 }
 //点击输入框时触发
 -(void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
@@ -216,13 +217,19 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"选中行[%@]...", indexPath);
     if(_isSearch){
-        NSLog(@"搜索...");
-        ///TODO:产品控制器
+        NSLog(@"搜索考试...");
+        ExamModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
+        if(cellFrame && cellFrame.model){
+            ProductViewController *productController = [[ProductViewController alloc]initWithExamId:cellFrame.model.Id];
+            [self.navigationController pushViewController:productController animated:YES];
+        }
     }else{
         NSLog(@"选中考试分类...");
         CategoryModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
-        ExamViewController *examController = [[ExamViewController alloc]initWithCategoryId:cellFrame.model.Id];
-        [self.navigationController pushViewController:examController animated:YES];
+        if(cellFrame && cellFrame.model){
+            ExamViewController *examController = [[ExamViewController alloc]initWithCategoryId:cellFrame.model.Id];
+            [self.navigationController pushViewController:examController animated:YES];
+        }
     }
 }
 

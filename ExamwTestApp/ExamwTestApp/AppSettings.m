@@ -41,31 +41,38 @@
     if(keys.count == 0)return;
     //考试类别ID
     if([keys containsObject:__kAppSettings_keys_categoryId]){
-        _categoryId = [dict objectForKey:__kAppSettings_keys_categoryId];
+        id value = [dict objectForKey:__kAppSettings_keys_categoryId];
+        _categoryId = (value == [NSNull null] ? @"" : value);
     }
     //考试ID
     if([keys containsObject:__kAppSettings_keys_examId]){
-        _examId = [dict objectForKey:__kAppSettings_keys_examId];
+        id value = [dict objectForKey:__kAppSettings_keys_examId];
+        _examId = (value == [NSNull null] ? @"" : value);
     }
     //考试名称
     if([keys containsObject:__kAppSettings_keys_examName]){
-        _examName = [dict objectForKey:__kAppSettings_keys_examName];
+        id value = [dict objectForKey:__kAppSettings_keys_examName];
+        _examName = (value == [NSNull null] ? @"" : value);
     }
     //科目ID
     if([keys containsObject:__kAppSettings_keys_subjectId]){
-        _subjectId = [dict objectForKey:__kAppSettings_keys_subjectId];
+        id value = [dict objectForKey:__kAppSettings_keys_subjectId];
+        _subjectId = (value == [NSNull null] ? @"" : value);
     }
     //科目名称
     if([keys containsObject:__kAppSettings_keys_subjectName]){
-        _subjectName = [dict objectForKey:__kAppSettings_keys_subjectName];
+        id value = [dict objectForKey:__kAppSettings_keys_subjectName];
+        _subjectName = (value == [NSNull null] ? @"" : value);
     }
     //产品ID
     if([keys containsObject:__kAppSettings_keys_productId]){
-        _productId = [dict objectForKey:__kAppSettings_keys_productId];
+        id value = [dict objectForKey:__kAppSettings_keys_productId];
+        _productId = (value == [NSNull null] ? @"" : value);
     }
     //产品名称
     if([keys containsObject:__kAppSettings_keys_productName]){
-        _productName = [dict objectForKey:__kAppSettings_keys_productName];
+        id value = [dict objectForKey:__kAppSettings_keys_productName];
+        _productName = (value == [NSNull null] ? @"" : value);
     }
 }
 #pragma mark 设置考试类别
@@ -126,13 +133,13 @@
 #pragma mark 保存到本地用户配置中
 -(BOOL)saveToDefaults{
     //拼装字典转化为JSON串
-    NSDictionary *dict = @{__kAppSettings_keys_categoryId:_categoryId,
-                           __kAppSettings_keys_examId:_examId,
-                           __kAppSettings_keys_examName:_examName,
-                           __kAppSettings_keys_subjectId:_subjectId,
-                           __kAppSettings_keys_subjectName:_subjectName,
-                           __kAppSettings_keys_productId:_productId,
-                           __kAppSettings_keys_productName:_productName };
+    NSDictionary *dict = @{__kAppSettings_keys_categoryId:(_categoryId ? _categoryId : @""),
+                           __kAppSettings_keys_examId:(_examId ? _examId : @""),
+                           __kAppSettings_keys_examName:(_examName ? _examName : @""),
+                           __kAppSettings_keys_subjectId:(_subjectId ? _subjectId : @""),
+                           __kAppSettings_keys_subjectName:(_subjectName ? _subjectName : @""),
+                           __kAppSettings_keys_productId:(_productId ? _productId : @""),
+                           __kAppSettings_keys_productName:(_productName ? _productName : @"") };
     NSError *err;
     NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&err];
     if(err){
