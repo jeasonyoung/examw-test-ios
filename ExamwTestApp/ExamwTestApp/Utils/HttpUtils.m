@@ -45,6 +45,7 @@ static NSDictionary *digestHeaders;
 +(void)JSONDataWithUrl:(NSString *)url
                 method:(HttpUtilsMethod)method
             parameters:(NSDictionary *)parameters
+              progress:(void (^)(long long, long long))progressHandler
                success:(void (^)(NSDictionary *success))successHandler
                   fail:(void (^)(NSString *fail))failHandler{
     //URL为空时退出
@@ -58,6 +59,7 @@ static NSDictionary *digestHeaders;
                        username:__kAPP_API_USERNAME
                        password:__kAPP_API_PASSWORD
                        counters:0
+                       progress:progressHandler
                         success:successHandler
                            fail:failHandler];
 }
@@ -70,6 +72,7 @@ static NSDictionary *digestHeaders;
                     username:(NSString *)username
                     password:(NSString *)password
                     counters:(NSUInteger)counters
+                    progress:(void (^)(long long, long long))progressHandler
                      success:(void(^)(NSDictionary *))successHandler
                         fail:(void(^)(NSString *))failHandler{
     
@@ -104,75 +107,73 @@ static NSDictionary *digestHeaders;
     AFJSONResponseSerializer *responseSerializer = [AFJSONResponseSerializer serializer];
     responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html",@"application/json", @"text/json", @"text/javascript", nil];
     manager.responseSerializer = responseSerializer;
+    //
+    //处理block块
+    //afn请求成功处理
+    void(^afnSuccessHandler)(AFHTTPRequestOperation *,id) = ^(AFHTTPRequestOperation *operation, id responseObject){
+        NSLog(@"请求成功:%@",responseObject);
+        if(successHandler){
+            NSDictionary *dict = nil;
+            @try {
+                NSString *response = operation.responseString;
+                NSLog(@"response:%@",response);
+                NSData *data = [response dataUsingEncoding:NSUTF8StringEncoding];
+                NSError *err;
+                dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&err];
+                if(err){
+                    NSLog(@"response反序列化为JSON时异常:%@",err);
+                    return;
+                }
+            }
+            @catch (NSException *exception) {
+                NSLog(@"JSON解析反馈数据时异常:%@", exception);
+            }
+            @finally {
+                successHandler(dict);
+            }
+        }
+    };
+    //afn请求失败处理
+    void(^afnFailHandler)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error){
+        NSLog(@"请求失败:%@", error);
+        //digest认证失败
+        if([error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] statusCode] == 401){
+            if(counters > __kHttpUtils_digest_maxCount){//超过最大认证请求次数
+                if(failHandler){
+                    failHandler([NSString stringWithFormat:@"%@", error.userInfo[NSLocalizedDescriptionKey]]);
+                }
+                return;
+            }
+            NSString *authz = [self createAuthorizationHeaderWithOperation:operation url:url method:method
+                                                                  username:username password:password counters:counters];
+            if(!authz || authz.length == 0){
+                NSLog(@"生成摘要认证的Authz信息失败!");
+                return;
+            }
+            //摘要认证头信息
+            digestHeaders = @{__kHttpUtils_authorization : authz};
+            //重新调用认证
+            NSLog(@"第[%d]次认证:%@", counters + 1, digestHeaders);
+            [self JSONDigestDataWithUrl:url method:method headers:digestHeaders parameters:parameters
+                               username:username password:password counters:(counters+1)
+                               progress:progressHandler
+                                success:successHandler fail:failHandler];
+        }else if(failHandler){
+            failHandler([NSString stringWithFormat:@"%@", error.userInfo[NSLocalizedDescriptionKey]]);
+        }
+    };
+    //
+    AFHTTPRequestOperation *req;
     //请求方式
     switch (method) {
         case HttpUtilsMethodGET:{//GET
             NSLog(@"GET:%@",url);
-            [manager GET:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                NSLog(@"请求成功:%@",responseObject);
-                if(successHandler){
-                    successHandler([self JSONFromResponse:operation.responseString]);
-                }
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"请求失败:%@", error);
-                //digest认证失败
-                if([error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] statusCode] == 401){
-                    if(counters > __kHttpUtils_digest_maxCount){//超过最大认证请求次数
-                        if(failHandler){
-                            failHandler([NSString stringWithFormat:@"%@", error.userInfo[NSLocalizedDescriptionKey]]);
-                        }
-                        return;
-                    }
-                    NSString *authz = [self createAuthorizationHeaderWithOperation:operation url:url method:method username:username password:password counters:counters];
-                    if(!authz || authz.length == 0){
-                        NSLog(@"生成摘要认证的Authz信息失败!");
-                        return;
-                    }
-                    //摘要认证头信息
-                    digestHeaders = @{__kHttpUtils_authorization : authz};
-                    //重新调用认证
-                    NSLog(@"第[%d]次认证:%@", counters + 1, digestHeaders);
-                    [self JSONDigestDataWithUrl:url method:method headers:digestHeaders parameters:parameters username:username password:password counters:(counters+1)
-                                        success:successHandler fail:failHandler];
-                    
-                }else if(failHandler){
-                    failHandler([NSString stringWithFormat:@"%@", error.userInfo[NSLocalizedDescriptionKey]]);
-                }
-            }];
+            req = [manager GET:url parameters:parameters success:afnSuccessHandler failure:afnFailHandler];
             break;
         }
         case HttpUtilsMethodPOST:{//POST
             NSLog(@"POST:%@", url);
-            [manager POST:url parameters:parameters success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                NSLog(@"请求成功:%@", responseObject);
-                if(successHandler){
-                    successHandler([self JSONFromResponse:operation.responseString]);
-                }
-            } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                NSLog(@"请求失败:%@", error);
-                //digest认证失败
-                if([error.userInfo[AFNetworkingOperationFailingURLResponseErrorKey] statusCode] == 401){
-                    if(counters > __kHttpUtils_digest_maxCount){//超过最大认证请求次数
-                        if(failHandler){
-                            failHandler([NSString stringWithFormat:@"%@", error.userInfo[NSLocalizedDescriptionKey]]);
-                        }
-                        return;
-                    }
-                    NSString *authz = [self createAuthorizationHeaderWithOperation:operation url:url method:method username:username password:password counters:counters];
-                    if(!authz || authz.length == 0){
-                        NSLog(@"生成摘要认证的Authz信息失败!");
-                        return;
-                    }
-                    //摘要认证头信息
-                    digestHeaders = @{__kHttpUtils_authorization : authz};
-                    //重新调用认证
-                    NSLog(@"第[%d]次认证:%@", counters + 1, digestHeaders);
-                    [self JSONDigestDataWithUrl:url method:method headers:digestHeaders parameters:parameters username:username password:password counters:(counters+1)
-                                        success:successHandler fail:failHandler];
-                }else if(failHandler){
-                    failHandler([NSString stringWithFormat:@"%@", error.userInfo[NSLocalizedDescriptionKey]]);
-                }
-            }];
+            req = [manager POST:url parameters:parameters success:afnSuccessHandler failure:afnFailHandler ];
             break;
         }
         default:{
@@ -180,19 +181,13 @@ static NSDictionary *digestHeaders;
             break;
         }
     }
-}
-//请求返回JSON处理
-+(NSDictionary *)JSONFromResponse:(NSString *)response{
-    NSLog(@"response:%@",response);
-    if(!response || response.length == 0) return nil;
-    NSData *data = [response dataUsingEncoding:NSUTF8StringEncoding];
-    NSError *err;
-    NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&err];
-    if(err){
-        NSLog(@"response反序列化为JSON时异常:%@",err);
-        return nil;
+    //
+    if(req && progressHandler){
+        [req setDownloadProgressBlock:^(NSUInteger bytesRead, long long totalBytesRead, long long totalBytesExpectedToRead) {
+            NSLog(@"下载进度:%ld => %lld/ %lld", (long)bytesRead, totalBytesRead, totalBytesExpectedToRead);
+            progressHandler(totalBytesRead, totalBytesExpectedToRead);
+        }];
     }
-    return dict;
 }
 //创建authorization头信息
 +(NSString *)createAuthorizationHeaderWithOperation:(AFHTTPRequestOperation *)operation

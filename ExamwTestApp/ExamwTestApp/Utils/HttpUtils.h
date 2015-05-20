@@ -22,6 +22,7 @@ typedef NS_ENUM(NSUInteger, HttpUtilsMethod){
 +(void)JSONDataWithUrl:(NSString *)url
                 method:(HttpUtilsMethod)method
             parameters:(NSDictionary *)parameters
+              progress:(void(^)(long long totalBytesRead, long long totalBytesExpectedToRead))progressHandler
                success:(void(^)(NSDictionary *))successHandler
                   fail:(void(^)(NSString *))failHandler;
 @end

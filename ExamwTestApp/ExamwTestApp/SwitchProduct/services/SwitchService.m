@@ -32,6 +32,7 @@ static NSArray *localCategoriesCache;
         localCategoriesCache = [CategoryModel categoriesFromLocal];
     }
     return (localCategoriesCache && localCategoriesCache.count > 0);
+    //return NO;
 }
 
 #pragma mark 分页加载考试分类数据
@@ -45,49 +46,67 @@ static NSArray *localCategoriesCache;
 }
 
 #pragma mark 从网络下载数据
--(void)loadCategoriesFromNetWorks:(void (^)())complete{
+-(void)loadCategoriesFromNetWorks:(void (^)(NSString *))complete withProgress:(void (^)(NSUInteger))progressPercentage {
     NSLog(@"从网络下载数据...");
+    //下载进度
+    void (^downloadProgress)(long long,long long) = ^(long long totalBytesRead, long long totalBytesExpectedToRead){
+        if(progressPercentage){//进度百分比
+            progressPercentage((int)((totalBytesRead * 100)/totalBytesExpectedToRead));
+        }
+    };
+    //下载成功处理
+    void (^successHandler)(NSDictionary *) = ^(NSDictionary *dict){//主线程
+        //开启后台线程处理
+        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
+            NSString *msg = @"";
+            @try {
+                NSLog(@"开启后台线程处理JSON转换");
+                JSONCallback *callback = [JSONCallback callbackWithDict:dict];
+                if(callback.success){
+                    NSArray *arrays = callback.data;
+                    if(arrays && arrays.count > 0){
+                        //数据转换
+                        NSArray *downloads = [CategoryModel categoriesFromJSON:arrays];
+                        if(downloads && downloads.count > 0){
+                            //缓存对象
+                            localCategoriesCache = [downloads copy];
+                            //保存数据到本地
+                            BOOL result = [CategoryModel saveLocalWithArrays:[downloads copy]];
+                            NSLog(@"保存考试分类数据到本地: %d", result);
+                        }
+                    }else{
+                        msg = @"下载数据格式不正确!";
+                        NSLog(@"反馈数据[%@]转换为数组失败！",callback.data);
+                    }
+                }else{
+                    msg = [NSString stringWithFormat:@"下载数据失败:%@",callback.msg];
+                    NSLog(@"%@",msg);
+                }
+            }
+            @catch (NSException *exception) {
+                msg = [NSString stringWithFormat:@"发生异常:%@",exception];
+                NSLog(@"后台线程处理下载数据异常:%@", exception);
+            }
+            @finally{
+                //处理完成
+                complete(msg);
+            }
+        });
+    };
     //从网络加载数据
     [HttpUtils checkNetWorkStatus:^(BOOL statusValue) {
         NSLog(@"检测网络状态:%d", statusValue);
         if(statusValue){
             [HttpUtils JSONDataWithUrl:_kAPP_API_CATEGORY_URL method:HttpUtilsMethodGET parameters:nil
-                               success:^(NSDictionary *dict) {//进入主线程
-                                   //开启后台线程处理
-                                   dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
-                                       @try {
-                                           NSLog(@"开启后台线程处理JSON转换");
-                                           JSONCallback *callback = [JSONCallback callbackWithDict:dict];
-                                           if(callback.success){
-                                               NSArray *arrays = callback.data;
-                                               if(!arrays || arrays.count == 0){
-                                                   NSLog(@"反馈数据[%@]转换为数组失败！",callback.data);
-                                                   return;
-                                               }
-                                               //数据转换
-                                               NSArray *downloads = [CategoryModel categoriesFromJSON:arrays];
-                                               if(downloads && downloads.count > 0){
-                                                   //缓存对象
-                                                   localCategoriesCache = [downloads copy];
-                                                   //保存数据到本地
-                                                   BOOL result = [CategoryModel saveLocalWithArrays:[downloads copy]];
-                                                   NSLog(@"保存考试分类数据到本地: %d", result);
-                                               }
-                                           }else{
-                                               NSLog(@"下载数据失败:%@",callback.msg);
-                                           }
-                                       }
-                                       @catch (NSException *exception) {
-                                           NSLog(@"后台线程处理下载数据异常:%@", exception);
-                                       }
-                                       @finally{
-                                           //处理完成
-                                           complete();
-                                       }
-                                   });
-                               } fail:^(NSString *err) {
-                                   NSLog(@"下载数据失败:%@", err);
-                               }];
+                              progress:(progressPercentage ? downloadProgress : nil)
+                               success:successHandler
+                                  fail:^(NSString *err) {
+                                      //开启后台线程处理
+                                      dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
+                                          NSLog(@"服务器错误:%@", err);
+                                          complete([NSString stringWithFormat:@"服务器错误:%@",err]);
+                                      });
+                                  }];
         }
     }];
 }

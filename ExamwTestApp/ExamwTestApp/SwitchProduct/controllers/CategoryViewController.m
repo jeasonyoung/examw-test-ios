@@ -16,6 +16,8 @@
 #import "ExamModelCellFrame.h"
 #import "ExamTableViewCell.h"
 
+#import "MBProgressHUD.h"
+
 #import "SwitchService.h"
 
 #import "ExamViewController.h"
@@ -37,6 +39,8 @@
     UISearchBar *_searchBar;
     //切换服务
     SwitchService *_service;
+    //下载进度条
+    MBProgressHUD *_progress;
 }
 @end
 //考试类别控制器实现
@@ -70,11 +74,42 @@
         [self performSelectorInBackground:@selector(loadCategoriesInBackground) withObject:nil];
     }else{
         NSLog(@"从网络下载数据...");
-        [_service loadCategoriesFromNetWorks:^{
+        //
+        _progress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _progress.mode = MBProgressHUDModeAnnularDeterminate;
+        _progress.labelText = @"loading...";
+        _progress.color = [UIColor grayColor];
+        //下载数据
+        [_service loadCategoriesFromNetWorks:^(NSString *msg){
+            //前台UpdateUI
+            if(msg && msg.length > 0){
+                [self performSelectorOnMainThread:@selector(updateProgressMessage:) withObject:msg waitUntilDone:YES];
+            }
+            //下载完成
             [self loadCategoriesInBackground];
+            
+        } withProgress:^(NSUInteger p) {
+            //加载进度
+            [self performSelectorOnMainThread:@selector(updateProgress:) withObject:[NSNumber numberWithInteger:p] waitUntilDone:YES];
         }];
+        
     }
 }
+//更新消息
+-(void)updateProgressMessage:(NSString *)msg{
+    if(_progress && !_progress.isHidden){
+        NSLog(@"更新下载消息>>>%@",msg);
+        _progress.labelText = msg;
+    }
+}
+//更新进度
+-(void)updateProgress:(NSNumber *)per{
+    if(_progress && !_progress.isHidden){
+        NSLog(@"更新下载进度>>>%d", (int)per);
+        _progress.progress = per.intValue;
+    }
+}
+
 //后台线程加载考试分类数据
 -(void)loadCategoriesInBackground{
     NSLog(@"后台线程加载数据...");
@@ -95,6 +130,9 @@
 //加载考试分类数据完成，前台更新
 -(void)loadEndDataOnMainUpdate{
     NSLog(@"刷新数据显示UI...");
+    if(_progress && !_progress.isHidden){
+        [_progress hide:YES];
+    }
     [self.tableView reloadData];
 }
 

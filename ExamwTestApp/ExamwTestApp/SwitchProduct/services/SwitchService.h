@@ -18,7 +18,7 @@
 -(NSArray *)loadAllCategories;
 
 //从网络加载数据
--(void)loadCategoriesFromNetWorks:(void(^)())complete;
+-(void)loadCategoriesFromNetWorks:(void(^)(NSString *))complete withProgress:(void(^)(NSUInteger))progressPercentage;
 
 //加载考试分类下的考试集合
 -(NSArray *)loadExamsWithCategoryId:(NSString *)categoryId outCategoryName:(NSString **)categoryName;

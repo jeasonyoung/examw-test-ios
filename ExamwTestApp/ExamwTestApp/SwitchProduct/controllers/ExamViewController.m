@@ -15,6 +15,9 @@
 
 #import "ProductViewController.h"
 
+#import "AppDelegate.h"
+#import "AppSettings.h"
+
 #define __kExamViewController_title @"选择考试"
 #define __kExamViewController_cellIdentifier @"_cell_exam"
 
@@ -121,7 +124,15 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"选中行[%@]...", indexPath);
     ExamModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
-    ProductViewController *p = [[ProductViewController alloc]initWithExamId:cellFrame.model.Id];
-    [self.navigationController pushViewController:p animated:YES];
+    if(cellFrame && cellFrame.model){
+        //获取应用设置
+        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        if(app && app.appSettings){//设置考试ID和名称
+            [app.appSettings setExamWithId:cellFrame.model.Id andName:cellFrame.model.name];
+        }
+        
+        ProductViewController *p = [[ProductViewController alloc]initWithExamId:cellFrame.model.Id];
+        [self.navigationController pushViewController:p animated:YES];
+    }
 }
 @end

@@ -8,6 +8,8 @@
 
 #import "ProductTableViewCell.h"
 
+#import "UIColor+Hex.h"
+
 //产品TableViewCell成员变量
 @interface ProductTableViewCell (){
     UILabel *_lbName,*_lbContent,*_lbArea,*_lbOriginalPrice,*_lbDiscountPrice,
@@ -41,9 +43,11 @@
         //原价
         _lbOriginalPrice = [[UILabel alloc]init];
         _lbOriginalPrice.textAlignment = NSTextAlignmentLeft;
+        _lbOriginalPrice.textColor = [UIColor colorWithHex:0xFF6347];
         //优惠价
         _lbDiscountPrice = [[UILabel alloc]init];
         _lbDiscountPrice.textAlignment = NSTextAlignmentLeft;
+        _lbDiscountPrice.textColor = [UIColor colorWithHex:0x008B45];
         //
         [self.contentView addSubview:_lbName];
         [self.contentView addSubview:_lbContent];
@@ -81,9 +85,18 @@
     _lbItemsTotal.font = cellFrame.itemsTotalFont;
     _lbItemsTotal.frame = cellFrame.itemsTotalFrame;
     //原价
-    _lbOriginalPrice.text = cellFrame.originalPrice;
+    //_lbOriginalPrice.text = cellFrame.originalPrice;
     _lbOriginalPrice.font = cellFrame.originalPriceFont;
     _lbOriginalPrice.frame = cellFrame.originalPriceFrame;
+    NSString *oriPrice = cellFrame.originalPrice;
+    if(oriPrice && oriPrice.length > 0){
+        NSMutableAttributedString *oriAttri = [[NSMutableAttributedString alloc]initWithString:oriPrice];
+        //中划线
+        [oriAttri addAttribute:NSStrikethroughStyleAttributeName
+                         value:@(NSUnderlinePatternSolid|NSUnderlineStyleSingle)
+                         range:NSMakeRange(0, oriPrice.length)];
+        _lbOriginalPrice.attributedText = oriAttri;
+    }
     //优惠价
     _lbDiscountPrice.text = cellFrame.discountPrice;
     _lbDiscountPrice.font = cellFrame.discountPriceFont;

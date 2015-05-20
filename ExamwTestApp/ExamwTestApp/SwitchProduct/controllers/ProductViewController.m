@@ -14,17 +14,25 @@
 
 #import "SwitchService.h"
 
+#import "AppDelegate.h"
+#import "AppSettings.h"
+
 #define __kProductViewController_title @"选择产品"//
 #define __kProductViewController_cellIdentifier @"_cellProduct"//
 
+#define __kProductViewController_alertConfirmTitle @"确定"//
+#define __kProductViewController_alertCancelTitle @"取消"//
+
 //产品列表控制器成员变量
-@interface ProductViewController (){
+@interface ProductViewController ()<UIAlertViewDelegate>{
     //所属考试ID
     NSString *_examId;
     //数据源
     NSMutableArray *_dataSource;
     //切换服务
     SwitchService *_service;
+    //选中的产品
+    ProductModel *_product;
 }
 @end
 //产品列表控制器实现
@@ -102,7 +110,6 @@
     if(!cell){
         cell = [[ProductTableViewCell alloc]initWithStyle:UITableViewCellStyleDefault
                                           reuseIdentifier:__kProductViewController_cellIdentifier];
-        //cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     //加载数据
     [cell loadModelCellFrame:[_dataSource objectAtIndex:indexPath.row]];
@@ -117,6 +124,39 @@
 //选中行
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"选中行:%@...", indexPath);
+    ProductModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
+    if(cellFrame && cellFrame.model){
+        _product = cellFrame.model;
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil
+                                                           message:_product.name
+                                                          delegate:self
+                                                 cancelButtonTitle:__kProductViewController_alertCancelTitle
+                                                 otherButtonTitles:__kProductViewController_alertConfirmTitle, nil];
+        [alertView show];
+    }
 }
+
+#pragma mark UIAlertViewDelegate
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    NSLog(@"clickedButtonAtIndex==>%d", buttonIndex);
+    if(buttonIndex == 1){//确认
+        //开始同步数据
+        
+        
+        
+//        //开启线程保存应用设置
+//        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            //获取应用设置
+//            AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+//            if(app && app.appSettings){
+//                //设置产品ID和名称
+//                [app.appSettings setExamWithId:_product.Id andName:_product.name];
+//                //保存数据
+//                [app.appSettings saveToDefaults];
+//            }
+//        });
+    }
+}
+
 
 @end
