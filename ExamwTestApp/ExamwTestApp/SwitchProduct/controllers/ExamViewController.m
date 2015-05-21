@@ -128,7 +128,9 @@
         //获取应用设置
         AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         if(app && app.appSettings){//设置考试ID和名称
-            [app.appSettings setExamWithId:cellFrame.model.Id andName:cellFrame.model.name];
+            [app.appSettings setExamWithId:cellFrame.model.Id
+                                   andCode:cellFrame.model.code
+                                   andName:cellFrame.model.name];
         }
         
         ProductViewController *p = [[ProductViewController alloc]initWithExamId:cellFrame.model.Id];

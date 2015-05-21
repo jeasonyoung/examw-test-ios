@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A10F5FB61B0DBAEA00BD0491 /* DownloadDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A10F5FB51B0DBAEA00BD0491 /* DownloadDao.m */; };
+		A10F5FBC1B0DBCA000BD0491 /* AppClientSync.m in Sources */ = {isa = PBXBuildFile; fileRef = A10F5FBB1B0DBCA000BD0491 /* AppClientSync.m */; };
+		A10F5FBF1B0E383000BD0491 /* PaperUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A10F5FBE1B0E383000BD0491 /* PaperUtils.m */; };
 		A13BB77E1B096D8C0063C64B /* ExamModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB77D1B096D8C0063C64B /* ExamModel.m */; };
 		A13BB7811B0971B10063C64B /* ProductModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB7801B0971B10063C64B /* ProductModel.m */; };
 		A13BB7841B09B11B0063C64B /* SwitchService.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB7831B09B11B0063C64B /* SwitchService.m */; };
@@ -71,6 +74,8 @@
 		A1F724D71B0342330023A3C8 /* SecureUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724D61B0342330023A3C8 /* SecureUtils.m */; };
 		A1F724DD1B03470B0023A3C8 /* NSData+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724DC1B03470B0023A3C8 /* NSData+Hex.m */; };
 		A1F724E01B034E950023A3C8 /* NSString+Reversed.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724DF1B034E950023A3C8 /* NSString+Reversed.m */; };
+		A1F8DECE1B0CB88300317B0E /* DaoHelpers.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F8DECD1B0CB88300317B0E /* DaoHelpers.m */; };
+		A1F8DED11B0CBAE500317B0E /* UserAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F8DED01B0CBAE500317B0E /* UserAccount.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +89,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A10F5FB41B0DBAEA00BD0491 /* DownloadDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadDao.h; path = SwitchProduct/dao/DownloadDao.h; sourceTree = "<group>"; };
+		A10F5FB51B0DBAEA00BD0491 /* DownloadDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadDao.m; path = SwitchProduct/dao/DownloadDao.m; sourceTree = "<group>"; };
+		A10F5FBA1B0DBCA000BD0491 /* AppClientSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppClientSync.h; path = SwitchProduct/models/AppClientSync.h; sourceTree = "<group>"; };
+		A10F5FBB1B0DBCA000BD0491 /* AppClientSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppClientSync.m; path = SwitchProduct/models/AppClientSync.m; sourceTree = "<group>"; };
+		A10F5FBD1B0E383000BD0491 /* PaperUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperUtils.h; path = ExamwTestApp/Utils/PaperUtils.h; sourceTree = "<group>"; };
+		A10F5FBE1B0E383000BD0491 /* PaperUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperUtils.m; path = ExamwTestApp/Utils/PaperUtils.m; sourceTree = "<group>"; };
 		A13BB77C1B096D8C0063C64B /* ExamModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExamModel.h; path = SwitchProduct/models/ExamModel.h; sourceTree = "<group>"; };
 		A13BB77D1B096D8C0063C64B /* ExamModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExamModel.m; path = SwitchProduct/models/ExamModel.m; sourceTree = "<group>"; };
 		A13BB77F1B0971B10063C64B /* ProductModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductModel.h; path = SwitchProduct/models/ProductModel.h; sourceTree = "<group>"; };
@@ -218,6 +229,10 @@
 		A1F724DC1B03470B0023A3C8 /* NSData+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSData+Hex.m"; path = "ExamwTestApp/Utils/NSData+Hex.m"; sourceTree = "<group>"; };
 		A1F724DE1B034E950023A3C8 /* NSString+Reversed.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+Reversed.h"; path = "ExamwTestApp/Utils/NSString+Reversed.h"; sourceTree = "<group>"; };
 		A1F724DF1B034E950023A3C8 /* NSString+Reversed.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+Reversed.m"; path = "ExamwTestApp/Utils/NSString+Reversed.m"; sourceTree = "<group>"; };
+		A1F8DECC1B0CB88300317B0E /* DaoHelpers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DaoHelpers.h; sourceTree = "<group>"; };
+		A1F8DECD1B0CB88300317B0E /* DaoHelpers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DaoHelpers.m; sourceTree = "<group>"; };
+		A1F8DECF1B0CBAE500317B0E /* UserAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserAccount.h; sourceTree = "<group>"; };
+		A1F8DED01B0CBAE500317B0E /* UserAccount.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserAccount.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -300,6 +315,8 @@
 		A17099001B0599CE0083AF01 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				A10F5FBA1B0DBCA000BD0491 /* AppClientSync.h */,
+				A10F5FBB1B0DBCA000BD0491 /* AppClientSync.m */,
 				A19D5B521B064706009F7360 /* CategoryModel.h */,
 				A19D5B531B064706009F7360 /* CategoryModel.m */,
 				A13BB7891B0AE6A40063C64B /* CategoryModelCellFrame.h */,
@@ -350,6 +367,8 @@
 		A19D5B511B063AD1009F7360 /* dao */ = {
 			isa = PBXGroup;
 			children = (
+				A10F5FB41B0DBAEA00BD0491 /* DownloadDao.h */,
+				A10F5FB51B0DBAEA00BD0491 /* DownloadDao.m */,
 			);
 			name = dao;
 			sourceTree = "<group>";
@@ -382,6 +401,10 @@
 				A1F724D01B033F4A0023A3C8 /* AppSettings.m */,
 				A1F724201B02F88A0023A3C8 /* AppDelegate.h */,
 				A1F724211B02F88A0023A3C8 /* AppDelegate.m */,
+				A1F8DECF1B0CBAE500317B0E /* UserAccount.h */,
+				A1F8DED01B0CBAE500317B0E /* UserAccount.m */,
+				A1F8DECC1B0CB88300317B0E /* DaoHelpers.h */,
+				A1F8DECD1B0CB88300317B0E /* DaoHelpers.m */,
 				A152FBFF1B048985006523CE /* SwitchProduct */,
 				A1F724231B02F88A0023A3C8 /* MasterViewController.h */,
 				A1F724241B02F88A0023A3C8 /* MasterViewController.m */,
@@ -513,6 +536,8 @@
 				A1F724B61B02FEED0023A3C8 /* HttpUtils.m */,
 				A1F724D51B0342330023A3C8 /* SecureUtils.h */,
 				A1F724D61B0342330023A3C8 /* SecureUtils.m */,
+				A10F5FBD1B0E383000BD0491 /* PaperUtils.h */,
+				A10F5FBE1B0E383000BD0491 /* PaperUtils.m */,
 				A1F724DB1B03470B0023A3C8 /* NSData+Hex.h */,
 				A1F724DC1B03470B0023A3C8 /* NSData+Hex.m */,
 				A1F724DE1B034E950023A3C8 /* NSString+Reversed.h */,
@@ -629,6 +654,7 @@
 				A1C6AD851B0C74770002BE81 /* UIAlertView+AFNetworking.m in Sources */,
 				A1F724221B02F88A0023A3C8 /* AppDelegate.m in Sources */,
 				A1C6AD801B0C74770002BE81 /* AFURLConnectionOperation.m in Sources */,
+				A10F5FBC1B0DBCA000BD0491 /* AppClientSync.m in Sources */,
 				A1C6AD911B0C90AC0002BE81 /* MBProgressHUD.m in Sources */,
 				A17098EA1B0581C00083AF01 /* MJRefreshFooter.m in Sources */,
 				A17098EE1B0581C00083AF01 /* MJRefreshLegendFooter.m in Sources */,
@@ -644,6 +670,8 @@
 				A13BB7881B0AD6270063C64B /* JSONCallback.m in Sources */,
 				A13BB79C1B0B47800063C64B /* ExamTableViewCell.m in Sources */,
 				A1C6AD821B0C74770002BE81 /* AFURLResponseSerialization.m in Sources */,
+				A10F5FB61B0DBAEA00BD0491 /* DownloadDao.m in Sources */,
+				A10F5FBF1B0E383000BD0491 /* PaperUtils.m in Sources */,
 				A1F724251B02F88A0023A3C8 /* MasterViewController.m in Sources */,
 				A13BB7811B0971B10063C64B /* ProductModel.m in Sources */,
 				A1C6AD7B1B0C74770002BE81 /* AFHTTPRequestOperationManager.m in Sources */,
@@ -654,6 +682,7 @@
 				A1C6AD871B0C74770002BE81 /* UIImageView+AFNetworking.m in Sources */,
 				A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */,
 				A1C6AD7E1B0C74770002BE81 /* AFNetworkReachabilityManager.m in Sources */,
+				A1F8DED11B0CBAE500317B0E /* UserAccount.m in Sources */,
 				A1C6AD861B0C74770002BE81 /* UIButton+AFNetworking.m in Sources */,
 				A1C6AD8A1B0C74770002BE81 /* UIWebView+AFNetworking.m in Sources */,
 				A1F724C61B0305C00023A3C8 /* FMDatabaseQueue.m in Sources */,
@@ -675,6 +704,7 @@
 				A1C6AD891B0C74770002BE81 /* UIRefreshControl+AFNetworking.m in Sources */,
 				A17098FE1B0599910083AF01 /* CategoryViewController.m in Sources */,
 				A17098F21B0581C00083AF01 /* UIView+MJExtension.m in Sources */,
+				A1F8DECE1B0CB88300317B0E /* DaoHelpers.m in Sources */,
 				A17098EC1B0581C00083AF01 /* MJRefreshGifHeader.m in Sources */,
 				A1F724C81B0305C00023A3C8 /* FMDatabaseAdditions.m in Sources */,
 				A17098ED1B0581C00083AF01 /* MJRefreshHeader.m in Sources */,

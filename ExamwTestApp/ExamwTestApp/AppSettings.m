@@ -9,7 +9,8 @@
 #import "AppSettings.h"
 
 #define __kAppSettings_defaults @"AppSettings"//用户默认配置键名
-#define __kAppSettings_keys_examId @"examId"//考试ID键名
+#define __kAppSettings_keys_examId @"examId"//考试Id键名
+#define __kAppSettings_keys_examCode @"examCode"//考试代码键名
 #define __kAppSettings_keys_examName @"examName"//考试名称键名
 #define __kAppSettings_keys_productId @"productId"//产品ID键名
 #define __kAppSettings_keys_productName @"productName"//产品名称键名
@@ -42,6 +43,11 @@
         id value = [dict objectForKey:__kAppSettings_keys_examId];
         _examId = (value == [NSNull null] ? @"" : value);
     }
+    //考试代码
+    if([keys containsObject:__kAppSettings_keys_examCode]){
+        id value = [dict objectForKey:__kAppSettings_keys_examCode];
+        _examCode = (value == [NSNull null] ? @0 : value);
+    }
     //考试名称
     if([keys containsObject:__kAppSettings_keys_examName]){
         id value = [dict objectForKey:__kAppSettings_keys_examName];
@@ -61,8 +67,9 @@
 }
 
 #pragma mark 设置考试
--(void)setExamWithId:(NSString *)examId andName:(NSString *)examName{
+-(void)setExamWithId:(NSString *)examId andCode:(NSNumber *)examCode andName:(NSString *)examName{
     _examId = examId;
+    _examCode = examCode;
     _examName = examName;
 }
 
@@ -73,8 +80,8 @@
 }
 #pragma mark 校验是否有效
 -(BOOL)verification{
-    if(!_examId || _examId.length == 0){
-        NSLog(@"配置缺少=>考试ID!");
+    if(!_examCode){
+        NSLog(@"配置缺少=>考试代码D!");
         return NO;
     }
     if(!_examName || _examName.length == 0){
@@ -97,6 +104,7 @@
 -(BOOL)saveToDefaults{
     //拼装字典转化为JSON串
     NSDictionary *dict = @{__kAppSettings_keys_examId:(_examId ? _examId : @""),
+                           __kAppSettings_keys_examCode:(_examCode ? _examCode : @0),
                            __kAppSettings_keys_examName:(_examName ? _examName : @""),
                            __kAppSettings_keys_productId:(_productId ? _productId : @""),
                            __kAppSettings_keys_productName:(_productName ? _productName : @"") };

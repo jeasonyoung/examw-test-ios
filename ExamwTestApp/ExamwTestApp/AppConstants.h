@@ -29,21 +29,21 @@
 
 //服务器数据API
 //注册API
-#define _kAPP_API_REGISTER_URL @""
+#define _kAPP_API_REGISTER_URL @"http://localhost:8080/examw-test/api/m/user/register"
 //登陆API
-#define _kAPP_API_LOGIN_URL @""
+#define _kAPP_API_LOGIN_URL @"http://localhost:8080/examw-test/api/m/user/login"
 //注册码校验API
-#define _kAPP_API_REGCODECHECK_URL @""
+#define _kAPP_API_REGCODECHECK_URL @"http://localhost:8080/examw-test/api/m/app/register"
 //考试类别API
 #define _kAPP_API_CATEGORY_URL @"http://localhost:8080/examw-test/api/m/download/categories"
 //考试数据API
-#define _kAPP_API_EXAMS_URL @""
+//#define _kAPP_API_EXAMS_URL @""
 //科目数据API
-#define _kAPP_API_SUBJECTS_URL @""
+#define _kAPP_API_SUBJECTS_URL @"http://localhost:8080/examw-test/api/m/sync/exams"
 //产品数据API
-#define _kAPP_API_PRODUCTS_URL @""
+//#define _kAPP_API_PRODUCTS_URL @""
 //试卷数据API
-#define _kAPP_API_PAPERS_URL @""
+#define _kAPP_API_PAPERS_URL @"http://localhost:8080/examw-test/api/m/sync/papers"
 
 
 //默认分页数据
