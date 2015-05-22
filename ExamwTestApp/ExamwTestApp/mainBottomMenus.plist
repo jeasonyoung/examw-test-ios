@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>name</key>
+		<string>首页</string>
+		<key>controller</key>
+		<string>HomeViewController</string>
+		<key>imgNormalName</key>
+		<string></string>
+		<key>imgHighlightName</key>
+		<string></string>
+		<key>status</key>
+		<true/>
+		<key>order</key>
+		<integer>0</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>错题</string>
+		<key>controller</key>
+		<string>FavoritesViewController</string>
+		<key>imgNormalName</key>
+		<string></string>
+		<key>imgHighlightName</key>
+		<string></string>
+		<key>status</key>
+		<true/>
+		<key>order</key>
+		<integer>1</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>我的</string>
+		<key>controller</key>
+		<string>MyViewController</string>
+		<key>imgNormalName</key>
+		<string></string>
+		<key>imgHighlightName</key>
+		<string></string>
+		<key>status</key>
+		<true/>
+		<key>order</key>
+		<integer>2</integer>
+	</dict>
+	<dict>
+		<key>name</key>
+		<string>更多</string>
+		<key>controller</key>
+		<string>MoreViewController</string>
+		<key>imgNormalName</key>
+		<string></string>
+		<key>imgHighlightName</key>
+		<string></string>
+		<key>status</key>
+		<true/>
+		<key>order</key>
+		<integer>3</integer>
+	</dict>
+</array>
+</plist>

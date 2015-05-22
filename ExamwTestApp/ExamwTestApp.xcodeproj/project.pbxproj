@@ -35,6 +35,12 @@
 		A17098FF1B0599910083AF01 /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098FC1B0599910083AF01 /* SwitchViewController.m */; };
 		A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = A17099051B05DF290083AF01 /* XHRealTimeBlur.m */; };
 		A1936C941B0ED80900C59A06 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936C931B0ED80900C59A06 /* MainViewController.m */; };
+		A1936C961B0F0A4500C59A06 /* mainBottomMenus.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1936C951B0F0A4500C59A06 /* mainBottomMenus.plist */; };
+		A1936C991B0F0CD700C59A06 /* BottomMenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936C981B0F0CD700C59A06 /* BottomMenuModel.m */; };
+		A1936C9F1B0F1B6E00C59A06 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936C9E1B0F1B6E00C59A06 /* HomeViewController.m */; };
+		A1936CA21B0F1BDF00C59A06 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936CA11B0F1BDF00C59A06 /* FavoritesViewController.m */; };
+		A1936CA51B0F1C4900C59A06 /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936CA41B0F1C4900C59A06 /* MyViewController.m */; };
+		A1936CA81B0F1C7F00C59A06 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */; };
 		A19D5B541B064706009F7360 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D5B531B064706009F7360 /* CategoryModel.m */; };
 		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
 		A1C6AD4C1B0C0C790002BE81 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD4B1B0C0C790002BE81 /* ProductViewController.m */; };
@@ -148,6 +154,17 @@
 		A17099051B05DF290083AF01 /* XHRealTimeBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XHRealTimeBlur.m; path = libs/XHRealTimeBlur/XHRealTimeBlur.m; sourceTree = "<group>"; };
 		A1936C921B0ED80900C59A06 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = Home/controllers/MainViewController.h; sourceTree = "<group>"; };
 		A1936C931B0ED80900C59A06 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = Home/controllers/MainViewController.m; sourceTree = "<group>"; };
+		A1936C951B0F0A4500C59A06 /* mainBottomMenus.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mainBottomMenus.plist; sourceTree = "<group>"; };
+		A1936C971B0F0CD700C59A06 /* BottomMenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BottomMenuModel.h; path = Home/models/BottomMenuModel.h; sourceTree = "<group>"; };
+		A1936C981B0F0CD700C59A06 /* BottomMenuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BottomMenuModel.m; path = Home/models/BottomMenuModel.m; sourceTree = "<group>"; };
+		A1936C9D1B0F1B6E00C59A06 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = Home/controllers/HomeViewController.h; sourceTree = "<group>"; };
+		A1936C9E1B0F1B6E00C59A06 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeViewController.m; path = Home/controllers/HomeViewController.m; sourceTree = "<group>"; };
+		A1936CA01B0F1BDF00C59A06 /* FavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FavoritesViewController.h; path = Home/controllers/FavoritesViewController.h; sourceTree = "<group>"; };
+		A1936CA11B0F1BDF00C59A06 /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FavoritesViewController.m; path = Home/controllers/FavoritesViewController.m; sourceTree = "<group>"; };
+		A1936CA31B0F1C4900C59A06 /* MyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyViewController.h; path = Home/controllers/MyViewController.h; sourceTree = "<group>"; };
+		A1936CA41B0F1C4900C59A06 /* MyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyViewController.m; path = Home/controllers/MyViewController.m; sourceTree = "<group>"; };
+		A1936CA61B0F1C7F00C59A06 /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoreViewController.h; path = Home/controllers/MoreViewController.h; sourceTree = "<group>"; };
+		A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoreViewController.m; path = Home/controllers/MoreViewController.m; sourceTree = "<group>"; };
 		A19D5B521B064706009F7360 /* CategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CategoryModel.h; path = SwitchProduct/models/CategoryModel.h; sourceTree = "<group>"; };
 		A19D5B531B064706009F7360 /* CategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CategoryModel.m; path = SwitchProduct/models/CategoryModel.m; sourceTree = "<group>"; };
 		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
@@ -396,6 +413,8 @@
 		A1936C8F1B0ED79500C59A06 /* models */ = {
 			isa = PBXGroup;
 			children = (
+				A1936C971B0F0CD700C59A06 /* BottomMenuModel.h */,
+				A1936C981B0F0CD700C59A06 /* BottomMenuModel.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -405,6 +424,14 @@
 			children = (
 				A1936C921B0ED80900C59A06 /* MainViewController.h */,
 				A1936C931B0ED80900C59A06 /* MainViewController.m */,
+				A1936C9D1B0F1B6E00C59A06 /* HomeViewController.h */,
+				A1936C9E1B0F1B6E00C59A06 /* HomeViewController.m */,
+				A1936CA01B0F1BDF00C59A06 /* FavoritesViewController.h */,
+				A1936CA11B0F1BDF00C59A06 /* FavoritesViewController.m */,
+				A1936CA31B0F1C4900C59A06 /* MyViewController.h */,
+				A1936CA41B0F1C4900C59A06 /* MyViewController.m */,
+				A1936CA61B0F1C7F00C59A06 /* MoreViewController.h */,
+				A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -473,6 +500,7 @@
 			isa = PBXGroup;
 			children = (
 				A1F7241D1B02F88A0023A3C8 /* Info.plist */,
+				A1936C951B0F0A4500C59A06 /* mainBottomMenus.plist */,
 				A1F7241E1B02F88A0023A3C8 /* main.m */,
 			);
 			name = "Supporting Files";
@@ -683,6 +711,7 @@
 			files = (
 				A17098E71B0581C00083AF01 /* MJRefresh.bundle in Resources */,
 				A1F7242D1B02F88A0023A3C8 /* Images.xcassets in Resources */,
+				A1936C961B0F0A4500C59A06 /* mainBottomMenus.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -701,6 +730,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A1C6AD831B0C74770002BE81 /* AFURLSessionManager.m in Sources */,
+				A1936CA51B0F1C4900C59A06 /* MyViewController.m in Sources */,
 				A17098FF1B0599910083AF01 /* SwitchViewController.m in Sources */,
 				A17098E81B0581C00083AF01 /* MJRefreshComponent.m in Sources */,
 				A1F724DD1B03470B0023A3C8 /* NSData+Hex.m in Sources */,
@@ -730,8 +760,10 @@
 				A1C6AD7B1B0C74770002BE81 /* AFHTTPRequestOperationManager.m in Sources */,
 				A1F724D71B0342330023A3C8 /* SecureUtils.m in Sources */,
 				A1C6AD841B0C74770002BE81 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
+				A1936CA21B0F1BDF00C59A06 /* FavoritesViewController.m in Sources */,
 				A19D5B541B064706009F7360 /* CategoryModel.m in Sources */,
 				A1C6AD7F1B0C74770002BE81 /* AFSecurityPolicy.m in Sources */,
+				A1936C9F1B0F1B6E00C59A06 /* HomeViewController.m in Sources */,
 				A1C6AD871B0C74770002BE81 /* UIImageView+AFNetworking.m in Sources */,
 				A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */,
 				A1C6AD7E1B0C74770002BE81 /* AFNetworkReachabilityManager.m in Sources */,
@@ -741,10 +773,12 @@
 				A1F724C61B0305C00023A3C8 /* FMDatabaseQueue.m in Sources */,
 				A13BB7951B0B31930063C64B /* ExamViewController.m in Sources */,
 				A1C6AD7D1B0C74770002BE81 /* AFNetworkActivityIndicatorManager.m in Sources */,
+				A1936C991B0F0CD700C59A06 /* BottomMenuModel.m in Sources */,
 				A1F7241F1B02F88A0023A3C8 /* main.m in Sources */,
 				A1F724E01B034E950023A3C8 /* NSString+Reversed.m in Sources */,
 				A13BB78B1B0AE6A40063C64B /* CategoryModelCellFrame.m in Sources */,
 				A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */,
+				A1936CA81B0F1C7F00C59A06 /* MoreViewController.m in Sources */,
 				A13BB7921B0B0B7F0063C64B /* CategoryTableViewCell.m in Sources */,
 				A1C6AD881B0C74770002BE81 /* UIProgressView+AFNetworking.m in Sources */,
 				A13BB77E1B096D8C0063C64B /* ExamModel.m in Sources */,

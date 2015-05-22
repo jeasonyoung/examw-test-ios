@@ -7,11 +7,10 @@
 //
 
 #import "MainViewController.h"
+#import "BottomMenuModel.h"
 
-#import "AppDelegate.h"
-#import "AppSettings.h"
 //主界面视图控制器成员变量
-@interface MainViewController (){
+@interface MainViewController ()<UITabBarControllerDelegate>{
     
 }
 @end
@@ -20,44 +19,61 @@
 
 #pragma mark 静态成实例
 +(instancetype)shareInstance{
-    static MainViewController *instance;
-    if(!instance){
-        instance = [[MainViewController alloc]init];
+    static MainViewController *mainController;
+    if(!mainController){
+        mainController = [[MainViewController alloc] init];
     }
-    return instance;
+    return mainController;
 }
 
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //设置标题
-    [self loadMainTitle];
-    
-    // Do any additional setup after loading the view.
+    //设置代理
+    self.delegate = self;
+    //加载底部菜单数据
+    [self loadBottomMenus];
 }
 
-//设置主界面
--(void)loadMainTitle{
-    //多线程加载数据
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSString *examName;
-        AppDelegate *app = [[UIApplication sharedApplication] delegate];
-        if(app && app.appSettings){
-            examName = app.appSettings.examName;
+//加载底部菜单数据
+-(void)loadBottomMenus{
+    //异步线程加载菜单数据
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"后台线程开始加载菜单数据...");
+        NSArray *menus = [BottomMenuModel menusFromLocal];
+        if(!menus || menus.count == 0){
+            NSLog(@"未加载到菜单数据...");
+            return;
         }
-        if(examName && examName.length > 0){
-            dispatch_async(dispatch_get_main_queue(), ^{
-                self.title = examName;
-                NSLog(@"主线程加载成功....");
-            });
+        NSLog(@"开始反射装载视图控制器...");
+        //反射装载视图控制器
+        NSMutableArray *controllers = [NSMutableArray arrayWithCapacity:menus.count];
+        for(BottomMenuModel *model in menus){
+            if(!model)continue;
+            UIViewController *viewController = [model buildViewController];
+            if(viewController){
+                [controllers addObject:viewController];
+            }
         }
+        if(controllers.count == 0){
+            NSLog(@"没有生成底部菜单...");
+            return;
+        }
+        //反射完毕,更新UI
+        dispatch_async(dispatch_get_main_queue(), ^{
+            NSLog(@"前台UI加载底部菜单...");
+            [self setViewControllers:controllers animated:YES];
+            self.selectedIndex = 0;
+        });
     });
+    
 }
-
-
 
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
+
+#pragma mark UITabBarControllerDelegate
+
 @end
