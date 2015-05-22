@@ -15,7 +15,11 @@
 #define __kCategoryModel_keys_abbr @"abbr"//分类EN简称
 #define __kCategoryModel_keys_exams @"exams"//考试集合
 
-#define __kCategoryModel_localFileName @"CategoriesLocalData.plist"//本地保存文件名
+#define __kCategoryModel_localFileName @"CategoriesLocalData_%@.plist"//本地保存文件名
+//考试分类模型实现
+@interface CategoryModel (){
+}
+@end
 //考试分类模型实现
 @implementation CategoryModel
 #pragma mark 初始化
@@ -85,11 +89,10 @@
               __kCategoryModel_keys_exams:examArrays
               };
 }
+
 #pragma mark 从本地文件中加载数据
 +(NSArray *)categoriesFromLocal{
-    //本地存储根路径
-    NSString *root = [[NSBundle mainBundle] resourcePath];
-    NSString *path = [root stringByAppendingPathComponent:__kCategoryModel_localFileName];
+    NSString *path = [self loadLocalPath];
     NSLog(@"将从文件中加载离线数据:%@",path);
     //文件管理器
     NSFileManager *fileMgr = [NSFileManager defaultManager];
@@ -111,6 +114,21 @@
     }
     return nil;
 }
+
+//获取本地存储路径
++(NSString *)loadLocalPath{
+    //初始化日期格式化
+    NSDateFormatter *dateFormat = [[NSDateFormatter alloc]init];
+    [dateFormat setDateFormat:@"yyyyMMdd"];
+    NSString *dtCurrent = [dateFormat stringFromDate:[NSDate date]];
+    //文件名
+    NSString *fileName = [NSString stringWithFormat:__kCategoryModel_localFileName,dtCurrent];
+    //根路径
+    NSString *doc = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    //存储路径
+    return [doc stringByAppendingPathComponent:fileName];
+}
+
 #pragma mark 将JSON数组转化为考试分类数据模型数组
 +(NSArray *)categoriesFromJSON:(NSArray *)arrays{
     NSLog(@"将JSON数组转化为考试分类数据模型数组...");
@@ -145,14 +163,12 @@
             return result;
         }
         NSError *err;
-        
         NSData *data = [NSJSONSerialization dataWithJSONObject:arrays options:NSJSONWritingPrettyPrinted error:&err];
         if(err){
             NSLog(@"序列化考试分类时异常 %@",err);
         }else{
             //本地存储根路径
-            NSString *root = [[NSBundle mainBundle] resourcePath];
-            NSString *path = [root stringByAppendingPathComponent:__kCategoryModel_localFileName];
+            NSString *path = [self loadLocalPath];
             result = [data writeToFile:path atomically:YES];
             NSLog(@"保存到本地[status:%d]路径:%@",result,path);
         }

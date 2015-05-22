@@ -62,106 +62,112 @@
     //加载数据
     [self loadAllCategories];
 }
+
 //加载考试分类数据
 -(void)loadAllCategories{
     _isSearch = NO;
-    //清除数据
-    if(_dataSource && _dataSource.count > 0){
-        NSLog(@"清空原始数据...");
-        [_dataSource removeAllObjects];
-    }
+    //加载数据到本地数据源
+    void(^loadDataToDataSource)() = ^(){
+        //清除数据
+        if(_dataSource && _dataSource.count > 0){
+            NSLog(@"清空原始数据...");
+            [_dataSource removeAllObjects];
+        }
+        NSLog(@"后台线程加载数据...");
+        NSArray *arrays = [_service loadAllCategories];
+        if(arrays && arrays.count > 0){
+            //初始化插入数组
+            for(CategoryModel *category in arrays){
+                if(!category) continue;
+                CategoryModelCellFrame *cellFrame = [[CategoryModelCellFrame alloc]init];
+                cellFrame.model = category;
+                //加载的数据追加到缓存
+                [_dataSource addObject:cellFrame];
+            }
+            //更新UI
+            dispatch_async(dispatch_get_main_queue(), ^{
+                NSLog(@"刷新数据显示UI...");
+                if(_progress && !_progress.isHidden){
+                    [_progress hide:YES];
+                }
+                [self.tableView reloadData];
+            });
+        }
+    };
     //
     if(_service.hasCategories){
         NSLog(@"本地存在数据...");
-        [self performSelectorInBackground:@selector(loadCategoriesInBackground) withObject:nil];
+        //开启异步线程加载数据
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), loadDataToDataSource);
     }else{
         NSLog(@"从网络下载数据...");
-        //
+        //设置等待动画
         _progress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         _progress.mode = MBProgressHUDModeAnnularDeterminate;
         _progress.labelText = __kCategoryViewController_waitMsg;
         _progress.color = [UIColor grayColor];
-        //下载数据
-        [_service loadCategoriesFromNetWorks:^(NSString *msg){
-            //前台UpdateUI
-            if(msg && msg.length > 0){
-                [self performSelectorOnMainThread:@selector(updateProgressMessage:) withObject:msg waitUntilDone:YES];
-            }
-            //下载完成
-            [self loadCategoriesInBackground];
-            
-        } withProgress:^(NSUInteger p) {
-            //加载进度
-            [self performSelectorOnMainThread:@selector(updateProgress:) withObject:[NSNumber numberWithInteger:p] waitUntilDone:YES];
-        }];
         
+        //开始异步线程处理
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            //下载数据
+            [_service loadCategoriesFromNetWorks:^(NSString *msg) {
+                if(msg && msg.length > 0){//前台UpdateUI
+                    NSLog(@"更新下载消息>>>%@",msg);
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        _progress.labelText = msg;
+                    });
+                }
+                //加载考试分类数据到本地数据缓存
+                loadDataToDataSource();
+                
+            } withProgress:^(NSUInteger per) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //ui更新进度
+                    _progress.progress = per;
+                });
+            }];
+            
+        });
     }
 }
-//更新消息
--(void)updateProgressMessage:(NSString *)msg{
-    if(_progress && !_progress.isHidden){
-        NSLog(@"更新下载消息>>>%@",msg);
-        _progress.labelText = msg;
-    }
-}
-//更新进度
--(void)updateProgress:(NSNumber *)per{
-    if(_progress && !_progress.isHidden){
-        NSLog(@"更新下载进度>>>%d", (int)per);
-        _progress.progress = per.intValue;
-    }
-}
-
-//后台线程加载考试分类数据
--(void)loadCategoriesInBackground{
-    NSLog(@"后台线程加载数据...");
-    NSArray *arrays = [_service loadAllCategories];
-    if(arrays && arrays.count > 0){
-        //初始化插入数组
-        for(CategoryModel *category in arrays){
-            if(!category) continue;
-            CategoryModelCellFrame *cellFrame = [[CategoryModelCellFrame alloc]init];
-            cellFrame.model = category;
-            //加载的数据追加到缓存
-            [_dataSource addObject:cellFrame];
-        }
-        //更新UI
-        [self performSelectorOnMainThread:@selector(loadEndDataOnMainUpdate) withObject:nil waitUntilDone:YES];
-    }
-}
-//加载考试分类数据完成，前台更新
--(void)loadEndDataOnMainUpdate{
-    NSLog(@"刷新数据显示UI...");
-    if(_progress && !_progress.isHidden){
-        [_progress hide:YES];
-    }
-    [self.tableView reloadData];
-}
-
 //加载搜索数据
 -(void)loadSearchDataWithSearcName:(NSString *)searchName{
     NSLog(@"加载搜索数据:%@",searchName);
-    if(_dataSource && _dataSource.count > 0){
-        NSLog(@"清除数据源数据...");
-        [_dataSource removeAllObjects];
+    
+    //更新刷新UI
+    void(^reloadRefreshView)() = ^(){
+        NSLog(@"刷新数据显示UI...");
+        if(_progress && !_progress.isHidden){
+            [_progress hide:YES];
+        }
         [self.tableView reloadData];
-    }
-    //后台线程加载数据
+    };
+    
+    //异步处理清除数据
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if(_dataSource && _dataSource.count > 0){
+            NSLog(@"清除数据源数据...");
+            [_dataSource removeAllObjects];
+            //更新UI
+            dispatch_async(dispatch_get_main_queue(),reloadRefreshView);
+        }
+    });
+    
+    //查询数据
     if(searchName && searchName.length > 0){
-        [self performSelectorInBackground:@selector(loadSearchResultInBackgroundWithSearchName:) withObject:searchName];
+        //异步线程查询数据
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSLog(@"后台搜索考试:%@",searchName);
+            [_service findSearchExamsWithName:searchName resultBlock:^(ExamModel * exam) {
+                if(!exam)return;
+                ExamModelCellFrame *cellFrame = [[ExamModelCellFrame alloc]init];
+                cellFrame.model = exam;
+                [_dataSource addObject:cellFrame];
+                //更新UI
+                dispatch_async(dispatch_get_main_queue(),reloadRefreshView);
+            }];
+        });
     }
-}
-//用后台线程搜索考试
--(void)loadSearchResultInBackgroundWithSearchName:(NSString *)searchName{
-    NSLog(@"后台搜索考试:%@",searchName);
-    [_service findSearchExamsWithName:searchName resultBlock:^(ExamModel * exam) {
-        if(!exam)return;
-        ExamModelCellFrame *cellFrame = [[ExamModelCellFrame alloc]init];
-        cellFrame.model = exam;
-        [_dataSource addObject:cellFrame];
-        //前台线程Update
-        [self performSelectorOnMainThread:@selector(loadEndDataOnMainUpdate) withObject:nil waitUntilDone:YES];
-    }];
 }
 
 #pragma  mark 查询Bar

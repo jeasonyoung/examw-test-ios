@@ -18,6 +18,7 @@
 @implementation AppSettings
 #pragma mark 从本地用户默认配置中加载设置
 +(instancetype)settingsDefaults{
+    NSLog(@"加载appSettings配置数据...");
     AppSettings *settings = [[self alloc]init];
     NSData *data = [[NSUserDefaults standardUserDefaults] dataForKey:__kAppSettings_defaults];
     if(data && data.length > 0){

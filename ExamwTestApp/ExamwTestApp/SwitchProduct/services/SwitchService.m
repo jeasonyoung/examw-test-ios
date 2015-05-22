@@ -34,7 +34,6 @@ static NSArray *localCategoriesCache;
         localCategoriesCache = [CategoryModel categoriesFromLocal];
     }
     return (localCategoriesCache && localCategoriesCache.count > 0);
-    //return NO;
 }
 
 #pragma mark 分页加载考试分类数据
@@ -59,7 +58,7 @@ static NSArray *localCategoriesCache;
     //下载成功处理
     void (^successHandler)(NSDictionary *) = ^(NSDictionary *dict){//主线程
         //开启后台线程处理
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
             NSString *msg = @"";
             @try {
                 NSLog(@"开启后台线程处理JSON转换");
@@ -104,7 +103,7 @@ static NSArray *localCategoriesCache;
                                success:successHandler
                                   fail:^(NSString *err) {
                                       //开启后台线程处理
-                                      dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
+                                      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
                                           NSLog(@"服务器错误:%@", err);
                                           complete([NSString stringWithFormat:@"服务器错误:%@",err]);
                                       });
@@ -137,13 +136,13 @@ static NSArray *localCategoriesCache;
         for(CategoryModel *category in localCategoriesCache){
             if(!category || !category.exams || category.exams.count == 0)continue;
             //开启新线程查询
-            dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 for(ExamModel *exam in category.exams){
                     if(!exam || !exam.name) continue;
                     NSRange rang = [exam.name rangeOfString:searchName];
                     if(rang.location == NSNotFound) continue;
                     //
-                    NSLog(@"线程搜索到考试:%@[%@]---",exam.name,NSStringFromRange(rang));
+                    NSLog(@"线程搜索到考试:%@[%@]---",exam.name, NSStringFromRange(rang));
                     if(result){
                         result(exam);
                     }

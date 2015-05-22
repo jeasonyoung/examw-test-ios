@@ -11,8 +11,7 @@
 #import "UserAccount.h"
 
 #import "SwitchViewController.h"
-
-#import "DetailViewController.h"
+#import "MainViewController.h"
 //入口代理成员变量
 @interface AppDelegate(){
    
@@ -23,32 +22,13 @@
 
 #pragma mark app开始运行时调用
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    //开启线程加载数据
-    dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        //加载当前用户
-        _currentUser = [UserAccount current];
-    });
-    
     //初始化主窗体
     _window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen] bounds]];
     //设置主窗体背景色
     _window.backgroundColor = [UIColor whiteColor];
-    
-    UIViewController *root;
-    //加载配置
-    _appSettings = [AppSettings settingsDefaults];
-    //是否加载产品选择主界面
-    //if(![_appSettings verification]){//未有完整配置(新安装)
-        root = [SwitchViewController shareInstance];
-    //}else{//有完整
-    //    root = [[DetailViewController alloc]init];
-    //}
-    //加载主界面
-    if(root){
-        _window.rootViewController = root;
-        //启动显示
-        [_window makeKeyAndVisible];
-    }
+    //加载根控制器
+    [self resetRootController];
+    //
     return YES;
 }
 
@@ -56,6 +36,40 @@
 -(void)changedCurrentUser:(UserAccount *)userAccount{
     NSLog(@"切换当前用户=>%@", userAccount);
     _currentUser = userAccount;
+}
+
+#pragma mark 重置主控制器
+-(void)resetRootController{
+    NSLog(@"准备加载根控制器...");
+    if(!_window) return;
+    //异步线程加载配置数据
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //加载配置
+        _appSettings = [AppSettings settingsDefaults];
+        //加载当前用户数据
+        _currentUser = [UserAccount current];
+        
+        //主线程设置控制器
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //定义根控制器
+            UIViewController *root;
+            //是否加载产品选择主界面
+            if(![_appSettings verification]){//未有完整配置(新安装)
+                root = [SwitchViewController shareInstance];
+            }else{//加载主界面
+                root = [MainViewController shareInstance];
+                //root = [SwitchViewController shareInstance];
+            }
+            //加载主界面
+            if(root){
+                NSLog(@"将加载根控制器:%@", root);
+                //设置根控制器
+                _window.rootViewController = root;
+                //启动显示
+                [_window makeKeyAndVisible];
+            }
+        });
+    });
 }
 
 #pragma mark 屏幕旋转支持处理

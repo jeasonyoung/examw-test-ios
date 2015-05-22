@@ -50,38 +50,36 @@
     _dataSource = [NSMutableArray array];
     //初始化服务
     _service = [[SwitchService alloc]init];
-    //异步加载数据
-    [self performSelectorInBackground:@selector(loadDataInBackground) withObject:nil];
+    //加载数据
+    [self loadData];
 }
 
-//后台线程加载数据
--(void)loadDataInBackground{
-    NSLog(@"后台线程加载数据...");
-    NSString *categoryName;
-    NSArray *arrays = [_service loadExamsWithCategoryId:_categoryId outCategoryName:&categoryName];
-    if(arrays && arrays.count > 0){
-        for(NSUInteger i = 0; i < arrays.count; i++){
-            ExamModelCellFrame *cellFrame = [[ExamModelCellFrame alloc]init];
-            cellFrame.model = (ExamModel *)[arrays objectAtIndex:i];
-            [_dataSource addObject:cellFrame];
+//加载数据
+-(void)loadData{
+    //异步线程加载数据
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"后台线程加载数据...");
+        NSString *categoryName;
+        NSArray *arrays = [_service loadExamsWithCategoryId:_categoryId outCategoryName:&categoryName];
+        if(arrays && arrays.count > 0){
+            for(NSUInteger i = 0; i < arrays.count; i++){
+                ExamModelCellFrame *cellFrame = [[ExamModelCellFrame alloc]init];
+                cellFrame.model = (ExamModel *)[arrays objectAtIndex:i];
+                [_dataSource addObject:cellFrame];
+            }
         }
-    }
-    //前台UI更新
-    if(categoryName && categoryName.length > 0){
-        [self performSelectorOnMainThread:@selector(loadEndDataOnMainUpdateWithTitle:)
-                               withObject:categoryName
-                            waitUntilDone:YES];
-    }
-}
-//前台UI更新
--(void)loadEndDataOnMainUpdateWithTitle:(NSString *)title{
-    NSLog(@"前台UI更新...");
-    //考试分类名称
-    if(title && title.length > 0){
-        self.title = title;
-    }
-    //刷新数据
-    [self.tableView reloadData];
+        //
+        if(categoryName && categoryName.length > 0){
+            dispatch_async(dispatch_get_main_queue(), ^{//前台UI更新
+                NSLog(@"前台UI更新...");
+                //考试分类名称
+                self.title = categoryName;
+                //刷新数据
+                [self.tableView reloadData];
+            });
+        }
+        
+    });
 }
 
 #pragma mark 内存告警

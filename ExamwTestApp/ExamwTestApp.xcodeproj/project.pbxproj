@@ -34,6 +34,7 @@
 		A17098FE1B0599910083AF01 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098FA1B0599910083AF01 /* CategoryViewController.m */; };
 		A17098FF1B0599910083AF01 /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098FC1B0599910083AF01 /* SwitchViewController.m */; };
 		A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = A17099051B05DF290083AF01 /* XHRealTimeBlur.m */; };
+		A1936C941B0ED80900C59A06 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936C931B0ED80900C59A06 /* MainViewController.m */; };
 		A19D5B541B064706009F7360 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D5B531B064706009F7360 /* CategoryModel.m */; };
 		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
 		A1C6AD4C1B0C0C790002BE81 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD4B1B0C0C790002BE81 /* ProductViewController.m */; };
@@ -145,6 +146,8 @@
 		A17098FD1B0599910083AF01 /* SwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwitchViewController.h; path = SwitchProduct/controllers/SwitchViewController.h; sourceTree = "<group>"; };
 		A17099041B05DF290083AF01 /* XHRealTimeBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XHRealTimeBlur.h; path = libs/XHRealTimeBlur/XHRealTimeBlur.h; sourceTree = "<group>"; };
 		A17099051B05DF290083AF01 /* XHRealTimeBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XHRealTimeBlur.m; path = libs/XHRealTimeBlur/XHRealTimeBlur.m; sourceTree = "<group>"; };
+		A1936C921B0ED80900C59A06 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = Home/controllers/MainViewController.h; sourceTree = "<group>"; };
+		A1936C931B0ED80900C59A06 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = Home/controllers/MainViewController.m; sourceTree = "<group>"; };
 		A19D5B521B064706009F7360 /* CategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CategoryModel.h; path = SwitchProduct/models/CategoryModel.h; sourceTree = "<group>"; };
 		A19D5B531B064706009F7360 /* CategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CategoryModel.m; path = SwitchProduct/models/CategoryModel.m; sourceTree = "<group>"; };
 		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
@@ -364,6 +367,55 @@
 			name = XHRealTimeBlur;
 			sourceTree = "<group>";
 		};
+		A1936C8C1B0ED6DC00C59A06 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				A1936C911B0ED7A800C59A06 /* views */,
+				A1936C901B0ED79E00C59A06 /* controllers */,
+				A1936C8F1B0ED79500C59A06 /* models */,
+				A1936C8E1B0ED78F00C59A06 /* dao */,
+				A1936C8D1B0ED77F00C59A06 /* services */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		A1936C8D1B0ED77F00C59A06 /* services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = services;
+			sourceTree = "<group>";
+		};
+		A1936C8E1B0ED78F00C59A06 /* dao */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = dao;
+			sourceTree = "<group>";
+		};
+		A1936C8F1B0ED79500C59A06 /* models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = models;
+			sourceTree = "<group>";
+		};
+		A1936C901B0ED79E00C59A06 /* controllers */ = {
+			isa = PBXGroup;
+			children = (
+				A1936C921B0ED80900C59A06 /* MainViewController.h */,
+				A1936C931B0ED80900C59A06 /* MainViewController.m */,
+			);
+			name = controllers;
+			sourceTree = "<group>";
+		};
+		A1936C911B0ED7A800C59A06 /* views */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = views;
+			sourceTree = "<group>";
+		};
 		A19D5B511B063AD1009F7360 /* dao */ = {
 			isa = PBXGroup;
 			children = (
@@ -406,6 +458,7 @@
 				A1F8DECC1B0CB88300317B0E /* DaoHelpers.h */,
 				A1F8DECD1B0CB88300317B0E /* DaoHelpers.m */,
 				A152FBFF1B048985006523CE /* SwitchProduct */,
+				A1936C8C1B0ED6DC00C59A06 /* Home */,
 				A1F724231B02F88A0023A3C8 /* MasterViewController.h */,
 				A1F724241B02F88A0023A3C8 /* MasterViewController.m */,
 				A1F724261B02F88A0023A3C8 /* DetailViewController.h */,
@@ -702,6 +755,7 @@
 				A17098F01B0581C00083AF01 /* UIScrollView+MJExtension.m in Sources */,
 				A1C6AD4C1B0C0C790002BE81 /* ProductViewController.m in Sources */,
 				A1C6AD891B0C74770002BE81 /* UIRefreshControl+AFNetworking.m in Sources */,
+				A1936C941B0ED80900C59A06 /* MainViewController.m in Sources */,
 				A17098FE1B0599910083AF01 /* CategoryViewController.m in Sources */,
 				A17098F21B0581C00083AF01 /* UIView+MJExtension.m in Sources */,
 				A1F8DECE1B0CB88300317B0E /* DaoHelpers.m in Sources */,

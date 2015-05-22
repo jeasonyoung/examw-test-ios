@@ -63,41 +63,41 @@
     _dataSource = [NSMutableArray array];
     //初始化服务
     _service = [[SwitchService alloc]init];
-    //加载应用设置
-    AppDelegate *app = [[UIApplication sharedApplication] delegate];
-    if(app && app.appSettings){
-        _appSettings = app.appSettings;
-    }
-    //异步加载数据
-    [self performSelectorInBackground:@selector(loadDataInBackground) withObject:nil];
+    //加载数据
+    [self loadData];
 }
 
-//后台线程加载数据
--(void)loadDataInBackground{
-    NSLog(@"后台线程加载数据...");
-    NSString *examName;
-    NSArray *arrays = [_service loadProductsWithExamId:_examId outExamName:&examName];
-    if(arrays && arrays.count > 0){
-        for(ProductModel *p in arrays){
-            if(!p) continue;
-            ProductModelCellFrame *cellFrame = [[ProductModelCellFrame alloc]init];
-            cellFrame.model = p;
-            [_dataSource addObject:cellFrame];
+//加载数据
+-(void)loadData{
+    //异步线程加载数据
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //加载应用设置
+        AppDelegate *app = [[UIApplication sharedApplication] delegate];
+        if(app && app.appSettings){
+            _appSettings = app.appSettings;
         }
-    }
-    //updateUI
-    [self performSelectorOnMainThread:@selector(loadEndDataOnMainUpdateWithTitle:) withObject:examName waitUntilDone:YES];
-}
-//加载完毕主线程UpdateUI
-//前台UI更新
--(void)loadEndDataOnMainUpdateWithTitle:(NSString *)title{
-    NSLog(@"前台UI更新...");
-    //考试分类名称
-    if(title && title.length > 0){
-        self.title = title;
-    }
-    //刷新数据
-    [self.tableView reloadData];
+        NSLog(@"后台线程加载数据...");
+        NSString *examName;
+        NSArray *arrays = [_service loadProductsWithExamId:_examId outExamName:&examName];
+        if(arrays && arrays.count > 0){
+            for(ProductModel *p in arrays){
+                if(!p) continue;
+                ProductModelCellFrame *cellFrame = [[ProductModelCellFrame alloc]init];
+                cellFrame.model = p;
+                [_dataSource addObject:cellFrame];
+            }
+            //
+            if(examName && examName.length > 0){
+                //主线程更新UI
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    NSLog(@"前台UI更新...");
+                    self.title = examName;
+                    //刷新数据
+                    [self.tableView reloadData];
+                });
+            }
+        }
+    });
 }
 
 #pragma mark 内存告警
@@ -153,47 +153,55 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSLog(@"clickedButtonAtIndex==>%d", buttonIndex);
     if(buttonIndex == 1){//确认
-        //设置产品
-        if(_appSettings){
-            [_appSettings setProductWithId:_product.Id andName:_product.name];
-        }
-        //开始同步数据
+        //异步线程设置产品
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            //设置产品
+            if(_appSettings &&_product){
+                [_appSettings setProductWithId:_product.Id andName:_product.name];
+            }
+        });
+        //等待动画
         _waitHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         _waitHUD.mode = MBProgressHUDModeAnnularDeterminate;
         _waitHUD.labelText = __kProductViewController_waitMsg;
         _waitHUD.color = [UIColor grayColor];
-        //
-        [_service syncDownload:^(BOOL result, NSString *msg) {
-            NSLog(@"下载同步数据结果:[%d,%@]...",result,msg);
-            if(result){//同步成功
-                //保存应用设置
-                if(_appSettings){
-                    [_appSettings saveToDefaults];
+        //异步线程下载数据
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            //开始下载数据
+            [_service syncDownload:^(BOOL result, NSString *msg) {
+                NSLog(@"下载同步数据结果:[%d,%@]...",result,msg);
+                if(result){//同步成功
+                    //保存应用设置
+                    if(_appSettings){
+                        [_appSettings saveToDefaults];
+                    }
                 }
-            }
-            //UpdateUI
-            NSArray *parameters = @[[NSNumber numberWithBool:result],(msg ? msg : @"")];
-            [self performSelectorOnMainThread:@selector(UpdateSyncUIWithMsg:) withObject:parameters waitUntilDone:YES];
-        }];
-    }
-}
-
-//同步后更新UI
--(void)UpdateSyncUIWithMsg:(NSArray *)parametes{
-    NSNumber *result = [parametes objectAtIndex:0];
-    NSString *msg = [parametes objectAtIndex:1];
-    //关闭等待动画
-    if(_waitHUD){
-        [_waitHUD hide:YES];
-    }
-    if(result.boolValue){//成功
-        ///TODO:界面跳转
-        
-    }else{//失败，失败消息
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:msg delegate:nil
-                                                 cancelButtonTitle:__kProductViewController_alertConfirmTitle
-                                                 otherButtonTitles:nil, nil];
-        [alertView show];
+                //UpdateUI
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //关闭等待动画
+                    if(_waitHUD){
+                        [_waitHUD hide:YES];
+                    }
+                    if(result){//成功
+                        NSLog(@"更新试卷数据成功,将进行根控制器跳转...");
+                        AppDelegate *app = [[UIApplication sharedApplication] delegate];
+                        if(!app){
+                            NSLog(@"获取应用AppDelegate对象失败!");
+                            return;
+                        }
+                        //根控制器跳转
+                        [app resetRootController];
+                        
+                    }else if(msg){//失败，失败消息
+                        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:msg delegate:nil
+                                                                 cancelButtonTitle:__kProductViewController_alertConfirmTitle
+                                                                 otherButtonTitles:nil, nil];
+                        [alertView show];
+                    }
+                });
+            }];
+            
+        });
     }
 }
 @end

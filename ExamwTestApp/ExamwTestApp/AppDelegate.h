@@ -24,4 +24,7 @@
 
 //切换用户
 -(void)changedCurrentUser:(UserAccount *)userAccount;
+
+//重置根控制器
+-(void)resetRootController;
 @end
