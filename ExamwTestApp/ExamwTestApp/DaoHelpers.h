@@ -12,8 +12,17 @@
 //DAO操作工具基础类
 @interface DaoHelpers : NSObject
 
-//数据库操作队列
-@property(nonatomic,readonly)FMDatabaseQueue *dbQueue;
+/**
+ * 创建数据库操作对象.
+ * @return FMDatabase
+ */
+-(FMDatabase *)createDatabase;
+
+/**
+ * 创建数据库操作队列.
+ * @return FMDatabaseQueue
+ */
+-(FMDatabaseQueue *)createDatabaseQueue;
 
 //静态初始化
 +(instancetype)helpers;

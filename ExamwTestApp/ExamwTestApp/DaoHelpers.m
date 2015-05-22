@@ -47,15 +47,24 @@
     return self;
 }
 
-#pragma mark 获取数据库操作队列
--(FMDatabaseQueue *)getDbQueue{
-    if(!_dbQueue){
-        NSString *path = [self loadDatabasePath];
-        if(path && path.length > 0){
-            _dbQueue = [FMDatabaseQueue databaseQueueWithPath:path];
-        }
+#pragma mark 创建数据库操作对象
+-(FMDatabase *)createDatabase{
+    NSString *path = [self loadDatabasePath];
+    if(path && path.length > 0){
+        NSLog(@"创建数据库[%@]操作对象...",path);
+        return [FMDatabase databaseWithPath:path];
     }
-    return _dbQueue;
+    return nil;
+}
+
+#pragma mark 创建数据库操作队列.
+-(FMDatabaseQueue *)createDatabaseQueue{
+    NSString *path = [self loadDatabasePath];
+    if(path && path.length > 0){
+        NSLog(@"创建数据库[%@]操作对象队列...",path);
+        return [FMDatabaseQueue databaseQueueWithPath:path];
+    }
+    return nil;
 }
 
 //创建数据库路径
@@ -119,6 +128,7 @@
             [db beginTransaction];//开启事务
             
             for(NSString *sql in sqls){
+                NSLog(@"执行脚本:%@",sql);
                 [db executeUpdate:sql];//执行脚本
             }
             
@@ -145,13 +155,13 @@
     //1.创建科目表[status(0-不可用,1-可用)]
     NSString *tblSubjects_sql = @"CREATE TABLE tbl_subjects(code TEXT,name TEXT,status INTEGER DEFAULT 1,examCode INTEGER DEFAULT 0, CONSTRAINT PK_tbl_subjects PRIMARY KEY(code,examCode));";
     //2.创建试卷表
-    NSString *tblPapers_sql = @"CREATE TABLE tbl_papers(id TEXT PRIMARY KEY,title TEXT,type INTEGER DEFAULT 0,total INTEGER DEFAULT 0,content TEXT,createTime TIMESTAMP DEFAULT datetime('now'),subjectCode TEXT);";
+    NSString *tblPapers_sql = @"CREATE TABLE tbl_papers(id TEXT PRIMARY KEY,title TEXT,type INTEGER DEFAULT 0,total INTEGER DEFAULT 0,content TEXT,createTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),subjectCode TEXT);";
     //3.创建试题收藏表[status(0-删除，1-收藏)]
-    NSString *tblFavorites_sql = @"CREATE TABLE tbl_favorites(id TEXT PRIMARY KEY,subjectCode TEXT,itemId TEXT,itemType INTEGER DEFAULT 0,content TEXT,status INTEGER DEFAULT 1,createTime TIMESTAMP DEFAULT datetime('now'),sync INTEGER DEFAULT 0);";
+    NSString *tblFavorites_sql = @"CREATE TABLE tbl_favorites(id TEXT PRIMARY KEY,subjectCode TEXT,itemId TEXT,itemType INTEGER DEFAULT 0,content TEXT,status INTEGER DEFAULT 1,createTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),sync INTEGER DEFAULT 0);";
     //4.创建做卷记录表[status(0-未做完，1-已做完)][sync(0-未同步,1-已同步)]
-    NSString *tblPaperRecords_sql = @"CREATE TABLE tbl_paperRecords(id TEXT PRIMARY KEY,paperId TEXT,status INTEGER DEFAULT 0,score FLOAT DEFAULT 0,rights INTEGER DEFAULT 0,useTimes INTEGER DEFAULT 0,createTime TIMESTAMP DEFAULT datetime('now'),lastTime TIMESTAMP DEFAULT datetime('now'),sync INTEGER DEFAULT 0);";
+    NSString *tblPaperRecords_sql = @"CREATE TABLE tbl_paperRecords(id TEXT PRIMARY KEY,paperId TEXT,status INTEGER DEFAULT 0,score FLOAT DEFAULT 0,rights INTEGER DEFAULT 0,useTimes INTEGER DEFAULT 0,createTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),lastTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),sync INTEGER DEFAULT 0);";
     //5.创建做题记录表[status(0-错误，1-正确)]
-    NSString *tblItemRecords_sql = @"CREATE TABLE tbl_itemRecords(id TEXT PRIMARY KEY,paperRecordId TEXT,structureId TEXT,itemId TEXT,itemType INTEGER DEFAULT 0,content TEXT,answer TEXT,status INTEGER DEFAULT 0,score FLOAT DEFAULT 0,useTimes INTEGER DEFAULT 0,createTime TIMESTAMP DEFAULT datetime('now'),lastTime TIMESTAMP DEFAULT datetime('now'),sync INTEGER DEFAULT 0);";
+    NSString *tblItemRecords_sql = @"CREATE TABLE tbl_itemRecords(id TEXT PRIMARY KEY,paperRecordId TEXT,structureId TEXT,itemId TEXT,itemType INTEGER DEFAULT 0,content TEXT,answer TEXT,status INTEGER DEFAULT 0,score FLOAT DEFAULT 0,useTimes INTEGER DEFAULT 0,createTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),lastTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),sync INTEGER DEFAULT 0);";
     
     return @[tblSubjects_sql,tblPapers_sql,tblFavorites_sql,tblPaperRecords_sql,tblItemRecords_sql];
 }

@@ -39,7 +39,7 @@
     //客户端唯一标示
     _clientId = __kAPP_ID;
     //客户端名称
-    _clientName = __kAPP_NAME;
+    _clientName = [NSString stringWithFormat:__kAPP_NAME, __kAPP_VER];
     //客户端软件版本
     _clientVersion = [@__kAPP_VER stringValue];
     //客户端类型代码

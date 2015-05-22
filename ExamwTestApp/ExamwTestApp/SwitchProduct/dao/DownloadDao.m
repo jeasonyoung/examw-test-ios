@@ -39,7 +39,7 @@
 -(void)downloadWithIgnoreCode:(BOOL)ignoreCode
                     andResult:(void (^)(BOOL, NSString *))handler{
     //数据库访问队列
-    FMDatabaseQueue *queue = _daoHelpers.dbQueue;
+    FMDatabaseQueue *queue = [_daoHelpers createDatabaseQueue];
     if(!queue){
         NSLog(@"数据库访问队列初始化失败!");
         if(handler)handler(NO, @"初始化本地数据库错误!");
@@ -80,6 +80,7 @@
                     NSLog(@"准备将试卷数据写入本地数据库...");
                     [queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
                         @try {
+                            NSLog(@"共有[%d]条试卷数据更新...", (int)arrays.count);
                             for(NSDictionary *dict in arrays){
                                 if(!dict || dict.count == 0) continue;
                                 [self updatePaperWithDb:db andData:dict];
@@ -103,7 +104,7 @@
         });
     };
     //科目下载消息处理
-    void(^subjectDownloadMsgHandler)(BOOL, NSString *,NSString *) = ^(BOOL result, NSString *msg, NSString *examCode){
+    void(^subjectDownloadMsgHandler)(BOOL, NSString *) = ^(BOOL result, NSString *msg){
         if(!result){//
             if(handler)handler(result,msg);
             return;
@@ -134,7 +135,7 @@
                 JSONCallback *callback = [JSONCallback callbackWithDict:data];
                 if(!callback.success){
                     NSLog(@"服务器发生错误:%@", callback.msg);
-                    subjectDownloadMsgHandler(NO, callback.msg, nil);
+                    subjectDownloadMsgHandler(NO, callback.msg);
                     return;
                 }
                 NSLog(@"开始解析科目数据...");
@@ -142,15 +143,30 @@
                 if(!examDict || examDict.count == 0){
                     msg = @"没有考试数据下载...";
                     NSLog(@"%@",msg);
-                    subjectDownloadMsgHandler(NO, msg, nil);
+                    subjectDownloadMsgHandler(NO, msg);
                     return;
                 }
                 //所属考试代码
-                NSString *examCode = [examDict objectForKey:@"code"];
-                if(!examCode || examCode.length == 0){
+                NSNumber *examCode;
+                id examCodeValue = [examDict objectForKey:@"code"];
+                if(!examCodeValue || examCodeValue == [NSNull null]){
                     msg = @"未能获取考试代码!";
                     NSLog(@"%@",msg);
-                    subjectDownloadMsgHandler(NO, msg, nil);
+                    subjectDownloadMsgHandler(NO, msg);
+                    return;
+                }
+                if([examCodeValue isKindOfClass:[NSNumber class]]){
+                    
+                    examCode = (NSNumber *)examCodeValue;
+                    
+                }else if([examCodeValue isKindOfClass:[NSString class]]){
+                    
+                    examCode = [NSNumber numberWithInteger:[((NSString *)examCodeValue) integerValue]];
+                    
+                }else{
+                    msg = @"未能获取考试代码失败!";
+                    NSLog(@"格式转换失败:%@",msg);
+                    subjectDownloadMsgHandler(NO, msg);
                     return;
                 }
                 //科目数据集合
@@ -158,7 +174,7 @@
                 if(!subjectArrays || subjectArrays.count == 0){
                     msg = @"未能获取科目数据!";
                     NSLog(@"%@", msg);
-                    subjectDownloadMsgHandler(NO, msg, nil);
+                    subjectDownloadMsgHandler(NO, msg);
                     return;
                 }
                 //数据库操作
@@ -167,6 +183,7 @@
                         //重置科目状态
                         [db executeUpdate:@"update tbl_subjects set status = 0 "];
                         //科目数据更新
+                        NSLog(@"共有[%d]条科目数据更新...",(int)subjectArrays.count);
                         for(NSDictionary *subject in subjectArrays){
                             if(!subject || subject.count == 0) continue;
                             [self updateSubjectWithDb:db andExamCode:examCode andData:subject];
@@ -176,16 +193,16 @@
                         *rollback = YES;
                         msg = [NSString stringWithFormat:@"科目数据写入本地数据库异常:%@",exception];
                         NSLog(@"%@",msg);
-                        subjectDownloadMsgHandler(NO, msg, nil);
+                        subjectDownloadMsgHandler(NO, msg);
                     }
                 }];
                 //完成
-                subjectDownloadMsgHandler(YES, nil, examCode);
+                subjectDownloadMsgHandler(YES, nil);
             }
             @catch (NSException *exception) {
                 msg = [NSString stringWithFormat:@"异常:%@", exception];
                 NSLog(@"%@", msg);
-                subjectDownloadMsgHandler(NO, msg, nil);
+                subjectDownloadMsgHandler(NO, msg);
             }
         });
     };
@@ -202,7 +219,7 @@
 }
 
 //更新科目数据
--(void)updateSubjectWithDb:(FMDatabase *)db andExamCode:(NSString *)examCode andData:(NSDictionary *)dict{
+-(void)updateSubjectWithDb:(FMDatabase *)db andExamCode:(NSNumber *)examCode andData:(NSDictionary *)dict{
     //查询是否存在
     static NSString *query_sql = @"SELECT COUNT(*) FROM tbl_subjects WHERE code = ? AND examCode = ?";
     //插入

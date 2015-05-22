@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "ExamModel.h"
+@class ExamModel;
 //产品切换数据服务
 @interface SwitchService : NSObject
 
@@ -28,4 +28,7 @@
 
 //根据考试ID加载产品集合
 -(NSArray *)loadProductsWithExamId:(NSString *)examId outExamName:(NSString **)examName;
+
+//同步下载数据
+-(void)syncDownload:(void(^)(BOOL,NSString *))handler;
 @end

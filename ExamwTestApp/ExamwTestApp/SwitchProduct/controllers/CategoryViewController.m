@@ -27,6 +27,8 @@
 #define __kCategoryViewController_search_height 40//查询框高度
 #define __kCategoryViewController_search_placeholder @"输入考试名称"//查询框提示文字
 
+#define __kCategoryViewController_waitMsg @"下载中..."
+
 #define __kCategoryViewController_cellIdentifierCategory @"_cellCategory"//
 #define __kCategoryViewController_cellIdentifierExam @"_cellExam"//
 //考试类别控制器成员变量
@@ -77,7 +79,7 @@
         //
         _progress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         _progress.mode = MBProgressHUDModeAnnularDeterminate;
-        _progress.labelText = @"loading...";
+        _progress.labelText = __kCategoryViewController_waitMsg;
         _progress.color = [UIColor grayColor];
         //下载数据
         [_service loadCategoriesFromNetWorks:^(NSString *msg){

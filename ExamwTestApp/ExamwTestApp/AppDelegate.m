@@ -38,11 +38,11 @@
     //加载配置
     _appSettings = [AppSettings settingsDefaults];
     //是否加载产品选择主界面
-    if(![_appSettings verification]){//未有完整配置(新安装)
+    //if(![_appSettings verification]){//未有完整配置(新安装)
         root = [SwitchViewController shareInstance];
-    }else{//有完整
-        root = [[DetailViewController alloc]init];
-    }
+    //}else{//有完整
+    //    root = [[DetailViewController alloc]init];
+    //}
     //加载主界面
     if(root){
         _window.rootViewController = root;

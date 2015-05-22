@@ -11,17 +11,21 @@
 #import "ProductModel.h"
 #import "ProductModelCellFrame.h"
 #import "ProductTableViewCell.h"
+#import "MBProgressHUD.h"
 
 #import "SwitchService.h"
 
 #import "AppDelegate.h"
 #import "AppSettings.h"
 
+
 #define __kProductViewController_title @"选择产品"//
 #define __kProductViewController_cellIdentifier @"_cellProduct"//
 
 #define __kProductViewController_alertConfirmTitle @"确定"//
 #define __kProductViewController_alertCancelTitle @"取消"//
+
+#define __kProductViewController_waitMsg @"下载试卷..."//
 
 //产品列表控制器成员变量
 @interface ProductViewController ()<UIAlertViewDelegate>{
@@ -31,8 +35,12 @@
     NSMutableArray *_dataSource;
     //切换服务
     SwitchService *_service;
+    //应用设置
+    AppSettings *_appSettings;
     //选中的产品
     ProductModel *_product;
+    //等待动画
+    MBProgressHUD *_waitHUD;
 }
 @end
 //产品列表控制器实现
@@ -55,6 +63,11 @@
     _dataSource = [NSMutableArray array];
     //初始化服务
     _service = [[SwitchService alloc]init];
+    //加载应用设置
+    AppDelegate *app = [[UIApplication sharedApplication] delegate];
+    if(app && app.appSettings){
+        _appSettings = app.appSettings;
+    }
     //异步加载数据
     [self performSelectorInBackground:@selector(loadDataInBackground) withObject:nil];
 }
@@ -140,23 +153,47 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSLog(@"clickedButtonAtIndex==>%d", buttonIndex);
     if(buttonIndex == 1){//确认
+        //设置产品
+        if(_appSettings){
+            [_appSettings setProductWithId:_product.Id andName:_product.name];
+        }
         //开始同步数据
-        
-        
-        
-//        //开启线程保存应用设置
-//        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//            //获取应用设置
-//            AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-//            if(app && app.appSettings){
-//                //设置产品ID和名称
-//                [app.appSettings setExamWithId:_product.Id andName:_product.name];
-//                //保存数据
-//                [app.appSettings saveToDefaults];
-//            }
-//        });
+        _waitHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+        _waitHUD.mode = MBProgressHUDModeAnnularDeterminate;
+        _waitHUD.labelText = __kProductViewController_waitMsg;
+        _waitHUD.color = [UIColor grayColor];
+        //
+        [_service syncDownload:^(BOOL result, NSString *msg) {
+            NSLog(@"下载同步数据结果:[%d,%@]...",result,msg);
+            if(result){//同步成功
+                //保存应用设置
+                if(_appSettings){
+                    [_appSettings saveToDefaults];
+                }
+            }
+            //UpdateUI
+            NSArray *parameters = @[[NSNumber numberWithBool:result],(msg ? msg : @"")];
+            [self performSelectorOnMainThread:@selector(UpdateSyncUIWithMsg:) withObject:parameters waitUntilDone:YES];
+        }];
     }
 }
 
-
+//同步后更新UI
+-(void)UpdateSyncUIWithMsg:(NSArray *)parametes{
+    NSNumber *result = [parametes objectAtIndex:0];
+    NSString *msg = [parametes objectAtIndex:1];
+    //关闭等待动画
+    if(_waitHUD){
+        [_waitHUD hide:YES];
+    }
+    if(result.boolValue){//成功
+        ///TODO:界面跳转
+        
+    }else{//失败，失败消息
+        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:msg delegate:nil
+                                                 cancelButtonTitle:__kProductViewController_alertConfirmTitle
+                                                 otherButtonTitles:nil, nil];
+        [alertView show];
+    }
+}
 @end

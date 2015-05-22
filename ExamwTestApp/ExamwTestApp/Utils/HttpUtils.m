@@ -159,7 +159,8 @@ static NSDictionary *digestHeaders;
                                progress:progressHandler
                                 success:successHandler fail:failHandler];
         }else if(failHandler){
-            failHandler([NSString stringWithFormat:@"%@", error.userInfo[NSLocalizedDescriptionKey]]);
+            //userInfo[NSLocalizedDescriptionKey]
+            failHandler([NSString stringWithFormat:@"%@", error.localizedDescription]);
         }
     };
     //

@@ -14,6 +14,8 @@
 #import "HttpUtils.h"
 
 #import "JSONCallback.h"
+
+#import "DownloadDao.h"
 //产品切换数据服务成员变量
 @interface SwitchService(){
     
@@ -169,5 +171,11 @@ static NSArray *localCategoriesCache;
         }
     }
     return nil;
+}
+
+#pragma mark 同步下载数据
+-(void)syncDownload:(void (^)(BOOL, NSString *))handler{
+    DownloadDao *dao = [[DownloadDao alloc] init];
+    [dao downloadWithIgnoreCode:YES andResult:handler];
 }
 @end
