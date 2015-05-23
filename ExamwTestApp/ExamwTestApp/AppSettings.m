@@ -26,7 +26,7 @@
         NSError *err;
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&err];
         if(err){
-            NSLog(@"DeSerialization is error : %@",err);
+            NSLog(@"应用全局设置JSON反序列化配置错误: %@",err);
         }else{
             [settings loadSettingValues:dict];
         }

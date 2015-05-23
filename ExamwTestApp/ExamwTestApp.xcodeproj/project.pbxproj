@@ -43,6 +43,9 @@
 		A1936CA81B0F1C7F00C59A06 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */; };
 		A19D5B541B064706009F7360 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D5B531B064706009F7360 /* CategoryModel.m */; };
 		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
+		A1BBC9DA1B101359005A1FD3 /* PaperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BBC9D91B101359005A1FD3 /* PaperModel.m */; };
+		A1BBC9DD1B1013B8005A1FD3 /* PaperItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BBC9DC1B1013B8005A1FD3 /* PaperItemModel.m */; };
+		A1BBC9E01B102BC0005A1FD3 /* PaperStructureModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BBC9DF1B102BC0005A1FD3 /* PaperStructureModel.m */; };
 		A1C6AD4C1B0C0C790002BE81 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD4B1B0C0C790002BE81 /* ProductViewController.m */; };
 		A1C6AD4F1B0C0EC60002BE81 /* ProductModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD4E1B0C0EC60002BE81 /* ProductModelCellFrame.m */; };
 		A1C6AD521B0C31000002BE81 /* ProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD511B0C31000002BE81 /* ProductTableViewCell.m */; };
@@ -64,6 +67,12 @@
 		A1C6AD891B0C74770002BE81 /* UIRefreshControl+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD771B0C74770002BE81 /* UIRefreshControl+AFNetworking.m */; };
 		A1C6AD8A1B0C74770002BE81 /* UIWebView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD791B0C74770002BE81 /* UIWebView+AFNetworking.m */; };
 		A1C6AD911B0C90AC0002BE81 /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD901B0C90AC0002BE81 /* MBProgressHUD.m */; };
+		A1CA97E71B0F81C6003006F2 /* DAPageIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CA97E21B0F81C6003006F2 /* DAPageIndicatorView.m */; };
+		A1CA97E81B0F81C6003006F2 /* DAPagesContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CA97E41B0F81C6003006F2 /* DAPagesContainer.m */; };
+		A1CA97E91B0F81C6003006F2 /* DAPagesContainerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CA97E61B0F81C6003006F2 /* DAPagesContainerTopBar.m */; };
+		A1CA97EC1B0F874F003006F2 /* PaperRealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CA97EB1B0F874F003006F2 /* PaperRealViewController.m */; };
+		A1CA97EF1B0F878F003006F2 /* PaperSimuViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CA97EE1B0F878F003006F2 /* PaperSimuViewController.m */; };
+		A1CA97F21B0F87C5003006F2 /* PaperForecasViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CA97F11B0F87C5003006F2 /* PaperForecasViewController.m */; };
 		A1F7241F1B02F88A0023A3C8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F7241E1B02F88A0023A3C8 /* main.m */; };
 		A1F724221B02F88A0023A3C8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724211B02F88A0023A3C8 /* AppDelegate.m */; };
 		A1F724251B02F88A0023A3C8 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724241B02F88A0023A3C8 /* MasterViewController.m */; };
@@ -169,6 +178,12 @@
 		A19D5B531B064706009F7360 /* CategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CategoryModel.m; path = SwitchProduct/models/CategoryModel.m; sourceTree = "<group>"; };
 		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
 		A1B5AF381B0399780086F421 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hex.m"; path = "ExamwTestApp/Utils/UIColor+Hex.m"; sourceTree = "<group>"; };
+		A1BBC9D81B101359005A1FD3 /* PaperModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperModel.h; path = Home/models/PaperModel.h; sourceTree = "<group>"; };
+		A1BBC9D91B101359005A1FD3 /* PaperModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperModel.m; path = Home/models/PaperModel.m; sourceTree = "<group>"; };
+		A1BBC9DB1B1013B8005A1FD3 /* PaperItemModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperItemModel.h; path = Home/models/PaperItemModel.h; sourceTree = "<group>"; };
+		A1BBC9DC1B1013B8005A1FD3 /* PaperItemModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemModel.m; path = Home/models/PaperItemModel.m; sourceTree = "<group>"; };
+		A1BBC9DE1B102BC0005A1FD3 /* PaperStructureModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperStructureModel.h; path = Home/models/PaperStructureModel.h; sourceTree = "<group>"; };
+		A1BBC9DF1B102BC0005A1FD3 /* PaperStructureModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperStructureModel.m; path = Home/models/PaperStructureModel.m; sourceTree = "<group>"; };
 		A1C6AD4A1B0C0C790002BE81 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductViewController.h; path = SwitchProduct/controllers/ProductViewController.h; sourceTree = "<group>"; };
 		A1C6AD4B1B0C0C790002BE81 /* ProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductViewController.m; path = SwitchProduct/controllers/ProductViewController.m; sourceTree = "<group>"; };
 		A1C6AD4D1B0C0EC60002BE81 /* ProductModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductModelCellFrame.h; path = SwitchProduct/models/ProductModelCellFrame.h; sourceTree = "<group>"; };
@@ -213,6 +228,18 @@
 		A1C6AD791B0C74770002BE81 /* UIWebView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIWebView+AFNetworking.m"; path = "libs/AFNetworking/UIWebView+AFNetworking.m"; sourceTree = "<group>"; };
 		A1C6AD8F1B0C90AC0002BE81 /* MBProgressHUD.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MBProgressHUD.h; path = libs/MBProgressHUD/MBProgressHUD.h; sourceTree = "<group>"; };
 		A1C6AD901B0C90AC0002BE81 /* MBProgressHUD.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MBProgressHUD.m; path = libs/MBProgressHUD/MBProgressHUD.m; sourceTree = "<group>"; };
+		A1CA97E11B0F81C6003006F2 /* DAPageIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DAPageIndicatorView.h; path = libs/DAPagesContainer/DAPageIndicatorView.h; sourceTree = "<group>"; };
+		A1CA97E21B0F81C6003006F2 /* DAPageIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DAPageIndicatorView.m; path = libs/DAPagesContainer/DAPageIndicatorView.m; sourceTree = "<group>"; };
+		A1CA97E31B0F81C6003006F2 /* DAPagesContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DAPagesContainer.h; path = libs/DAPagesContainer/DAPagesContainer.h; sourceTree = "<group>"; };
+		A1CA97E41B0F81C6003006F2 /* DAPagesContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DAPagesContainer.m; path = libs/DAPagesContainer/DAPagesContainer.m; sourceTree = "<group>"; };
+		A1CA97E51B0F81C6003006F2 /* DAPagesContainerTopBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DAPagesContainerTopBar.h; path = libs/DAPagesContainer/DAPagesContainerTopBar.h; sourceTree = "<group>"; };
+		A1CA97E61B0F81C6003006F2 /* DAPagesContainerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DAPagesContainerTopBar.m; path = libs/DAPagesContainer/DAPagesContainerTopBar.m; sourceTree = "<group>"; };
+		A1CA97EA1B0F874F003006F2 /* PaperRealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperRealViewController.h; path = Home/controllers/PaperRealViewController.h; sourceTree = "<group>"; };
+		A1CA97EB1B0F874F003006F2 /* PaperRealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperRealViewController.m; path = Home/controllers/PaperRealViewController.m; sourceTree = "<group>"; };
+		A1CA97ED1B0F878F003006F2 /* PaperSimuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperSimuViewController.h; path = Home/controllers/PaperSimuViewController.h; sourceTree = "<group>"; };
+		A1CA97EE1B0F878F003006F2 /* PaperSimuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperSimuViewController.m; path = Home/controllers/PaperSimuViewController.m; sourceTree = "<group>"; };
+		A1CA97F01B0F87C5003006F2 /* PaperForecasViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperForecasViewController.h; path = Home/controllers/PaperForecasViewController.h; sourceTree = "<group>"; };
+		A1CA97F11B0F87C5003006F2 /* PaperForecasViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperForecasViewController.m; path = Home/controllers/PaperForecasViewController.m; sourceTree = "<group>"; };
 		A1F724191B02F88A0023A3C8 /* ExamwTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamwTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1F7241D1B02F88A0023A3C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1F7241E1B02F88A0023A3C8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -415,6 +442,12 @@
 			children = (
 				A1936C971B0F0CD700C59A06 /* BottomMenuModel.h */,
 				A1936C981B0F0CD700C59A06 /* BottomMenuModel.m */,
+				A1BBC9D81B101359005A1FD3 /* PaperModel.h */,
+				A1BBC9D91B101359005A1FD3 /* PaperModel.m */,
+				A1BBC9DE1B102BC0005A1FD3 /* PaperStructureModel.h */,
+				A1BBC9DF1B102BC0005A1FD3 /* PaperStructureModel.m */,
+				A1BBC9DB1B1013B8005A1FD3 /* PaperItemModel.h */,
+				A1BBC9DC1B1013B8005A1FD3 /* PaperItemModel.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -426,6 +459,12 @@
 				A1936C931B0ED80900C59A06 /* MainViewController.m */,
 				A1936C9D1B0F1B6E00C59A06 /* HomeViewController.h */,
 				A1936C9E1B0F1B6E00C59A06 /* HomeViewController.m */,
+				A1CA97EA1B0F874F003006F2 /* PaperRealViewController.h */,
+				A1CA97EB1B0F874F003006F2 /* PaperRealViewController.m */,
+				A1CA97ED1B0F878F003006F2 /* PaperSimuViewController.h */,
+				A1CA97EE1B0F878F003006F2 /* PaperSimuViewController.m */,
+				A1CA97F01B0F87C5003006F2 /* PaperForecasViewController.h */,
+				A1CA97F11B0F87C5003006F2 /* PaperForecasViewController.m */,
 				A1936CA01B0F1BDF00C59A06 /* FavoritesViewController.h */,
 				A1936CA11B0F1BDF00C59A06 /* FavoritesViewController.m */,
 				A1936CA31B0F1C4900C59A06 /* MyViewController.h */,
@@ -450,6 +489,19 @@
 				A10F5FB51B0DBAEA00BD0491 /* DownloadDao.m */,
 			);
 			name = dao;
+			sourceTree = "<group>";
+		};
+		A1CA97E01B0F8195003006F2 /* DAPagesContainer */ = {
+			isa = PBXGroup;
+			children = (
+				A1CA97E11B0F81C6003006F2 /* DAPageIndicatorView.h */,
+				A1CA97E21B0F81C6003006F2 /* DAPageIndicatorView.m */,
+				A1CA97E31B0F81C6003006F2 /* DAPagesContainer.h */,
+				A1CA97E41B0F81C6003006F2 /* DAPagesContainer.m */,
+				A1CA97E51B0F81C6003006F2 /* DAPagesContainerTopBar.h */,
+				A1CA97E61B0F81C6003006F2 /* DAPagesContainerTopBar.m */,
+			);
+			name = DAPagesContainer;
 			sourceTree = "<group>";
 		};
 		A1F724101B02F88A0023A3C8 = {
@@ -532,6 +584,7 @@
 				A1F724AD1B02FD8A0023A3C8 /* MBProgressHUD */,
 				A17098A91B0580010083AF01 /* MJRefresh */,
 				A17099031B05DEF80083AF01 /* XHRealTimeBlur */,
+				A1CA97E01B0F8195003006F2 /* DAPagesContainer */,
 			);
 			name = libs;
 			sourceTree = "<group>";
@@ -731,6 +784,7 @@
 			files = (
 				A1C6AD831B0C74770002BE81 /* AFURLSessionManager.m in Sources */,
 				A1936CA51B0F1C4900C59A06 /* MyViewController.m in Sources */,
+				A1BBC9DD1B1013B8005A1FD3 /* PaperItemModel.m in Sources */,
 				A17098FF1B0599910083AF01 /* SwitchViewController.m in Sources */,
 				A17098E81B0581C00083AF01 /* MJRefreshComponent.m in Sources */,
 				A1F724DD1B03470B0023A3C8 /* NSData+Hex.m in Sources */,
@@ -738,6 +792,7 @@
 				A1F724221B02F88A0023A3C8 /* AppDelegate.m in Sources */,
 				A1C6AD801B0C74770002BE81 /* AFURLConnectionOperation.m in Sources */,
 				A10F5FBC1B0DBCA000BD0491 /* AppClientSync.m in Sources */,
+				A1BBC9E01B102BC0005A1FD3 /* PaperStructureModel.m in Sources */,
 				A1C6AD911B0C90AC0002BE81 /* MBProgressHUD.m in Sources */,
 				A17098EA1B0581C00083AF01 /* MJRefreshFooter.m in Sources */,
 				A17098EE1B0581C00083AF01 /* MJRefreshLegendFooter.m in Sources */,
@@ -747,6 +802,7 @@
 				A17098EF1B0581C00083AF01 /* MJRefreshLegendHeader.m in Sources */,
 				A13BB7841B09B11B0063C64B /* SwitchService.m in Sources */,
 				A1C6AD811B0C74770002BE81 /* AFURLRequestSerialization.m in Sources */,
+				A1CA97E71B0F81C6003006F2 /* DAPageIndicatorView.m in Sources */,
 				A1F724D11B033F4A0023A3C8 /* AppSettings.m in Sources */,
 				A1F724C51B0305C00023A3C8 /* FMResultSet.m in Sources */,
 				A1C6AD7C1B0C74770002BE81 /* AFHTTPSessionManager.m in Sources */,
@@ -762,8 +818,10 @@
 				A1C6AD841B0C74770002BE81 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				A1936CA21B0F1BDF00C59A06 /* FavoritesViewController.m in Sources */,
 				A19D5B541B064706009F7360 /* CategoryModel.m in Sources */,
+				A1CA97E81B0F81C6003006F2 /* DAPagesContainer.m in Sources */,
 				A1C6AD7F1B0C74770002BE81 /* AFSecurityPolicy.m in Sources */,
 				A1936C9F1B0F1B6E00C59A06 /* HomeViewController.m in Sources */,
+				A1CA97EC1B0F874F003006F2 /* PaperRealViewController.m in Sources */,
 				A1C6AD871B0C74770002BE81 /* UIImageView+AFNetworking.m in Sources */,
 				A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */,
 				A1C6AD7E1B0C74770002BE81 /* AFNetworkReachabilityManager.m in Sources */,
@@ -784,6 +842,7 @@
 				A13BB77E1B096D8C0063C64B /* ExamModel.m in Sources */,
 				A1F724281B02F88A0023A3C8 /* DetailViewController.m in Sources */,
 				A1F724C71B0305C00023A3C8 /* FMDatabasePool.m in Sources */,
+				A1BBC9DA1B101359005A1FD3 /* PaperModel.m in Sources */,
 				A17098E91B0581C00083AF01 /* MJRefreshConst.m in Sources */,
 				A1C6AD7A1B0C74770002BE81 /* AFHTTPRequestOperation.m in Sources */,
 				A17098F01B0581C00083AF01 /* UIScrollView+MJExtension.m in Sources */,
@@ -792,11 +851,14 @@
 				A1936C941B0ED80900C59A06 /* MainViewController.m in Sources */,
 				A17098FE1B0599910083AF01 /* CategoryViewController.m in Sources */,
 				A17098F21B0581C00083AF01 /* UIView+MJExtension.m in Sources */,
+				A1CA97E91B0F81C6003006F2 /* DAPagesContainerTopBar.m in Sources */,
 				A1F8DECE1B0CB88300317B0E /* DaoHelpers.m in Sources */,
 				A17098EC1B0581C00083AF01 /* MJRefreshGifHeader.m in Sources */,
+				A1CA97EF1B0F878F003006F2 /* PaperSimuViewController.m in Sources */,
 				A1F724C81B0305C00023A3C8 /* FMDatabaseAdditions.m in Sources */,
 				A17098ED1B0581C00083AF01 /* MJRefreshHeader.m in Sources */,
 				A17098EB1B0581C00083AF01 /* MJRefreshGifFooter.m in Sources */,
+				A1CA97F21B0F87C5003006F2 /* PaperForecasViewController.m in Sources */,
 				A17098F11B0581C00083AF01 /* UIScrollView+MJRefresh.m in Sources */,
 				A1C6AD4F1B0C0EC60002BE81 /* ProductModelCellFrame.m in Sources */,
 				A13BB7981B0B38B00063C64B /* ExamModelCellFrame.m in Sources */,
