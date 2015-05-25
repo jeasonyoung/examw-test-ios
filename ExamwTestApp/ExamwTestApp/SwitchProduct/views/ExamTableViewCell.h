@@ -7,8 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "ExamModelCellFrame.h"
-
+@class ExamModelCellFrame;
 //考试TableViewCell
 @interface ExamTableViewCell : UITableViewCell
 //加载考试数据Frame

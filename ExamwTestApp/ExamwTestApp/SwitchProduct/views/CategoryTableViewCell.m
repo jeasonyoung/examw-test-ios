@@ -7,6 +7,7 @@
 //
 
 #import "CategoryTableViewCell.h"
+#import "CategoryModelCellFrame.h"
 
 //考试分类TableViewCell成员变量
 @interface CategoryTableViewCell(){

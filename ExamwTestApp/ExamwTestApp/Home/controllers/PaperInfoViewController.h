@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
 //真题视图控制器
-@interface PaperRealViewController : UITableViewController
-
+@interface PaperInfoViewController : UITableViewController
+//初始化
+-(instancetype)initWithType:(NSUInteger)type;
+//静态初始化
++(instancetype)infoControllerWithType:(NSUInteger)type;
 @end

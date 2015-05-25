@@ -10,7 +10,7 @@
 #import "JSONSerialize.h"
 
 //试卷类型
-typedef NS_ENUM(int, PaperType) {
+typedef NS_ENUM(NSUInteger, PaperType) {
     //真题
     PaperTypeReal = 0x01,
     //模拟题

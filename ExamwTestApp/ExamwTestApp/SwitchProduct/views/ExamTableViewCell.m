@@ -7,7 +7,7 @@
 //
 
 #import "ExamTableViewCell.h"
-
+#import "ExamModelCellFrame.h"
 //考试TableViewCell成员变量
 @interface ExamTableViewCell (){
     UILabel *_lbName;

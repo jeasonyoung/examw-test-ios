@@ -7,8 +7,8 @@
 //
 
 #import "ProductTableViewCell.h"
-
 #import "UIColor+Hex.h"
+#import "ProductModelCellFrame.h"
 
 //产品TableViewCell成员变量
 @interface ProductTableViewCell (){

@@ -47,6 +47,11 @@
     return self;
 }
 
+#pragma mark 静态初始化
++(instancetype)daoHelpers{
+    return [[self alloc] init];
+}
+
 #pragma mark 创建数据库操作对象
 -(FMDatabase *)createDatabase{
     NSString *path = [self loadDatabasePath];
@@ -118,35 +123,30 @@
 }
 //创建执行表结构
 -(BOOL)createDbTablesWithPath:(NSString *)path{
-    BOOL result = NO;
-    FMDatabase *db;
+    __block BOOL result = NO;
+    if(!path || path.length == 0) return result;
+    //执行SQL脚本
     @try {
         NSArray *sqls = [self createDbTableSQL];
-        if(!sqls || sqls.count == 0) return result;
-        db = [FMDatabase databaseWithPath:path];//创建数据库
-        if([db open]){//打开链接
-            [db beginTransaction];//开启事务
-            
-            for(NSString *sql in sqls){
-                NSLog(@"执行脚本:%@",sql);
-                [db executeUpdate:sql];//执行脚本
-            }
-            
-            [db commit];//提交事务
-            result = YES;
-        }else{
-            NSLog(@"打开数据库失败！");
+        if(sqls && sqls.count > 0){
+            FMDatabaseQueue *queue = [FMDatabaseQueue databaseQueueWithPath:path];
+            [queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+                @try {
+                    for(NSString *sql in sqls){
+                        NSLog(@"执行脚本:%@",sql);
+                        [db executeUpdate:sql];//执行脚本
+                    }
+                    result = YES;
+                }
+                @catch (NSException *exception) {
+                    *rollback = YES;
+                    NSLog(@"执行SQL异常:%@", exception);
+                }
+            }];
         }
     }
     @catch (NSException *exception) {
-        //回滚
-        [db rollback];
-        NSLog(@"创建数据时异常:%@", exception);
-    }
-    @finally {
-        if(db){
-            [db close];//关闭数据
-        }
+        NSLog(@"创建数据文件异常:%@", exception);
     }
     return result;
 }
@@ -164,15 +164,5 @@
     NSString *tblItemRecords_sql = @"CREATE TABLE tbl_itemRecords(id TEXT PRIMARY KEY,paperRecordId TEXT,structureId TEXT,itemId TEXT,itemType INTEGER DEFAULT 0,content TEXT,answer TEXT,status INTEGER DEFAULT 0,score FLOAT DEFAULT 0,useTimes INTEGER DEFAULT 0,createTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),lastTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),sync INTEGER DEFAULT 0);";
     
     return @[tblSubjects_sql,tblPapers_sql,tblFavorites_sql,tblPaperRecords_sql,tblItemRecords_sql];
-}
-
-#pragma mark 静态初始化
-+(instancetype)helpers{
-    static DaoHelpers *dao;
-    if(!dao){
-        NSLog(@"dao操作工具类初始化...");
-        dao = [[self alloc] init];
-    }
-    return dao;
 }
 @end

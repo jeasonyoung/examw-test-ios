@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "CategoryModelCellFrame.h"
+@class CategoryModelCellFrame;
 //考试分类TableViewCell
 @interface CategoryTableViewCell : UITableViewCell
 //加载模型Frame

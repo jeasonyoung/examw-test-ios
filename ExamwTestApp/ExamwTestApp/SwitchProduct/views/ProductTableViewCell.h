@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import "ProductModelCellFrame.h"
+@class ProductModelCellFrame;
 //产品TableViewCell
 @interface ProductTableViewCell : UITableViewCell
 //加载数据模型Cell Frame。

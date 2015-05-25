@@ -11,9 +11,7 @@
 #import "DAPagesContainer.h"
 #import "UIColor+Hex.h"
 
-#import "PaperRealViewController.h"
-#import "PaperSimuViewController.h"
-#import "PaperForecasViewController.h"
+#import "PaperInfoViewController.h"
 
 #import "PaperModel.h"
 
@@ -47,18 +45,15 @@
     [_pagesContainer didMoveToParentViewController:self];
     
     //真题
-    PaperRealViewController *realController = [[PaperRealViewController alloc] init];
-    realController.view.tag = PaperTypeReal;
+    PaperInfoViewController *realController = [PaperInfoViewController infoControllerWithType:PaperTypeReal];
     realController.title = [PaperModel nameWithPaperType:PaperTypeReal]; //@"真题";
-    
+
     //模拟题
-    PaperSimuViewController *simuController = [[PaperSimuViewController alloc] init];
-    simuController.view.tag = PaperTypeSimu;
+    PaperInfoViewController *simuController = [PaperInfoViewController infoControllerWithType:PaperTypeSimu];
     simuController.title = [PaperModel nameWithPaperType:PaperTypeSimu];//@"模拟题";
-    
+
     //预测题
-    PaperForecasViewController *forecasController = [[PaperForecasViewController alloc] init];
-    forecasController.view.tag = PaperTypeForecas;
+    PaperInfoViewController *forecasController = [PaperInfoViewController infoControllerWithType:PaperTypeForecas];
     forecasController.title = [PaperModel nameWithPaperType:PaperTypeForecas];//@"预测题";
     
     _pagesContainer.viewControllers = @[realController,simuController,forecasController];

@@ -25,5 +25,5 @@
 -(FMDatabaseQueue *)createDatabaseQueue;
 
 //静态初始化
-+(instancetype)helpers;
++(instancetype)daoHelpers;
 @end
