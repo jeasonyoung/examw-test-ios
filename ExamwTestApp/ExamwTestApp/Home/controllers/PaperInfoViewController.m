@@ -13,7 +13,12 @@
 #import "PaperInfoModel.h"
 #import "PaperInfoTableViewCell.h"
 
+#import "PaperModel.h"
+
 #import "MJRefresh.h"
+
+#import "AnimationUtils.h"
+#import "PaperDetailsViewController.h"
 
 #define __kPaperInfoViewController_cellIdentifier @"_cellPapers"//行缓存
 
@@ -25,23 +30,26 @@
     PaperService *_service;
     //试卷数据源
     NSMutableArray *_dataSource;
+    //父控制器
+    UIViewController *_parent;
 }
 @end
 
 @implementation PaperInfoViewController
 
 #pragma mark 初始化
--(instancetype)initWithType:(NSUInteger)type{
+-(instancetype)initWithType:(NSUInteger)type parentViewController:(UIViewController *)parent{
     if(self = [super initWithStyle:UITableViewStylePlain]){
         _type = type;
+        _parent = parent;
     }
     return self;
 }
 
 #pragma mark 静态初始化
-+(instancetype)infoControllerWithType:(NSUInteger)type{
++(instancetype)infoControllerWithType:(NSUInteger)type parentViewController:(UIViewController *)parent{
     NSLog(@"静态初始化...");
-    return [[PaperInfoViewController alloc] initWithType:type];
+    return [[PaperInfoViewController alloc] initWithType:type parentViewController:parent];
 }
 
 #pragma mark UI入口
@@ -127,6 +135,28 @@
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     //行高
     return [[_dataSource objectAtIndex:indexPath.row] cellHeight];
+}
+#pragma mark TableView Delegate
+//选中
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    NSLog(@"选中行:%@",indexPath);
+    PaperInfoModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
+    if(!cellFrame){
+        NSLog(@"获取选中行的Cell Frame的数据失败!");
+        return;
+    }
+    if(_parent){
+        //设置返回按钮
+        UIBarButtonItem *backBtnItem = [[UIBarButtonItem alloc] init];
+        backBtnItem.title = [PaperModel nameWithPaperType:_type];
+        _parent.navigationItem.backBarButtonItem = backBtnItem;
+        //设置动画
+        [AnimationUtils mediaTimingEaseInEaseOutWithView:_parent.navigationController.view delegate:self];
+        //跳转
+        PaperDetailsViewController *detailsController = [[PaperDetailsViewController alloc]initWithPaperInfo:cellFrame.model];
+        detailsController.navigationItem.backBarButtonItem = backBtnItem;
+        [_parent.navigationController pushViewController:detailsController animated:YES];
+    }
 }
 
 #pragma mark 内存告警

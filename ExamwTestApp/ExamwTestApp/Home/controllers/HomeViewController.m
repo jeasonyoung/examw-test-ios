@@ -27,8 +27,6 @@
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //隐藏导航条
-    self.navigationController.navigationBarHidden = YES;
     //初始化可滚动导航条
     [self setupPagesContainers];
 }
@@ -45,18 +43,36 @@
     [_pagesContainer didMoveToParentViewController:self];
     
     //真题
-    PaperInfoViewController *realController = [PaperInfoViewController infoControllerWithType:PaperTypeReal];
-    realController.title = [PaperModel nameWithPaperType:PaperTypeReal]; //@"真题";
+    PaperInfoViewController *realController = [PaperInfoViewController infoControllerWithType:PaperTypeReal
+                                                                         parentViewController:self];
+    realController.title = [PaperModel nameWithPaperType:PaperTypeReal];
 
     //模拟题
-    PaperInfoViewController *simuController = [PaperInfoViewController infoControllerWithType:PaperTypeSimu];
-    simuController.title = [PaperModel nameWithPaperType:PaperTypeSimu];//@"模拟题";
+    PaperInfoViewController *simuController = [PaperInfoViewController infoControllerWithType:PaperTypeSimu
+                                                                         parentViewController:self];
+    simuController.title = [PaperModel nameWithPaperType:PaperTypeSimu];
 
     //预测题
-    PaperInfoViewController *forecasController = [PaperInfoViewController infoControllerWithType:PaperTypeForecas];
-    forecasController.title = [PaperModel nameWithPaperType:PaperTypeForecas];//@"预测题";
+    PaperInfoViewController *forecasController = [PaperInfoViewController infoControllerWithType:PaperTypeForecas
+                                                                            parentViewController:self];
+    forecasController.title = [PaperModel nameWithPaperType:PaperTypeForecas];
     
     _pagesContainer.viewControllers = @[realController,simuController,forecasController];
+}
+
+#pragma mark 重载视图将载入
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSLog(@"视图将载入...");
+    //隐藏导航条
+    self.navigationController.navigationBarHidden = YES;
+    
+}
+#pragma mark 重载视图将卸载
+-(void)viewWillDisappear:(BOOL)animated{
+    NSLog(@"视图将卸载...");
+    //隐藏导航条
+    self.navigationController.navigationBarHidden = NO;
 }
 
 #pragma mark 内存告警

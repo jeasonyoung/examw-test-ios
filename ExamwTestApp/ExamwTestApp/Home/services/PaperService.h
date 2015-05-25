@@ -7,6 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+
+@class PaperModel;
+@class PaperRecordModel;
 //试卷服务接口
 @interface PaperService : NSObject
 
@@ -15,4 +18,10 @@
 
 //按试卷类型分页查找试卷信息数据
 -(NSArray *)findPapersInfoWithPaperType:(NSUInteger)paperType andPageIndex:(NSUInteger)pageIndex;
+
+//加载试卷
+-(PaperModel *)loadPaperModelWithPaperId:(NSString *)paperId;
+
+//加载最新的试卷记录
+-(PaperRecordModel *)loadNewsRecordWithPaperId:(NSString *)paperId;
 @end

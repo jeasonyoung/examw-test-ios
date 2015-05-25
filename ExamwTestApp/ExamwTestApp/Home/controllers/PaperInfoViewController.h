@@ -10,7 +10,7 @@
 //真题视图控制器
 @interface PaperInfoViewController : UITableViewController
 //初始化
--(instancetype)initWithType:(NSUInteger)type;
+-(instancetype)initWithType:(NSUInteger)type parentViewController:(UIViewController *)parent;
 //静态初始化
-+(instancetype)infoControllerWithType:(NSUInteger)type;
++(instancetype)infoControllerWithType:(NSUInteger)type parentViewController:(UIViewController *)parent;
 @end
