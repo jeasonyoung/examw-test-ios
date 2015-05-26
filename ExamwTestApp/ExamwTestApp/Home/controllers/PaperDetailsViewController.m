@@ -26,17 +26,23 @@
 
 #import "PaperService.h"
 
-#define __kPaperDetailsViewController_title @"试卷详情"//
+#import "MBProgressHUD.h"
+#import "UIColor+Hex.h"
 
+#define __kPaperDetailsViewController_title @"试卷详情"//
 #define __kPaperDetailsViewController_cellIdentifier @"_cellDetails_%d"//
 //试卷明细视图控制器成员变量
 @interface PaperDetailsViewController (){
     //试卷信息数据模型
     PaperInfoModel *_infoModel;
+    //试卷记录数据模型
+    PaperRecordModel *_recordModel;
     //数据源
     NSMutableArray *_dataSource;
     //试卷服务
     PaperService *_service;
+    //等待动画
+    MBProgressHUD *_waitHud;
 }
 @end
 
@@ -60,6 +66,9 @@
     _dataSource = [NSMutableArray arrayWithCapacity:3];
     //初始化试卷服务
     _service = [[PaperService alloc] init];
+    //开启等待动画
+    _waitHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _waitHud.color = [UIColor colorWithHex:0xD3D3D3];
     //加载数据
     [self loadData];
 }
@@ -72,6 +81,7 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //加载数据
         PaperModel *paperModel = [_service loadPaperModelWithPaperId:_infoModel.Id];
+        NSLog(@"paperModel=>%@",paperModel);
         if(paperModel && _infoModel){
             //1.标题
             PaperTitleModelCellFrame *titleModelCellFrame = [[PaperTitleModelCellFrame alloc] init];
@@ -80,8 +90,8 @@
             [_dataSource addObject:titleModelCellFrame];
             //2.按钮
             PaperButtonModelCellFrame *btnModelCellFrame = [[PaperButtonModelCellFrame alloc] init];
-            PaperRecordModel *recordModel = [_service loadNewsRecordWithPaperId:paperModel.code];
-            btnModelCellFrame.model = [[PaperButtonModel alloc] initWithPaperRecord:recordModel];
+            _recordModel = [_service loadNewsRecordWithPaperId:paperModel.code];
+            btnModelCellFrame.model = [[PaperButtonModel alloc] initWithPaperRecord:_recordModel];
             [_dataSource addObject:btnModelCellFrame];
             //3.明细
             PaperDetailsModel *detailsModel = [[PaperDetailsModel alloc] init];
@@ -100,6 +110,7 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 //
                 [self.tableView reloadData];
+                [_waitHud hide:YES];
             });
         }
     });
@@ -138,6 +149,9 @@
                 NSLog(@"创建按钮行...");
                 cell = [[PaperButtonTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
+                cell.btnClick = ^(NSInteger tag){
+                    NSLog(@"按钮点击:>>>%d",(int)tag);
+                };
             }
             //加载数据
             [cell loadModelCellFrame:[_dataSource objectAtIndex:indexPath.row]];

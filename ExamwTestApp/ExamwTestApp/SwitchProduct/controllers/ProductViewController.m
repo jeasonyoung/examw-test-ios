@@ -13,6 +13,8 @@
 #import "ProductTableViewCell.h"
 #import "MBProgressHUD.h"
 
+#import "UIColor+Hex.h"
+
 #import "SwitchService.h"
 
 #import "AppDelegate.h"
@@ -164,7 +166,7 @@
         _waitHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         _waitHUD.mode = MBProgressHUDModeAnnularDeterminate;
         _waitHUD.labelText = __kProductViewController_waitMsg;
-        _waitHUD.color = [UIColor grayColor];
+        _waitHUD.color = [UIColor colorWithHex:0xD3D3D3];
         //异步线程下载数据
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             //开始下载数据

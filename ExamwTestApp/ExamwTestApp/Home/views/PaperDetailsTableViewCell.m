@@ -9,7 +9,8 @@
 #import "PaperDetailsTableViewCell.h"
 
 #import "PaperDetailsModelCellFrame.h"
-
+#import "EffectsUtils.h"
+#import "UIColor+Hex.h"
 //试卷明细Cell成员变量
 @interface PaperDetailsTableViewCell (){
     UILabel *_lbDesc,*_lbSource,*_lbArea,*_lbType,*_lbTime,*_lbYear,*_lbTotal,*_lbScore;
@@ -62,6 +63,8 @@
         [self.contentView addSubview:_lbYear];
         [self.contentView addSubview:_lbTotal];
         [self.contentView addSubview:_lbScore];
+        
+        [EffectsUtils addBoundsRadiusWithView:self BorderColor:[UIColor colorWithHex:0xBDB76B] BackgroundColor:nil];
     }
     return self;
 }
@@ -103,4 +106,5 @@
     _lbScore.font = cellFrame.scoreFont;
     _lbScore.frame = cellFrame.scoreFrame;
 }
+
 @end

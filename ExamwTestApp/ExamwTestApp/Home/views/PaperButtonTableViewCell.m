@@ -32,12 +32,14 @@
         _btn1.titleLabel.textAlignment = NSTextAlignmentCenter;
         [_btn1 setTitleColor:colorNormal forState:UIControlStateNormal];
         [_btn1 setTitleColor:colorHighlight forState:UIControlStateHighlighted];
+        [_btn1 addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         [EffectsUtils addBoundsRadiusWithView:_btn1 BorderColor:colorBorder BackgroundColor:nil];
         //按钮2
         _btn2 = [UIButton buttonWithType:UIButtonTypeCustom];
         _btn2.titleLabel.textAlignment = NSTextAlignmentCenter;
         [_btn2 setTitleColor:colorNormal forState:UIControlStateNormal];
         [_btn2 setTitleColor:colorHighlight forState:UIControlStateHighlighted];
+        [_btn2 addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         [EffectsUtils addBoundsRadiusWithView:_btn2 BorderColor:colorBorder BackgroundColor:nil];
         //添加到容器
         [self.contentView addSubview:_btn1];
@@ -54,9 +56,18 @@
     [_btn1 setTitle:cellFrame.btn1Title forState:UIControlStateNormal];
     _btn1.titleLabel.font = cellFrame.btnFont;
     _btn1.frame = cellFrame.btn1Frame;
+    _btn1.tag = cellFrame.btn1Tag;
     //按钮2
     [_btn2 setTitle:cellFrame.btn2Title forState:UIControlStateNormal];
     _btn2.titleLabel.font = cellFrame.btnFont;
     _btn2.frame = cellFrame.btn2Frame;
+    _btn2.tag = cellFrame.btn2Tag;
+}
+//按钮点击事件
+-(void)btnClick:(UIButton *)sender{
+    NSLog(@"点击:%@=>%d",sender, (int)sender.tag);
+    if(_btnClick){
+        _btnClick(sender.tag);
+    }
 }
 @end

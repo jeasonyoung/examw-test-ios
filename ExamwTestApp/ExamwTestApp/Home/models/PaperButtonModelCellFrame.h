@@ -22,11 +22,15 @@
 @property(nonatomic,copy,readonly)NSString *btn1Title;
 //按钮1Frame
 @property(nonatomic,readonly)CGRect btn1Frame;
+//按钮1的Tag
+@property(nonatomic,assign,readonly)NSUInteger btn1Tag;
 
 //按钮2名称
 @property(nonatomic,copy,readonly)NSString *btn2Title;
 //按钮2Frame
 @property(nonatomic,readonly)CGRect btn2Frame;
+//按钮1的Tag
+@property(nonatomic,assign,readonly)NSUInteger btn2Tag;
 
 //Cell高度
 @property(nonatomic,assign,readonly)CGFloat cellHeight;

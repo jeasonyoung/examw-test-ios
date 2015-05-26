@@ -17,6 +17,7 @@
 #import "ExamTableViewCell.h"
 
 #import "MBProgressHUD.h"
+#import "UIColor+Hex.h"
 
 #import "SwitchService.h"
 
@@ -105,7 +106,7 @@
         _progress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         _progress.mode = MBProgressHUDModeAnnularDeterminate;
         _progress.labelText = __kCategoryViewController_waitMsg;
-        _progress.color = [UIColor grayColor];
+        _progress.color = [UIColor colorWithHex:0xD3D3D3];
         
         //开始异步线程处理
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{

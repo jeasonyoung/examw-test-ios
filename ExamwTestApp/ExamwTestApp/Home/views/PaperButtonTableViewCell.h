@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 @class PaperButtonModelCellFrame;
+
 //试卷按钮Cell
 @interface PaperButtonTableViewCell : UITableViewCell
+//事件block
+@property(nonatomic,copy) void(^btnClick)(NSInteger);
 //加载数据模型Frame
 -(void)loadModelCellFrame:(PaperButtonModelCellFrame *)cellFrame;
 @end
