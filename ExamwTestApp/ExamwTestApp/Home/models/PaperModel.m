@@ -17,6 +17,7 @@
 #define __kPaperModel_keys_type @"type"//试卷类型
 #define __kPaperModel_keys_time @"time"//考试时长
 #define __kPaperModel_keys_year @"year"//使用年份
+#define __kPaperModel_keys_total @"total"//试题数
 #define __kPaperModel_keys_score @"score"//试卷总分
 #define __kPaperModel_keys_structures @"structures"//试卷结构
 
@@ -69,6 +70,11 @@
             id value = [dict objectForKey:__kPaperModel_keys_year];
             _year = (value == [NSNull null] ? 0 : [(NSNumber *)value integerValue]);
         }
+        //试题数
+        if([keys containsObject:__kPaperModel_keys_total]){
+            id value = [dict objectForKey:__kPaperModel_keys_total];
+            _total = (value == [NSNull null] ? 0 : [(NSNumber *)value integerValue]);
+        }
         //试卷总分
         if([keys containsObject:__kPaperModel_keys_score]){
             id value = [dict objectForKey:__kPaperModel_keys_score];
@@ -88,7 +94,7 @@
 
 #pragma mark 将JSON反序列化处理
 -(instancetype)initWithJSON:(NSString *)json{
-    NSLog(@"将JSON反序列化");
+    NSLog(@"将JSON反序列化=>%@",json);
     if(json && json.length > 0){
         NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
         if(data && data.length > 0){

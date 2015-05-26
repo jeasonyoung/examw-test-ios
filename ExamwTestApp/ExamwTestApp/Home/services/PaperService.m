@@ -105,7 +105,10 @@
         //解密数据
         NSLog(@"开始解密试卷数据...");
         NSString *json = [PaperUtils decryptPaperContentWithHex:contentHex andPassword:paperId];
-        if(!json || json.length == 0)return nil;
+        if(!json || json.length == 0){
+            NSLog(@"试卷解密后无法解析...!");
+            return nil;
+        }
         //解析
         NSLog(@"开始解析JSON数据为试卷对象...");
         paperModel = [[PaperModel alloc] initWithJSON:json];
@@ -142,6 +145,34 @@
             break;
         }
         [rs close];
+    }];
+    return recordModel;
+}
+
+#pragma mark 按试卷记录ID加载试卷记录
+-(PaperRecordModel *)loadRecordWithPaperRecordId:(NSString *)paperRecordId{
+    if(!paperRecordId || paperRecordId.length == 0) return nil;
+    NSLog(@"按试卷记录ID[%@]加载试卷记录...", paperRecordId);
+    //创建数据操作队列
+    FMDatabaseQueue *dbQueue = [_daoHelpers createDatabaseQueue];
+    if(!dbQueue){
+        NSLog(@"创建数据操作失败!");
+        return nil;
+    }
+    __block PaperRecordModel *recordModel = nil;
+    [dbQueue inDatabase:^(FMDatabase *db) {
+        static NSString *query_sql = @"SELECT id,paperId,status,score,rights,useTimes FROM tbl_paperRecords WHERE id = ? limit 0,1";
+        FMResultSet *rs = [db executeQuery:query_sql, paperRecordId];
+        while ([rs next]) {
+            recordModel = [[PaperRecordModel alloc] init];
+            recordModel.Id = [rs stringForColumn:@"id"];
+            recordModel.paperId = [rs stringForColumn:@"paperId"];
+            recordModel.status = [rs boolForColumn:@"status"];
+            recordModel.score = [NSNumber numberWithDouble:[rs doubleForColumn:@"score"]];
+            recordModel.rights = [rs intForColumn:@"rights"];
+            recordModel.useTimes = [rs intForColumn:@"useTimes"];
+            break;
+        }
     }];
     return recordModel;
 }

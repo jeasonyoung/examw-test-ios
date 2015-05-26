@@ -91,10 +91,10 @@
             result = [NSData dataWithBytesNoCopy:buffer length:outputSize];
             NSLog(@"%@成功!", typeName);
         }else{
+            //free
+            free(buffer);
             NSLog(@"%@失败[%d]!", typeName, cryptStatus);
         }
-        //free
-        free(buffer);
         return result;
     }
     return nil;
@@ -118,7 +118,7 @@
     if(data && data.length > 0 && password && password.length > 0){
         NSData *decrypt = [self aesWithData:data withPassword:password withOP:kCCDecrypt];
         if(decrypt){
-            return [[NSString alloc]initWithData:decrypt encoding:NSUTF8StringEncoding];
+           return [[NSString alloc]initWithData:decrypt encoding:NSUTF8StringEncoding];
         }
     }
     return nil;

@@ -24,4 +24,7 @@
 
 //加载最新的试卷记录
 -(PaperRecordModel *)loadNewsRecordWithPaperId:(NSString *)paperId;
+
+//按试卷记录ID加载试卷记录
+-(PaperRecordModel *)loadRecordWithPaperRecordId:(NSString *)paperRecordId;
 @end
