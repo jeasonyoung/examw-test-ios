@@ -35,6 +35,8 @@
 @interface PaperDetailsViewController (){
     //试卷信息数据模型
     PaperInfoModel *_infoModel;
+    //试卷数据模型
+    PaperModel *_paperModel;
     //试卷记录数据模型
     PaperRecordModel *_recordModel;
     //数据源
@@ -80,29 +82,29 @@
     //异步加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //加载数据
-        PaperModel *paperModel = [_service loadPaperModelWithPaperId:_infoModel.Id];
-        NSLog(@"paperModel=>%@",paperModel);
-        if(paperModel && _infoModel){
+        _paperModel = [_service loadPaperModelWithPaperId:_infoModel.Id];
+        NSLog(@"paperModel=>%@",_paperModel);
+        if(_paperModel && _infoModel){
             //1.标题
             PaperTitleModelCellFrame *titleModelCellFrame = [[PaperTitleModelCellFrame alloc] init];
-            titleModelCellFrame.model = [[PaperTitleModel alloc]initWithTitle:paperModel.name
+            titleModelCellFrame.model = [[PaperTitleModel alloc]initWithTitle:_paperModel.name
                                                                    andSubject:_infoModel.subject];
             [_dataSource addObject:titleModelCellFrame];
             //2.按钮
             PaperButtonModelCellFrame *btnModelCellFrame = [[PaperButtonModelCellFrame alloc] init];
-            _recordModel = [_service loadNewsRecordWithPaperId:paperModel.code];
+            _recordModel = [_service loadNewsRecordWithPaperId:_paperModel.code];
             btnModelCellFrame.model = [[PaperButtonModel alloc] initWithPaperRecord:_recordModel];
             [_dataSource addObject:btnModelCellFrame];
             //3.明细
             PaperDetailsModel *detailsModel = [[PaperDetailsModel alloc] init];
-            detailsModel.desc = paperModel.desc;
-            detailsModel.source = paperModel.source;
-            detailsModel.area = paperModel.area;
-            detailsModel.type = paperModel.type;
-            detailsModel.time = paperModel.time;
-            detailsModel.year = paperModel.year;
-            detailsModel.total = paperModel.total;
-            detailsModel.score = paperModel.score;
+            detailsModel.desc = _paperModel.desc;
+            detailsModel.source = _paperModel.source;
+            detailsModel.area = _paperModel.area;
+            detailsModel.type = _paperModel.type;
+            detailsModel.time = _paperModel.time;
+            detailsModel.year = _paperModel.year;
+            detailsModel.total = _paperModel.total;
+            detailsModel.score = _paperModel.score;
             PaperDetailsModelCellFrame *detailsCellFrame = [[PaperDetailsModelCellFrame alloc] init];
             detailsCellFrame.model = detailsModel;
             [_dataSource addObject:detailsCellFrame];
