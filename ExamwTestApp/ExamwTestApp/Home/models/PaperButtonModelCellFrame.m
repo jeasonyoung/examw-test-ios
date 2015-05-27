@@ -16,15 +16,15 @@
 #define __kPaperButtonModelCellFrame_top 10//顶部间距
 #define __kPaperButtonModelCellFrame_bottom 15//底部间距
 #define __kPaperButtonModelCellFrame_left 10//左边间距
-#define __kPaperButtonModelCellFrame_right 5//右边间距
+#define __kPaperButtonModelCellFrame_right 10//右边间距
 
 //#define __kPaperButtonModelCellFrame_marginV 5//纵向间距
 #define __kPaperButtonModelCellFrame_marginH 15//横向间距
 
-#define __kPaperButtonModelCellFrame_btnStart @"开始考试"
-#define __kPaperButtonModelCellFrame_btnContinue @"继续考试"
-#define __kPaperButtonModelCellFrame_btnReset @"重新开始"
-#define __kPaperButtonModelCellFrame_btnReview @"查看成绩"
+#define __kPaperButtonModelCellFrame_btnStart @"开始考试"//1
+#define __kPaperButtonModelCellFrame_btnContinue @"继续考试"//2
+#define __kPaperButtonModelCellFrame_btnReset @"重新开始"//3
+#define __kPaperButtonModelCellFrame_btnReview @"查看成绩"//4
 
 #define __kPaperButtonModelCellFrame_btnHeight 30//
 
@@ -48,8 +48,9 @@
     if(!_model){
         return;
     }
-    CGFloat x = __kPaperButtonModelCellFrame_left, y = __kPaperButtonModelCellFrame_top, maxWidth = SCREEN_WIDTH,
-    width = (maxWidth - __kPaperButtonModelCellFrame_left - __kPaperButtonModelCellFrame_marginH)/2;
+    CGFloat x = __kPaperButtonModelCellFrame_left, y = __kPaperButtonModelCellFrame_top,
+    maxWidth = SCREEN_WIDTH,
+    width = (maxWidth - __kPaperButtonModelCellFrame_left - __kPaperButtonModelCellFrame_right - __kPaperButtonModelCellFrame_marginH)/2;
     //做题记录不存在
     if(!_model.recordModel){
         _btn1Title = __kPaperButtonModelCellFrame_btnStart;

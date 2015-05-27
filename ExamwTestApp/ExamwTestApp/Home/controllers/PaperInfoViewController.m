@@ -151,7 +151,7 @@
         backBtnItem.title = [PaperModel nameWithPaperType:_type];
         _parent.navigationItem.backBarButtonItem = backBtnItem;
         //设置动画
-        [EffectsUtils animationMediaTimingEaseInEaseOutWithView:_parent.navigationController.view delegate:self];
+        [EffectsUtils animationCubeWithView:_parent.navigationController.view delegate:self];
         //跳转
         PaperDetailsViewController *detailsController = [[PaperDetailsViewController alloc]initWithPaperInfo:cellFrame.model];
         detailsController.navigationItem.backBarButtonItem = backBtnItem;

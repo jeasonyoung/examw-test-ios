@@ -27,4 +27,7 @@
 
 //按试卷记录ID加载试卷记录
 -(PaperRecordModel *)loadRecordWithPaperRecordId:(NSString *)paperRecordId;
+
+//新增试卷记录
+-(void)addPaperRecord:(PaperRecordModel *)record;
 @end

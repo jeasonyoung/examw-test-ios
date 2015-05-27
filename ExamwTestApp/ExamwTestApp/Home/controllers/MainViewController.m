@@ -66,14 +66,11 @@
             self.selectedIndex = 0;
         });
     });
-    
 }
 
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
-#pragma mark UITabBarControllerDelegate
 
 @end

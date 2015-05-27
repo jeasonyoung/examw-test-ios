@@ -50,6 +50,10 @@
 		A1936CA51B0F1C4900C59A06 /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936CA41B0F1C4900C59A06 /* MyViewController.m */; };
 		A1936CA81B0F1C7F00C59A06 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */; };
 		A19D5B541B064706009F7360 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D5B531B064706009F7360 /* CategoryModel.m */; };
+		A1A478C31B155B97000B7E22 /* DMLazyScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478C21B155B97000B7E22 /* DMLazyScrollView.m */; };
+		A1A478C61B155BD7000B7E22 /* PaperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478C51B155BD7000B7E22 /* PaperViewController.m */; };
+		A1A478C91B155BF9000B7E22 /* PaperItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478C81B155BF9000B7E22 /* PaperItemViewController.m */; };
+		A1A478CC1B156388000B7E22 /* PaperResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478CB1B156388000B7E22 /* PaperResultViewController.m */; };
 		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
 		A1B7F6A11B1360B700DF8834 /* PaperTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B7F6A01B1360B700DF8834 /* PaperTitleModel.m */; };
 		A1B7F6A41B1362E700DF8834 /* PaperButtonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B7F6A31B1362E700DF8834 /* PaperButtonModel.m */; };
@@ -204,6 +208,14 @@
 		A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoreViewController.m; path = Home/controllers/MoreViewController.m; sourceTree = "<group>"; };
 		A19D5B521B064706009F7360 /* CategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CategoryModel.h; path = SwitchProduct/models/CategoryModel.h; sourceTree = "<group>"; };
 		A19D5B531B064706009F7360 /* CategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CategoryModel.m; path = SwitchProduct/models/CategoryModel.m; sourceTree = "<group>"; };
+		A1A478C11B155B97000B7E22 /* DMLazyScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DMLazyScrollView.h; path = libs/DMLazyScrollView/DMLazyScrollView.h; sourceTree = "<group>"; };
+		A1A478C21B155B97000B7E22 /* DMLazyScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DMLazyScrollView.m; path = libs/DMLazyScrollView/DMLazyScrollView.m; sourceTree = "<group>"; };
+		A1A478C41B155BD7000B7E22 /* PaperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperViewController.h; path = Home/controllers/PaperViewController.h; sourceTree = "<group>"; };
+		A1A478C51B155BD7000B7E22 /* PaperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperViewController.m; path = Home/controllers/PaperViewController.m; sourceTree = "<group>"; };
+		A1A478C71B155BF9000B7E22 /* PaperItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperItemViewController.h; path = Home/controllers/PaperItemViewController.h; sourceTree = "<group>"; };
+		A1A478C81B155BF9000B7E22 /* PaperItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemViewController.m; path = Home/controllers/PaperItemViewController.m; sourceTree = "<group>"; };
+		A1A478CA1B156388000B7E22 /* PaperResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperResultViewController.h; path = Home/controllers/PaperResultViewController.h; sourceTree = "<group>"; };
+		A1A478CB1B156388000B7E22 /* PaperResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperResultViewController.m; path = Home/controllers/PaperResultViewController.m; sourceTree = "<group>"; };
 		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
 		A1B5AF381B0399780086F421 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hex.m"; path = "ExamwTestApp/Utils/UIColor+Hex.m"; sourceTree = "<group>"; };
 		A1B7F69F1B1360B700DF8834 /* PaperTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperTitleModel.h; path = Home/models/PaperTitleModel.h; sourceTree = "<group>"; };
@@ -511,6 +523,12 @@
 				A1CA97EB1B0F874F003006F2 /* PaperInfoViewController.m */,
 				A1185F9C1B12F6B00099F910 /* PaperDetailsViewController.h */,
 				A1185F9D1B12F6B00099F910 /* PaperDetailsViewController.m */,
+				A1A478C41B155BD7000B7E22 /* PaperViewController.h */,
+				A1A478C51B155BD7000B7E22 /* PaperViewController.m */,
+				A1A478C71B155BF9000B7E22 /* PaperItemViewController.h */,
+				A1A478C81B155BF9000B7E22 /* PaperItemViewController.m */,
+				A1A478CA1B156388000B7E22 /* PaperResultViewController.h */,
+				A1A478CB1B156388000B7E22 /* PaperResultViewController.m */,
 				A1936CA01B0F1BDF00C59A06 /* FavoritesViewController.h */,
 				A1936CA11B0F1BDF00C59A06 /* FavoritesViewController.m */,
 				A1936CA31B0F1C4900C59A06 /* MyViewController.h */,
@@ -543,6 +561,15 @@
 				A10F5FB51B0DBAEA00BD0491 /* DownloadDao.m */,
 			);
 			name = dao;
+			sourceTree = "<group>";
+		};
+		A1A478C01B155B50000B7E22 /* DMLazyScrollView */ = {
+			isa = PBXGroup;
+			children = (
+				A1A478C11B155B97000B7E22 /* DMLazyScrollView.h */,
+				A1A478C21B155B97000B7E22 /* DMLazyScrollView.m */,
+			);
+			name = DMLazyScrollView;
 			sourceTree = "<group>";
 		};
 		A1CA97E01B0F8195003006F2 /* DAPagesContainer */ = {
@@ -634,6 +661,7 @@
 				A1F724AD1B02FD8A0023A3C8 /* MBProgressHUD */,
 				A17098A91B0580010083AF01 /* MJRefresh */,
 				A17099031B05DEF80083AF01 /* XHRealTimeBlur */,
+				A1A478C01B155B50000B7E22 /* DMLazyScrollView */,
 				A1CA97E01B0F8195003006F2 /* DAPagesContainer */,
 			);
 			name = libs;
@@ -839,12 +867,14 @@
 				A1BBC9DD1B1013B8005A1FD3 /* PaperItemModel.m in Sources */,
 				A17098FF1B0599910083AF01 /* SwitchViewController.m in Sources */,
 				A17098E81B0581C00083AF01 /* MJRefreshComponent.m in Sources */,
+				A1A478C91B155BF9000B7E22 /* PaperItemViewController.m in Sources */,
 				A1F724DD1B03470B0023A3C8 /* NSData+Hex.m in Sources */,
 				A1C6AD851B0C74770002BE81 /* UIAlertView+AFNetworking.m in Sources */,
 				A1F724221B02F88A0023A3C8 /* AppDelegate.m in Sources */,
 				A1C6AD801B0C74770002BE81 /* AFURLConnectionOperation.m in Sources */,
 				A10F5FBC1B0DBCA000BD0491 /* AppClientSync.m in Sources */,
 				A1BBC9E01B102BC0005A1FD3 /* PaperStructureModel.m in Sources */,
+				A1A478CC1B156388000B7E22 /* PaperResultViewController.m in Sources */,
 				A121F2591B142873004EC63C /* PaperDetailsTableViewCell.m in Sources */,
 				A1DF97EA1B1220F3000F2B73 /* PaperService.m in Sources */,
 				A1C6AD911B0C90AC0002BE81 /* MBProgressHUD.m in Sources */,
@@ -861,6 +891,7 @@
 				A1CA97E71B0F81C6003006F2 /* DAPageIndicatorView.m in Sources */,
 				A1F724D11B033F4A0023A3C8 /* AppSettings.m in Sources */,
 				A1F724C51B0305C00023A3C8 /* FMResultSet.m in Sources */,
+				A1A478C61B155BD7000B7E22 /* PaperViewController.m in Sources */,
 				A1C6AD7C1B0C74770002BE81 /* AFHTTPSessionManager.m in Sources */,
 				A13BB7881B0AD6270063C64B /* JSONCallback.m in Sources */,
 				A13BB79C1B0B47800063C64B /* ExamTableViewCell.m in Sources */,
@@ -898,6 +929,7 @@
 				A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */,
 				A1936CA81B0F1C7F00C59A06 /* MoreViewController.m in Sources */,
 				A13BB7921B0B0B7F0063C64B /* CategoryTableViewCell.m in Sources */,
+				A1A478C31B155B97000B7E22 /* DMLazyScrollView.m in Sources */,
 				A1C6AD881B0C74770002BE81 /* UIProgressView+AFNetworking.m in Sources */,
 				A121F24D1B13FBE8004EC63C /* PaperButtonModelCellFrame.m in Sources */,
 				A13BB77E1B096D8C0063C64B /* ExamModel.m in Sources */,

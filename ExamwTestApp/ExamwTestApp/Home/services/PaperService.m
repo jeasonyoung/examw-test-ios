@@ -132,7 +132,7 @@
     }
     __block PaperRecordModel *recordModel = nil;
     [dbQueue inDatabase:^(FMDatabase *db) {
-        static NSString *query_sql = @"SELECT id,status,score,rights,useTimes FROM tbl_paperRecords WHERE paperId = ? ORDER BY createTime DESC, lastTime DESC limit 0,1";
+        static NSString *query_sql = @"SELECT id,status,score,rights,useTimes FROM tbl_paperRecords WHERE paperId = ? ORDER BY lastTime DESC,createTime DESC limit 0,1";
         FMResultSet *rs = [db executeQuery:query_sql, paperId];
         while ([rs next]) {
             recordModel = [[PaperRecordModel alloc] init];
@@ -175,5 +175,51 @@
         }
     }];
     return recordModel;
+}
+
+#pragma mark 更新试卷记录
+-(void)addPaperRecord:(PaperRecordModel *)record{
+    if(!record)return;
+    NSLog(@"准备更新试卷记录数据...");
+    if(!record.paperId || record.paperId.length == 0){
+        NSLog(@"关联的试卷ID不能为空!");
+        return;
+    }
+    //创建数据操作队列
+    FMDatabaseQueue *dbQueue = [_daoHelpers createDatabaseQueue];
+    if(!dbQueue){
+        NSLog(@"创建数据操作失败!");
+        return;
+    }
+    //查找sql
+    static NSString *query_sql = @"SELECT count(*) FROM tbl_paperRecords WHERE id = ?";
+    //新增sql
+    static NSString *insert_sql = @"INSERT INTO tbl_paperRecords(id,paperId,status,score,rights,useTimes) values(?,?,?,?,?,?)";
+    //更新sql
+    static NSString *update_sql = @"UPDATE tbl_paperRecords SET lastTime=? WHERE id=?";
+    
+    //执行数据
+    [dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        @try {
+            BOOL isAdded = (!record.Id || record.Id.length == 0);
+            if(!isAdded){
+                isAdded = !([db intForQuery:query_sql, record.Id] > 0);
+            }
+            if(isAdded){//新增
+                if(!record.Id || record.Id.length == 0){
+                    record.Id = [[NSUUID UUID] UUIDString];
+                }
+                //执行SQL
+                [db executeUpdate:insert_sql,record.Id,record.paperId,[NSNumber numberWithBool:NO],@0,@0,@0];
+            }else{//更新
+                //执行SQL
+                [db executeUpdate:update_sql,[NSDate date],record.Id];
+            }
+        }
+        @catch (NSException *exception) {
+            *rollback = YES;
+            NSLog(@"执行SQL脚本异常:%@", exception);
+        }
+    }];
 }
 @end

@@ -33,6 +33,9 @@
              BorderWidth:(CGFloat)borderWith
          BackgroundColor:(UIColor *)bgColor;
 
-//三维翻转动画
-+(void)animationMediaTimingEaseInEaseOutWithView:(UIView *)view delegate:(id)delegate;
+//立方体动画
++(void)animationCubeWithView:(UIView *)view delegate:(id)delegate;
+
+//Push转场动画
++(void)animationPushWithView:(UIView *)view delegate:(id)delegate;;
 @end

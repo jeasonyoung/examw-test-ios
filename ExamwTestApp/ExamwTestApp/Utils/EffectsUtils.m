@@ -65,10 +65,10 @@
     [self addBorderWithView:view BorderColor:borderColor BorderWidth:__kEffectsUtils_borderWith BackgroundColor:bgColor];
 }
 
-#pragma mark 三维翻转动画
-+(void)animationMediaTimingEaseInEaseOutWithView:(UIView *)view delegate:(id)delegate{
+#pragma mark 立方体动画
++(void)animationCubeWithView:(UIView *)view delegate:(id)delegate{
     if(!view) return;
-    NSLog(@"设置[%@]三维翻转动画...", view);
+    NSLog(@"设置[%@]立方体动画...", view);
     CATransition *transition = [CATransition animation];
     transition.duration = 1.0f;
     transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
@@ -79,4 +79,17 @@
     [view.layer addAnimation:transition forKey:nil];
 }
 
+#pragma mark Push转场动画
++(void)animationPushWithView:(UIView *)view delegate:(id)delegate{
+    if(!view) return;
+    NSLog(@"设置[%@]Push动画...", view);
+    CATransition *transition = [CATransition animation];
+    transition.duration = 1.0f;
+    transition.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    transition.type = kCATransitionPush;
+    transition.subtype = kCATransitionFromRight;
+    transition.delegate = delegate;
+    
+    [view.layer addAnimation:transition forKey:nil];
+}
 @end

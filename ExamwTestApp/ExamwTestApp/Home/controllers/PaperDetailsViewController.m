@@ -12,6 +12,8 @@
 #import "PaperModel.h"
 #import "PaperStructureModel.h"
 
+#import "PaperRecordModel.h"
+
 #import "PaperTitleModel.h"
 #import "PaperTitleModelCellFrame.h"
 #import "PaperTitleTableViewCell.h"
@@ -28,6 +30,10 @@
 
 #import "MBProgressHUD.h"
 #import "UIColor+Hex.h"
+#import "EffectsUtils.h"
+
+#import "PaperViewController.h"
+#import "PaperResultViewController.h"
 
 #define __kPaperDetailsViewController_title @"试卷详情"//
 #define __kPaperDetailsViewController_cellIdentifier @"_cellDetails_%d"//
@@ -118,6 +124,53 @@
     });
 }
 
+//跳转到试卷控制器
+-(void)doPaperControllerWithTag:(NSInteger)tag{
+    UIViewController *controller;
+    switch (tag) {
+        case 1://开始考试
+        case 3://重新开始
+        {
+            __block NSString *paperRecordId;
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                NSLog(@"异步线程保存数据...");
+                PaperRecordModel *recordModel = [[PaperRecordModel alloc] initWithPaperId:_infoModel.Id];
+                paperRecordId = recordModel.Id;
+                [_service addPaperRecord:recordModel];
+            });
+            controller = [PaperViewController paperWithPaperId:_infoModel.Id andPaperRecordId:paperRecordId];
+            break;
+        }
+        case 2:{//继续考试
+            if(!_recordModel){
+                NSLog(@"试卷记录不存在...");
+                return;
+            }
+            controller = [PaperViewController paperWithPaperId:_infoModel.Id andPaperRecordId:_recordModel.Id];
+            break;
+        }
+        case 4:{//查看成绩
+            if(!_recordModel){
+                NSLog(@"试卷记录不存在...");
+                return;
+            }
+            controller = [PaperResultViewController resultControllerWithPaperRecordId:_recordModel.Id];
+            break;
+        }
+        default:{
+            NSLog(@"未定义规则的Tag=>%d ...",(int)tag);
+            break;
+        }
+    }
+    if(controller){
+        //设置动画
+        [EffectsUtils animationPushWithView:self.navigationController.view delegate:self];
+        //[EffectsUtils animationCubeWithView:self.navigationController.view delegate:self];
+        controller.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:controller animated:YES];
+    }
+}
+
 #pragma mark tableview
 //加载数据量
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -130,7 +183,6 @@
 //创建行
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"创建行...");
-    
     NSString *identifier = [NSString stringWithFormat:__kPaperDetailsViewController_cellIdentifier, (int)indexPath.row];
     switch (indexPath.row) {
         case 0://标题
@@ -153,6 +205,7 @@
                 cell.selectionStyle = UITableViewCellSelectionStyleNone;
                 cell.btnClick = ^(NSInteger tag){
                     NSLog(@"按钮点击:>>>%d",(int)tag);
+                    [self doPaperControllerWithTag:tag];
                 };
             }
             //加载数据
@@ -184,5 +237,4 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
 }
-
 @end
