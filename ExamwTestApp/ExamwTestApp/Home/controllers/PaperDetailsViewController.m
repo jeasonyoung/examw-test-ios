@@ -138,7 +138,7 @@
                 paperRecordId = recordModel.Id;
                 [_service addPaperRecord:recordModel];
             });
-            controller = [PaperViewController paperWithPaperId:_infoModel.Id andPaperRecordId:paperRecordId];
+            controller = [[PaperViewController alloc] initWithPaperId:_infoModel.Id andPaperRecordId:paperRecordId andDisplayAnswer:YES];
             break;
         }
         case 2:{//继续考试
@@ -146,7 +146,7 @@
                 NSLog(@"试卷记录不存在...");
                 return;
             }
-            controller = [PaperViewController paperWithPaperId:_infoModel.Id andPaperRecordId:_recordModel.Id];
+            controller = [[PaperViewController alloc] initWithPaperId:_infoModel.Id andPaperRecordId:_recordModel.Id andDisplayAnswer:YES];
             break;
         }
         case 4:{//查看成绩
@@ -165,7 +165,6 @@
     if(controller){
         //设置动画
         [EffectsUtils animationPushWithView:self.navigationController.view delegate:self];
-        //[EffectsUtils animationCubeWithView:self.navigationController.view delegate:self];
         controller.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:controller animated:YES];
     }

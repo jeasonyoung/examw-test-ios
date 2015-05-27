@@ -8,6 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
+@class PaperItemModel;
+//试卷试题视图控制器
 @interface PaperItemViewController : UITableViewController
+
+//初始化
+-(instancetype)initWithPaperItem:(PaperItemModel *)model andDisplayAnswer:(BOOL)display;
 
 @end

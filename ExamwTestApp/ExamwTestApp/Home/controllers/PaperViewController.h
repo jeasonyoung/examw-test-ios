@@ -12,9 +12,9 @@
 @interface PaperViewController : UIViewController
 
 //初始化
--(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId;
+-(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId andDisplayAnswer:(BOOL)display;
 
-//静态初始化
-+(instancetype)paperWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId;
+//初始化
+-(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId;
 
 @end
