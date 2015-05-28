@@ -27,6 +27,7 @@
 #pragma mark 初始化
 -(instancetype)initWithDict:(NSDictionary *)dict{
     if((self = [super init]) && dict && dict.count > 0){
+        _index = 0;
         NSLog(@"试题反序列化初始化...");
         NSArray *keys = dict.allKeys;
         //试题ID

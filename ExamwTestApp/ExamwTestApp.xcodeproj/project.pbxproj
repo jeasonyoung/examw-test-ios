@@ -54,6 +54,25 @@
 		A1A478C61B155BD7000B7E22 /* PaperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478C51B155BD7000B7E22 /* PaperViewController.m */; };
 		A1A478C91B155BF9000B7E22 /* PaperItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478C81B155BF9000B7E22 /* PaperItemViewController.m */; };
 		A1A478CC1B156388000B7E22 /* PaperResultViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478CB1B156388000B7E22 /* PaperResultViewController.m */; };
+		A1A478D61B15F3D0000B7E22 /* PaperItemTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478D51B15F3D0000B7E22 /* PaperItemTitleModel.m */; };
+		A1A478D91B15F947000B7E22 /* PaperItemOptModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478D81B15F947000B7E22 /* PaperItemOptModel.m */; };
+		A1A478DC1B15FC86000B7E22 /* PaperItemAnalysisModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478DB1B15FC86000B7E22 /* PaperItemAnalysisModel.m */; };
+		A1A478DF1B15FDB0000B7E22 /* PaperItemTitleModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478DE1B15FDB0000B7E22 /* PaperItemTitleModelCellFrame.m */; };
+		A1A478E91B160315000B7E22 /* EMMarkupProperty.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478E21B160315000B7E22 /* EMMarkupProperty.m */; };
+		A1A478EA1B160315000B7E22 /* EMStringStylingConfiguration.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478E41B160315000B7E22 /* EMStringStylingConfiguration.m */; };
+		A1A478EB1B160315000B7E22 /* EMStylingClass.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478E61B160315000B7E22 /* EMStylingClass.m */; };
+		A1A478EC1B160315000B7E22 /* NSString+EMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478E81B160315000B7E22 /* NSString+EMAdditions.m */; };
+		A1A478EF1B160B8D000B7E22 /* PaperItemOptModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478EE1B160B8D000B7E22 /* PaperItemOptModelCellFrame.m */; };
+		A1A478F71B169687000B7E22 /* option_error.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A478F11B169687000B7E22 /* option_error.png */; };
+		A1A478F81B169687000B7E22 /* option_multy_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A478F21B169687000B7E22 /* option_multy_normal.png */; };
+		A1A478F91B169687000B7E22 /* option_multy_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A478F31B169687000B7E22 /* option_multy_selected.png */; };
+		A1A478FA1B169687000B7E22 /* option_right.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A478F41B169687000B7E22 /* option_right.png */; };
+		A1A478FB1B169687000B7E22 /* option_single_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A478F51B169687000B7E22 /* option_single_normal.png */; };
+		A1A478FC1B169687000B7E22 /* option_single_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A478F61B169687000B7E22 /* option_single_selected.png */; };
+		A1A478FF1B16A6A5000B7E22 /* PaperItemAnalysisModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478FE1B16A6A5000B7E22 /* PaperItemAnalysisModelCellFrame.m */; };
+		A1A479021B16BF69000B7E22 /* PaperItemTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A479011B16BF69000B7E22 /* PaperItemTitleTableViewCell.m */; };
+		A1A479051B16C16F000B7E22 /* PaperItemOptTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A479041B16C16F000B7E22 /* PaperItemOptTableViewCell.m */; };
+		A1A479081B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A479071B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m */; };
 		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
 		A1B7F6A11B1360B700DF8834 /* PaperTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B7F6A01B1360B700DF8834 /* PaperTitleModel.m */; };
 		A1B7F6A41B1362E700DF8834 /* PaperButtonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B7F6A31B1362E700DF8834 /* PaperButtonModel.m */; };
@@ -216,6 +235,38 @@
 		A1A478C81B155BF9000B7E22 /* PaperItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemViewController.m; path = Home/controllers/PaperItemViewController.m; sourceTree = "<group>"; };
 		A1A478CA1B156388000B7E22 /* PaperResultViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperResultViewController.h; path = Home/controllers/PaperResultViewController.h; sourceTree = "<group>"; };
 		A1A478CB1B156388000B7E22 /* PaperResultViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperResultViewController.m; path = Home/controllers/PaperResultViewController.m; sourceTree = "<group>"; };
+		A1A478D41B15F3D0000B7E22 /* PaperItemTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperItemTitleModel.h; path = Home/models/PaperItemTitleModel.h; sourceTree = "<group>"; };
+		A1A478D51B15F3D0000B7E22 /* PaperItemTitleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemTitleModel.m; path = Home/models/PaperItemTitleModel.m; sourceTree = "<group>"; };
+		A1A478D71B15F947000B7E22 /* PaperItemOptModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperItemOptModel.h; path = Home/models/PaperItemOptModel.h; sourceTree = "<group>"; };
+		A1A478D81B15F947000B7E22 /* PaperItemOptModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemOptModel.m; path = Home/models/PaperItemOptModel.m; sourceTree = "<group>"; };
+		A1A478DA1B15FC86000B7E22 /* PaperItemAnalysisModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperItemAnalysisModel.h; path = Home/models/PaperItemAnalysisModel.h; sourceTree = "<group>"; };
+		A1A478DB1B15FC86000B7E22 /* PaperItemAnalysisModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemAnalysisModel.m; path = Home/models/PaperItemAnalysisModel.m; sourceTree = "<group>"; };
+		A1A478DD1B15FDB0000B7E22 /* PaperItemTitleModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperItemTitleModelCellFrame.h; path = Home/models/PaperItemTitleModelCellFrame.h; sourceTree = "<group>"; };
+		A1A478DE1B15FDB0000B7E22 /* PaperItemTitleModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemTitleModelCellFrame.m; path = Home/models/PaperItemTitleModelCellFrame.m; sourceTree = "<group>"; };
+		A1A478E11B160315000B7E22 /* EMMarkupProperty.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EMMarkupProperty.h; path = libs/EMString/EMMarkupProperty.h; sourceTree = "<group>"; };
+		A1A478E21B160315000B7E22 /* EMMarkupProperty.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EMMarkupProperty.m; path = libs/EMString/EMMarkupProperty.m; sourceTree = "<group>"; };
+		A1A478E31B160315000B7E22 /* EMStringStylingConfiguration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EMStringStylingConfiguration.h; path = libs/EMString/EMStringStylingConfiguration.h; sourceTree = "<group>"; };
+		A1A478E41B160315000B7E22 /* EMStringStylingConfiguration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EMStringStylingConfiguration.m; path = libs/EMString/EMStringStylingConfiguration.m; sourceTree = "<group>"; };
+		A1A478E51B160315000B7E22 /* EMStylingClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EMStylingClass.h; path = libs/EMString/EMStylingClass.h; sourceTree = "<group>"; };
+		A1A478E61B160315000B7E22 /* EMStylingClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EMStylingClass.m; path = libs/EMString/EMStylingClass.m; sourceTree = "<group>"; };
+		A1A478E71B160315000B7E22 /* NSString+EMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+EMAdditions.h"; path = "libs/EMString/NSString+EMAdditions.h"; sourceTree = "<group>"; };
+		A1A478E81B160315000B7E22 /* NSString+EMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+EMAdditions.m"; path = "libs/EMString/NSString+EMAdditions.m"; sourceTree = "<group>"; };
+		A1A478ED1B160B8D000B7E22 /* PaperItemOptModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperItemOptModelCellFrame.h; path = Home/models/PaperItemOptModelCellFrame.h; sourceTree = "<group>"; };
+		A1A478EE1B160B8D000B7E22 /* PaperItemOptModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemOptModelCellFrame.m; path = Home/models/PaperItemOptModelCellFrame.m; sourceTree = "<group>"; };
+		A1A478F11B169687000B7E22 /* option_error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = option_error.png; path = images/option_error.png; sourceTree = "<group>"; };
+		A1A478F21B169687000B7E22 /* option_multy_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = option_multy_normal.png; path = images/option_multy_normal.png; sourceTree = "<group>"; };
+		A1A478F31B169687000B7E22 /* option_multy_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = option_multy_selected.png; path = images/option_multy_selected.png; sourceTree = "<group>"; };
+		A1A478F41B169687000B7E22 /* option_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = option_right.png; path = images/option_right.png; sourceTree = "<group>"; };
+		A1A478F51B169687000B7E22 /* option_single_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = option_single_normal.png; path = images/option_single_normal.png; sourceTree = "<group>"; };
+		A1A478F61B169687000B7E22 /* option_single_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = option_single_selected.png; path = images/option_single_selected.png; sourceTree = "<group>"; };
+		A1A478FD1B16A6A5000B7E22 /* PaperItemAnalysisModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperItemAnalysisModelCellFrame.h; path = Home/models/PaperItemAnalysisModelCellFrame.h; sourceTree = "<group>"; };
+		A1A478FE1B16A6A5000B7E22 /* PaperItemAnalysisModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemAnalysisModelCellFrame.m; path = Home/models/PaperItemAnalysisModelCellFrame.m; sourceTree = "<group>"; };
+		A1A479001B16BF69000B7E22 /* PaperItemTitleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperItemTitleTableViewCell.h; path = Home/views/PaperItemTitleTableViewCell.h; sourceTree = "<group>"; };
+		A1A479011B16BF69000B7E22 /* PaperItemTitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemTitleTableViewCell.m; path = Home/views/PaperItemTitleTableViewCell.m; sourceTree = "<group>"; };
+		A1A479031B16C16F000B7E22 /* PaperItemOptTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperItemOptTableViewCell.h; path = Home/views/PaperItemOptTableViewCell.h; sourceTree = "<group>"; };
+		A1A479041B16C16F000B7E22 /* PaperItemOptTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemOptTableViewCell.m; path = Home/views/PaperItemOptTableViewCell.m; sourceTree = "<group>"; };
+		A1A479061B16C365000B7E22 /* PaperItemAnalysisTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperItemAnalysisTableViewCell.h; path = Home/views/PaperItemAnalysisTableViewCell.h; sourceTree = "<group>"; };
+		A1A479071B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemAnalysisTableViewCell.m; path = Home/views/PaperItemAnalysisTableViewCell.m; sourceTree = "<group>"; };
 		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
 		A1B5AF381B0399780086F421 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hex.m"; path = "ExamwTestApp/Utils/UIColor+Hex.m"; sourceTree = "<group>"; };
 		A1B7F69F1B1360B700DF8834 /* PaperTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperTitleModel.h; path = Home/models/PaperTitleModel.h; sourceTree = "<group>"; };
@@ -506,6 +557,18 @@
 				A1BBC9DF1B102BC0005A1FD3 /* PaperStructureModel.m */,
 				A1BBC9DB1B1013B8005A1FD3 /* PaperItemModel.h */,
 				A1BBC9DC1B1013B8005A1FD3 /* PaperItemModel.m */,
+				A1A478D41B15F3D0000B7E22 /* PaperItemTitleModel.h */,
+				A1A478D51B15F3D0000B7E22 /* PaperItemTitleModel.m */,
+				A1A478DD1B15FDB0000B7E22 /* PaperItemTitleModelCellFrame.h */,
+				A1A478DE1B15FDB0000B7E22 /* PaperItemTitleModelCellFrame.m */,
+				A1A478D71B15F947000B7E22 /* PaperItemOptModel.h */,
+				A1A478D81B15F947000B7E22 /* PaperItemOptModel.m */,
+				A1A478ED1B160B8D000B7E22 /* PaperItemOptModelCellFrame.h */,
+				A1A478EE1B160B8D000B7E22 /* PaperItemOptModelCellFrame.m */,
+				A1A478DA1B15FC86000B7E22 /* PaperItemAnalysisModel.h */,
+				A1A478DB1B15FC86000B7E22 /* PaperItemAnalysisModel.m */,
+				A1A478FD1B16A6A5000B7E22 /* PaperItemAnalysisModelCellFrame.h */,
+				A1A478FE1B16A6A5000B7E22 /* PaperItemAnalysisModelCellFrame.m */,
 				A1185FA21B1324950099F910 /* PaperRecordModel.h */,
 				A1185FA31B1324950099F910 /* PaperRecordModel.m */,
 			);
@@ -550,6 +613,12 @@
 				A121F2551B1425C1004EC63C /* PaperButtonTableViewCell.m */,
 				A121F2571B142873004EC63C /* PaperDetailsTableViewCell.h */,
 				A121F2581B142873004EC63C /* PaperDetailsTableViewCell.m */,
+				A1A479001B16BF69000B7E22 /* PaperItemTitleTableViewCell.h */,
+				A1A479011B16BF69000B7E22 /* PaperItemTitleTableViewCell.m */,
+				A1A479031B16C16F000B7E22 /* PaperItemOptTableViewCell.h */,
+				A1A479041B16C16F000B7E22 /* PaperItemOptTableViewCell.m */,
+				A1A479061B16C365000B7E22 /* PaperItemAnalysisTableViewCell.h */,
+				A1A479071B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -570,6 +639,34 @@
 				A1A478C21B155B97000B7E22 /* DMLazyScrollView.m */,
 			);
 			name = DMLazyScrollView;
+			sourceTree = "<group>";
+		};
+		A1A478E01B1602EE000B7E22 /* EMString */ = {
+			isa = PBXGroup;
+			children = (
+				A1A478E11B160315000B7E22 /* EMMarkupProperty.h */,
+				A1A478E21B160315000B7E22 /* EMMarkupProperty.m */,
+				A1A478E31B160315000B7E22 /* EMStringStylingConfiguration.h */,
+				A1A478E41B160315000B7E22 /* EMStringStylingConfiguration.m */,
+				A1A478E51B160315000B7E22 /* EMStylingClass.h */,
+				A1A478E61B160315000B7E22 /* EMStylingClass.m */,
+				A1A478E71B160315000B7E22 /* NSString+EMAdditions.h */,
+				A1A478E81B160315000B7E22 /* NSString+EMAdditions.m */,
+			);
+			name = EMString;
+			sourceTree = "<group>";
+		};
+		A1A478F01B169676000B7E22 /* images */ = {
+			isa = PBXGroup;
+			children = (
+				A1A478F11B169687000B7E22 /* option_error.png */,
+				A1A478F21B169687000B7E22 /* option_multy_normal.png */,
+				A1A478F31B169687000B7E22 /* option_multy_selected.png */,
+				A1A478F41B169687000B7E22 /* option_right.png */,
+				A1A478F51B169687000B7E22 /* option_single_normal.png */,
+				A1A478F61B169687000B7E22 /* option_single_selected.png */,
+			);
+			name = images;
 			sourceTree = "<group>";
 		};
 		A1CA97E01B0F8195003006F2 /* DAPagesContainer */ = {
@@ -628,6 +725,7 @@
 		A1F7241C1B02F88A0023A3C8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A1A478F01B169676000B7E22 /* images */,
 				A1F7241D1B02F88A0023A3C8 /* Info.plist */,
 				A1936C951B0F0A4500C59A06 /* mainBottomMenus.plist */,
 				A1F7241E1B02F88A0023A3C8 /* main.m */,
@@ -662,6 +760,7 @@
 				A17098A91B0580010083AF01 /* MJRefresh */,
 				A17099031B05DEF80083AF01 /* XHRealTimeBlur */,
 				A1A478C01B155B50000B7E22 /* DMLazyScrollView */,
+				A1A478E01B1602EE000B7E22 /* EMString */,
 				A1CA97E01B0F8195003006F2 /* DAPagesContainer */,
 			);
 			name = libs;
@@ -842,7 +941,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1A478FC1B169687000B7E22 /* option_single_selected.png in Resources */,
 				A17098E71B0581C00083AF01 /* MJRefresh.bundle in Resources */,
+				A1A478F81B169687000B7E22 /* option_multy_normal.png in Resources */,
+				A1A478FA1B169687000B7E22 /* option_right.png in Resources */,
+				A1A478F71B169687000B7E22 /* option_error.png in Resources */,
+				A1A478F91B169687000B7E22 /* option_multy_selected.png in Resources */,
+				A1A478FB1B169687000B7E22 /* option_single_normal.png in Resources */,
 				A1F7242D1B02F88A0023A3C8 /* Images.xcassets in Resources */,
 				A1936C961B0F0A4500C59A06 /* mainBottomMenus.plist in Resources */,
 			);
@@ -869,11 +974,15 @@
 				A17098E81B0581C00083AF01 /* MJRefreshComponent.m in Sources */,
 				A1A478C91B155BF9000B7E22 /* PaperItemViewController.m in Sources */,
 				A1F724DD1B03470B0023A3C8 /* NSData+Hex.m in Sources */,
+				A1A478DC1B15FC86000B7E22 /* PaperItemAnalysisModel.m in Sources */,
+				A1A478EA1B160315000B7E22 /* EMStringStylingConfiguration.m in Sources */,
 				A1C6AD851B0C74770002BE81 /* UIAlertView+AFNetworking.m in Sources */,
+				A1A478D91B15F947000B7E22 /* PaperItemOptModel.m in Sources */,
 				A1F724221B02F88A0023A3C8 /* AppDelegate.m in Sources */,
 				A1C6AD801B0C74770002BE81 /* AFURLConnectionOperation.m in Sources */,
 				A10F5FBC1B0DBCA000BD0491 /* AppClientSync.m in Sources */,
 				A1BBC9E01B102BC0005A1FD3 /* PaperStructureModel.m in Sources */,
+				A1A478EB1B160315000B7E22 /* EMStylingClass.m in Sources */,
 				A1A478CC1B156388000B7E22 /* PaperResultViewController.m in Sources */,
 				A121F2591B142873004EC63C /* PaperDetailsTableViewCell.m in Sources */,
 				A1DF97EA1B1220F3000F2B73 /* PaperService.m in Sources */,
@@ -885,6 +994,7 @@
 				A1C6AD521B0C31000002BE81 /* ProductTableViewCell.m in Sources */,
 				A1F724B71B02FEED0023A3C8 /* HttpUtils.m in Sources */,
 				A1B7F6A11B1360B700DF8834 /* PaperTitleModel.m in Sources */,
+				A1A478FF1B16A6A5000B7E22 /* PaperItemAnalysisModelCellFrame.m in Sources */,
 				A17098EF1B0581C00083AF01 /* MJRefreshLegendHeader.m in Sources */,
 				A13BB7841B09B11B0063C64B /* SwitchService.m in Sources */,
 				A1C6AD811B0C74770002BE81 /* AFURLRequestSerialization.m in Sources */,
@@ -898,6 +1008,7 @@
 				A1C6AD821B0C74770002BE81 /* AFURLResponseSerialization.m in Sources */,
 				A10F5FB61B0DBAEA00BD0491 /* DownloadDao.m in Sources */,
 				A121F2501B140BE2004EC63C /* PaperDetailsModelCellFrame.m in Sources */,
+				A1A478DF1B15FDB0000B7E22 /* PaperItemTitleModelCellFrame.m in Sources */,
 				A10F5FBF1B0E383000BD0491 /* PaperUtils.m in Sources */,
 				A13BB7811B0971B10063C64B /* ProductModel.m in Sources */,
 				A1C6AD7B1B0C74770002BE81 /* AFHTTPRequestOperationManager.m in Sources */,
@@ -909,6 +1020,7 @@
 				A1CA97E81B0F81C6003006F2 /* DAPagesContainer.m in Sources */,
 				A121F2531B1422A6004EC63C /* PaperTitleTableViewCell.m in Sources */,
 				A1C6AD7F1B0C74770002BE81 /* AFSecurityPolicy.m in Sources */,
+				A1A478D61B15F3D0000B7E22 /* PaperItemTitleModel.m in Sources */,
 				A1936C9F1B0F1B6E00C59A06 /* HomeViewController.m in Sources */,
 				A1CA97EC1B0F874F003006F2 /* PaperInfoViewController.m in Sources */,
 				A1C6AD871B0C74770002BE81 /* UIImageView+AFNetworking.m in Sources */,
@@ -921,9 +1033,13 @@
 				A1C6AD8A1B0C74770002BE81 /* UIWebView+AFNetworking.m in Sources */,
 				A1F724C61B0305C00023A3C8 /* FMDatabaseQueue.m in Sources */,
 				A13BB7951B0B31930063C64B /* ExamViewController.m in Sources */,
+				A1A478E91B160315000B7E22 /* EMMarkupProperty.m in Sources */,
+				A1A479051B16C16F000B7E22 /* PaperItemOptTableViewCell.m in Sources */,
 				A1C6AD7D1B0C74770002BE81 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				A1936C991B0F0CD700C59A06 /* BottomMenuModel.m in Sources */,
+				A1A478EF1B160B8D000B7E22 /* PaperItemOptModelCellFrame.m in Sources */,
 				A1F7241F1B02F88A0023A3C8 /* main.m in Sources */,
+				A1A478EC1B160315000B7E22 /* NSString+EMAdditions.m in Sources */,
 				A1F724E01B034E950023A3C8 /* NSString+Reversed.m in Sources */,
 				A13BB78B1B0AE6A40063C64B /* CategoryModelCellFrame.m in Sources */,
 				A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */,
@@ -940,6 +1056,7 @@
 				A17098E91B0581C00083AF01 /* MJRefreshConst.m in Sources */,
 				A1C6AD7A1B0C74770002BE81 /* AFHTTPRequestOperation.m in Sources */,
 				A17098F01B0581C00083AF01 /* UIScrollView+MJExtension.m in Sources */,
+				A1A479081B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m in Sources */,
 				A1C6AD4C1B0C0C790002BE81 /* ProductViewController.m in Sources */,
 				A1C6AD891B0C74770002BE81 /* UIRefreshControl+AFNetworking.m in Sources */,
 				A1936C941B0ED80900C59A06 /* MainViewController.m in Sources */,
@@ -957,6 +1074,7 @@
 				A17098F11B0581C00083AF01 /* UIScrollView+MJRefresh.m in Sources */,
 				A1C6AD4F1B0C0EC60002BE81 /* ProductModelCellFrame.m in Sources */,
 				A1B7F6A41B1362E700DF8834 /* PaperButtonModel.m in Sources */,
+				A1A479021B16BF69000B7E22 /* PaperItemTitleTableViewCell.m in Sources */,
 				A13BB7981B0B38B00063C64B /* ExamModelCellFrame.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

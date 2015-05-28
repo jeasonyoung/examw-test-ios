@@ -13,6 +13,6 @@
 @interface PaperItemViewController : UITableViewController
 
 //初始化
--(instancetype)initWithPaperItem:(PaperItemModel *)model andDisplayAnswer:(BOOL)display;
+-(instancetype)initWithPaperItem:(PaperItemModel *)model andOrder:(NSUInteger)order andDisplayAnswer:(BOOL)display;
 
 @end

@@ -10,7 +10,7 @@
 #import "JSONSerialize.h"
 
 //试题题型
-typedef NS_ENUM(int,PaperItemType){
+typedef NS_ENUM(NSUInteger,PaperItemType){
     //单选
     PaperItemTypeSingle = 0x01,
     //多选
@@ -27,7 +27,7 @@ typedef NS_ENUM(int,PaperItemType){
     PaperItemTypeShareAnswer = 0x07
 };
 //判断题答案枚举
-typedef NS_ENUM(int, PaperItemJudgeAnswer){
+typedef NS_ENUM(NSUInteger, PaperItemJudgeAnswer){
     //错误
     PaperItemJudgeAnswerWrong = 0x00,
     //正确
@@ -60,6 +60,9 @@ typedef NS_ENUM(int, PaperItemJudgeAnswer){
 
 //包含试题数目
 @property(nonatomic,assign,readonly)NSUInteger count;
+
+//试题索引
+@property(nonatomic,assign)NSUInteger index;
 
 //子试题集合
 @property(nonatomic,copy,readonly)NSArray *children;
