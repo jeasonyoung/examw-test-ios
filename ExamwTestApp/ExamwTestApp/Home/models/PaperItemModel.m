@@ -121,7 +121,23 @@
              __kPaperItemModel_keys_level : [NSNumber numberWithInteger:_itemLevel],
              __kPaperItemModel_keys_order : [NSNumber numberWithInteger:_order],
              __kPaperItemModel_keys_count : [NSNumber numberWithInteger:_count],
-             __kPaperItemModel_keys_children : (childArrays ? @[] : [childArrays copy])};
+             __kPaperItemModel_keys_children : (childArrays ? [childArrays copy] : @[])};
+}
+
+#pragma mark 序列化为JSON字符串
+-(NSString *)serializeJSON{
+    NSLog(@"准备将试题序列化为JSON字符串...");
+    NSDictionary *dict = [self serialize];
+    if(dict && [NSJSONSerialization isValidJSONObject:dict]){
+        NSError *err;
+        NSData *data = [NSJSONSerialization dataWithJSONObject:dict options:NSJSONWritingPrettyPrinted error:&err];
+        if(err){
+            NSLog(@"试题转为JSON错误=>%@",err);
+            return nil;
+        }
+        return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    }
+    return nil;
 }
 
 #pragma mark 题型名称

@@ -26,8 +26,8 @@
     BOOL _displayAnswer;
     
     DMLazyScrollView *_lazyScrollView;
-    NSMutableArray *_itemsArrays, *_structuresArrays;
-    NSMutableDictionary *_controllersDict;
+    NSMutableArray *_itemsArrays;
+    NSMutableDictionary *_controllers;
 }
 @end
 //试卷控制器实现
@@ -55,7 +55,7 @@
     //初始化试卷服务
     _service = [[PaperService alloc] init];
     //初始化Controllers缓存
-    _controllersDict = [NSMutableDictionary dictionary];
+    _controllers = [NSMutableDictionary dictionary];
     //加载试题滚动视图
     [self setupLazyScrollViews];
     //加载顶部工具栏
@@ -136,20 +136,25 @@
         if(_paperModel && _paperModel.total > 0 && _paperModel.structures){
             //初始化试题
             _itemsArrays = [NSMutableArray arrayWithCapacity:_paperModel.total];
-            //初始化试卷结构名称
-            _structuresArrays = [NSMutableArray arrayWithCapacity:_paperModel.total];
             //填充数据
             for(PaperStructureModel *structure in _paperModel.structures){
                 if(!structure || !structure.items) continue;
                 for(PaperItemModel *item in structure.items){
                     if(!item || !item.itemId || item.itemId.length == 0) continue;
+                    //所属试卷结构ID
+                    item.structureId = structure.code;
+                    //所属试卷结构名称
+                    item.structureTitle = structure.title;
+                    //每题得分
+                    item.structureScore = structure.score;
+                    //最小得分
+                    item.structureMin = structure.min;
+                    //循环试题
                     for(NSUInteger index = 0; index < item.count; index++){
                         //试题索引
                         item.index = index;
                         //添加试题数据
                         [_itemsArrays addObject:item];
-                        //添加试卷结构名称
-                        [_structuresArrays addObject:structure.title];
                     }
                 }
             }
@@ -159,6 +164,7 @@
             NSLog(@"试卷试题UpdateUI....");
             //初始化滚动视图
             _lazyScrollView = [[DMLazyScrollView alloc] initWithFrame:self.view.frame];
+            _lazyScrollView.controlDelegate = self;
             _lazyScrollView.backgroundColor = [UIColor blueColor];
             [self.view addSubview:_lazyScrollView];
             [_lazyScrollView setEnableCircularScroll:NO];
@@ -171,29 +177,16 @@
             };
             //设置试题总数
             _lazyScrollView.numberOfPages = _itemsArrays.count;
-            //设置标题
-            [self loadStructuresTitleWithIndex:0];
         });
     });
 }
-//加载试卷结构标题
--(void)loadStructuresTitleWithIndex:(NSUInteger)index{
-    if(_structuresArrays && index < _structuresArrays.count){
-        NSString *title = [_structuresArrays objectAtIndex:index];
-        if(title && title.length > 0){
-            NSLog(@"试题[%d]所属结构[%@]...", (int)index, title);
-            self.title = title;
-        }
-    }
-}
+
 //加载试题数据
 -(UIViewController *)loadItemsControllersWithIndex:(NSUInteger)index{
     if(_itemsArrays && index < _itemsArrays.count){
         NSLog(@"加载试题控制器[%d]...", (int)index);
-        //设置试卷结构标题
-        [self loadStructuresTitleWithIndex:index];
         //控制器
-        UIViewController *controller = [_controllersDict objectForKey:[NSNumber numberWithInteger:index]];
+        UIViewController *controller = [_controllers objectForKey:[NSNumber numberWithInteger:index]];
         if(!controller){
             NSLog(@"创建试题控制器[%d]...", (int)index);
             PaperItemModel *itemModel = [_itemsArrays objectAtIndex:index];
@@ -201,20 +194,36 @@
             PaperItemViewController *itemController = [[PaperItemViewController alloc] initWithPaperItem:itemModel
                                                                                                 andOrder:index
                                                                                         andDisplayAnswer:_displayAnswer];
+            itemController.PaperRecordId = _paperRecordId;
             controller = [[UINavigationController alloc]initWithRootViewController:itemController];
             //添加到缓存
-            [_controllersDict setObject:controller forKey:[NSNumber numberWithInteger:index]];
+            [_controllers setObject:controller forKey:[NSNumber numberWithInteger:index]];
         }
         return controller;
     }
     return nil;
 }
 
+#pragma mark DMLazyScrollViewDelegate
+-(void)lazyScrollView:(DMLazyScrollView *)pagingView currentPageChanged:(NSInteger)currentPageIndex{
+    //异步线程更新标题
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"异步线程更新试题[%d]标题...", (int)currentPageIndex);
+        if(currentPageIndex >= 0 && currentPageIndex < _itemsArrays.count){
+            PaperItemModel *itemModel = [_itemsArrays objectAtIndex:currentPageIndex];
+            if(!itemModel || !itemModel.structureTitle || itemModel.structureTitle.length == 0)return;
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.title = itemModel.structureTitle;
+            });
+        }
+    });
+}
+
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    if(_controllersDict && _controllersDict.count > 0){
-        [_controllersDict removeAllObjects];
+    if(_controllers && _controllers.count > 0){
+        [_controllers removeAllObjects];
     }
 }
 @end

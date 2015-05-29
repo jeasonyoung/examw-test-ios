@@ -22,6 +22,9 @@
 
 #pragma mark app开始运行时调用
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    //捕获异常
+    NSSetUncaughtExceptionHandler(&uncaughtExceptionHandler);
+    
     //初始化主窗体
     _window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen] bounds]];
     //设置主窗体背景色
@@ -30,6 +33,12 @@
     [self resetRootController];
     //
     return YES;
+}
+
+//异常处理
+void uncaughtExceptionHandler(NSException *exception){
+    NSLog(@"CRASH: %@", exception);
+    NSLog(@"Stack Trace: %@", [exception callStackSymbols]);
 }
 
 #pragma mark 切换当前用户

@@ -32,7 +32,7 @@
 -(instancetype)init{
     if(self = [super init]){
         //字体
-        _font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        _font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     }
     return self;
 }

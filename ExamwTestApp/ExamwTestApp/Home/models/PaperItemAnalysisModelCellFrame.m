@@ -20,7 +20,7 @@
 #define __kPaperItemAnalysisModelCellFrame_top 10//顶部间距
 #define __kPaperItemAnalysisModelCellFrame_bottom 10//底部间距
 #define __kPaperItemAnalysisModelCellFrame_left 10//左边间距
-#define __kPaperItemAnalysisModelCellFrame_right 5//右边间距
+#define __kPaperItemAnalysisModelCellFrame_right 10//右边间距
 
 #define __kPaperItemOptModelCellFrame_marginV 8//纵向间距
 
@@ -47,9 +47,9 @@
 -(instancetype)init{
     if(self = [super init]){
         //字体
-        _font = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        _font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
         _rightAnswersFont = _font;
-        _myAnswersFont = _font;
+        _myAnswersFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
     }
     return self;
 }
@@ -115,7 +115,7 @@
         for(NSString *strValue in arrays){
             if(!strValue || strValue.length == 0)continue;
             NSRange range = [_model.rightAnswers rangeOfString:strValue];
-            isMyRight = (range.length != NSNotFound);
+            isMyRight = (range.location != NSNotFound);
         }
     }
     _myAnswers = isMyRight ? __kPaperItemAnalysisModelCellFrame_my_Right : __kPaperItemAnalysisModelCellFrame_my_Wrong;

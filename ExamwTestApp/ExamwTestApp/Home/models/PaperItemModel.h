@@ -37,6 +37,18 @@ typedef NS_ENUM(NSUInteger, PaperItemJudgeAnswer){
 //试题数据模型
 @interface PaperItemModel : NSObject<JSONSerialize>
 
+//所属试卷结构ID
+@property(nonatomic,copy)NSString *structureId;
+
+//所属试卷结构名称
+@property(nonatomic,copy)NSString *structureTitle;
+
+//每题分数
+@property(nonatomic,copy)NSNumber *structureScore;
+
+//每题最少得分
+@property(nonatomic,copy)NSNumber *structureMin;
+
 //试题ID
 @property(nonatomic,copy,readonly)NSString *itemId;
 
@@ -69,6 +81,9 @@ typedef NS_ENUM(NSUInteger, PaperItemJudgeAnswer){
 
 //从JSON的Arrays的反序列化为对象数组
 -(NSArray *)deserializeWithJSONArrays:(NSArray *)arrays;
+
+//序列化为JSON字符串
+-(NSString *)serializeJSON;
 
 //题型名称
 +(NSString *)nameWithItemType:(NSUInteger)itemType;

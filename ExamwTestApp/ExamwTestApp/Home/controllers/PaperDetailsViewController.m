@@ -138,7 +138,7 @@
                 paperRecordId = recordModel.Id;
                 [_service addPaperRecord:recordModel];
             });
-            controller = [[PaperViewController alloc] initWithPaperId:_infoModel.Id andPaperRecordId:paperRecordId andDisplayAnswer:YES];
+            controller = [[PaperViewController alloc] initWithPaperId:_infoModel.Id andPaperRecordId:paperRecordId andDisplayAnswer:NO];
             break;
         }
         case 2:{//继续考试
