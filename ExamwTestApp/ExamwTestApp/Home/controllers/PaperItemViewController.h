@@ -18,4 +18,6 @@
 //初始化
 -(instancetype)initWithPaperItem:(PaperItemModel *)model andOrder:(NSUInteger)order andDisplayAnswer:(BOOL)display;
 
+//收藏/取消收藏试题
+-(void)favoriteItem:(void(^)(BOOL))result;
 @end

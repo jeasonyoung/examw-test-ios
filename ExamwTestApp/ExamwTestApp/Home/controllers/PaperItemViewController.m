@@ -483,4 +483,14 @@
     }
 }
 
+#pragma mark 收藏/取消收藏试题
+-(void)favoriteItem:(void (^)(BOOL))result{
+    NSLog(@"开始收藏/取消收藏当前试题[%@:%d]...",_itemModel.itemId, _itemModel.index);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        BOOL flag = [_recordService updateFavoriteWithPaperRecordId:_PaperRecordId itemModel:_itemModel];
+        if(result){
+            result(flag);
+        }
+    });
+}
 @end

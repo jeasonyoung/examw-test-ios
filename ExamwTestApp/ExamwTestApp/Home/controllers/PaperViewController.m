@@ -85,10 +85,12 @@
 //加载底部工具栏
 -(void)setupBottomBars{
     //上一题
-    UIBarButtonItem *btnPrev = [[UIBarButtonItem alloc] initWithTitle:@"<上一题" style:UIBarButtonItemStyleBordered
+    UIBarButtonItem *btnPrev = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btnPrev.png"]
+                                                                style:UIBarButtonItemStyleBordered
                                                                target:self action:@selector(btnBarPrevClick:)];
     //下一题
-    UIBarButtonItem *btnNext = [[UIBarButtonItem alloc] initWithTitle:@"下一题>" style:UIBarButtonItemStyleBordered
+    UIBarButtonItem *btnNext = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btnNext.png"]
+                                                                style:UIBarButtonItemStyleBordered
                                                                target:self action:@selector(btnBarNextClick:)];
     //收藏
     UIBarButtonItem *btnFavorite =[[UIBarButtonItem alloc] initWithTitle:@"收藏" style:UIBarButtonItemStyleBordered
@@ -96,7 +98,6 @@
     //分隔平均填充
     UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                            target:nil action:nil];
-    
     //添加到底部工具栏
     self.navigationController.toolbarHidden = NO;
     [self setToolbarItems:@[btnPrev,space,btnFavorite,space,btnNext] animated:YES];
@@ -125,7 +126,25 @@
 //收藏
 -(void)btnBarFavoriteClick:(UIBarButtonItem *)sender{
     NSLog(@"收藏:%@...",sender);
-    sender.title = (arc4random() % 2 == 0 ? @"取消收藏" : @"收藏");
+    //sender.title = (arc4random() % 2 == 0 ? @"取消收藏" : @"收藏");
+    if(_lazyScrollView){
+        UINavigationController *navController = (UINavigationController *)[_lazyScrollView visibleViewController];
+        if(!navController){
+            NSLog(@"获取当前控制器失败!");
+            return;
+        }
+        PaperItemViewController *itemController = (PaperItemViewController *)navController.visibleViewController;
+        if(!itemController){
+            NSLog(@"获取当前试题视图控制器失败!");
+            return;
+        }
+        [itemController favoriteItem:^(BOOL result) {
+            NSLog(@"收藏结果:%d", result);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                sender.title = (result ? @"取消收藏" : @"收藏");
+            });
+        }];
+    }
 }
 //加载试题滚动视图
 -(void)setupLazyScrollViews{

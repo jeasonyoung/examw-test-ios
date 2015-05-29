@@ -8,9 +8,9 @@
 		<key>controller</key>
 		<string>HomeViewController</string>
 		<key>imgNormalName</key>
-		<string></string>
+		<string>iconHome.png</string>
 		<key>imgHighlightName</key>
-		<string></string>
+		<string>iconHome.png</string>
 		<key>status</key>
 		<true/>
 		<key>order</key>
@@ -22,9 +22,9 @@
 		<key>controller</key>
 		<string>FavoritesViewController</string>
 		<key>imgNormalName</key>
-		<string></string>
+		<string>iconFavorites.png</string>
 		<key>imgHighlightName</key>
-		<string></string>
+		<string>iconFavorites.png</string>
 		<key>status</key>
 		<true/>
 		<key>order</key>
@@ -36,9 +36,9 @@
 		<key>controller</key>
 		<string>MyViewController</string>
 		<key>imgNormalName</key>
-		<string></string>
+		<string>iconMy.png</string>
 		<key>imgHighlightName</key>
-		<string></string>
+		<string>iconMy.png</string>
 		<key>status</key>
 		<true/>
 		<key>order</key>
@@ -50,9 +50,9 @@
 		<key>controller</key>
 		<string>MoreViewController</string>
 		<key>imgNormalName</key>
-		<string></string>
+		<string>iconMore.png</string>
 		<key>imgHighlightName</key>
-		<string></string>
+		<string>iconMore.png</string>
 		<key>status</key>
 		<true/>
 		<key>order</key>
