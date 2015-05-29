@@ -29,8 +29,9 @@
 }
 
 #pragma mark 加载试题记录中的答案
--(NSString *)loadRecordAnswersWithPaperRecordId:(NSString *)recordId itemId:(NSString *)itemId{
-    NSLog(@"加载试卷记录[%@]中试题[%@]答案...", recordId, itemId);
+-(NSString *)loadRecordAnswersWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model{
+    if(!model) return nil;
+    NSLog(@"加载试卷记录[%@]中试题[%@:%d]答案...", recordId, model.itemId, (int)model.index);
     //创建数据操作队列
     FMDatabaseQueue *dbQueue = [_daoHelpers createDatabaseQueue];
     if(!dbQueue){
@@ -42,6 +43,7 @@
     __block NSString *answers = nil;
     [dbQueue inDatabase:^(FMDatabase *db) {
         NSLog(@"exec-sql:%@", query_sql);
+        NSString *itemId = [NSString stringWithFormat:@"%@$%d", model.itemId, (int)model.index];
         answers = [db stringForQuery:query_sql, recordId, itemId];
     }];
     
@@ -90,8 +92,9 @@
     //执行脚本
     [dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         @try {
+            NSString *itemId = [NSString stringWithFormat:@"%@$%d", model.itemId, (int)model.index];
             //查询记录是否存在
-            NSString *itemRecordId = [db stringForQuery:query_sql, recordId, model.itemId];
+            NSString *itemRecordId = [db stringForQuery:query_sql, recordId, itemId];
             if(itemRecordId && itemRecordId.length > 0){//更新记录
                 //更新SQL
                 static NSString *update_sql = @"UPDATE tbl_itemRecords SET answer = ?,status = ?,score = ?,lastTime = ?,sync = 0 WHERE id = ?";
@@ -104,7 +107,7 @@
                 //新增SQL
                 static NSString *insert_sql = @"INSERT INTO  tbl_itemRecords(id,paperRecordId,structureId,itemId,itemType,content,answer,status,score) values(?,?,?,?,?,?,?,?,?)";
                 NSLog(@"exec-sql:%@", insert_sql);
-                [db executeUpdate:insert_sql,itemRecordId,recordId,model.structureId,model.itemId,[NSNumber numberWithInteger:model.itemType],itemJSONEncypt,answers,[NSNumber numberWithBool:isRight],score];
+                [db executeUpdate:insert_sql,itemRecordId,recordId,model.structureId,itemId,[NSNumber numberWithInteger:model.itemType],itemJSONEncypt,answers,[NSNumber numberWithBool:isRight],score];
             }
         }
         @catch (NSException *exception) {

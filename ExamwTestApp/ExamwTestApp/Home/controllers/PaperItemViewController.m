@@ -86,7 +86,7 @@
         //加载我的答案
         NSString *myAnswers = nil;
         if(_displayAnswer && _PaperRecordId && _PaperRecordId.length > 0){//加载做题答案
-            myAnswers = [_recordService loadRecordAnswersWithPaperRecordId:_PaperRecordId itemId:_itemModel.itemId];
+            myAnswers = [_recordService loadRecordAnswersWithPaperRecordId:_PaperRecordId itemModel:_itemModel];
         }
         
         NSArray *optModelArrays;

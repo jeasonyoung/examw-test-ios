@@ -13,7 +13,7 @@
 @interface PaperRecordService : NSObject
 
 //加载试题记录中的答案
--(NSString *)loadRecordAnswersWithPaperRecordId:(NSString *)recordId itemId:(NSString *)itemId;
+-(NSString *)loadRecordAnswersWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model;
 
 //添加试题记录
 -(void)addRecordWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model myAnswers:(NSString *)answers;
