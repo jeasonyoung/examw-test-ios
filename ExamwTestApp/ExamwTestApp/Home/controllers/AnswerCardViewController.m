@@ -24,6 +24,8 @@
 #import "UIColor+Hex.h"
 #import "MBProgressHUD.h"
 
+#import "PaperViewController.h"
+
 #define __kAnswerCardViewController_title @"答题卡"
 
 #define __kAnswerCardViewController_cellIdentifier @"_cell"//
@@ -127,15 +129,18 @@
                     for(NSUInteger j = 0; j < count; j++){
                         PaperItemModel *itemModel = [structrueModel.items objectAtIndex:j];
                         if(!itemModel)continue;
-                        //查询试题是否存在
-                        BOOL status = [_paperService exitRecordWithPaperRecordId:_paperRecordId itemModel:itemModel];
-                        //初始化Cell Frame
-                        AnswerCardModelCellFrame *itemFrame = [[AnswerCardModelCellFrame alloc] init];
-                        itemFrame.model = [[AnswerCardModel alloc] initWithOrder:order status:status];
-                        //添加到数组
-                        [itemsArrays addObject:itemFrame];
-                        //序号
-                        order += 1;
+                        for(NSUInteger index = 0; index < itemModel.count; index++){
+                            itemModel.index = index;
+                            //查询试题是否存在
+                            BOOL status = [_paperService exitRecordWithPaperRecordId:_paperRecordId itemModel:itemModel];
+                            //初始化Cell Frame
+                            AnswerCardModelCellFrame *itemFrame = [[AnswerCardModelCellFrame alloc] init];
+                            itemFrame.model = [[AnswerCardModel alloc] initWithOrder:order status:status];
+                            //添加到数组
+                            [itemsArrays addObject:itemFrame];
+                            //序号
+                            order += 1;
+                        }
                     }
                     //添加到分组数据源
                     [_dataSource setObject:[itemsArrays copy] forKey:[NSNumber numberWithInteger:i]];
@@ -171,6 +176,28 @@
 //Cell点击
 -(void)answerCardCell:(AnswerCardCollectionViewCell *)cell clickOrder:(NSUInteger)order{
     NSLog(@"Cell 点击: %d....", (int)order);
+    //试题控制器
+    static PaperViewController *targetController;
+    if(!targetController){
+        NSArray *controllers = self.navigationController.viewControllers;
+        if(controllers && controllers.count > 0){
+            for(UIViewController *controller in controllers){
+                if(!controller) continue;
+                if([controller isKindOfClass:[PaperViewController class]]){
+                    targetController = (PaperViewController *)controller;
+                    break;
+                }
+            }
+        }
+    }
+    if(!targetController){
+        NSLog(@"未找到试卷考试控制器!");
+        return;
+    }
+    //加载到指定的题序
+    [targetController loadItemOrder:order];
+    //控制器跳转
+    [self.navigationController popToViewController:targetController animated:YES];
 }
 
 #pragma mark <UICollectionViewDataSource>

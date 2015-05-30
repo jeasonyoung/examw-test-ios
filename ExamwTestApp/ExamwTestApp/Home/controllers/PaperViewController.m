@@ -29,7 +29,9 @@
     PaperService *_service;
     PaperModel *_paperModel;
     
-    BOOL _displayAnswer;
+    NSUInteger _itemOrder;
+    
+    BOOL _displayAnswer,_isLoaded;
     UIImage *_imgFavoriteNormal,*_imgFavoriteHighlight;
     
     DMLazyScrollView *_lazyScrollView;
@@ -48,6 +50,8 @@
         _paperRecordId = recordId;
         _displayAnswer = display;
         
+        _itemOrder = 0;
+        
         //初始化收藏图片
         _imgFavoriteNormal = [UIImage imageNamed:@"btnNext.png"];//[UIImage imageNamed:@"btnFavoriteNormal.png"];
         _imgFavoriteHighlight = [UIImage imageNamed:@"btnFavoriteHighlight.png"];
@@ -63,6 +67,8 @@
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //设置未未加载
+    _isLoaded = NO;
     //加载试题滚动视图
     [self setupLazyScrollViews];
     //加载顶部工具栏
@@ -70,6 +76,7 @@
     //加载底部工具栏
     [self setupBottomBars];
 }
+
 //加载顶部工具栏
 -(void)setupTopBars{
     //左边按钮
@@ -84,6 +91,7 @@
 -(void)btnBarLeftClick:(UIBarButtonItem *)sender{
     NSLog(@"左边按钮点击:%@...",sender);
 }
+
 //右边按钮点击事件
 -(void)btnBarRightClick:(UIBarButtonItem *)sender{
     NSLog(@"右边按钮点击:%@...",sender);
@@ -166,6 +174,7 @@
 }
 //加载试题滚动视图
 -(void)setupLazyScrollViews{
+    NSLog(@"试卷试题UpdateUI....");
     //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"异步线程加载试卷数据...");
@@ -200,7 +209,6 @@
         }
         //UpdateUI
         dispatch_async(dispatch_get_main_queue(), ^{
-            NSLog(@"试卷试题UpdateUI....");
             //初始化滚动视图
             _lazyScrollView = [[DMLazyScrollView alloc] initWithFrame:self.view.frame];
             _lazyScrollView.controlDelegate = self;
@@ -214,10 +222,30 @@
                 NSLog(@"加载[%d]试题...", (int)index);
                 return [weakSelf loadItemsControllersWithIndex:index];
             };
+            //设置加载完成
+            _isLoaded = YES;
             //设置试题总数
             _lazyScrollView.numberOfPages = _itemsArrays.count;
+            //设置到指定的题序
+            if(_itemOrder > 0){
+                [_lazyScrollView setPage:_itemOrder animated:YES];
+            }
         });
     });
+}
+
+#pragma mark 加载到指定题序的试题
+-(void)loadItemOrder:(NSUInteger)order{
+    _itemOrder = order;
+    NSLog(@"加载到指定的试题[%d]", (int)_itemOrder);
+    if(_isLoaded && _lazyScrollView && _itemsArrays && _itemsArrays.count > _itemOrder){
+        NSUInteger current = _lazyScrollView.currentPage;
+        if(current > _itemOrder){
+            [_lazyScrollView setPage:_itemOrder transition:DMLazyScrollViewTransitionBackward animated:YES];
+        }else{
+            [_lazyScrollView setPage:_itemOrder animated:YES];
+        }
+    }
 }
 
 //加载试题数据

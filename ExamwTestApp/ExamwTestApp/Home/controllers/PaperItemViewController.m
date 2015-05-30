@@ -175,8 +175,10 @@
             }
             case PaperItemTypeShareTitle:{//共享题干题
                 //标题
+                PaperItemTitleModel *titleModel = [[PaperItemTitleModel alloc] initWithItemModel:_itemModel];
+                titleModel.order = 0;
                 PaperItemTitleModelCellFrame *titleFrame = [[PaperItemTitleModelCellFrame alloc] init];
-                titleFrame.model = [[PaperItemTitleModel alloc] initWithItemModel:_itemModel];
+                titleFrame.model = titleModel;
                 //添加到数据源
                 [_itemsDataSource addObject:titleFrame];
                 NSUInteger index = _itemModel.index;
@@ -214,8 +216,10 @@
             case PaperItemTypeShareAnswer:{//共享答案题
                 //一级标题
                 if(_itemModel.itemContent && _itemModel.itemContent.length > 0){
+                    PaperItemTitleModel *titleModel = [[PaperItemTitleModel alloc] initWithItemModel:_itemModel];
+                    titleModel.order = 0;
                     PaperItemTitleModelCellFrame *titleFrame = [[PaperItemTitleModelCellFrame alloc] init];
-                    titleFrame.model = [[PaperItemTitleModel alloc] initWithItemModel:_itemModel];
+                    titleFrame.model = titleModel;
                     //添加到数据源
                     [_itemsDataSource addObject:titleFrame];
                 }

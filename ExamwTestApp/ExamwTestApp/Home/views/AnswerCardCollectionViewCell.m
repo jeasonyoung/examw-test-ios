@@ -67,7 +67,7 @@
     [_btnOrder setTitle:cellFrame.order forState:UIControlStateNormal];
     //
     UIColor *bgColor = (cellFrame.status ? _hasColor : _nonColor);
-    [EffectsUtils addBorderWithView:self BorderColor:_borderColor BackgroundColor:bgColor];
+    [EffectsUtils addBoundsRadiusWithView:self BorderColor:_borderColor BackgroundColor:bgColor];
     
     //
     if(cellFrame.model){
