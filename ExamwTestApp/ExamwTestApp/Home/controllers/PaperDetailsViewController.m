@@ -138,7 +138,7 @@
                 paperRecordId = recordModel.Id;
                 [_service addPaperRecord:recordModel];
             });
-            controller = [[PaperViewController alloc] initWithPaperId:_infoModel.Id andPaperRecordId:paperRecordId andDisplayAnswer:NO];
+            controller = [[PaperViewController alloc] initWithPaperId:_infoModel.Id andPaperRecordId:paperRecordId];
             break;
         }
         case 2:{//继续考试
@@ -146,7 +146,7 @@
                 NSLog(@"试卷记录不存在...");
                 return;
             }
-            controller = [[PaperViewController alloc] initWithPaperId:_infoModel.Id andPaperRecordId:_recordModel.Id andDisplayAnswer:YES];
+            controller = [[PaperViewController alloc] initWithPaperId:_infoModel.Id andPaperRecordId:_recordModel.Id];
             break;
         }
         case 4:{//查看成绩

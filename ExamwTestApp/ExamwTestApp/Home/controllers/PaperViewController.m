@@ -17,6 +17,7 @@
 #import "DMLazyScrollView.h"
 
 #import "PaperItemViewController.h"
+#import "AnswerCardViewController.h"
 
 #define __kPaperViewController_tag_btnPrev 0x01//上一题
 #define __kPaperViewController_tag_btnNext 0x02//下一题
@@ -62,10 +63,6 @@
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //初始化试卷服务
-    _service = [[PaperService alloc] init];
-    //初始化Controllers缓存
-    _controllers = [NSMutableDictionary dictionary];
     //加载试题滚动视图
     [self setupLazyScrollViews];
     //加载顶部工具栏
@@ -90,6 +87,10 @@
 //右边按钮点击事件
 -(void)btnBarRightClick:(UIBarButtonItem *)sender{
     NSLog(@"右边按钮点击:%@...",sender);
+    AnswerCardViewController *answerCardController = [[AnswerCardViewController alloc] initWithPaperId:_paperId
+                                                                                      andPaperRecordId:_paperRecordId];
+    answerCardController.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:answerCardController animated:YES];
 }
 
 //加载底部工具栏
@@ -168,6 +169,8 @@
     //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"异步线程加载试卷数据...");
+        //初始化试卷服务
+        _service = [[PaperService alloc] init];
         _paperModel = [_service loadPaperModelWithPaperId:_paperId];
         if(_paperModel && _paperModel.total > 0 && _paperModel.structures){
             //初始化试题
@@ -222,7 +225,13 @@
     if(_itemsArrays && index < _itemsArrays.count){
         NSLog(@"加载试题控制器[%d]...", (int)index);
         //控制器
-        UIViewController *controller = [_controllers objectForKey:[NSNumber numberWithInteger:index]];
+        UIViewController *controller = nil;
+        if(!_controllers){
+            //初始化Controllers缓存
+            _controllers = [NSMutableDictionary dictionary];
+        }else{
+            controller = [_controllers objectForKey:[NSNumber numberWithInteger:index]];
+        }
         if(!controller){
             NSLog(@"创建试题控制器[%d]...", (int)index);
             PaperItemModel *itemModel = [_itemsArrays objectAtIndex:index];

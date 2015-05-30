@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 @class PaperModel;
+@class PaperItemModel;
 @class PaperRecordModel;
 //试卷服务接口
 @interface PaperService : NSObject
@@ -33,4 +34,7 @@
 
 //试题是否被收藏
 -(BOOL)exitFavoriteWithItemId:(NSString *)itemId;
+
+//试题是否在记录中存在
+-(BOOL)exitRecordWithPaperRecordId:(NSString *)paperRecordId itemModel:(PaperItemModel *)model;
 @end

@@ -12,6 +12,7 @@
 #import "DaoHelpers.h"
 #import "PaperInfoModel.h"
 #import "PaperModel.h"
+#import "PaperItemModel.h"
 #import "PaperRecordModel.h"
 
 #import "PaperUtils.h"
@@ -231,6 +232,21 @@
             //执行脚本
             NSLog(@"exec-sql:%@", query_sql);
             result = [db intForQuery:query_sql, itemId] > 0;
+        }];
+    }
+    return result;
+}
+
+#pragma mark 试题是否在记录中存在
+-(BOOL)exitRecordWithPaperRecordId:(NSString *)paperRecordId itemModel:(PaperItemModel *)model{
+    __block BOOL result = NO;
+    if(_dbQueue && paperRecordId && paperRecordId.length > 0 && model){
+        NSString *itemId = [NSString stringWithFormat:@"%@$%d", model.itemId, (int)model.index];
+        NSLog(@"查找试题[%@]是否在记录[%@]中存在...", itemId, paperRecordId);
+        static NSString *query_sql = @"SELECT count(*) FROM tbl_itemRecords WHERE paperRecordId = ? and itemId = ?";
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            NSLog(@"exec-sql:%@", query_sql);
+            result = ([db intForQuery:query_sql, paperRecordId, itemId] > 0);
         }];
     }
     return result;

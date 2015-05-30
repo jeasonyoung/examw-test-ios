@@ -90,6 +90,13 @@
 		A1BBC9E01B102BC0005A1FD3 /* PaperStructureModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BBC9DF1B102BC0005A1FD3 /* PaperStructureModel.m */; };
 		A1BD6FDF1B19413100A754B7 /* btnFavoriteHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = A1BD6FDD1B19413100A754B7 /* btnFavoriteHighlight.png */; };
 		A1BD6FE01B19413100A754B7 /* btnFavoriteNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = A1BD6FDE1B19413100A754B7 /* btnFavoriteNormal.png */; };
+		A1BD6FE61B195AD600A754B7 /* AnswerCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BD6FE51B195AD600A754B7 /* AnswerCardViewController.m */; };
+		A1BD6FE91B196D1D00A754B7 /* AnswerCardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BD6FE81B196D1D00A754B7 /* AnswerCardModel.m */; };
+		A1BD6FEC1B19720400A754B7 /* AnswerCardSectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BD6FEB1B19720400A754B7 /* AnswerCardSectionModel.m */; };
+		A1BD6FEF1B19888A00A754B7 /* AnswerCardSectionModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BD6FEE1B19888A00A754B7 /* AnswerCardSectionModelCellFrame.m */; };
+		A1BD6FF21B198E9E00A754B7 /* AnswerCardModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BD6FF11B198E9E00A754B7 /* AnswerCardModelCellFrame.m */; };
+		A1BD6FF51B19947A00A754B7 /* AnswerCardCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BD6FF41B19947A00A754B7 /* AnswerCardCollectionViewCell.m */; };
+		A1BD6FF81B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BD6FF71B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.m */; };
 		A1C6AD4C1B0C0C790002BE81 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD4B1B0C0C790002BE81 /* ProductViewController.m */; };
 		A1C6AD4F1B0C0EC60002BE81 /* ProductModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD4E1B0C0EC60002BE81 /* ProductModelCellFrame.m */; };
 		A1C6AD521B0C31000002BE81 /* ProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD511B0C31000002BE81 /* ProductTableViewCell.m */; };
@@ -302,6 +309,20 @@
 		A1BBC9DF1B102BC0005A1FD3 /* PaperStructureModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperStructureModel.m; path = Home/models/PaperStructureModel.m; sourceTree = "<group>"; };
 		A1BD6FDD1B19413100A754B7 /* btnFavoriteHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btnFavoriteHighlight.png; path = images/btnFavoriteHighlight.png; sourceTree = "<group>"; };
 		A1BD6FDE1B19413100A754B7 /* btnFavoriteNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btnFavoriteNormal.png; path = images/btnFavoriteNormal.png; sourceTree = "<group>"; };
+		A1BD6FE41B195AD600A754B7 /* AnswerCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnswerCardViewController.h; path = Home/controllers/AnswerCardViewController.h; sourceTree = "<group>"; };
+		A1BD6FE51B195AD600A754B7 /* AnswerCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnswerCardViewController.m; path = Home/controllers/AnswerCardViewController.m; sourceTree = "<group>"; };
+		A1BD6FE71B196D1D00A754B7 /* AnswerCardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnswerCardModel.h; path = Home/models/AnswerCardModel.h; sourceTree = "<group>"; };
+		A1BD6FE81B196D1D00A754B7 /* AnswerCardModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnswerCardModel.m; path = Home/models/AnswerCardModel.m; sourceTree = "<group>"; };
+		A1BD6FEA1B19720400A754B7 /* AnswerCardSectionModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnswerCardSectionModel.h; path = Home/models/AnswerCardSectionModel.h; sourceTree = "<group>"; };
+		A1BD6FEB1B19720400A754B7 /* AnswerCardSectionModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnswerCardSectionModel.m; path = Home/models/AnswerCardSectionModel.m; sourceTree = "<group>"; };
+		A1BD6FED1B19888A00A754B7 /* AnswerCardSectionModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnswerCardSectionModelCellFrame.h; path = Home/models/AnswerCardSectionModelCellFrame.h; sourceTree = "<group>"; };
+		A1BD6FEE1B19888A00A754B7 /* AnswerCardSectionModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnswerCardSectionModelCellFrame.m; path = Home/models/AnswerCardSectionModelCellFrame.m; sourceTree = "<group>"; };
+		A1BD6FF01B198E9E00A754B7 /* AnswerCardModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnswerCardModelCellFrame.h; path = Home/models/AnswerCardModelCellFrame.h; sourceTree = "<group>"; };
+		A1BD6FF11B198E9E00A754B7 /* AnswerCardModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnswerCardModelCellFrame.m; path = Home/models/AnswerCardModelCellFrame.m; sourceTree = "<group>"; };
+		A1BD6FF31B19947A00A754B7 /* AnswerCardCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnswerCardCollectionViewCell.h; path = Home/views/AnswerCardCollectionViewCell.h; sourceTree = "<group>"; };
+		A1BD6FF41B19947A00A754B7 /* AnswerCardCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnswerCardCollectionViewCell.m; path = Home/views/AnswerCardCollectionViewCell.m; sourceTree = "<group>"; };
+		A1BD6FF61B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnswerCardSectionCollectionReusableView.h; path = Home/views/AnswerCardSectionCollectionReusableView.h; sourceTree = "<group>"; };
+		A1BD6FF71B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnswerCardSectionCollectionReusableView.m; path = Home/views/AnswerCardSectionCollectionReusableView.m; sourceTree = "<group>"; };
 		A1C6AD4A1B0C0C790002BE81 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductViewController.h; path = SwitchProduct/controllers/ProductViewController.h; sourceTree = "<group>"; };
 		A1C6AD4B1B0C0C790002BE81 /* ProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductViewController.m; path = SwitchProduct/controllers/ProductViewController.m; sourceTree = "<group>"; };
 		A1C6AD4D1B0C0EC60002BE81 /* ProductModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductModelCellFrame.h; path = SwitchProduct/models/ProductModelCellFrame.h; sourceTree = "<group>"; };
@@ -592,6 +613,14 @@
 				A1A478FE1B16A6A5000B7E22 /* PaperItemAnalysisModelCellFrame.m */,
 				A1185FA21B1324950099F910 /* PaperRecordModel.h */,
 				A1185FA31B1324950099F910 /* PaperRecordModel.m */,
+				A1BD6FE71B196D1D00A754B7 /* AnswerCardModel.h */,
+				A1BD6FE81B196D1D00A754B7 /* AnswerCardModel.m */,
+				A1BD6FF01B198E9E00A754B7 /* AnswerCardModelCellFrame.h */,
+				A1BD6FF11B198E9E00A754B7 /* AnswerCardModelCellFrame.m */,
+				A1BD6FEA1B19720400A754B7 /* AnswerCardSectionModel.h */,
+				A1BD6FEB1B19720400A754B7 /* AnswerCardSectionModel.m */,
+				A1BD6FED1B19888A00A754B7 /* AnswerCardSectionModelCellFrame.h */,
+				A1BD6FEE1B19888A00A754B7 /* AnswerCardSectionModelCellFrame.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -611,6 +640,8 @@
 				A1A478C51B155BD7000B7E22 /* PaperViewController.m */,
 				A1A478C71B155BF9000B7E22 /* PaperItemViewController.h */,
 				A1A478C81B155BF9000B7E22 /* PaperItemViewController.m */,
+				A1BD6FE41B195AD600A754B7 /* AnswerCardViewController.h */,
+				A1BD6FE51B195AD600A754B7 /* AnswerCardViewController.m */,
 				A1A478CA1B156388000B7E22 /* PaperResultViewController.h */,
 				A1A478CB1B156388000B7E22 /* PaperResultViewController.m */,
 				A1936CA01B0F1BDF00C59A06 /* FavoritesViewController.h */,
@@ -640,6 +671,10 @@
 				A1A479041B16C16F000B7E22 /* PaperItemOptTableViewCell.m */,
 				A1A479061B16C365000B7E22 /* PaperItemAnalysisTableViewCell.h */,
 				A1A479071B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m */,
+				A1BD6FF31B19947A00A754B7 /* AnswerCardCollectionViewCell.h */,
+				A1BD6FF41B19947A00A754B7 /* AnswerCardCollectionViewCell.m */,
+				A1BD6FF61B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.h */,
+				A1BD6FF71B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -1026,7 +1061,9 @@
 				A1DF97EA1B1220F3000F2B73 /* PaperService.m in Sources */,
 				A1C6AD911B0C90AC0002BE81 /* MBProgressHUD.m in Sources */,
 				A1DF97ED1B12AC01000F2B73 /* PaperInfoModelCellFrame.m in Sources */,
+				A1BD6FF21B198E9E00A754B7 /* AnswerCardModelCellFrame.m in Sources */,
 				A17098EA1B0581C00083AF01 /* MJRefreshFooter.m in Sources */,
+				A1BD6FE91B196D1D00A754B7 /* AnswerCardModel.m in Sources */,
 				A17098EE1B0581C00083AF01 /* MJRefreshLegendFooter.m in Sources */,
 				A1F724C91B0305C00023A3C8 /* FMDatabase.m in Sources */,
 				A1C6AD521B0C31000002BE81 /* ProductTableViewCell.m in Sources */,
@@ -1043,14 +1080,17 @@
 				A1C6AD7C1B0C74770002BE81 /* AFHTTPSessionManager.m in Sources */,
 				A13BB7881B0AD6270063C64B /* JSONCallback.m in Sources */,
 				A13BB79C1B0B47800063C64B /* ExamTableViewCell.m in Sources */,
+				A1BD6FEC1B19720400A754B7 /* AnswerCardSectionModel.m in Sources */,
 				A1C6AD821B0C74770002BE81 /* AFURLResponseSerialization.m in Sources */,
 				A10F5FB61B0DBAEA00BD0491 /* DownloadDao.m in Sources */,
 				A121F2501B140BE2004EC63C /* PaperDetailsModelCellFrame.m in Sources */,
 				A1A478DF1B15FDB0000B7E22 /* PaperItemTitleModelCellFrame.m in Sources */,
+				A1BD6FF51B19947A00A754B7 /* AnswerCardCollectionViewCell.m in Sources */,
 				A10F5FBF1B0E383000BD0491 /* PaperUtils.m in Sources */,
 				A13BB7811B0971B10063C64B /* ProductModel.m in Sources */,
 				A1C6AD7B1B0C74770002BE81 /* AFHTTPRequestOperationManager.m in Sources */,
 				A1F724D71B0342330023A3C8 /* SecureUtils.m in Sources */,
+				A1BD6FEF1B19888A00A754B7 /* AnswerCardSectionModelCellFrame.m in Sources */,
 				A1185FA41B1324950099F910 /* PaperRecordModel.m in Sources */,
 				A1C6AD841B0C74770002BE81 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				A1936CA21B0F1BDF00C59A06 /* FavoritesViewController.m in Sources */,
@@ -1066,6 +1106,7 @@
 				A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */,
 				A1C6AD7E1B0C74770002BE81 /* AFNetworkReachabilityManager.m in Sources */,
 				A1F8DED11B0CBAE500317B0E /* UserAccount.m in Sources */,
+				A1BD6FE61B195AD600A754B7 /* AnswerCardViewController.m in Sources */,
 				A1DF97F01B12BF20000F2B73 /* PaperInfoTableViewCell.m in Sources */,
 				A1C6AD861B0C74770002BE81 /* UIButton+AFNetworking.m in Sources */,
 				A1C6AD8A1B0C74770002BE81 /* UIWebView+AFNetworking.m in Sources */,
@@ -1114,6 +1155,7 @@
 				A1B7F6A41B1362E700DF8834 /* PaperButtonModel.m in Sources */,
 				A1A479021B16BF69000B7E22 /* PaperItemTitleTableViewCell.m in Sources */,
 				A13BB7981B0B38B00063C64B /* ExamModelCellFrame.m in Sources */,
+				A1BD6FF81B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
