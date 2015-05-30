@@ -30,4 +30,7 @@
 
 //新增试卷记录
 -(void)addPaperRecord:(PaperRecordModel *)record;
+
+//试题是否被收藏
+-(BOOL)exitFavoriteWithItemId:(NSString *)itemId;
 @end

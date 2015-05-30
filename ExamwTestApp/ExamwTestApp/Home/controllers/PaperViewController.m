@@ -17,6 +17,11 @@
 #import "DMLazyScrollView.h"
 
 #import "PaperItemViewController.h"
+
+#define __kPaperViewController_tag_btnPrev 0x01//上一题
+#define __kPaperViewController_tag_btnNext 0x02//下一题
+#define __kPaperViewController_tag_btnFavorite 0x03//收藏
+
 //试卷控制器成员变量
 @interface PaperViewController ()<DMLazyScrollViewDelegate>{
     NSString *_paperId,*_paperRecordId;
@@ -24,6 +29,7 @@
     PaperModel *_paperModel;
     
     BOOL _displayAnswer;
+    UIImage *_imgFavoriteNormal,*_imgFavoriteHighlight;
     
     DMLazyScrollView *_lazyScrollView;
     NSMutableArray *_itemsArrays;
@@ -40,6 +46,10 @@
         _paperId = paperId;
         _paperRecordId = recordId;
         _displayAnswer = display;
+        
+        //初始化收藏图片
+        _imgFavoriteNormal = [UIImage imageNamed:@"btnNext.png"];//[UIImage imageNamed:@"btnFavoriteNormal.png"];
+        _imgFavoriteHighlight = [UIImage imageNamed:@"btnFavoriteHighlight.png"];
     }
     return self;
 }
@@ -88,13 +98,19 @@
     UIBarButtonItem *btnPrev = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btnPrev.png"]
                                                                 style:UIBarButtonItemStyleBordered
                                                                target:self action:@selector(btnBarPrevClick:)];
+    btnPrev.tag = __kPaperViewController_tag_btnPrev;
+    btnPrev.enabled = NO;
     //下一题
     UIBarButtonItem *btnNext = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btnNext.png"]
                                                                 style:UIBarButtonItemStyleBordered
                                                                target:self action:@selector(btnBarNextClick:)];
+    btnNext.tag = __kPaperViewController_tag_btnNext;
     //收藏
-    UIBarButtonItem *btnFavorite =[[UIBarButtonItem alloc] initWithTitle:@"收藏" style:UIBarButtonItemStyleBordered
-                                                                  target:self action:@selector(btnBarFavoriteClick:)];
+    UIBarButtonItem *btnFavorite = [[UIBarButtonItem alloc] initWithImage:_imgFavoriteNormal
+                                                                    style:UIBarButtonItemStyleBordered
+                                                                   target:self action:@selector(btnBarFavoriteClick:)];
+    btnFavorite.tag = __kPaperViewController_tag_btnFavorite;
+    
     //分隔平均填充
     UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                            target:nil action:nil];
@@ -141,7 +157,8 @@
         [itemController favoriteItem:^(BOOL result) {
             NSLog(@"收藏结果:%d", result);
             dispatch_async(dispatch_get_main_queue(), ^{
-                sender.title = (result ? @"取消收藏" : @"收藏");
+                sender.image = (result ? _imgFavoriteHighlight : _imgFavoriteNormal);
+                NSLog(@"1.current-image:%@,h:%@,n:%@",sender.image, _imgFavoriteHighlight, _imgFavoriteNormal);
             });
         }];
     }
@@ -229,10 +246,42 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"异步线程更新试题[%d]标题...", (int)currentPageIndex);
         if(currentPageIndex >= 0 && currentPageIndex < _itemsArrays.count){
+            //获取当前试题数据
             PaperItemModel *itemModel = [_itemsArrays objectAtIndex:currentPageIndex];
             if(!itemModel || !itemModel.structureTitle || itemModel.structureTitle.length == 0)return;
+            //获取当前视图控制器
+            PaperItemViewController *itemController = (PaperItemViewController *)((UINavigationController *)pagingView.visibleViewController).visibleViewController;
+            if(itemController){
+                [itemController start];
+            }
+            //查询是否收藏
+            BOOL isFavorite = [_service exitFavoriteWithItemId:itemModel.itemId];
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.title = itemModel.structureTitle;
+                NSArray *toolbars = self.toolbarItems;
+                if(toolbars && toolbars.count > 0){
+                    for(UIBarButtonItem *bar in toolbars){
+                        if(!bar)continue;
+                        switch (bar.tag) {
+                            case __kPaperViewController_tag_btnPrev:{//上一题
+                                //按钮是否可用
+                                bar.enabled = (currentPageIndex > 0);
+                                break;
+                            }
+                            case __kPaperViewController_tag_btnNext:{//下一题
+                                //按钮是否可用
+                                bar.enabled = (currentPageIndex < _itemsArrays.count - 1);
+                                break;
+                            }
+                            case __kPaperViewController_tag_btnFavorite:{//收藏
+                                bar.image = isFavorite ? _imgFavoriteHighlight : _imgFavoriteNormal;
+                                NSLog(@"0.current-image:%@,h:%@,n:%@",bar.image, _imgFavoriteHighlight, _imgFavoriteNormal);
+                                break;
+                            }
+                        }
+                    }
+                }
+                
             });
         }
     });

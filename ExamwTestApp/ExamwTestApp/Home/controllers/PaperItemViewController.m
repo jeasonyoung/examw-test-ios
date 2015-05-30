@@ -38,6 +38,8 @@
     NSUInteger _order;
     //是否显示答案
     BOOL _displayAnswer;
+    //做题开始时间
+    NSDate *_dtStart;
     //试题数据源
     NSMutableArray *_itemsDataSource;
     //试卷记录服务
@@ -478,7 +480,11 @@
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSLog(@"异步线程更新试卷[%@]试题[%@]做题记录...",_PaperRecordId, _itemModel.itemId);
             NSString *answers = [myAnswers componentsJoinedByString:@","];
-            [_recordService addRecordWithPaperRecordId:_PaperRecordId itemModel:_itemModel myAnswers:answers];
+            NSUInteger useTimes = 0;
+            if(_dtStart){
+                useTimes = (NSUInteger)fabs([[NSDate date] timeIntervalSinceDate:_dtStart]);
+            }
+            [_recordService addRecordWithPaperRecordId:_PaperRecordId itemModel:_itemModel myAnswers:answers useTimes:useTimes];
         });
     }
 }
@@ -492,5 +498,11 @@
             result(flag);
         }
     });
+}
+
+#pragma mark 开始做题
+-(void)start{
+    NSLog(@"开始做题[%@$%d]...",_itemModel.itemId,_itemModel.index);
+    _dtStart = [NSDate date];
 }
 @end

@@ -88,6 +88,8 @@
 		A1BBC9DA1B101359005A1FD3 /* PaperModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BBC9D91B101359005A1FD3 /* PaperModel.m */; };
 		A1BBC9DD1B1013B8005A1FD3 /* PaperItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BBC9DC1B1013B8005A1FD3 /* PaperItemModel.m */; };
 		A1BBC9E01B102BC0005A1FD3 /* PaperStructureModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BBC9DF1B102BC0005A1FD3 /* PaperStructureModel.m */; };
+		A1BD6FDF1B19413100A754B7 /* btnFavoriteHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = A1BD6FDD1B19413100A754B7 /* btnFavoriteHighlight.png */; };
+		A1BD6FE01B19413100A754B7 /* btnFavoriteNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = A1BD6FDE1B19413100A754B7 /* btnFavoriteNormal.png */; };
 		A1C6AD4C1B0C0C790002BE81 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD4B1B0C0C790002BE81 /* ProductViewController.m */; };
 		A1C6AD4F1B0C0EC60002BE81 /* ProductModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD4E1B0C0EC60002BE81 /* ProductModelCellFrame.m */; };
 		A1C6AD521B0C31000002BE81 /* ProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD511B0C31000002BE81 /* ProductTableViewCell.m */; };
@@ -298,6 +300,8 @@
 		A1BBC9DC1B1013B8005A1FD3 /* PaperItemModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemModel.m; path = Home/models/PaperItemModel.m; sourceTree = "<group>"; };
 		A1BBC9DE1B102BC0005A1FD3 /* PaperStructureModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperStructureModel.h; path = Home/models/PaperStructureModel.h; sourceTree = "<group>"; };
 		A1BBC9DF1B102BC0005A1FD3 /* PaperStructureModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperStructureModel.m; path = Home/models/PaperStructureModel.m; sourceTree = "<group>"; };
+		A1BD6FDD1B19413100A754B7 /* btnFavoriteHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btnFavoriteHighlight.png; path = images/btnFavoriteHighlight.png; sourceTree = "<group>"; };
+		A1BD6FDE1B19413100A754B7 /* btnFavoriteNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btnFavoriteNormal.png; path = images/btnFavoriteNormal.png; sourceTree = "<group>"; };
 		A1C6AD4A1B0C0C790002BE81 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductViewController.h; path = SwitchProduct/controllers/ProductViewController.h; sourceTree = "<group>"; };
 		A1C6AD4B1B0C0C790002BE81 /* ProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductViewController.m; path = SwitchProduct/controllers/ProductViewController.m; sourceTree = "<group>"; };
 		A1C6AD4D1B0C0EC60002BE81 /* ProductModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductModelCellFrame.h; path = SwitchProduct/models/ProductModelCellFrame.h; sourceTree = "<group>"; };
@@ -682,6 +686,8 @@
 				A125477C1B18A7E6002E83C3 /* iconMore.png */,
 				A12547821B18A948002E83C3 /* btnNext.png */,
 				A12547831B18A948002E83C3 /* btnPrev.png */,
+				A1BD6FDD1B19413100A754B7 /* btnFavoriteHighlight.png */,
+				A1BD6FDE1B19413100A754B7 /* btnFavoriteNormal.png */,
 				A1A478F11B169687000B7E22 /* option_error.png */,
 				A1A478F21B169687000B7E22 /* option_multy_normal.png */,
 				A1A478F31B169687000B7E22 /* option_multy_selected.png */,
@@ -971,12 +977,14 @@
 				A125477F1B18A7E6002E83C3 /* iconMore.png in Resources */,
 				A1A478F81B169687000B7E22 /* option_multy_normal.png in Resources */,
 				A12547841B18A948002E83C3 /* btnNext.png in Resources */,
+				A1BD6FDF1B19413100A754B7 /* btnFavoriteHighlight.png in Resources */,
 				A12547811B18A888002E83C3 /* iconMy.png in Resources */,
 				A1A478FA1B169687000B7E22 /* option_right.png in Resources */,
 				A125477D1B18A7E6002E83C3 /* iconFavorites.png in Resources */,
 				A1A478F71B169687000B7E22 /* option_error.png in Resources */,
 				A1A478F91B169687000B7E22 /* option_multy_selected.png in Resources */,
 				A1A478FB1B169687000B7E22 /* option_single_normal.png in Resources */,
+				A1BD6FE01B19413100A754B7 /* btnFavoriteNormal.png in Resources */,
 				A1F7242D1B02F88A0023A3C8 /* Images.xcassets in Resources */,
 				A1936C961B0F0A4500C59A06 /* mainBottomMenus.plist in Resources */,
 			);

@@ -16,7 +16,7 @@
 -(NSString *)loadRecordAnswersWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model;
 
 //添加试题记录
--(void)addRecordWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model myAnswers:(NSString *)answers;
+-(void)addRecordWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model myAnswers:(NSString *)answers useTimes:(NSUInteger)useTimes;
 
 //收藏/取消收藏(收藏返回true,取消返回false)
 -(BOOL)updateFavoriteWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model;

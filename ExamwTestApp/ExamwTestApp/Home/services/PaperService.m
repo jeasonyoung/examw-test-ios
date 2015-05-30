@@ -19,7 +19,8 @@
 #define __kPaperService_pageOfRows _kAPP_DEFAULT_PAGEROWS//分页
 //试卷服务接口成员变量
 @interface PaperService (){
-    DaoHelpers *_daoHelpers;
+    FMDatabaseQueue *_dbQueue;
+    //DaoHelpers *_daoHelpers;
 }
 @end
 //试卷服务接口实现
@@ -28,7 +29,11 @@
 #pragma mark 重构初始化
 -(instancetype)init{
     if(self = [super init]){
-        _daoHelpers = [[DaoHelpers alloc] init];
+        _pageOfRows = __kPaperService_pageOfRows;
+        _dbQueue = [[[DaoHelpers alloc] init] createDatabaseQueue];
+        if(!_dbQueue){
+            NSLog(@"创建数据操作失败!");
+        }
         _pageOfRows = __kPaperService_pageOfRows;
     }
     return self;
@@ -37,9 +42,7 @@
 #pragma mark 按试卷类型分页查找试卷信息数据
 -(NSArray *)findPapersInfoWithPaperType:(NSUInteger)paperType andPageIndex:(NSUInteger)pageIndex{
     NSLog(@"按试卷类型[%d]分页[%d]查找试卷数据...", (int)paperType, (int)pageIndex);
-    //创建数据操作队列
-    FMDatabaseQueue *dbQueue = [_daoHelpers createDatabaseQueue];
-    if(!dbQueue){
+    if(!_dbQueue){
         NSLog(@"创建数据操作失败!");
         return nil;
     }
@@ -52,7 +55,7 @@
     
     __block NSMutableArray *arrays = [NSMutableArray arrayWithCapacity:__kPaperService_pageOfRows];
     //查询数据
-    [dbQueue inDatabase:^(FMDatabase *db) {
+    [_dbQueue inDatabase:^(FMDatabase *db) {
         NSLog(@"exec-sql:%@", query_sql);
         FMResultSet *rs = [db executeQuery:query_sql, [NSNumber numberWithInteger:paperType]];
         while ([rs next]) {
@@ -88,15 +91,13 @@
     }
     PaperModel *paperModel = [papersCache objectForKey:paperId];
     if(!paperModel){
-        //创建数据操作队列
-        FMDatabaseQueue *dbQueue = [_daoHelpers createDatabaseQueue];
-        if(!dbQueue){
+        if(!_dbQueue){
             NSLog(@"创建数据操作失败!");
             return nil;
         }
         __block NSString *contentHex = nil;
         //查询数据
-        [dbQueue inDatabase:^(FMDatabase *db) {
+        [_dbQueue inDatabase:^(FMDatabase *db) {
             //sql
             static NSString *query_sql = @"SELECT content FROM tbl_papers WHERE id = ? limit 0,1";
             contentHex = [db stringForQuery:query_sql, paperId];
@@ -124,14 +125,12 @@
 -(PaperRecordModel *)loadNewsRecordWithPaperId:(NSString *)paperId{
     if(!paperId || paperId.length == 0)return nil;
     NSLog(@"加载最新的试卷[%@]记录...", paperId);
-    //创建数据操作队列
-    FMDatabaseQueue *dbQueue = [_daoHelpers createDatabaseQueue];
-    if(!dbQueue){
+    if(!_dbQueue){
         NSLog(@"创建数据操作失败!");
         return nil;
     }
     __block PaperRecordModel *recordModel = nil;
-    [dbQueue inDatabase:^(FMDatabase *db) {
+    [_dbQueue inDatabase:^(FMDatabase *db) {
         static NSString *query_sql = @"SELECT id,status,score,rights,useTimes FROM tbl_paperRecords WHERE paperId = ? ORDER BY lastTime DESC,createTime DESC limit 0,1";
         FMResultSet *rs = [db executeQuery:query_sql, paperId];
         while ([rs next]) {
@@ -153,14 +152,12 @@
 -(PaperRecordModel *)loadRecordWithPaperRecordId:(NSString *)paperRecordId{
     if(!paperRecordId || paperRecordId.length == 0) return nil;
     NSLog(@"按试卷记录ID[%@]加载试卷记录...", paperRecordId);
-    //创建数据操作队列
-    FMDatabaseQueue *dbQueue = [_daoHelpers createDatabaseQueue];
-    if(!dbQueue){
+    if(!_dbQueue){
         NSLog(@"创建数据操作失败!");
         return nil;
     }
     __block PaperRecordModel *recordModel = nil;
-    [dbQueue inDatabase:^(FMDatabase *db) {
+    [_dbQueue inDatabase:^(FMDatabase *db) {
         static NSString *query_sql = @"SELECT id,paperId,status,score,rights,useTimes FROM tbl_paperRecords WHERE id = ? limit 0,1";
         FMResultSet *rs = [db executeQuery:query_sql, paperRecordId];
         while ([rs next]) {
@@ -185,9 +182,7 @@
         NSLog(@"关联的试卷ID不能为空!");
         return;
     }
-    //创建数据操作队列
-    FMDatabaseQueue *dbQueue = [_daoHelpers createDatabaseQueue];
-    if(!dbQueue){
+    if(!_dbQueue){
         NSLog(@"创建数据操作失败!");
         return;
     }
@@ -199,7 +194,7 @@
     static NSString *update_sql = @"UPDATE tbl_paperRecords SET lastTime=? WHERE id=?";
     
     //执行数据
-    [dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         @try {
             BOOL isAdded = (!record.Id || record.Id.length == 0);
             if(!isAdded){
@@ -221,5 +216,23 @@
             NSLog(@"执行SQL脚本异常:%@", exception);
         }
     }];
+}
+
+#pragma mark 试题是否被收藏
+-(BOOL)exitFavoriteWithItemId:(NSString *)itemId{
+    __block BOOL result = NO;
+    if(itemId && itemId.length > 0){
+        if(!_dbQueue){
+            NSLog(@"创建数据操作失败!");
+            return result;
+        }
+        static NSString *query_sql = @"SELECT count(*) FROM tbl_favorites WHERE itemId = ?";
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            //执行脚本
+            NSLog(@"exec-sql:%@", query_sql);
+            result = [db intForQuery:query_sql, itemId] > 0;
+        }];
+    }
+    return result;
 }
 @end

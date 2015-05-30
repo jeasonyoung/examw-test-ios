@@ -20,4 +20,7 @@
 
 //收藏/取消收藏试题
 -(void)favoriteItem:(void(^)(BOOL))result;
+
+//开始做题
+-(void)start;
 @end

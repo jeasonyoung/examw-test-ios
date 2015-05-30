@@ -14,7 +14,7 @@
 #import "PaperUtils.h"
 //试卷记录服务成员变量
 @interface PaperRecordService (){
-    DaoHelpers *_daoHelpers;
+    FMDatabaseQueue *_dbQueue;
 }
 @end
 //试卷记录服务实现
@@ -23,7 +23,13 @@
 #pragma mark 重构初始化
 -(instancetype)init{
     if(self = [super init]){
-        _daoHelpers = [[DaoHelpers alloc] init];
+        DaoHelpers *dao = [[DaoHelpers alloc] init];
+        if(dao){
+            _dbQueue = [dao createDatabaseQueue];
+            if(!_dbQueue){
+                NSLog(@"创建数据库操作失败!");
+            }
+        }
     }
     return self;
 }
@@ -32,16 +38,14 @@
 -(NSString *)loadRecordAnswersWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model{
     if(!model) return nil;
     NSLog(@"加载试卷记录[%@]中试题[%@:%d]答案...", recordId, model.itemId, (int)model.index);
-    //创建数据操作队列
-    FMDatabaseQueue *dbQueue = [_daoHelpers createDatabaseQueue];
-    if(!dbQueue){
+    if(!_dbQueue){
         NSLog(@"创建数据库操作失败!");
         return nil;
     }
     //SQL
     static NSString *query_sql = @"SELECT answer FROM tbl_itemRecords WHERE paperRecordId = ? and itemId = ? limit 0,1";
     __block NSString *answers = nil;
-    [dbQueue inDatabase:^(FMDatabase *db) {
+    [_dbQueue inDatabase:^(FMDatabase *db) {
         NSLog(@"exec-sql:%@", query_sql);
         NSString *itemId = [NSString stringWithFormat:@"%@$%d", model.itemId, (int)model.index];
         answers = [db stringForQuery:query_sql, recordId, itemId];
@@ -51,7 +55,8 @@
 }
 
 #pragma mark 添加试题记录
--(void)addRecordWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model myAnswers:(NSString *)answers{
+-(void)addRecordWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model
+                        myAnswers:(NSString *)answers useTimes:(NSUInteger)useTimes{
     NSLog(@"添加试卷试题记录...");
     if(!answers || answers.length == 0)return;
     if(!recordId || recordId.length == 0)return;
@@ -81,14 +86,12 @@
             score = model.structureMin;
         }
     }
-    //创建数据操作队列
-    FMDatabaseQueue *dbQueue = [_daoHelpers createDatabaseQueue];
-    if(!dbQueue){
+    if(!_dbQueue){
         NSLog(@"创建数据库操作失败!");
         return;
     }
     //执行脚本
-    [dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
         @try {
             //查询SQL
             static NSString *query_sql = @"SELECT id FROM tbl_itemRecords WHERE paperRecordId = ? and itemId = ? limit 0,1";
@@ -97,17 +100,17 @@
             NSString *itemRecordId = [db stringForQuery:query_sql, recordId, itemId];
             if(itemRecordId && itemRecordId.length > 0){//更新记录
                 //更新SQL
-                static NSString *update_sql = @"UPDATE tbl_itemRecords SET answer = ?,status = ?,score = ?,lastTime = ?,sync = 0 WHERE id = ?";
+                static NSString *update_sql = @"UPDATE tbl_itemRecords SET answer = ?,status = ?,score = ?,useTimes = ?,lastTime = ?,sync = 0 WHERE id = ?";
                 NSLog(@"exec-sql:%@", update_sql);
-                [db executeUpdate:update_sql, answers, [NSNumber numberWithBool:isRight],score,[NSDate date], itemRecordId];
+                [db executeUpdate:update_sql, answers, [NSNumber numberWithBool:isRight],score,[NSNumber numberWithInteger:useTimes],[NSDate date], itemRecordId];
             }else{//新增
                 itemRecordId = [[NSUUID UUID] UUIDString];
                 //试题密文
                 NSString *itemJSONEncypt = [PaperUtils encryptPaperContent:[model serializeJSON] andPassword:itemRecordId];
                 //新增SQL
-                static NSString *insert_sql = @"INSERT INTO  tbl_itemRecords(id,paperRecordId,structureId,itemId,itemType,content,answer,status,score) values(?,?,?,?,?,?,?,?,?)";
+                static NSString *insert_sql = @"INSERT INTO  tbl_itemRecords(id,paperRecordId,structureId,itemId,itemType,content,answer,status,score,useTimes) values(?,?,?,?,?,?,?,?,?,?)";
                 NSLog(@"exec-sql:%@", insert_sql);
-                [db executeUpdate:insert_sql,itemRecordId,recordId,model.structureId,itemId,[NSNumber numberWithInteger:model.itemType],itemJSONEncypt,answers,[NSNumber numberWithBool:isRight],score];
+                [db executeUpdate:insert_sql,itemRecordId,recordId,model.structureId,itemId,[NSNumber numberWithInteger:model.itemType],itemJSONEncypt,answers,[NSNumber numberWithBool:isRight],score,[NSNumber numberWithInteger:useTimes]];
             }
         }
         @catch (NSException *exception) {
@@ -117,50 +120,17 @@
     }];
 }
 
-//#pragma mark 加载试卷所属科目ID
-//-(NSString *)loadSubjectCodeWithPaperId:(NSString *)paperId{
-//    NSLog(@"加载试卷[%@]所属科目ID...", paperId);
-//    if(paperId && paperId.length > 0){
-//        static NSMutableDictionary *paperSubjectCache;
-//        if(!paperSubjectCache){
-//            paperSubjectCache = [NSMutableDictionary dictionary];
-//        }
-//        __block NSString *subjectCode = [paperSubjectCache objectForKey:paperId];
-//        if(!subjectCode || subjectCode.length == 0){
-//            //创建数据操作队列
-//            FMDatabaseQueue *dbQueue = [_daoHelpers createDatabaseQueue];
-//            if(!dbQueue){
-//                NSLog(@"创建数据操作失败!");
-//                return nil;
-//            }
-//            //执行SQL
-//            [dbQueue inDatabase:^(FMDatabase *db) {
-//                NSString *query_sql = @"SELECT subjectCode FROM tbl_papers WHERE id = ? limit 0,1";
-//                NSLog(@"exec-sql:%@", query_sql);
-//                subjectCode = [db stringForQuery:query_sql, paperId];
-//                if(subjectCode && subjectCode.length > 0){
-//                    [paperSubjectCache setObject:[subjectCode copy] forKey:paperId];
-//                }
-//            }];
-//        }
-//        return (subjectCode ? [subjectCode copy] : nil);
-//    }
-//    return nil;
-//}
-
 #pragma mark 收藏/取消收藏(收藏返回true,取消返回false)
 -(BOOL)updateFavoriteWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model{
     __block BOOL result = NO;
     if(recordId && recordId.length > 0 && model && model.itemId && model.itemId.length > 0){
         NSLog(@"开始收藏/取消收藏(收藏返回true,取消返回false)...");
-        //创建数据操作队列
-        FMDatabaseQueue *dbQueue = [_daoHelpers createDatabaseQueue];
-        if(!dbQueue){
+        if(!_dbQueue){
             NSLog(@"创建数据操作失败!");
         }else{
             //查询sql
             static NSString *query_sql = @"SELECT id FROM tbl_favorites WHERE itemId = ? limit 0,1";
-            [dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
                 @try {
                     NSString *favId = [db stringForQuery:query_sql, model.itemId];
                     if(favId && favId.length > 0){//已收藏，取消掉
