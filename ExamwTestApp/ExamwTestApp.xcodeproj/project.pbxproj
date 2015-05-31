@@ -80,6 +80,7 @@
 		A1A479051B16C16F000B7E22 /* PaperItemOptTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A479041B16C16F000B7E22 /* PaperItemOptTableViewCell.m */; };
 		A1A479081B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A479071B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m */; };
 		A1A4790B1B174EBB000B7E22 /* PaperRecordService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A4790A1B174EBB000B7E22 /* PaperRecordService.m */; };
+		A1A623D11B1B49F100637525 /* PaperExitAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A623D01B1B49F100637525 /* PaperExitAlertView.m */; };
 		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
 		A1B7F6A11B1360B700DF8834 /* PaperTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B7F6A01B1360B700DF8834 /* PaperTitleModel.m */; };
 		A1B7F6A41B1362E700DF8834 /* PaperButtonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B7F6A31B1362E700DF8834 /* PaperButtonModel.m */; };
@@ -291,6 +292,8 @@
 		A1A479071B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemAnalysisTableViewCell.m; path = Home/views/PaperItemAnalysisTableViewCell.m; sourceTree = "<group>"; };
 		A1A479091B174EBB000B7E22 /* PaperRecordService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperRecordService.h; path = Home/services/PaperRecordService.h; sourceTree = "<group>"; };
 		A1A4790A1B174EBB000B7E22 /* PaperRecordService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperRecordService.m; path = Home/services/PaperRecordService.m; sourceTree = "<group>"; };
+		A1A623CF1B1B49F100637525 /* PaperExitAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperExitAlertView.h; path = Home/views/PaperExitAlertView.h; sourceTree = "<group>"; };
+		A1A623D01B1B49F100637525 /* PaperExitAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperExitAlertView.m; path = Home/views/PaperExitAlertView.m; sourceTree = "<group>"; };
 		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
 		A1B5AF381B0399780086F421 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hex.m"; path = "ExamwTestApp/Utils/UIColor+Hex.m"; sourceTree = "<group>"; };
 		A1B7F69F1B1360B700DF8834 /* PaperTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperTitleModel.h; path = Home/models/PaperTitleModel.h; sourceTree = "<group>"; };
@@ -675,6 +678,8 @@
 				A1BD6FF41B19947A00A754B7 /* AnswerCardCollectionViewCell.m */,
 				A1BD6FF61B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.h */,
 				A1BD6FF71B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.m */,
+				A1A623CF1B1B49F100637525 /* PaperExitAlertView.h */,
+				A1A623D01B1B49F100637525 /* PaperExitAlertView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -1123,6 +1128,7 @@
 				A13BB78B1B0AE6A40063C64B /* CategoryModelCellFrame.m in Sources */,
 				A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */,
 				A1936CA81B0F1C7F00C59A06 /* MoreViewController.m in Sources */,
+				A1A623D11B1B49F100637525 /* PaperExitAlertView.m in Sources */,
 				A13BB7921B0B0B7F0063C64B /* CategoryTableViewCell.m in Sources */,
 				A1A478C31B155B97000B7E22 /* DMLazyScrollView.m in Sources */,
 				A1C6AD881B0C74770002BE81 /* UIProgressView+AFNetworking.m in Sources */,

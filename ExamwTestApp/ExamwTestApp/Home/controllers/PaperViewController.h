@@ -16,4 +16,6 @@
 -(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId;
 //加载到指定题序的试题
 -(void)loadItemOrder:(NSUInteger)order;
+//根据做题记录继续
+-(void)loadRecordContinue;
 @end

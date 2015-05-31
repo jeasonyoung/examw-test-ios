@@ -102,7 +102,10 @@
                 //更新SQL
                 static NSString *update_sql = @"UPDATE tbl_itemRecords SET answer = ?,status = ?,score = ?,useTimes = ?,lastTime = ?,sync = 0 WHERE id = ?";
                 NSLog(@"exec-sql:%@", update_sql);
-                [db executeUpdate:update_sql, answers, [NSNumber numberWithBool:isRight],score,[NSNumber numberWithInteger:useTimes],[NSDate date], itemRecordId];
+                NSDateFormatter *dtFormat = [[NSDateFormatter alloc] init];
+                [dtFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                NSString *lastTime = [dtFormat stringFromDate:[NSDate date]];
+                [db executeUpdate:update_sql, answers, [NSNumber numberWithBool:isRight],score,[NSNumber numberWithInteger:useTimes],lastTime, itemRecordId];
             }else{//新增
                 itemRecordId = [[NSUUID UUID] UUIDString];
                 //试题密文

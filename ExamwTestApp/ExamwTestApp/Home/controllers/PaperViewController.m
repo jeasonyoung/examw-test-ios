@@ -16,6 +16,8 @@
 
 #import "DMLazyScrollView.h"
 
+#import "PaperExitAlertView.h"
+
 #import "PaperItemViewController.h"
 #import "AnswerCardViewController.h"
 
@@ -24,19 +26,20 @@
 #define __kPaperViewController_tag_btnFavorite 0x03//收藏
 
 //试卷控制器成员变量
-@interface PaperViewController ()<DMLazyScrollViewDelegate>{
-    NSString *_paperId,*_paperRecordId;
-    PaperService *_service;
+@interface PaperViewController ()<DMLazyScrollViewDelegate,PaperExitAlertViewDelegate>{
+    NSString *_paperId,*_paperRecordId,*_itemIndex;
     PaperModel *_paperModel;
-    
+    //
     NSUInteger _itemOrder;
-    
+    //
     BOOL _displayAnswer,_isLoaded;
     UIImage *_imgFavoriteNormal,*_imgFavoriteHighlight;
-    
+    //
     DMLazyScrollView *_lazyScrollView;
     NSMutableArray *_itemsArrays;
     NSMutableDictionary *_controllers;
+    //
+    PaperExitAlertView *_exitAlert;
 }
 @end
 //试卷控制器实现
@@ -62,6 +65,17 @@
 #pragma mark 初始化
 -(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId{
     return [self initWithPaperId:paperId andPaperRecordId:recordId andDisplayAnswer:NO];
+}
+
+//试卷服务
+-(PaperService *)paperService{
+    static PaperService *_paperService;
+    if(!_paperService){
+        //初始化试卷服务
+        NSLog(@"初始化试卷服务...");
+        _paperService = [[PaperService alloc] init];
+    }
+    return _paperService;
 }
 
 #pragma mark UI入口
@@ -90,6 +104,20 @@
 //左边按钮点击事件
 -(void)btnBarLeftClick:(UIBarButtonItem *)sender{
     NSLog(@"左边按钮点击:%@...",sender);
+    _exitAlert = [[PaperExitAlertView alloc] init];
+    _exitAlert.delegate = self;
+    [_exitAlert showAlert];
+}
+
+#pragma mark PaperExitAlertViewDelegate
+//交卷
+-(void)submitAlertView:(PaperExitAlertView *)alertView{
+    NSLog(@"提交试卷...");
+}
+//下次再做
+-(void)nextAlertView:(PaperExitAlertView *)alertView{
+    NSLog(@"下次再做...");
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 //右边按钮点击事件
@@ -151,7 +179,6 @@
 //收藏
 -(void)btnBarFavoriteClick:(UIBarButtonItem *)sender{
     NSLog(@"收藏:%@...",sender);
-    //sender.title = (arc4random() % 2 == 0 ? @"取消收藏" : @"收藏");
     if(_lazyScrollView){
         UINavigationController *navController = (UINavigationController *)[_lazyScrollView visibleViewController];
         if(!navController){
@@ -178,9 +205,7 @@
     //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"异步线程加载试卷数据...");
-        //初始化试卷服务
-        _service = [[PaperService alloc] init];
-        _paperModel = [_service loadPaperModelWithPaperId:_paperId];
+        _paperModel = [[self paperService] loadPaperModelWithPaperId:_paperId];
         if(_paperModel && _paperModel.total > 0 && _paperModel.structures){
             //初始化试题
             _itemsArrays = [NSMutableArray arrayWithCapacity:_paperModel.total];
@@ -201,6 +226,13 @@
                     for(NSUInteger index = 0; index < item.count; index++){
                         //试题索引
                         item.index = index;
+                        if(_itemIndex && _itemIndex.length > 0){
+                            //试题索引
+                            NSString *itemOrderIndex = [NSString stringWithFormat:@"%@$%d", item.itemId, (int)index];
+                            if([_itemIndex isEqualToString:itemOrderIndex]){
+                                _itemOrder = _itemsArrays.count;
+                            }
+                        }
                         //添加试题数据
                         [_itemsArrays addObject:item];
                     }
@@ -228,7 +260,7 @@
             _lazyScrollView.numberOfPages = _itemsArrays.count;
             //设置到指定的题序
             if(_itemOrder > 0){
-                [_lazyScrollView setPage:_itemOrder animated:YES];
+                [_lazyScrollView setPage:_itemOrder animated:NO];
             }
         });
     });
@@ -246,6 +278,16 @@
             [_lazyScrollView setPage:_itemOrder animated:YES];
         }
     }
+}
+
+#pragma mark 根据做题记录继续
+-(void)loadRecordContinue{
+    if(!_paperRecordId || _paperRecordId.length == 0)return;
+    //异步线程加载数据
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"根据做题记录继续...");
+        _itemIndex = [[self paperService] loadNewsItemIndexWithPaperRecordId:_paperRecordId];
+    });
 }
 
 //加载试题数据
@@ -292,7 +334,7 @@
                 [itemController start];
             }
             //查询是否收藏
-            BOOL isFavorite = [_service exitFavoriteWithItemId:itemModel.itemId];
+            BOOL isFavorite = [[self paperService] exitFavoriteWithItemId:itemModel.itemId];
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.title = itemModel.structureTitle;
                 NSArray *toolbars = self.toolbarItems;

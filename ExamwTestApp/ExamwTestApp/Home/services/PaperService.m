@@ -208,8 +208,11 @@
                 //执行SQL
                 [db executeUpdate:insert_sql,record.Id,record.paperId,[NSNumber numberWithBool:NO],@0,@0,@0];
             }else{//更新
+                NSDateFormatter *dtFormat = [[NSDateFormatter alloc] init];
+                [dtFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                NSString *lastTime = [dtFormat stringFromDate:[NSDate date]];
                 //执行SQL
-                [db executeUpdate:update_sql,[NSDate date],record.Id];
+                [db executeUpdate:update_sql,lastTime,record.Id];
             }
         }
         @catch (NSException *exception) {
@@ -250,5 +253,19 @@
         }];
     }
     return result;
+}
+
+#pragma mark 加载最新试题记录
+-(NSString *)loadNewsItemIndexWithPaperRecordId:(NSString *)recordId{
+    __block NSString *itemIndex = nil;
+    if(_dbQueue && recordId && recordId.length > 0){
+        NSLog(@"加载最新试卷[%@]的试题记录...", recordId);
+        static NSString *query_sql = @"SELECT itemId FROM tbl_itemRecords WHERE paperRecordId = ? ORDER BY lastTime desc,createTime desc limit 0,1";
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            NSLog(@"exec-sql:%@",query_sql);
+            itemIndex = [db stringForQuery:query_sql, recordId];
+        }];
+    }
+    return itemIndex;
 }
 @end

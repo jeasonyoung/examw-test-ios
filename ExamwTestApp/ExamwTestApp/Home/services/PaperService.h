@@ -37,4 +37,7 @@
 
 //试题是否在记录中存在
 -(BOOL)exitRecordWithPaperRecordId:(NSString *)paperRecordId itemModel:(PaperItemModel *)model;
+
+//加载最新试题记录
+-(NSString *)loadNewsItemIndexWithPaperRecordId:(NSString *)recordId;
 @end

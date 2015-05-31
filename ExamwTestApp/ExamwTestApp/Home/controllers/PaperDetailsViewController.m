@@ -72,8 +72,6 @@
     self.title = __kPaperDetailsViewController_title;
     //初始化数据源
     _dataSource = [NSMutableArray arrayWithCapacity:3];
-    //初始化试卷服务
-    _service = [[PaperService alloc] init];
     //开启等待动画
     _waitHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     _waitHud.color = [UIColor colorWithHex:0xD3D3D3];
@@ -87,6 +85,8 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //异步加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //初始化试卷服务
+        _service = [[PaperService alloc] init];
         //加载数据
         _paperModel = [_service loadPaperModelWithPaperId:_infoModel.Id];
         NSLog(@"paperModel=>%@",_paperModel);
@@ -147,6 +147,7 @@
                 return;
             }
             controller = [[PaperViewController alloc] initWithPaperId:_infoModel.Id andPaperRecordId:_recordModel.Id];
+            [(PaperViewController *)controller loadRecordContinue];
             break;
         }
         case 4:{//查看成绩
