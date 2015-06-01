@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 //收藏/错题视图控制器
-@interface FavoritesViewController : UIViewController
+@interface FavoritesViewController : UITableViewController
 
 @end

@@ -47,4 +47,10 @@
 
 //加载考试结果数据
 -(PaperResultModel *)loadPaperResultWithPaperRecordId:(NSString *)paperRecordId;
+
+//加载错题记录
+-(NSArray *)totalErrorRecords;
+
+//加载收藏记录
+-(NSArray *)totalFavoriteRecords;
 @end

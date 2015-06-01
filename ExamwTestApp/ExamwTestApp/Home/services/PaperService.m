@@ -355,4 +355,42 @@
     }
     return resultModel;
 }
+
+#pragma mark 加载错题记录
+-(NSArray *)totalErrorRecords{
+    __block NSMutableArray *arrays = nil;
+    if(_dbQueue){
+        static NSString *total_sql = @"SELECT COUNT(a.id) as total,d.code,d.name FROM tbl_itemRecords a LEFT OUTER JOIN tbl_paperRecords b ON b.id = a.paperRecordId LEFT OUTER JOIN tbl_papers c ON c.id = b.paperId LEFT OUTER JOIN tbl_subjects d ON d.code = c.subjectCode WHERE a.status = 0 group by d.code,d.name";
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            arrays = [NSMutableArray array];
+            FMResultSet *rs = [db executeQuery:total_sql];
+            while ([rs next]) {
+                [arrays addObject:@{@"subjectId":[rs stringForColumn:@"code"],
+                                    @"subjectName":[rs stringForColumn:@"name"],
+                                    @"total" : [NSNumber numberWithInt:[rs intForColumn:@"total"]]}];
+            }
+            [rs close];
+        }];
+    }
+    return arrays;
+}
+
+#pragma mark 加载收藏记录
+-(NSArray *)totalFavoriteRecords{
+    __block NSMutableArray *arrays = nil;
+    if(_dbQueue){
+        static NSString *total_sql = @"select count(a.itemId) as total,b.code,b.name from tbl_favorites a left outer join tbl_subjects b on b.code = a.subjectCode group by b.code,b.name";
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            arrays = [NSMutableArray array];
+            FMResultSet *rs = [db executeQuery:total_sql];
+            while ([rs next]) {
+                [arrays addObject:@{@"subjectId":[rs stringForColumn:@"code"],
+                                    @"subjectName":[rs stringForColumn:@"name"],
+                                    @"total" : [NSNumber numberWithInt:[rs intForColumn:@"total"]]}];
+            }
+            [rs close];
+        }];
+    }
+    return arrays;
+}
 @end

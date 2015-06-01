@@ -64,7 +64,7 @@
         _itemOrder = 0;
         
         //初始化收藏图片
-        _imgFavoriteNormal = [UIImage imageNamed:@"btnNext.png"];//[UIImage imageNamed:@"btnFavoriteNormal.png"];
+        _imgFavoriteNormal = [UIImage imageNamed:@"btnFavoriteNormal.png"];
         _imgFavoriteHighlight = [UIImage imageNamed:@"btnFavoriteHighlight.png"];
     }
     return self;
@@ -182,9 +182,11 @@
                                                                target:self action:@selector(btnBarNextClick:)];
     btnNext.tag = __kPaperViewController_tag_btnNext;
     //收藏
-    UIBarButtonItem *btnFavorite = [[UIBarButtonItem alloc] initWithImage:_imgFavoriteNormal
-                                                                    style:UIBarButtonItemStyleBordered
-                                                                   target:self action:@selector(btnBarFavoriteClick:)];
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+    btn.frame = CGRectMake(0, 0, 20, 20);
+    [btn setImage:_imgFavoriteNormal forState:UIControlStateNormal];
+    [btn addTarget:self action:@selector(btnBarFavoriteClick:) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *btnFavorite = [[UIBarButtonItem alloc] initWithCustomView:btn];
     btnFavorite.tag = __kPaperViewController_tag_btnFavorite;
     
     //分隔平均填充
@@ -231,7 +233,7 @@
     }
 }
 //收藏
--(void)btnBarFavoriteClick:(UIBarButtonItem *)sender{
+-(void)btnBarFavoriteClick:(UIButton *)sender{
     NSLog(@"收藏:%@...",sender);
     if(_lazyScrollView){
         UINavigationController *navController = (UINavigationController *)[_lazyScrollView visibleViewController];
@@ -247,8 +249,9 @@
         [itemController favoriteItem:^(BOOL result) {
             NSLog(@"收藏结果:%d", result);
             dispatch_async(dispatch_get_main_queue(), ^{
-                sender.image = (result ? _imgFavoriteHighlight : _imgFavoriteNormal);
-                NSLog(@"1.current-image:%@,h:%@,n:%@",sender.image, _imgFavoriteHighlight, _imgFavoriteNormal);
+                //sender.image = (result ? _imgFavoriteHighlight : _imgFavoriteNormal);
+                [sender setImage:(result ? _imgFavoriteHighlight : _imgFavoriteNormal) forState:UIControlStateNormal];
+                //NSLog(@"1.current-image:%@,h:%@,n:%@",sender.image, _imgFavoriteHighlight, _imgFavoriteNormal);
             });
         }];
     }
@@ -415,8 +418,12 @@
                                 break;
                             }
                             case __kPaperViewController_tag_btnFavorite:{//收藏
-                                bar.image = isFavorite ? _imgFavoriteHighlight : _imgFavoriteNormal;
-                                NSLog(@"0.current-image:%@,h:%@,n:%@",bar.image, _imgFavoriteHighlight, _imgFavoriteNormal);
+                                UIButton *btn = (UIButton *)bar.customView;
+                                if(btn){
+                                    [btn setImage:(isFavorite ? _imgFavoriteHighlight : _imgFavoriteNormal)
+                                         forState:UIControlStateNormal];
+                                }
+                                //NSLog(@"0.current-image:%@,h:%@,n:%@",bar.image, _imgFavoriteHighlight, _imgFavoriteNormal);
                                 break;
                             }
                         }

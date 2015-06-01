@@ -48,6 +48,9 @@
 		A17098FE1B0599910083AF01 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098FA1B0599910083AF01 /* CategoryViewController.m */; };
 		A17098FF1B0599910083AF01 /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098FC1B0599910083AF01 /* SwitchViewController.m */; };
 		A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = A17099051B05DF290083AF01 /* XHRealTimeBlur.m */; };
+		A18E193E1B1C97E800210968 /* PaperSegmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A18E193D1B1C97E800210968 /* PaperSegmentModel.m */; };
+		A18E19411B1CA4CA00210968 /* PaperSegmentModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A18E19401B1CA4CA00210968 /* PaperSegmentModelCellFrame.m */; };
+		A18E19441B1CADBF00210968 /* PaperSegmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A18E19431B1CADBF00210968 /* PaperSegmentTableViewCell.m */; };
 		A1936C941B0ED80900C59A06 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936C931B0ED80900C59A06 /* MainViewController.m */; };
 		A1936C961B0F0A4500C59A06 /* mainBottomMenus.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1936C951B0F0A4500C59A06 /* mainBottomMenus.plist */; };
 		A1936C991B0F0CD700C59A06 /* BottomMenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936C981B0F0CD700C59A06 /* BottomMenuModel.m */; };
@@ -85,6 +88,7 @@
 		A1A528CE1B1C02BF00A8637F /* PaperResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A528CD1B1C02BF00A8637F /* PaperResultModel.m */; };
 		A1A528D11B1C0AAF00A8637F /* PaperResultModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A528D01B1C0AAF00A8637F /* PaperResultModelCellFrame.m */; };
 		A1A528D41B1C306700A8637F /* PaperResultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A528D31B1C306700A8637F /* PaperResultTableViewCell.m */; };
+		A1A528DA1B1C592100A8637F /* btnFavoriteNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A528D91B1C592100A8637F /* btnFavoriteNormal.png */; };
 		A1A623D11B1B49F100637525 /* PaperExitAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A623D01B1B49F100637525 /* PaperExitAlertView.m */; };
 		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
 		A1B7F6A11B1360B700DF8834 /* PaperTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B7F6A01B1360B700DF8834 /* PaperTitleModel.m */; };
@@ -95,7 +99,6 @@
 		A1BBC9DD1B1013B8005A1FD3 /* PaperItemModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BBC9DC1B1013B8005A1FD3 /* PaperItemModel.m */; };
 		A1BBC9E01B102BC0005A1FD3 /* PaperStructureModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BBC9DF1B102BC0005A1FD3 /* PaperStructureModel.m */; };
 		A1BD6FDF1B19413100A754B7 /* btnFavoriteHighlight.png in Resources */ = {isa = PBXBuildFile; fileRef = A1BD6FDD1B19413100A754B7 /* btnFavoriteHighlight.png */; };
-		A1BD6FE01B19413100A754B7 /* btnFavoriteNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = A1BD6FDE1B19413100A754B7 /* btnFavoriteNormal.png */; };
 		A1BD6FE61B195AD600A754B7 /* AnswerCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BD6FE51B195AD600A754B7 /* AnswerCardViewController.m */; };
 		A1BD6FE91B196D1D00A754B7 /* AnswerCardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BD6FE81B196D1D00A754B7 /* AnswerCardModel.m */; };
 		A1BD6FEC1B19720400A754B7 /* AnswerCardSectionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BD6FEB1B19720400A754B7 /* AnswerCardSectionModel.m */; };
@@ -240,6 +243,12 @@
 		A17098FD1B0599910083AF01 /* SwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwitchViewController.h; path = SwitchProduct/controllers/SwitchViewController.h; sourceTree = "<group>"; };
 		A17099041B05DF290083AF01 /* XHRealTimeBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XHRealTimeBlur.h; path = libs/XHRealTimeBlur/XHRealTimeBlur.h; sourceTree = "<group>"; };
 		A17099051B05DF290083AF01 /* XHRealTimeBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XHRealTimeBlur.m; path = libs/XHRealTimeBlur/XHRealTimeBlur.m; sourceTree = "<group>"; };
+		A18E193C1B1C97E800210968 /* PaperSegmentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperSegmentModel.h; path = Home/models/PaperSegmentModel.h; sourceTree = "<group>"; };
+		A18E193D1B1C97E800210968 /* PaperSegmentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperSegmentModel.m; path = Home/models/PaperSegmentModel.m; sourceTree = "<group>"; };
+		A18E193F1B1CA4CA00210968 /* PaperSegmentModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperSegmentModelCellFrame.h; path = Home/models/PaperSegmentModelCellFrame.h; sourceTree = "<group>"; };
+		A18E19401B1CA4CA00210968 /* PaperSegmentModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperSegmentModelCellFrame.m; path = Home/models/PaperSegmentModelCellFrame.m; sourceTree = "<group>"; };
+		A18E19421B1CADBF00210968 /* PaperSegmentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperSegmentTableViewCell.h; path = Home/views/PaperSegmentTableViewCell.h; sourceTree = "<group>"; };
+		A18E19431B1CADBF00210968 /* PaperSegmentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperSegmentTableViewCell.m; path = Home/views/PaperSegmentTableViewCell.m; sourceTree = "<group>"; };
 		A1936C921B0ED80900C59A06 /* MainViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MainViewController.h; path = Home/controllers/MainViewController.h; sourceTree = "<group>"; };
 		A1936C931B0ED80900C59A06 /* MainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MainViewController.m; path = Home/controllers/MainViewController.m; sourceTree = "<group>"; };
 		A1936C951B0F0A4500C59A06 /* mainBottomMenus.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mainBottomMenus.plist; sourceTree = "<group>"; };
@@ -306,6 +315,7 @@
 		A1A528D01B1C0AAF00A8637F /* PaperResultModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperResultModelCellFrame.m; path = Home/models/PaperResultModelCellFrame.m; sourceTree = "<group>"; };
 		A1A528D21B1C306700A8637F /* PaperResultTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperResultTableViewCell.h; path = Home/views/PaperResultTableViewCell.h; sourceTree = "<group>"; };
 		A1A528D31B1C306700A8637F /* PaperResultTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperResultTableViewCell.m; path = Home/views/PaperResultTableViewCell.m; sourceTree = "<group>"; };
+		A1A528D91B1C592100A8637F /* btnFavoriteNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btnFavoriteNormal.png; path = images/btnFavoriteNormal.png; sourceTree = "<group>"; };
 		A1A623CF1B1B49F100637525 /* PaperExitAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperExitAlertView.h; path = Home/views/PaperExitAlertView.h; sourceTree = "<group>"; };
 		A1A623D01B1B49F100637525 /* PaperExitAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperExitAlertView.m; path = Home/views/PaperExitAlertView.m; sourceTree = "<group>"; };
 		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
@@ -325,7 +335,6 @@
 		A1BBC9DE1B102BC0005A1FD3 /* PaperStructureModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperStructureModel.h; path = Home/models/PaperStructureModel.h; sourceTree = "<group>"; };
 		A1BBC9DF1B102BC0005A1FD3 /* PaperStructureModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperStructureModel.m; path = Home/models/PaperStructureModel.m; sourceTree = "<group>"; };
 		A1BD6FDD1B19413100A754B7 /* btnFavoriteHighlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btnFavoriteHighlight.png; path = images/btnFavoriteHighlight.png; sourceTree = "<group>"; };
-		A1BD6FDE1B19413100A754B7 /* btnFavoriteNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btnFavoriteNormal.png; path = images/btnFavoriteNormal.png; sourceTree = "<group>"; };
 		A1BD6FE41B195AD600A754B7 /* AnswerCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnswerCardViewController.h; path = Home/controllers/AnswerCardViewController.h; sourceTree = "<group>"; };
 		A1BD6FE51B195AD600A754B7 /* AnswerCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AnswerCardViewController.m; path = Home/controllers/AnswerCardViewController.m; sourceTree = "<group>"; };
 		A1BD6FE71B196D1D00A754B7 /* AnswerCardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AnswerCardModel.h; path = Home/models/AnswerCardModel.h; sourceTree = "<group>"; };
@@ -642,6 +651,10 @@
 				A1A528CD1B1C02BF00A8637F /* PaperResultModel.m */,
 				A1A528CF1B1C0AAF00A8637F /* PaperResultModelCellFrame.h */,
 				A1A528D01B1C0AAF00A8637F /* PaperResultModelCellFrame.m */,
+				A18E193C1B1C97E800210968 /* PaperSegmentModel.h */,
+				A18E193D1B1C97E800210968 /* PaperSegmentModel.m */,
+				A18E193F1B1CA4CA00210968 /* PaperSegmentModelCellFrame.h */,
+				A18E19401B1CA4CA00210968 /* PaperSegmentModelCellFrame.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -702,6 +715,8 @@
 				A1A528C81B1BE13E00A8637F /* PaperSubmitAlertView.m */,
 				A1A528D21B1C306700A8637F /* PaperResultTableViewCell.h */,
 				A1A528D31B1C306700A8637F /* PaperResultTableViewCell.m */,
+				A18E19421B1CADBF00210968 /* PaperSegmentTableViewCell.h */,
+				A18E19431B1CADBF00210968 /* PaperSegmentTableViewCell.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -749,7 +764,7 @@
 				A12547821B18A948002E83C3 /* btnNext.png */,
 				A12547831B18A948002E83C3 /* btnPrev.png */,
 				A1BD6FDD1B19413100A754B7 /* btnFavoriteHighlight.png */,
-				A1BD6FDE1B19413100A754B7 /* btnFavoriteNormal.png */,
+				A1A528D91B1C592100A8637F /* btnFavoriteNormal.png */,
 				A1A528CA1B1BEBC300A8637F /* btnSubmit.png */,
 				A1A478F11B169687000B7E22 /* option_error.png */,
 				A1A478F21B169687000B7E22 /* option_multy_normal.png */,
@@ -1047,8 +1062,8 @@
 				A1A478F71B169687000B7E22 /* option_error.png in Resources */,
 				A1A478F91B169687000B7E22 /* option_multy_selected.png in Resources */,
 				A1A478FB1B169687000B7E22 /* option_single_normal.png in Resources */,
-				A1BD6FE01B19413100A754B7 /* btnFavoriteNormal.png in Resources */,
 				A1F7242D1B02F88A0023A3C8 /* Images.xcassets in Resources */,
+				A1A528DA1B1C592100A8637F /* btnFavoriteNormal.png in Resources */,
 				A1A528CB1B1BEBC300A8637F /* btnSubmit.png in Resources */,
 				A1936C961B0F0A4500C59A06 /* mainBottomMenus.plist in Resources */,
 			);
@@ -1096,6 +1111,7 @@
 				A17098EE1B0581C00083AF01 /* MJRefreshLegendFooter.m in Sources */,
 				A1F724C91B0305C00023A3C8 /* FMDatabase.m in Sources */,
 				A1C6AD521B0C31000002BE81 /* ProductTableViewCell.m in Sources */,
+				A18E19441B1CADBF00210968 /* PaperSegmentTableViewCell.m in Sources */,
 				A1F724B71B02FEED0023A3C8 /* HttpUtils.m in Sources */,
 				A1B7F6A11B1360B700DF8834 /* PaperTitleModel.m in Sources */,
 				A1A478FF1B16A6A5000B7E22 /* PaperItemAnalysisModelCellFrame.m in Sources */,
@@ -1118,6 +1134,7 @@
 				A10F5FBF1B0E383000BD0491 /* PaperUtils.m in Sources */,
 				A13BB7811B0971B10063C64B /* ProductModel.m in Sources */,
 				A1C6AD7B1B0C74770002BE81 /* AFHTTPRequestOperationManager.m in Sources */,
+				A18E19411B1CA4CA00210968 /* PaperSegmentModelCellFrame.m in Sources */,
 				A1F724D71B0342330023A3C8 /* SecureUtils.m in Sources */,
 				A1BD6FEF1B19888A00A754B7 /* AnswerCardSectionModelCellFrame.m in Sources */,
 				A1185FA41B1324950099F910 /* PaperRecordModel.m in Sources */,
@@ -1154,6 +1171,7 @@
 				A13BB78B1B0AE6A40063C64B /* CategoryModelCellFrame.m in Sources */,
 				A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */,
 				A1936CA81B0F1C7F00C59A06 /* MoreViewController.m in Sources */,
+				A18E193E1B1C97E800210968 /* PaperSegmentModel.m in Sources */,
 				A1A623D11B1B49F100637525 /* PaperExitAlertView.m in Sources */,
 				A13BB7921B0B0B7F0063C64B /* CategoryTableViewCell.m in Sources */,
 				A1A478C31B155B97000B7E22 /* DMLazyScrollView.m in Sources */,
