@@ -412,7 +412,12 @@
                 //UpdateUI
                 if(reloadIndexPaths.count > 0){
                     dispatch_async(dispatch_get_main_queue(), ^{
+                        //刷新UI
                         [tableView reloadRowsAtIndexPaths:reloadIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+                        //触发单选代理
+                        if(_delegate && [_delegate respondsToSelector:@selector(itemViewController:singleClickOrder:)]){
+                            [_delegate itemViewController:self singleClickOrder:_order];
+                        }
                     });
                 }
             }else{//多选

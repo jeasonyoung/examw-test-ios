@@ -155,7 +155,7 @@
                 NSLog(@"试卷记录不存在...");
                 return;
             }
-            controller = [PaperResultViewController resultControllerWithPaperRecordId:_recordModel.Id];
+            controller = [[PaperResultViewController alloc] initWithPaperId:_infoModel.Id andPaperRecordId:_recordModel.Id];
             break;
         }
         default:{

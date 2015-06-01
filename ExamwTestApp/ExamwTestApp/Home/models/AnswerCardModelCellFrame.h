@@ -20,11 +20,8 @@
 //序号Frame
 @property(nonatomic,assign,readonly)CGRect orderFrame;
 
-//序号状态
-@property(nonatomic,assign,readonly)BOOL status;
-
-//Cell高度
-//@property(nonatomic,assign,readonly)CGSize cellSize;
+//背景色
+@property(nonatomic,readonly)UIColor *orderBgColor;
 
 //序号数据模型
 @property(nonatomic,copy)AnswerCardModel *model;

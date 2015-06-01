@@ -9,12 +9,9 @@
 #import <UIKit/UIKit.h>
 
 //试卷结果视图控制器
-@interface PaperResultViewController : UIViewController
+@interface PaperResultViewController : UITableViewController
 
 //初始化
--(instancetype)initWithPaperRecordId:(NSString *)recordId;
-
-//静态初始化
-+(instancetype)resultControllerWithPaperRecordId:(NSString *)recordId;
+-(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId;
 
 @end

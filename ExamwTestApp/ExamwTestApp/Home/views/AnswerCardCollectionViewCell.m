@@ -13,15 +13,14 @@
 #import "UIColor+Hex.h"
 #import "EffectsUtils.h"
 
-#define __kAnswerCardCollectionViewCell_hasColor 0x1E90FF//已做
-#define __kAnswerCardCollectionViewCell_nonColor 0xFFFFFF//未做
+
 #define __kAnswerCardCollectionViewCell_borderColor 0x1E90FF//边框颜色
 #define __kAnswerCardCollectionViewCell_normalFontColor 0x696969//字体颜色
 #define __kAnswerCardCollectionViewCell_highlightFontColor 0xFFDEAD//高亮字体颜色
 //答题卡集合Cell成员变量
 @interface AnswerCardCollectionViewCell (){
     UIButton *_btnOrder;
-    UIColor *_hasColor,*_nonColor,*_borderColor;
+    UIColor *_borderColor;
 }
 @end
 //答题卡集合Cell实现
@@ -37,10 +36,6 @@
 
 //初始化组件
 -(void)initializationComponents{
-    //已做背景色
-    _hasColor = [UIColor colorWithHex:__kAnswerCardCollectionViewCell_hasColor];
-    //未做背景色
-    _nonColor = [UIColor colorWithHex:__kAnswerCardCollectionViewCell_nonColor];
     //边框颜色
     _borderColor = [UIColor colorWithHex:__kAnswerCardCollectionViewCell_borderColor];
     
@@ -66,9 +61,7 @@
     _btnOrder.frame = cellFrame.orderFrame;
     [_btnOrder setTitle:cellFrame.order forState:UIControlStateNormal];
     //
-    UIColor *bgColor = (cellFrame.status ? _hasColor : _nonColor);
-    [EffectsUtils addBoundsRadiusWithView:self BorderColor:_borderColor BackgroundColor:bgColor];
-    
+    [EffectsUtils addBoundsRadiusWithView:self BorderColor:_borderColor BackgroundColor:cellFrame.orderBgColor];
     //
     if(cellFrame.model){
         _btnOrder.tag = cellFrame.model.order;

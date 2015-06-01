@@ -34,6 +34,7 @@
 @interface AnswerCardViewController ()<UICollectionViewDelegateFlowLayout,AnswerCardCollectionViewCellDelegate>{
     //试卷ID/试卷记录ID
     NSString *_paperId,*_paperRecordId;
+    BOOL _displayAnswer;
     //分组数据源
     NSMutableArray *_sectionSource;
     //数据源
@@ -50,11 +51,12 @@
 @implementation AnswerCardViewController
 
 #pragma mark 初始化
--(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId{
+-(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId andDisplayAnswer:(BOOL)display{
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     if(self = [super initWithCollectionViewLayout:flowLayout]){
         _paperId = paperId;
         _paperRecordId = recordId;
+        _displayAnswer = display;
     }
     return self;
 }
@@ -132,10 +134,10 @@
                         for(NSUInteger index = 0; index < itemModel.count; index++){
                             itemModel.index = index;
                             //查询试题是否存在
-                            BOOL status = [_paperService exitRecordWithPaperRecordId:_paperRecordId itemModel:itemModel];
+                            NSUInteger status = [_paperService exitRecordWithPaperRecordId:_paperRecordId itemModel:itemModel];
                             //初始化Cell Frame
                             AnswerCardModelCellFrame *itemFrame = [[AnswerCardModelCellFrame alloc] init];
-                            itemFrame.model = [[AnswerCardModel alloc] initWithOrder:order status:status];
+                            itemFrame.model = [[AnswerCardModel alloc] initWithOrder:order status:status displayAnswer:_displayAnswer];
                             //添加到数组
                             [itemsArrays addObject:itemFrame];
                             //序号

@@ -82,6 +82,9 @@
 		A1A4790B1B174EBB000B7E22 /* PaperRecordService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A4790A1B174EBB000B7E22 /* PaperRecordService.m */; };
 		A1A528C91B1BE13E00A8637F /* PaperSubmitAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A528C81B1BE13E00A8637F /* PaperSubmitAlertView.m */; };
 		A1A528CB1B1BEBC300A8637F /* btnSubmit.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A528CA1B1BEBC300A8637F /* btnSubmit.png */; };
+		A1A528CE1B1C02BF00A8637F /* PaperResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A528CD1B1C02BF00A8637F /* PaperResultModel.m */; };
+		A1A528D11B1C0AAF00A8637F /* PaperResultModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A528D01B1C0AAF00A8637F /* PaperResultModelCellFrame.m */; };
+		A1A528D41B1C306700A8637F /* PaperResultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A528D31B1C306700A8637F /* PaperResultTableViewCell.m */; };
 		A1A623D11B1B49F100637525 /* PaperExitAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A623D01B1B49F100637525 /* PaperExitAlertView.m */; };
 		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
 		A1B7F6A11B1360B700DF8834 /* PaperTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B7F6A01B1360B700DF8834 /* PaperTitleModel.m */; };
@@ -297,6 +300,12 @@
 		A1A528C71B1BE13E00A8637F /* PaperSubmitAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperSubmitAlertView.h; path = Home/views/PaperSubmitAlertView.h; sourceTree = "<group>"; };
 		A1A528C81B1BE13E00A8637F /* PaperSubmitAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperSubmitAlertView.m; path = Home/views/PaperSubmitAlertView.m; sourceTree = "<group>"; };
 		A1A528CA1B1BEBC300A8637F /* btnSubmit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btnSubmit.png; path = images/btnSubmit.png; sourceTree = "<group>"; };
+		A1A528CC1B1C02BF00A8637F /* PaperResultModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperResultModel.h; path = Home/models/PaperResultModel.h; sourceTree = "<group>"; };
+		A1A528CD1B1C02BF00A8637F /* PaperResultModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperResultModel.m; path = Home/models/PaperResultModel.m; sourceTree = "<group>"; };
+		A1A528CF1B1C0AAF00A8637F /* PaperResultModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperResultModelCellFrame.h; path = Home/models/PaperResultModelCellFrame.h; sourceTree = "<group>"; };
+		A1A528D01B1C0AAF00A8637F /* PaperResultModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperResultModelCellFrame.m; path = Home/models/PaperResultModelCellFrame.m; sourceTree = "<group>"; };
+		A1A528D21B1C306700A8637F /* PaperResultTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperResultTableViewCell.h; path = Home/views/PaperResultTableViewCell.h; sourceTree = "<group>"; };
+		A1A528D31B1C306700A8637F /* PaperResultTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperResultTableViewCell.m; path = Home/views/PaperResultTableViewCell.m; sourceTree = "<group>"; };
 		A1A623CF1B1B49F100637525 /* PaperExitAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperExitAlertView.h; path = Home/views/PaperExitAlertView.h; sourceTree = "<group>"; };
 		A1A623D01B1B49F100637525 /* PaperExitAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperExitAlertView.m; path = Home/views/PaperExitAlertView.m; sourceTree = "<group>"; };
 		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
@@ -629,6 +638,10 @@
 				A1BD6FEB1B19720400A754B7 /* AnswerCardSectionModel.m */,
 				A1BD6FED1B19888A00A754B7 /* AnswerCardSectionModelCellFrame.h */,
 				A1BD6FEE1B19888A00A754B7 /* AnswerCardSectionModelCellFrame.m */,
+				A1A528CC1B1C02BF00A8637F /* PaperResultModel.h */,
+				A1A528CD1B1C02BF00A8637F /* PaperResultModel.m */,
+				A1A528CF1B1C0AAF00A8637F /* PaperResultModelCellFrame.h */,
+				A1A528D01B1C0AAF00A8637F /* PaperResultModelCellFrame.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -687,6 +700,8 @@
 				A1A623D01B1B49F100637525 /* PaperExitAlertView.m */,
 				A1A528C71B1BE13E00A8637F /* PaperSubmitAlertView.h */,
 				A1A528C81B1BE13E00A8637F /* PaperSubmitAlertView.m */,
+				A1A528D21B1C306700A8637F /* PaperResultTableViewCell.h */,
+				A1A528D31B1C306700A8637F /* PaperResultTableViewCell.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -1115,6 +1130,7 @@
 				A1A478D61B15F3D0000B7E22 /* PaperItemTitleModel.m in Sources */,
 				A1936C9F1B0F1B6E00C59A06 /* HomeViewController.m in Sources */,
 				A1CA97EC1B0F874F003006F2 /* PaperInfoViewController.m in Sources */,
+				A1A528D11B1C0AAF00A8637F /* PaperResultModelCellFrame.m in Sources */,
 				A1C6AD871B0C74770002BE81 /* UIImageView+AFNetworking.m in Sources */,
 				A1185F9E1B12F6B00099F910 /* PaperDetailsViewController.m in Sources */,
 				A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */,
@@ -1130,6 +1146,7 @@
 				A1A479051B16C16F000B7E22 /* PaperItemOptTableViewCell.m in Sources */,
 				A1C6AD7D1B0C74770002BE81 /* AFNetworkActivityIndicatorManager.m in Sources */,
 				A1936C991B0F0CD700C59A06 /* BottomMenuModel.m in Sources */,
+				A1A528CE1B1C02BF00A8637F /* PaperResultModel.m in Sources */,
 				A1A478EF1B160B8D000B7E22 /* PaperItemOptModelCellFrame.m in Sources */,
 				A1F7241F1B02F88A0023A3C8 /* main.m in Sources */,
 				A1A478EC1B160315000B7E22 /* NSString+EMAdditions.m in Sources */,
@@ -1172,6 +1189,7 @@
 				A1A479021B16BF69000B7E22 /* PaperItemTitleTableViewCell.m in Sources */,
 				A13BB7981B0B38B00063C64B /* ExamModelCellFrame.m in Sources */,
 				A1BD6FF81B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.m in Sources */,
+				A1A528D41B1C306700A8637F /* PaperResultTableViewCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

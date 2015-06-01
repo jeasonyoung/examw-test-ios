@@ -32,7 +32,7 @@
 #define __kPaperViewController_tag_btnSubmit 0x04//交卷
 
 //试卷控制器成员变量
-@interface PaperViewController ()<DMLazyScrollViewDelegate,PaperExitAlertViewDelegate,PaperSubmitAlertViewDelegate>{
+@interface PaperViewController ()<DMLazyScrollViewDelegate,PaperExitAlertViewDelegate,PaperSubmitAlertViewDelegate,PaperItemViewControllerDelegate>{
     NSString *_paperId,*_paperRecordId,*_itemIndex;
     PaperModel *_paperModel;
     //
@@ -153,7 +153,7 @@
                 [_waitHud hide:YES];
             }
             //控制器跳转
-            PaperResultViewController *resultController = [PaperResultViewController resultControllerWithPaperRecordId:_paperRecordId];
+            PaperResultViewController *resultController = [[PaperResultViewController alloc] initWithPaperId:_paperId andPaperRecordId:_paperRecordId];
             [self.navigationController pushViewController:resultController animated:YES];
         });
     });
@@ -163,7 +163,7 @@
 -(void)btnBarRightClick:(UIBarButtonItem *)sender{
     NSLog(@"右边按钮点击:%@...",sender);
     AnswerCardViewController *answerCardController = [[AnswerCardViewController alloc] initWithPaperId:_paperId
-                                                                                      andPaperRecordId:_paperRecordId];
+                                                                                      andPaperRecordId:_paperRecordId andDisplayAnswer:_displayAnswer];
     answerCardController.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:answerCardController animated:YES];
 }
@@ -371,6 +371,7 @@
                                                                                                 andOrder:index
                                                                                         andDisplayAnswer:_displayAnswer];
             itemController.PaperRecordId = _paperRecordId;
+            itemController.delegate = self;
             controller = [[UINavigationController alloc]initWithRootViewController:itemController];
             //添加到缓存
             [_controllers setObject:controller forKey:[NSNumber numberWithInteger:index]];
@@ -425,6 +426,13 @@
             });
         }
     });
+}
+
+#pragma mark PaperItemViewControllerDelegate
+//单选点击
+-(void)itemViewController:(PaperItemViewController *)controller singleClickOrder:(NSUInteger)order{
+    NSLog(@"下一题...");
+    [self btnBarNextClick:nil];
 }
 
 #pragma mark 内存告警

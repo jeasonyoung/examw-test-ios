@@ -11,5 +11,5 @@
 //答题卡试图控制器
 @interface AnswerCardViewController : UICollectionViewController
 //初始化
--(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId;
+-(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId andDisplayAnswer:(BOOL)display;
 @end

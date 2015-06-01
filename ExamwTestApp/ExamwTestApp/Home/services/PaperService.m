@@ -14,6 +14,7 @@
 #import "PaperModel.h"
 #import "PaperItemModel.h"
 #import "PaperRecordModel.h"
+#import "PaperResultModel.h"
 
 #import "PaperUtils.h"
 
@@ -240,16 +241,22 @@
     return result;
 }
 
-#pragma mark 试题是否在记录中存在
--(BOOL)exitRecordWithPaperRecordId:(NSString *)paperRecordId itemModel:(PaperItemModel *)model{
-    __block BOOL result = NO;
+#pragma mark 试题是否在记录中存在(0-不存在,1-做对,2-做错)
+-(NSUInteger)exitRecordWithPaperRecordId:(NSString *)paperRecordId itemModel:(PaperItemModel *)model{
+    __block NSUInteger result = 0;
     if(_dbQueue && paperRecordId && paperRecordId.length > 0 && model){
         NSString *itemId = [NSString stringWithFormat:@"%@$%d", model.itemId, (int)model.index];
-        NSLog(@"查找试题[%@]是否在记录[%@]中存在...", itemId, paperRecordId);
-        static NSString *query_sql = @"SELECT count(*) FROM tbl_itemRecords WHERE paperRecordId = ? and itemId = ?";
+        NSLog(@"查找试题[%@]在记录[%@]中存在的状态...", itemId, paperRecordId);
+        static NSString *query_sql = @"SELECT status FROM tbl_itemRecords WHERE paperRecordId = ? and itemId = ? limit 0,1";
         [_dbQueue inDatabase:^(FMDatabase *db) {
             NSLog(@"exec-sql:%@", query_sql);
-            result = ([db intForQuery:query_sql, paperRecordId, itemId] > 0);
+            FMResultSet *rs = [db executeQuery:query_sql, paperRecordId,itemId];
+            while ([rs next]) {
+                BOOL status = [rs boolForColumn:@"status"];
+                result = (status ? 1 : 2);
+                break;
+            }
+            [rs close];
         }];
     }
     return result;
@@ -307,5 +314,45 @@
             }
         }];
     }
+}
+
+#pragma mark 加载考试结果数据
+-(PaperResultModel *)loadPaperResultWithPaperRecordId:(NSString *)paperRecordId{
+    __block PaperResultModel *resultModel;
+    if(_dbQueue && paperRecordId && paperRecordId.length > 0){
+        NSLog(@"加载考试[%@]结果数据...", paperRecordId);
+        static NSString *query_sql = @"SELECT paperId,score,rights,useTimes,createTime,lastTime FROM tbl_paperRecords WHERE id = ? limit 0,1";
+        static NSString *error_sql = @"SELECT count(*) FROM tbl_itemRecords WHERE paperRecordId = ? and status = 0";
+        static NSString *total_sql = @"SELECT total FROM tbl_papers WHERE id = ? limit 0,1";
+        
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            //查询试卷记录信息
+            FMResultSet *rs = [db executeQuery:query_sql, paperRecordId];
+            while ([rs next]) {
+                resultModel = [[PaperResultModel alloc]  init];
+                resultModel.Id = paperRecordId;
+                resultModel.paperId = [rs stringForColumn:@"paperId"];
+                resultModel.score = [NSNumber numberWithDouble:[rs doubleForColumn:@"score"]];
+                resultModel.rights = [rs intForColumn:@"rights"];
+                resultModel.useTimes = [rs longForColumn:@"useTimes"];
+                resultModel.createTime = [rs stringForColumn:@"createTime"];
+                resultModel.lastTime = [rs stringForColumn:@"lastTime"];
+                break;
+            }
+            [rs close];
+            //
+            if(resultModel){
+                //查询错题数
+                resultModel.errors = [db intForQuery:error_sql, paperRecordId];
+                //查询总题数
+                resultModel.total = [db intForQuery:total_sql, resultModel.paperId];
+                //统计未做题
+                if(resultModel.total > resultModel.errors > 0){
+                    resultModel.nots = resultModel.total - resultModel.errors - resultModel.rights;
+                }
+            }
+        }];
+    }
+    return resultModel;
 }
 @end
