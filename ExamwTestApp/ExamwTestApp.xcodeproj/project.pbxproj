@@ -80,6 +80,8 @@
 		A1A479051B16C16F000B7E22 /* PaperItemOptTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A479041B16C16F000B7E22 /* PaperItemOptTableViewCell.m */; };
 		A1A479081B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A479071B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m */; };
 		A1A4790B1B174EBB000B7E22 /* PaperRecordService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A4790A1B174EBB000B7E22 /* PaperRecordService.m */; };
+		A1A528C91B1BE13E00A8637F /* PaperSubmitAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A528C81B1BE13E00A8637F /* PaperSubmitAlertView.m */; };
+		A1A528CB1B1BEBC300A8637F /* btnSubmit.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A528CA1B1BEBC300A8637F /* btnSubmit.png */; };
 		A1A623D11B1B49F100637525 /* PaperExitAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A623D01B1B49F100637525 /* PaperExitAlertView.m */; };
 		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
 		A1B7F6A11B1360B700DF8834 /* PaperTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B7F6A01B1360B700DF8834 /* PaperTitleModel.m */; };
@@ -292,6 +294,9 @@
 		A1A479071B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemAnalysisTableViewCell.m; path = Home/views/PaperItemAnalysisTableViewCell.m; sourceTree = "<group>"; };
 		A1A479091B174EBB000B7E22 /* PaperRecordService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperRecordService.h; path = Home/services/PaperRecordService.h; sourceTree = "<group>"; };
 		A1A4790A1B174EBB000B7E22 /* PaperRecordService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperRecordService.m; path = Home/services/PaperRecordService.m; sourceTree = "<group>"; };
+		A1A528C71B1BE13E00A8637F /* PaperSubmitAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperSubmitAlertView.h; path = Home/views/PaperSubmitAlertView.h; sourceTree = "<group>"; };
+		A1A528C81B1BE13E00A8637F /* PaperSubmitAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperSubmitAlertView.m; path = Home/views/PaperSubmitAlertView.m; sourceTree = "<group>"; };
+		A1A528CA1B1BEBC300A8637F /* btnSubmit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btnSubmit.png; path = images/btnSubmit.png; sourceTree = "<group>"; };
 		A1A623CF1B1B49F100637525 /* PaperExitAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperExitAlertView.h; path = Home/views/PaperExitAlertView.h; sourceTree = "<group>"; };
 		A1A623D01B1B49F100637525 /* PaperExitAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperExitAlertView.m; path = Home/views/PaperExitAlertView.m; sourceTree = "<group>"; };
 		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
@@ -680,6 +685,8 @@
 				A1BD6FF71B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.m */,
 				A1A623CF1B1B49F100637525 /* PaperExitAlertView.h */,
 				A1A623D01B1B49F100637525 /* PaperExitAlertView.m */,
+				A1A528C71B1BE13E00A8637F /* PaperSubmitAlertView.h */,
+				A1A528C81B1BE13E00A8637F /* PaperSubmitAlertView.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -728,6 +735,7 @@
 				A12547831B18A948002E83C3 /* btnPrev.png */,
 				A1BD6FDD1B19413100A754B7 /* btnFavoriteHighlight.png */,
 				A1BD6FDE1B19413100A754B7 /* btnFavoriteNormal.png */,
+				A1A528CA1B1BEBC300A8637F /* btnSubmit.png */,
 				A1A478F11B169687000B7E22 /* option_error.png */,
 				A1A478F21B169687000B7E22 /* option_multy_normal.png */,
 				A1A478F31B169687000B7E22 /* option_multy_selected.png */,
@@ -1026,6 +1034,7 @@
 				A1A478FB1B169687000B7E22 /* option_single_normal.png in Resources */,
 				A1BD6FE01B19413100A754B7 /* btnFavoriteNormal.png in Resources */,
 				A1F7242D1B02F88A0023A3C8 /* Images.xcassets in Resources */,
+				A1A528CB1B1BEBC300A8637F /* btnSubmit.png in Resources */,
 				A1936C961B0F0A4500C59A06 /* mainBottomMenus.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1140,6 +1149,7 @@
 				A1BBC9DA1B101359005A1FD3 /* PaperModel.m in Sources */,
 				A17098E91B0581C00083AF01 /* MJRefreshConst.m in Sources */,
 				A1C6AD7A1B0C74770002BE81 /* AFHTTPRequestOperation.m in Sources */,
+				A1A528C91B1BE13E00A8637F /* PaperSubmitAlertView.m in Sources */,
 				A17098F01B0581C00083AF01 /* UIScrollView+MJExtension.m in Sources */,
 				A1A479081B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m in Sources */,
 				A1C6AD4C1B0C0C790002BE81 /* ProductViewController.m in Sources */,

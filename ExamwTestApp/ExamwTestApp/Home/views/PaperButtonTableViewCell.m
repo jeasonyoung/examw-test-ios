@@ -25,7 +25,7 @@
     if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]){
         //边框颜色
         UIColor *colorBorder = [UIColor colorWithHex:0xD3D3D3],
-        *colorNormal = [UIColor colorWithHex:0x4F4F4F],
+        *colorNormal = [UIColor colorWithHex:0x000000],
         *colorHighlight = [UIColor colorWithHex:0x87CEFA];
         //按钮1
         _btn1 = [UIButton buttonWithType:UIButtonTypeCustom];

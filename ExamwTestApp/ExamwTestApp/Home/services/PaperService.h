@@ -40,4 +40,7 @@
 
 //加载最新试题记录
 -(NSString *)loadNewsItemIndexWithPaperRecordId:(NSString *)recordId;
+
+//交卷处理
+-(void)submitWithPaperRecordId:(NSString *)paperRecordId;
 @end

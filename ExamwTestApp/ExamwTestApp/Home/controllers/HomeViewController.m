@@ -66,7 +66,7 @@
     NSLog(@"视图将载入...");
     //隐藏导航条
     self.navigationController.navigationBarHidden = YES;
-    
+    [self.navigationController setToolbarHidden:YES];
 }
 #pragma mark 重载视图将卸载
 -(void)viewWillDisappear:(BOOL)animated{

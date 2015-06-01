@@ -17,16 +17,22 @@
 #import "DMLazyScrollView.h"
 
 #import "PaperExitAlertView.h"
+#import "PaperSubmitAlertView.h"
 
 #import "PaperItemViewController.h"
 #import "AnswerCardViewController.h"
+#import "PaperResultViewController.h"
+
+#import "MBProgressHUD.h"
+#import "UIColor+Hex.h"
 
 #define __kPaperViewController_tag_btnPrev 0x01//上一题
 #define __kPaperViewController_tag_btnNext 0x02//下一题
 #define __kPaperViewController_tag_btnFavorite 0x03//收藏
+#define __kPaperViewController_tag_btnSubmit 0x04//交卷
 
 //试卷控制器成员变量
-@interface PaperViewController ()<DMLazyScrollViewDelegate,PaperExitAlertViewDelegate>{
+@interface PaperViewController ()<DMLazyScrollViewDelegate,PaperExitAlertViewDelegate,PaperSubmitAlertViewDelegate>{
     NSString *_paperId,*_paperRecordId,*_itemIndex;
     PaperModel *_paperModel;
     //
@@ -40,6 +46,8 @@
     NSMutableDictionary *_controllers;
     //
     PaperExitAlertView *_exitAlert;
+    PaperSubmitAlertView *_submitAlert;
+    MBProgressHUD *_waitHud;
 }
 @end
 //试卷控制器实现
@@ -104,20 +112,51 @@
 //左边按钮点击事件
 -(void)btnBarLeftClick:(UIBarButtonItem *)sender{
     NSLog(@"左边按钮点击:%@...",sender);
-    _exitAlert = [[PaperExitAlertView alloc] init];
-    _exitAlert.delegate = self;
-    [_exitAlert showAlert];
+    if(!_displayAnswer){
+        _exitAlert = [[PaperExitAlertView alloc] init];
+        _exitAlert.delegate = self;
+        [_exitAlert showAlert];
+    }else{
+        //返回上级控制器
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark PaperExitAlertViewDelegate
 //交卷
 -(void)submitAlertView:(PaperExitAlertView *)alertView{
     NSLog(@"提交试卷...");
+    _submitAlert = [[PaperSubmitAlertView alloc] init];
+    _submitAlert.delegate = self;
+    [_submitAlert showAlert];
 }
+
 //下次再做
 -(void)nextAlertView:(PaperExitAlertView *)alertView{
     NSLog(@"下次再做...");
     [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
+#pragma mark PaperSubmitAlertViewDelegate
+//提交试卷处理
+-(void)submitPaperHandler{
+    _waitHud = [MBProgressHUD showHUDAddedTo:_lazyScrollView animated:YES];
+    _waitHud.color = [UIColor colorWithHex:0xD3D3D3];
+    //异步线程处理交卷数据处理
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"开始异步线程处理交卷数据处理...");
+        [[self paperService] submitWithPaperRecordId:_paperRecordId];
+        //updateUI
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //关闭等待动画
+            if(_waitHud){
+                [_waitHud hide:YES];
+            }
+            //控制器跳转
+            PaperResultViewController *resultController = [PaperResultViewController resultControllerWithPaperRecordId:_paperRecordId];
+            [self.navigationController pushViewController:resultController animated:YES];
+        });
+    });
 }
 
 //右边按钮点击事件
@@ -151,9 +190,24 @@
     //分隔平均填充
     UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
                                                                            target:nil action:nil];
+    //工具栏按钮
+    NSArray *toolbars;
+    if(_displayAnswer){//显示答案
+        toolbars = @[btnPrev,space,btnFavorite,space,btnNext];
+    }else{//不显示答案
+        //交卷
+        UIBarButtonItem *btnSubmit = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btnSubmit.png"]
+                                                                      style:UIBarButtonItemStyleBordered
+                                                                     target:self
+                                                                     action:@selector(btnBarSubmitClick:)];
+        btnSubmit.tag = __kPaperViewController_tag_btnSubmit;
+        
+        toolbars = @[btnPrev,space,btnFavorite,space,btnSubmit,space,btnNext];
+    }
+    
     //添加到底部工具栏
     self.navigationController.toolbarHidden = NO;
-    [self setToolbarItems:@[btnPrev,space,btnFavorite,space,btnNext] animated:YES];
+    [self setToolbarItems:toolbars animated:YES];
 }
 
 //上一题
@@ -199,6 +253,13 @@
         }];
     }
 }
+//交卷
+-(void)btnBarSubmitClick:(UIBarButtonItem *)sender{
+    NSLog(@"交卷:%@", sender);
+    _submitAlert = [[PaperSubmitAlertView alloc] init];
+    _submitAlert.delegate = self;
+    [_submitAlert showAlert];
+}
 //加载试题滚动视图
 -(void)setupLazyScrollViews{
     NSLog(@"试卷试题UpdateUI....");
@@ -242,7 +303,7 @@
         //UpdateUI
         dispatch_async(dispatch_get_main_queue(), ^{
             //初始化滚动视图
-            _lazyScrollView = [[DMLazyScrollView alloc] initWithFrame:self.view.frame];
+            _lazyScrollView = [[DMLazyScrollView alloc] initWithFrame:self.view.bounds];
             _lazyScrollView.controlDelegate = self;
             _lazyScrollView.backgroundColor = [UIColor blueColor];
             [self.view addSubview:_lazyScrollView];

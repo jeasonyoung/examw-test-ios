@@ -268,4 +268,44 @@
     }
     return itemIndex;
 }
+
+#pragma mark 交卷处理
+-(void)submitWithPaperRecordId:(NSString *)paperRecordId{
+    if(_dbQueue && paperRecordId && paperRecordId.length > 0){
+        NSLog(@"开始交卷[paperReacordId=%@]处理...", paperRecordId);
+        //统计得分/用时/正确
+        static NSString *total_score_sql = @"SELECT SUM(score) AS score,SUM(useTimes) AS useTimes,SUM(status) AS rights FROM tbl_itemRecords WHERE paperRecordId = ?";
+        //更新试卷记录
+        static NSString *update_sql = @"UPDATE tbl_paperRecords SET status = 1,score = ?,useTimes = ?,rights = ?,lastTime = ? WHERE id = ?";
+        [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            @try {
+                //统计得分
+                NSLog(@"统计得分/用时-exec-sql:%@", total_score_sql);
+                double totalScore = 0, totalUseTimes = 0, totalRights = 0;
+                FMResultSet *rs = [db executeQuery:total_score_sql, paperRecordId];
+                while ([rs next]) {
+                    //得分
+                    totalScore = [rs doubleForColumn:@"score"];
+                    //用时
+                    totalUseTimes = [rs doubleForColumn:@"useTimes"];
+                    //做对数量
+                    totalRights = [rs doubleForColumn:@"rights"];
+                    break;
+                };
+                [rs close];
+                //更新试卷记录
+                NSLog(@"exec-sql:%@", update_sql);
+                
+                NSDateFormatter *dtFormat = [[NSDateFormatter alloc] init];
+                [dtFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                NSString *lastTime = [dtFormat stringFromDate:[NSDate date]];
+                [db executeUpdate:update_sql,[NSNumber numberWithDouble:totalScore],[NSNumber numberWithDouble:totalUseTimes],[NSNumber numberWithDouble:totalRights], lastTime, paperRecordId];
+            }
+            @catch (NSException *exception) {
+                *rollback = YES;
+                NSLog(@"交卷处理[paperRecordId=%@]发生异常:%@", paperRecordId, exception);
+            }
+        }];
+    }
+}
 @end
