@@ -16,13 +16,17 @@
 #import "PaperSegmentModelCellFrame.h"
 #import "PaperSegmentTableViewCell.h"
 
+#import "PaperViewController.h"
+
 #define __kFavoritesViewController_segErrorValue 0//错题
 #define __kFavoritesViewController_segFavoriteValue 1//收藏
 
 #define __kFavoritesViewController_cellIdentifer @"cellSeg"
 //收藏和错题试图控制器成员
-@interface FavoritesViewController (){
-    NSString *_examCode;
+@interface FavoritesViewController ()<PaperViewControllerDelegate>{
+    NSString *_examCode,*_subjectId;
+    NSInteger _segValue;
+    
     NSMutableArray *_dataSource;
 }
 @end
@@ -137,10 +141,39 @@
     NSLog(@"click:%@...", indexPath);
     PaperSegmentModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
     if(cellFrame && cellFrame.model && cellFrame.model.total > 0){
-        NSLog(@"subjectId======>%@...", cellFrame.model.subjectId);
+        _segValue = cellFrame.model.segValue;
+        _subjectId = cellFrame.model.subjectId;
+        
+        NSLog(@"subjectId===%d===>%@...", (int)_segValue, _subjectId);
         
     }
 }
+
+
+#pragma mark PaperViewControllerDelegate
+//加载数据源(PaperItemModel数组,异步线程调用)
+-(NSArray *)dataSourceOfPaperViewController:(PaperViewController *)controller{
+    
+    return nil;
+}
+//加载试题答案(异步线程中调用)
+-(NSString *)loadMyAnswerWithModel:(PaperItemModel *)itemModel{
+    return nil;
+}
+//更新做题记录到SQL(异步线程中调用)
+-(void)updateRecordAnswerWithModel:(PaperItemModel *)itemModel myAnswers:(NSString *)myAnswers useTimes:(NSUInteger)times{
+    
+}
+//更新收藏记录(异步线程中被调用)
+-(BOOL)updateFavoriteWithModel:(PaperItemModel *)itemModel{
+    
+    return NO;
+}
+//加载答题卡数据(异步线程中被调用)
+-(void)loadAnswerCardDataWithSection:(NSArray *__autoreleasing *)sections andAllData:(NSDictionary *__autoreleasing *)dict{
+    
+}
+
 
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {

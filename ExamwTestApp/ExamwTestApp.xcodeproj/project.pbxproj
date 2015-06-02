@@ -82,7 +82,6 @@
 		A1A479021B16BF69000B7E22 /* PaperItemTitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A479011B16BF69000B7E22 /* PaperItemTitleTableViewCell.m */; };
 		A1A479051B16C16F000B7E22 /* PaperItemOptTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A479041B16C16F000B7E22 /* PaperItemOptTableViewCell.m */; };
 		A1A479081B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A479071B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m */; };
-		A1A4790B1B174EBB000B7E22 /* PaperRecordService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A4790A1B174EBB000B7E22 /* PaperRecordService.m */; };
 		A1A528C91B1BE13E00A8637F /* PaperSubmitAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A528C81B1BE13E00A8637F /* PaperSubmitAlertView.m */; };
 		A1A528CB1B1BEBC300A8637F /* btnSubmit.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A528CA1B1BEBC300A8637F /* btnSubmit.png */; };
 		A1A528CE1B1C02BF00A8637F /* PaperResultModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A528CD1B1C02BF00A8637F /* PaperResultModel.m */; };
@@ -304,8 +303,6 @@
 		A1A479041B16C16F000B7E22 /* PaperItemOptTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemOptTableViewCell.m; path = Home/views/PaperItemOptTableViewCell.m; sourceTree = "<group>"; };
 		A1A479061B16C365000B7E22 /* PaperItemAnalysisTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperItemAnalysisTableViewCell.h; path = Home/views/PaperItemAnalysisTableViewCell.h; sourceTree = "<group>"; };
 		A1A479071B16C365000B7E22 /* PaperItemAnalysisTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemAnalysisTableViewCell.m; path = Home/views/PaperItemAnalysisTableViewCell.m; sourceTree = "<group>"; };
-		A1A479091B174EBB000B7E22 /* PaperRecordService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperRecordService.h; path = Home/services/PaperRecordService.h; sourceTree = "<group>"; };
-		A1A4790A1B174EBB000B7E22 /* PaperRecordService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperRecordService.m; path = Home/services/PaperRecordService.m; sourceTree = "<group>"; };
 		A1A528C71B1BE13E00A8637F /* PaperSubmitAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperSubmitAlertView.h; path = Home/views/PaperSubmitAlertView.h; sourceTree = "<group>"; };
 		A1A528C81B1BE13E00A8637F /* PaperSubmitAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperSubmitAlertView.m; path = Home/views/PaperSubmitAlertView.m; sourceTree = "<group>"; };
 		A1A528CA1B1BEBC300A8637F /* btnSubmit.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btnSubmit.png; path = images/btnSubmit.png; sourceTree = "<group>"; };
@@ -592,8 +589,6 @@
 			children = (
 				A1DF97E81B1220F3000F2B73 /* PaperService.h */,
 				A1DF97E91B1220F3000F2B73 /* PaperService.m */,
-				A1A479091B174EBB000B7E22 /* PaperRecordService.h */,
-				A1A4790A1B174EBB000B7E22 /* PaperRecordService.m */,
 			);
 			name = services;
 			sourceTree = "<group>";
@@ -1090,7 +1085,6 @@
 				A17098E81B0581C00083AF01 /* MJRefreshComponent.m in Sources */,
 				A1A478C91B155BF9000B7E22 /* PaperItemViewController.m in Sources */,
 				A1F724DD1B03470B0023A3C8 /* NSData+Hex.m in Sources */,
-				A1A4790B1B174EBB000B7E22 /* PaperRecordService.m in Sources */,
 				A1A478DC1B15FC86000B7E22 /* PaperItemAnalysisModel.m in Sources */,
 				A1A478EA1B160315000B7E22 /* EMStringStylingConfiguration.m in Sources */,
 				A1C6AD851B0C74770002BE81 /* UIAlertView+AFNetworking.m in Sources */,

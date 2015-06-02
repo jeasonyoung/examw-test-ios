@@ -12,7 +12,6 @@
 @class PaperViewController;
 @class PaperItemModel;
 @protocol PaperViewControllerDelegate <NSObject>
-@required
 //加载数据源(PaperItemModel数组,异步线程调用)
 -(NSArray *)dataSourceOfPaperViewController:(PaperViewController *)controller;
 //加载的当前试题题序(异步线程中调用)
