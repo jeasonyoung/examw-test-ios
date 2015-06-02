@@ -16,6 +16,10 @@
 #import "PaperSegmentModelCellFrame.h"
 #import "PaperSegmentTableViewCell.h"
 
+#import "PaperItemModel.h"
+#import "AnswerCardSectionModel.h"
+#import "AnswerCardModel.h"
+
 #import "PaperViewController.h"
 
 #define __kFavoritesViewController_segErrorValue 0//错题
@@ -27,7 +31,10 @@
     NSString *_examCode,*_subjectId;
     NSInteger _segValue;
     
+    PaperService *_service;
     NSMutableArray *_dataSource;
+    
+    NSArray *_itemsArrays;
 }
 @end
 //收藏/错题视图控制器实现
@@ -72,10 +79,8 @@
     //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //初始化数据服务
-        static PaperService *service;
-        if(!service){
-            service = [[PaperService alloc] init];
-        }
+        _service = [[PaperService alloc] init];
+        //
         if(!_dataSource){
             _dataSource = [NSMutableArray array];
         }else if(_dataSource.count > 0){//清除数据
@@ -85,11 +90,11 @@
         NSArray *arrays;
         switch (segValue) {
             case __kFavoritesViewController_segErrorValue:{//错题加载
-                arrays = [service totalErrorRecordsWithExamCode:_examCode];
+                arrays = [_service totalErrorRecordsWithExamCode:_examCode];
                 break;
             }
             case __kFavoritesViewController_segFavoriteValue:{//收藏加载
-                arrays = [service totalFavoriteRecordsWithExamCode:_examCode];
+                arrays = [_service totalFavoriteRecordsWithExamCode:_examCode];
                 break;
             }
         }
@@ -146,6 +151,10 @@
         
         NSLog(@"subjectId===%d===>%@...", (int)_segValue, _subjectId);
         
+        PaperViewController *controller = [[PaperViewController alloc] initWithDisplayAnswer:YES];
+        controller.delegate = self;
+        controller.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:controller animated:YES];
     }
 }
 
@@ -153,27 +162,90 @@
 #pragma mark PaperViewControllerDelegate
 //加载数据源(PaperItemModel数组,异步线程调用)
 -(NSArray *)dataSourceOfPaperViewController:(PaperViewController *)controller{
-    
-    return nil;
+    switch (_segValue) {
+        case __kFavoritesViewController_segErrorValue:{//错题加载
+            _itemsArrays = [_service loadErrorsWithSubjectCode:_subjectId];
+            break;
+        }
+        case __kFavoritesViewController_segFavoriteValue:{//收藏加载
+            _itemsArrays = [_service loadFavoritesWithSubjectCode:_subjectId];
+            break;
+        }
+    }
+    return _itemsArrays;
 }
 //加载试题答案(异步线程中调用)
 -(NSString *)loadMyAnswerWithModel:(PaperItemModel *)itemModel{
+    if(itemModel && itemModel.paperRecordId && itemModel.paperRecordId.length > 0){
+        return [_service loadRecordAnswersWithPaperRecordId:itemModel.paperRecordId itemModel:itemModel];
+    }
     return nil;
 }
 //更新做题记录到SQL(异步线程中调用)
 -(void)updateRecordAnswerWithModel:(PaperItemModel *)itemModel myAnswers:(NSString *)myAnswers useTimes:(NSUInteger)times{
-    
+    if(itemModel && itemModel.paperRecordId && itemModel.paperRecordId.length > 0){
+        [_service addRecordWithPaperRecordId:itemModel.paperRecordId itemModel:itemModel myAnswers:myAnswers useTimes:times];
+    }
 }
 //更新收藏记录(异步线程中被调用)
 -(BOOL)updateFavoriteWithModel:(PaperItemModel *)itemModel{
-    
+    if(_subjectId && _subjectId.length > 0){
+        return [_service updateFavoriteWithSubjectCode:_subjectId itemModel:itemModel];
+    }
     return NO;
 }
 //加载答题卡数据(异步线程中被调用)
 -(void)loadAnswerCardDataWithSection:(NSArray *__autoreleasing *)sections andAllData:(NSDictionary *__autoreleasing *)dict{
-    
+    if(_itemsArrays && _itemsArrays.count > 0){
+        //按题型分类
+        NSMutableDictionary *itemTypesDicts = [NSMutableDictionary dictionary];
+        for(PaperItemModel *itemModel in _itemsArrays){
+            if(!itemModel)continue;
+            NSNumber *itemType = [NSNumber numberWithInteger:itemModel.itemType];
+            NSMutableArray *arrays = [itemTypesDicts objectForKey:itemType];
+            if(!arrays){
+                arrays = [NSMutableArray array];
+            }
+            [arrays addObject:itemModel];
+            [itemTypesDicts setObject:arrays forKey:itemType];
+        }
+        //按题型排序
+        NSArray *itemTypeArrays = [itemTypesDicts.allKeys sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+            return ((NSNumber *)obj1).intValue - ((NSNumber *)obj2).intValue;
+        }];
+        //
+        NSMutableArray *sectionArrays = [NSMutableArray arrayWithCapacity:itemTypeArrays.count];
+        NSMutableDictionary *dataDicts = [NSMutableDictionary dictionaryWithCapacity:itemTypeArrays.count];
+        NSUInteger order = 0;
+        for (NSUInteger i = 0; i < itemTypeArrays.count; i++) {
+            NSNumber *itemType = [itemTypeArrays objectAtIndex:i];
+            if(!itemType)continue;
+            //分组
+            NSString *itemTypeName = [PaperItemModel nameWithItemType:itemType.integerValue];
+            NSString *title = [NSString stringWithFormat:@"%d.%@",(int)(i+1),itemTypeName];
+            [sectionArrays addObject:[[AnswerCardSectionModel alloc] initWithTitle:title desc:nil]];
+            //数据
+            NSArray *arrays = [itemTypesDicts objectForKey:itemType];
+            if(arrays && arrays.count > 0){
+                NSMutableArray *models = [NSMutableArray arrayWithCapacity:arrays.count];
+                for(PaperItemModel *itemModel in arrays){
+                    if(!itemModel)continue;
+                    
+                    NSUInteger status = 0;
+                    if(itemModel.paperRecordId && itemModel.paperRecordId.length > 0){
+                        status = [_service exitRecordWithPaperRecordId:itemModel.paperRecordId itemModel:itemModel];
+                    }
+                    [models addObject:[[AnswerCardModel alloc] initWithOrder:order status:status displayAnswer:YES]];
+                    order += 1;
+                }
+                [dataDicts setObject:models forKey:[NSNumber numberWithInteger:i]];
+            }
+        }
+        //
+        *sections = [sectionArrays copy];
+        *dict = [dataDicts copy];
+    }
 }
-
 
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {

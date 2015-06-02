@@ -51,6 +51,9 @@
 //收藏/取消收藏(收藏返回true,取消返回false)
 -(BOOL)updateFavoriteWithPaperId:(NSString *)paperId itemModel:(PaperItemModel *)model;
 
+//收藏/取消收藏(收藏返回true,取消返回false)
+-(BOOL)updateFavoriteWithSubjectCode:(NSString *)subjectCode itemModel:(PaperItemModel *)model;
+
 //交卷处理
 -(void)submitWithPaperRecordId:(NSString *)paperRecordId;
 
@@ -62,4 +65,10 @@
 
 //加载收藏记录
 -(NSArray *)totalFavoriteRecordsWithExamCode:(NSString *)examCode;
+
+//根据科目加载收藏集合
+-(NSArray *)loadFavoritesWithSubjectCode:(NSString *)subjectCode;
+
+//根据科目加载错题集合
+-(NSArray *)loadErrorsWithSubjectCode:(NSString *)subjectCode;
 @end

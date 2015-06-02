@@ -24,8 +24,6 @@
 #import "MBProgressHUD.h"
 #import "UIColor+Hex.h"
 
-#import "PaperRecordService.h"
-
 #define __kPaperItemViewController_cellTitleIdentifier @"_cellTitle"//标题行
 #define __kPaperItemViewController_cellOptIdentifier @"_cellOpt"//选项行
 #define __kPaperItemViewController_cellAnalysisIdentifier @"_cellAnalysis"//题目解析行
@@ -43,7 +41,7 @@
     //试题数据源
     NSMutableArray *_itemsDataSource;
     //试卷记录服务
-    PaperRecordService *_recordService;
+    //PaperService *_service;
     //等待动画
     MBProgressHUD *_waitHud;
 }
@@ -70,8 +68,6 @@
     _waitHud.color = [UIColor colorWithHex:0xD3D3D3];
     //初始化数据源
     _itemsDataSource = [NSMutableArray array];
-    //初始化记录服务
-    _recordService = [[PaperRecordService alloc] init];
     //清除TableView分割线
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //加载数据
@@ -91,9 +87,6 @@
         if(_delegate && [_delegate respondsToSelector:@selector(itemViewController:loadMyAnswerWithModel:)]){
             myAnswers = [_delegate itemViewController:self loadMyAnswerWithModel:_itemModel];
         }
-//        if(_PaperRecordId && _PaperRecordId.length > 0){//加载做题答案
-//            myAnswers = [_recordService loadRecordAnswersWithPaperRecordId:_PaperRecordId itemModel:_itemModel];
-//        }
         NSArray *optModelArrays;
         //加载试题
         switch (_itemModel.itemType) {
@@ -499,17 +492,6 @@
             [_delegate updateRecordAnswerWithModel:_itemModel myAnswers:answers useTimes:useTimes];
         });
     }
-//    if(_PaperRecordId && _PaperRecordId.length > 0 && myAnswers && myAnswers.count > 0){
-//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//            NSLog(@"异步线程更新试卷[%@]试题[%@]做题记录...",_PaperRecordId, _itemModel.itemId);
-//            NSString *answers = [myAnswers componentsJoinedByString:@","];
-//            NSUInteger useTimes = 0;
-//            if(_dtStart){
-//                useTimes = (NSUInteger)fabs([[NSDate date] timeIntervalSinceDate:_dtStart]);
-//            }
-//            [_recordService addRecordWithPaperRecordId:_PaperRecordId itemModel:_itemModel myAnswers:answers useTimes:useTimes];
-//        });
-//    }
 }
 
 #pragma mark 收藏/取消收藏试题
@@ -525,13 +507,6 @@
             }
         });
     }
-//    NSLog(@"开始收藏/取消收藏当前试题[%@:%d]...",_itemModel.itemId, _itemModel.index);
-//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-//        BOOL flag = [_recordService updateFavoriteWithPaperRecordId:_PaperRecordId itemModel:_itemModel];
-//        if(result){
-//            result(flag);
-//        }
-//    });
 }
 
 #pragma mark 开始做题

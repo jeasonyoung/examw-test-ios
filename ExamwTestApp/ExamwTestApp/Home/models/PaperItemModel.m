@@ -81,6 +81,25 @@
     return self;
 }
 
+#pragma mark 将JSON反序列化处理
+-(instancetype)initWithJSON:(NSString *)json{
+    NSLog(@"将JSON反序列化=>%@",json);
+    if(json && json.length > 0){
+        NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
+        if(data && data.length > 0){
+            //JSON处理
+            NSError *err;
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&err];
+            if(err){
+                NSLog(@"试题数据模型JSON反序列化配置错误: %@",err);
+            }else{
+                return [self initWithDict:dict];
+            }
+        }
+    }
+    return nil;
+}
+
 #pragma mark 从JSON的Arrays的反序列化为对象数组
 -(NSArray *)deserializeWithJSONArrays:(NSArray *)arrays{
     if(arrays && arrays.count > 0){

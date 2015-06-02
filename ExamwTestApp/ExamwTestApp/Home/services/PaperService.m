@@ -352,6 +352,21 @@
 
 #pragma mark 收藏/取消收藏(收藏返回true,取消返回false)
 -(BOOL)updateFavoriteWithPaperId:(NSString *)paperId itemModel:(PaperItemModel *)model{
+    return [self updateFavoriteWithItemModel:model withSubjectBlock:^NSString *(FMDatabase *db) {
+        static NSString *query_subject_sql = @"SELECT subjectCode FROM tbl_papers WHERE id = ?";
+        
+        return [db stringForQuery:query_subject_sql, paperId];
+    }];
+}
+
+//收藏/取消收藏(收藏返回true,取消返回false)
+-(BOOL)updateFavoriteWithSubjectCode:(NSString *)subjectCode itemModel:(PaperItemModel *)model{
+    return [self updateFavoriteWithItemModel:model withSubjectBlock:^NSString *(FMDatabase *db) {
+        return subjectCode;
+    }];
+}
+//收藏/取消收藏(收藏返回true,取消返回false)
+-(BOOL)updateFavoriteWithItemModel:(PaperItemModel *)model withSubjectBlock:(NSString *(^)(FMDatabase *db))subject{
     __block BOOL result = NO;
     if(_dbQueue && model && model.itemId && model.itemId.length > 0){
         NSLog(@"开始收藏/取消收藏(收藏返回true,取消返回false)...");
@@ -383,8 +398,7 @@
                         [db executeUpdate:update_sql_has, favId];
                         result = YES;
                     }else{//新收藏
-                        static NSString *query_subject_sql = @"SELECT subjectCode FROM tbl_papers WHERE id = ?";
-                        NSString *subjectCode = [db stringForQuery:query_subject_sql, paperId];
+                        NSString *subjectCode = (subject ? subject(db) : nil);
                         if(subjectCode && subjectCode.length > 0){
                             static NSString *insert_sql = @"INSERT INTO tbl_favorites(id,subjectCode,itemId,itemType,content) values(?,?,?,?,?) ";
                             favId = [[NSUUID UUID] UUIDString];
@@ -394,7 +408,7 @@
                             [db executeUpdate:insert_sql,favId,subjectCode,itemId,[NSNumber numberWithInteger:model.itemType],itemJSONEncypt];
                             result = YES;
                         }else{
-                            NSLog(@"试卷[%@]或所属科目不存在!", paperId);
+                            NSLog(@"所属科目[%@]不存在!", subjectCode);
                         }
                     }
                 }
@@ -406,6 +420,7 @@
         }];
     }
     return result;
+
 }
 
 #pragma mark 交卷处理
@@ -511,7 +526,7 @@
 -(NSArray *)totalFavoriteRecordsWithExamCode:(NSString *)examCode{
     __block NSMutableArray *arrays = nil;
     if(_dbQueue){
-        static NSString *total_sql = @"SELECT a.code,a.name,COUNT(b.itemId) AS total FROM tbl_subjects a LEFT OUTER JOIN tbl_favorites b ON b.subjectCode = a.code WHERE a.examCode = ? GROUP BY a.code,a.name";
+        static NSString *total_sql = @"SELECT a.code,a.name,COUNT(b.itemId) AS total FROM tbl_subjects a LEFT OUTER JOIN tbl_favorites b ON b.subjectCode = a.code WHERE b.status = 1 and a.examCode = ? GROUP BY a.code,a.name";
         [_dbQueue inDatabase:^(FMDatabase *db) {
             arrays = [NSMutableArray array];
             FMResultSet *rs = [db executeQuery:total_sql, examCode];
@@ -524,5 +539,57 @@
         }];
     }
     return arrays;
+}
+
+#pragma mark 根据科目加载收藏集合
+-(NSArray *)loadFavoritesWithSubjectCode:(NSString *)subjectCode{
+    NSLog(@"加载科目[%@]下的收藏试题数据...",subjectCode);
+    if(!subjectCode || subjectCode.length == 0) return nil;
+    if(_dbQueue){
+        static NSString *query_sql = @"SELECT id,content FROM tbl_favorites WHERE status = 1 AND subjectCode = ? ORDER BY itemType,createTime DESC";
+        NSMutableArray *arrays = [NSMutableArray array];
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            FMResultSet *rs = [db executeQuery:query_sql,subjectCode];
+            while ([rs next]) {
+                NSString *favId = [rs stringForColumn:@"id"];
+                NSString *contentHex = [rs stringForColumn:@"content"];
+                NSString *json = [PaperUtils decryptPaperContentWithHex:contentHex andPassword:favId];
+                PaperItemModel *itemModel = [[PaperItemModel alloc] initWithJSON:json];
+                if(itemModel){
+                    [arrays addObject:itemModel];
+                }
+            }
+            [rs close];
+        }];
+        return arrays;
+    }
+    return nil;
+}
+
+#pragma mark 根据科目加载错题集合
+-(NSArray *)loadErrorsWithSubjectCode:(NSString *)subjectCode{
+    NSLog(@"加载科目[%@]下错题数据...",subjectCode);
+    if(!subjectCode || subjectCode.length == 0)return nil;
+    if(_dbQueue){
+        static NSString *query_sql = @"SELECT a.id,a.paperRecordId,a.content FROM tbl_itemRecords a LEFT OUTER JOIN tbl_paperRecords b ON b.id = a.paperRecordId LEFT OUTER JOIN tbl_papers c ON c.id = b.paperId WHERE a.status = 0 AND c.subjectCode = ? ORDER BY a.itemType";
+        NSMutableArray *arrays = [NSMutableArray array];
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            FMResultSet *rs = [db executeQuery:query_sql,subjectCode];
+            while ([rs next]) {
+                NSString *itemRecordId = [rs stringForColumn:@"id"];
+                NSString *contentHex = [rs stringForColumn:@"content"];
+                NSString *json = [PaperUtils decryptPaperContentWithHex:contentHex andPassword:itemRecordId];
+                PaperItemModel *itemModel = [[PaperItemModel alloc] initWithJSON:json];
+                if(itemModel){
+                    itemModel.itemRecordId = itemRecordId;
+                    itemModel.paperRecordId = [rs stringForColumn:@"paperRecordId"];
+                    [arrays addObject:itemModel];
+                }
+            }
+            [rs close];
+        }];
+        return arrays;
+    }
+    return nil;
 }
 @end

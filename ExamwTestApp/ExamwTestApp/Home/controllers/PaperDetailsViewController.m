@@ -90,6 +90,9 @@
     PaperService *_service;
     //等待动画
     MBProgressHUD *_waitHud;
+    
+    NSMutableArray *_itemsArrays,*_cardSection;
+    NSMutableDictionary *_cardAllData;
 }
 @end
 
@@ -216,24 +219,22 @@
 }
 
 #pragma mark PaperViewControllerDelegate
-NSMutableArray *itemsArrays,*cardSection;
-NSMutableDictionary *cardAllData;
 //加载数据源(PaperItemModel数组,异步线程加载)
 -(NSArray *)dataSourceOfPaperViewController:(PaperViewController *)controller{
     NSLog(@"开始加载试卷数据...");
     if(_paperModel && _paperModel.total > 0 && _paperModel.structures){
         //初始化
-        itemsArrays = [NSMutableArray arrayWithCapacity:_paperModel.total];
+        _itemsArrays = [NSMutableArray arrayWithCapacity:_paperModel.total];
         NSUInteger total = _paperModel.structures.count;
-        cardSection = [NSMutableArray arrayWithCapacity:total];
-        cardAllData = [NSMutableDictionary dictionaryWithCapacity:total];
+        _cardSection = [NSMutableArray arrayWithCapacity:total];
+        _cardAllData = [NSMutableDictionary dictionaryWithCapacity:total];
         //
         NSUInteger section = 0, order = 0;
         //试卷结构
         for(PaperStructureModel *structure in _paperModel.structures){
             if(!structure || !structure.items) continue;
             //创建答题卡分组数据模型
-            [cardSection addObject:[[AnswerCardSectionModel alloc] initWithTitle:structure.title desc:structure.desc]];
+            [_cardSection addObject:[[AnswerCardSectionModel alloc] initWithTitle:structure.title desc:structure.desc]];
             //
             NSMutableArray *cardModels = [NSMutableArray arrayWithCapacity:structure.items.count];
             //循环试题
@@ -251,7 +252,7 @@ NSMutableDictionary *cardAllData;
                     //试题索引
                     item.index = index;
                     //添加到数组
-                    [itemsArrays addObject:item];
+                    [_itemsArrays addObject:item];
                     //
                     [cardModels addObject:[[AnswerCardModel alloc] initWithOrder:order status:0 displayAnswer:_displayAnswer]];
                     //
@@ -259,22 +260,22 @@ NSMutableDictionary *cardAllData;
                 }
             }
             //
-            [cardAllData setObject:[cardModels copy] forKey:[NSNumber numberWithInteger:section]];
+            [_cardAllData setObject:[cardModels copy] forKey:[NSNumber numberWithInteger:section]];
             //
             section += 1;
         }
-        return itemsArrays;
+        return _itemsArrays;
     }
     return nil;
 }
 //加载的当前试题题序
 -(NSUInteger)currentOrderOfPaperViewController:(PaperViewController *)controller{
     //继续考试
-    if((_tagValue == __kPaperDetailsViewController_tag_continue) && _recordModel && itemsArrays && itemsArrays.count > 0){
+    if((_tagValue == __kPaperDetailsViewController_tag_continue) && _recordModel && _itemsArrays && _itemsArrays.count > 0){
         NSString *lastItemId = [_service loadNewsItemIndexWithPaperRecordId:_recordModel.Id];
         if(lastItemId && lastItemId.length > 0){
-            for(NSUInteger i = 0; i < itemsArrays.count; i++){
-                PaperItemModel *itemModel = [itemsArrays objectAtIndex:i];
+            for(NSUInteger i = 0; i < _itemsArrays.count; i++){
+                PaperItemModel *itemModel = [_itemsArrays objectAtIndex:i];
                 if(!itemModel) continue;
                 NSString *itemId = [NSString stringWithFormat:@"%@$%d", itemModel.itemId, (int)itemModel.index];
                 if([itemId isEqualToString:lastItemId]){
@@ -320,23 +321,23 @@ NSMutableDictionary *cardAllData;
 //加载答题卡数据(异步线程中被调用)
 -(void)loadAnswerCardDataWithSection:(NSArray *__autoreleasing *)sections andAllData:(NSDictionary *__autoreleasing *)dict{
     NSLog(@"加载答题卡数据源...");
-    if(cardSection && cardAllData){
-        *sections = [cardSection copy];
+    if(_cardSection && _cardAllData){
+        *sections = [_cardAllData copy];
         
         //加载做题记录
-        if(cardAllData && cardAllData.count > 0 && itemsArrays && _recordModel){
-            NSArray *keys = cardAllData.allKeys;
+        if(_cardAllData && _cardAllData.count > 0 && _itemsArrays && _recordModel){
+            NSArray *keys = _cardAllData.allKeys;
             for(NSNumber *key in keys){
                 if(!key) continue;
-                NSArray *arrays = [cardAllData objectForKey:key];
+                NSArray *arrays = [_cardAllData objectForKey:key];
                 if(arrays && arrays.count > 0){
                     [arrays makeObjectsPerformSelector:@selector(loadItemStatusWithObjs:)
-                                            withObject:@[_service,_recordModel.Id,itemsArrays]];
+                                            withObject:@[_service,_recordModel.Id,_itemsArrays]];
                 }
             }
         }
         
-        *dict = [cardAllData copy];
+        *dict = [_cardAllData copy];
     }
 }
 
