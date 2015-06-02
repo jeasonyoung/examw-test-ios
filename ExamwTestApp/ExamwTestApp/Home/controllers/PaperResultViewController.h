@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+#import "PaperViewController.h"
+
 //试卷结果视图控制器
 @interface PaperResultViewController : UITableViewController
-
+//设置代理
+@property(nonatomic,assign)id<PaperViewControllerDelegate> paperViewControllerDelegate;
 //初始化
--(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId;
-
+-(instancetype)initWithPaperRecordId:(NSString *)recordId;
 @end

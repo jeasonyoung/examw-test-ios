@@ -34,13 +34,22 @@
 -(void)addPaperRecord:(PaperRecordModel *)record;
 
 //试题是否被收藏
--(BOOL)exitFavoriteWithItemId:(NSString *)itemId;
+-(BOOL)exitFavoriteWithModel:(PaperItemModel *)itemModel;
 
 //试题是否在记录中存在(0-不存在，1-做对,2-做错)
 -(NSUInteger)exitRecordWithPaperRecordId:(NSString *)paperRecordId itemModel:(PaperItemModel *)model;
 
 //加载最新试题记录
 -(NSString *)loadNewsItemIndexWithPaperRecordId:(NSString *)recordId;
+
+//加载试题记录中的答案
+-(NSString *)loadRecordAnswersWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model;
+
+//添加试题记录
+-(void)addRecordWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model myAnswers:(NSString *)answers useTimes:(NSUInteger)useTimes;
+
+//收藏/取消收藏(收藏返回true,取消返回false)
+-(BOOL)updateFavoriteWithPaperId:(NSString *)paperId itemModel:(PaperItemModel *)model;
 
 //交卷处理
 -(void)submitWithPaperRecordId:(NSString *)paperRecordId;
@@ -49,8 +58,8 @@
 -(PaperResultModel *)loadPaperResultWithPaperRecordId:(NSString *)paperRecordId;
 
 //加载错题记录
--(NSArray *)totalErrorRecords;
+-(NSArray *)totalErrorRecordsWithExamCode:(NSString *)examCode;
 
 //加载收藏记录
--(NSArray *)totalFavoriteRecords;
+-(NSArray *)totalFavoriteRecordsWithExamCode:(NSString *)examCode;
 @end

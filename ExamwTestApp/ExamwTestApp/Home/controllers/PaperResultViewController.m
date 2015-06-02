@@ -23,7 +23,7 @@
 #define __kPaperResultViewController_cellIdentifer @"cellResult"//
 //试卷结果视图控制器成员变量
 @interface PaperResultViewController (){
-    NSString *_paperId,*_paperRecordId;
+    NSString *_paperRecordId;
     PaperService *_service;
     NSMutableDictionary *_dataSource;
     MBProgressHUD *_waitHud;
@@ -34,22 +34,18 @@
 @implementation PaperResultViewController
 
 #pragma mark 初始化
--(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId{
+-(instancetype)initWithPaperRecordId:(NSString *)recordId{
     if(self = [super initWithStyle:UITableViewStyleGrouped]){
-        _paperId = paperId;
         _paperRecordId = recordId;
     }
     return self;
 }
-
 
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
     //设置标题
     self.title = __kPaperResultViewController_title;
-    //
-    //self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLineEtched;
     //
     [self setupQueryItemButtons];
     //加载数据
@@ -72,9 +68,21 @@
 //查看试题按钮事件
 -(void)btnClick:(UIButton *)sender{
     NSLog(@"查看试题按钮...");
-    PaperViewController *controller = [[PaperViewController alloc]  initWithPaperId:_paperId
-                                                                   andPaperRecordId:_paperRecordId
-                                                                   andDisplayAnswer:YES];
+    PaperViewController *controller = nil;
+    NSArray *arrays = self.navigationController.viewControllers;
+    if(arrays && arrays.count > 0){
+        for(UIViewController *vc in arrays){
+            if(vc && [vc isKindOfClass:[PaperViewController class]]){
+                controller = (PaperViewController *)vc;
+                controller.displayAnswer = YES;
+                break;
+            }
+        }
+    }
+    if(!controller){
+        controller = [[PaperViewController alloc] initWithDisplayAnswer:YES];
+        controller.delegate = self.paperViewControllerDelegate;
+    }
     [self.navigationController pushViewController:controller animated:YES];
 }
 

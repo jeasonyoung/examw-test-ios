@@ -87,10 +87,13 @@
         if(!_itemModel)return;
         //加载我的答案
         NSString *myAnswers = nil;
-        if(_PaperRecordId && _PaperRecordId.length > 0){//加载做题答案
-            myAnswers = [_recordService loadRecordAnswersWithPaperRecordId:_PaperRecordId itemModel:_itemModel];
+        //加载已做题目答案
+        if(_delegate && [_delegate respondsToSelector:@selector(itemViewController:loadMyAnswerWithModel:)]){
+            myAnswers = [_delegate itemViewController:self loadMyAnswerWithModel:_itemModel];
         }
-        
+//        if(_PaperRecordId && _PaperRecordId.length > 0){//加载做题答案
+//            myAnswers = [_recordService loadRecordAnswersWithPaperRecordId:_PaperRecordId itemModel:_itemModel];
+//        }
         NSArray *optModelArrays;
         //加载试题
         switch (_itemModel.itemType) {
@@ -485,28 +488,50 @@
 
 //更新试题记录
 -(void)updateItemRecordWithMyAnswers:(NSArray *)myAnswers{
-    if(_PaperRecordId && _PaperRecordId.length > 0 && myAnswers && myAnswers.count > 0){
+    if(_delegate && [_delegate respondsToSelector:@selector(updateRecordAnswerWithModel:myAnswers:useTimes:)]){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSLog(@"异步线程更新试卷[%@]试题[%@]做题记录...",_PaperRecordId, _itemModel.itemId);
+            NSLog(@"异步线程更新试题记录...");
             NSString *answers = [myAnswers componentsJoinedByString:@","];
             NSUInteger useTimes = 0;
             if(_dtStart){
                 useTimes = (NSUInteger)fabs([[NSDate date] timeIntervalSinceDate:_dtStart]);
             }
-            [_recordService addRecordWithPaperRecordId:_PaperRecordId itemModel:_itemModel myAnswers:answers useTimes:useTimes];
+            [_delegate updateRecordAnswerWithModel:_itemModel myAnswers:answers useTimes:useTimes];
         });
     }
+//    if(_PaperRecordId && _PaperRecordId.length > 0 && myAnswers && myAnswers.count > 0){
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            NSLog(@"异步线程更新试卷[%@]试题[%@]做题记录...",_PaperRecordId, _itemModel.itemId);
+//            NSString *answers = [myAnswers componentsJoinedByString:@","];
+//            NSUInteger useTimes = 0;
+//            if(_dtStart){
+//                useTimes = (NSUInteger)fabs([[NSDate date] timeIntervalSinceDate:_dtStart]);
+//            }
+//            [_recordService addRecordWithPaperRecordId:_PaperRecordId itemModel:_itemModel myAnswers:answers useTimes:useTimes];
+//        });
+//    }
 }
 
 #pragma mark 收藏/取消收藏试题
 -(void)favoriteItem:(void (^)(BOOL))result{
-    NSLog(@"开始收藏/取消收藏当前试题[%@:%d]...",_itemModel.itemId, _itemModel.index);
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        BOOL flag = [_recordService updateFavoriteWithPaperRecordId:_PaperRecordId itemModel:_itemModel];
-        if(result){
-            result(flag);
-        }
-    });
+    if(_delegate && [_delegate respondsToSelector:@selector(updateFavoriteWithModel:)]){
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSLog(@"异步线程开始收藏/取消收藏当前试题[%@:%d]...",_itemModel.itemId, _itemModel.index);
+            BOOL flag = [_delegate updateFavoriteWithModel:_itemModel];
+            if(result){//UpdateUI
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    result(flag);
+                });
+            }
+        });
+    }
+//    NSLog(@"开始收藏/取消收藏当前试题[%@:%d]...",_itemModel.itemId, _itemModel.index);
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//        BOOL flag = [_recordService updateFavoriteWithPaperRecordId:_PaperRecordId itemModel:_itemModel];
+//        if(result){
+//            result(flag);
+//        }
+//    });
 }
 
 #pragma mark 开始做题

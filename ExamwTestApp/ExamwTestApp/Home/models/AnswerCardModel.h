@@ -13,9 +13,9 @@
 //试题序号
 @property(nonatomic,assign,readonly)NSUInteger order;
 //状态(0-未做,1-做对,2-做错)
-@property(nonatomic,assign,readonly)NSUInteger status;
+@property(nonatomic,assign)NSUInteger status;
 //是否显示答案
 @property(nonatomic,assign,readonly)BOOL displayAnswer;
 //初始化
--(instancetype)initWithOrder:(NSUInteger)order status:(BOOL)status displayAnswer:(BOOL)display;
+-(instancetype)initWithOrder:(NSUInteger)order status:(NSUInteger)status displayAnswer:(BOOL)display;
 @end

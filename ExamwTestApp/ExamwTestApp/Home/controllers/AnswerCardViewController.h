@@ -8,8 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+//答题卡试图控制器数据代理
+@protocol AnswerCardViewControllerDataSource <NSObject>
+//加载答题卡数据
+-(void)loadAnswerCardDataWithSection:(NSArray **)sections andAllData:(NSDictionary **)dict;
+@end
+
 //答题卡试图控制器
 @interface AnswerCardViewController : UICollectionViewController
-//初始化
--(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId andDisplayAnswer:(BOOL)display;
+//答题卡数据源
+@property(nonatomic,assign)id<AnswerCardViewControllerDataSource> answerCardDataSource;
 @end

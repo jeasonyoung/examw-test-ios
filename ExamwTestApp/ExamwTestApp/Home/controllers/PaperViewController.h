@@ -8,14 +8,38 @@
 
 #import <UIKit/UIKit.h>
 
+//试卷控制器代理
+@class PaperViewController;
+@class PaperItemModel;
+@protocol PaperViewControllerDelegate <NSObject>
+@required
+//加载数据源(PaperItemModel数组,异步线程调用)
+-(NSArray *)dataSourceOfPaperViewController:(PaperViewController *)controller;
+//加载的当前试题题序(异步线程中调用)
+-(NSUInteger)currentOrderOfPaperViewController:(PaperViewController *)controller;
+//加载试题答案(异步线程中调用)
+-(NSString *)loadMyAnswerWithModel:(PaperItemModel *)itemModel;
+//更新做题记录到SQL(异步线程中调用)
+-(void)updateRecordAnswerWithModel:(PaperItemModel *)itemModel myAnswers:(NSString *)myAnswers useTimes:(NSUInteger)times;
+//更新收藏记录(异步线程中被调用)
+-(BOOL)updateFavoriteWithModel:(PaperItemModel *)itemModel;
+//交卷处理(异步线程中被调用)
+-(void)submitPaper:(void(^)(NSString* paperRecordId))resultController;
+//加载答题卡数据(异步线程中被调用)
+-(void)loadAnswerCardDataWithSection:(NSArray **)sections andAllData:(NSDictionary **)dict;
+@end
+
 //试卷控制器
 @interface PaperViewController : UIViewController
+//代理
+@property(nonatomic,assign)id<PaperViewControllerDelegate> delegate;
+
+//是否显示答案
+@property(nonatomic,assign)BOOL displayAnswer;
+
 //初始化
--(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId andDisplayAnswer:(BOOL)display;
-//初始化
--(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId;
+-(instancetype)initWithDisplayAnswer:(BOOL)display;
+
 //加载到指定题序的试题
 -(void)loadItemOrder:(NSUInteger)order;
-//根据做题记录继续
--(void)loadRecordContinue;
 @end

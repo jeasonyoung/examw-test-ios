@@ -9,6 +9,9 @@
 #import "FavoritesViewController.h"
 #import "PaperService.h"
 
+#import "AppDelegate.h"
+#import "AppSettings.h"
+
 #import "PaperSegmentModel.h"
 #import "PaperSegmentModelCellFrame.h"
 #import "PaperSegmentTableViewCell.h"
@@ -19,6 +22,7 @@
 #define __kFavoritesViewController_cellIdentifer @"cellSeg"
 //收藏和错题试图控制器成员
 @interface FavoritesViewController (){
+    NSString *_examCode;
     NSMutableArray *_dataSource;
 }
 @end
@@ -28,7 +32,10 @@
 #pragma mark 重载初始化
 -(instancetype)init{
     if(self = [super initWithStyle:UITableViewStylePlain]){
-        
+        AppSettings *settings = ((AppDelegate *)[[UIApplication sharedApplication] delegate]).appSettings;
+        if(settings){
+            _examCode = [settings.examCode stringValue];
+        }
     }
     return self;
 }
@@ -74,11 +81,11 @@
         NSArray *arrays;
         switch (segValue) {
             case __kFavoritesViewController_segErrorValue:{//错题加载
-                arrays = [service totalErrorRecords];
+                arrays = [service totalErrorRecordsWithExamCode:_examCode];
                 break;
             }
             case __kFavoritesViewController_segFavoriteValue:{//收藏加载
-                arrays = [service totalFavoriteRecords];
+                arrays = [service totalFavoriteRecordsWithExamCode:_examCode];
                 break;
             }
         }
@@ -128,6 +135,11 @@
 //选中行
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"click:%@...", indexPath);
+    PaperSegmentModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
+    if(cellFrame && cellFrame.model && cellFrame.model.total > 0){
+        NSLog(@"subjectId======>%@...", cellFrame.model.subjectId);
+        
+    }
 }
 
 #pragma mark 内存告警

@@ -8,8 +8,8 @@
 
 #import "PaperViewController.h"
 
-#import "PaperModel.h"
-#import "PaperStructureModel.h"
+//#import "PaperModel.h"
+//#import "PaperStructureModel.h"
 #import "PaperItemModel.h"
 
 #import "PaperService.h"
@@ -32,17 +32,19 @@
 #define __kPaperViewController_tag_btnSubmit 0x04//交卷
 
 //试卷控制器成员变量
-@interface PaperViewController ()<DMLazyScrollViewDelegate,PaperExitAlertViewDelegate,PaperSubmitAlertViewDelegate,PaperItemViewControllerDelegate>{
-    NSString *_paperId,*_paperRecordId,*_itemIndex;
-    PaperModel *_paperModel;
+@interface PaperViewController ()<DMLazyScrollViewDelegate,PaperExitAlertViewDelegate,PaperSubmitAlertViewDelegate,PaperItemViewControllerDelegate,AnswerCardViewControllerDataSource>{
+    //
+    PaperService *_paperService;
     //
     NSUInteger _itemOrder;
+    BOOL _isLoaded;
     //
-    BOOL _displayAnswer,_isLoaded;
+    NSArray *_itemsArrays;
+    //
     UIImage *_imgFavoriteNormal,*_imgFavoriteHighlight;
     //
     DMLazyScrollView *_lazyScrollView;
-    NSMutableArray *_itemsArrays;
+    //
     NSMutableDictionary *_controllers;
     //
     PaperExitAlertView *_exitAlert;
@@ -53,16 +55,11 @@
 //试卷控制器实现
 @implementation PaperViewController
 
-#pragma makr 初始化
--(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId andDisplayAnswer:(BOOL)display{
+#pragma mark 初始化
+-(instancetype)initWithDisplayAnswer:(BOOL)display{
     if(self = [super init]){
-        NSLog(@"初始化试卷控制器[paperId=%@,paperRecordId=%@,displayAnswer=%d]...", paperId, recordId, display);
-        _paperId = paperId;
-        _paperRecordId = recordId;
         _displayAnswer = display;
-        
         _itemOrder = 0;
-        
         //初始化收藏图片
         _imgFavoriteNormal = [UIImage imageNamed:@"btnFavoriteNormal.png"];
         _imgFavoriteHighlight = [UIImage imageNamed:@"btnFavoriteHighlight.png"];
@@ -70,20 +67,9 @@
     return self;
 }
 
-#pragma mark 初始化
--(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId{
-    return [self initWithPaperId:paperId andPaperRecordId:recordId andDisplayAnswer:NO];
-}
-
-//试卷服务
--(PaperService *)paperService{
-    static PaperService *_paperService;
-    if(!_paperService){
-        //初始化试卷服务
-        NSLog(@"初始化试卷服务...");
-        _paperService = [[PaperService alloc] init];
-    }
-    return _paperService;
+#pragma mark 重载初始化
+-(instancetype)init{
+    return [self initWithDisplayAnswer:NO];
 }
 
 #pragma mark UI入口
@@ -140,32 +126,50 @@
 #pragma mark PaperSubmitAlertViewDelegate
 //提交试卷处理
 -(void)submitPaperHandler{
-    _waitHud = [MBProgressHUD showHUDAddedTo:_lazyScrollView animated:YES];
-    _waitHud.color = [UIColor colorWithHex:0xD3D3D3];
-    //异步线程处理交卷数据处理
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSLog(@"开始异步线程处理交卷数据处理...");
-        [[self paperService] submitWithPaperRecordId:_paperRecordId];
-        //updateUI
-        dispatch_async(dispatch_get_main_queue(), ^{
-            //关闭等待动画
-            if(_waitHud){
-                [_waitHud hide:YES];
-            }
-            //控制器跳转
-            PaperResultViewController *resultController = [[PaperResultViewController alloc] initWithPaperId:_paperId andPaperRecordId:_paperRecordId];
-            [self.navigationController pushViewController:resultController animated:YES];
+    if(_delegate && [_delegate respondsToSelector:@selector(submitPaper:)]){
+        _waitHud = [MBProgressHUD showHUDAddedTo:_lazyScrollView animated:YES];
+        _waitHud.color = [UIColor colorWithHex:0xD3D3D3];
+        //异步线程处理交卷数据处理
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSLog(@"开始异步线程处理交卷数据处理...");
+            [_delegate submitPaper:^(NSString *paperRecordId) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //关闭等待动画
+                    if(_waitHud){
+                        [_waitHud hide:YES];
+                    }
+                    //控制器跳转
+                    if(paperRecordId && paperRecordId.length > 0){
+                        PaperResultViewController *resultController = [[PaperResultViewController alloc] initWithPaperRecordId:paperRecordId];
+                        resultController.paperViewControllerDelegate = _delegate;
+                        [self.navigationController pushViewController:resultController animated:YES];
+                    }
+                });
+            }];
         });
-    });
+    }
 }
 
 //右边按钮点击事件
 -(void)btnBarRightClick:(UIBarButtonItem *)sender{
     NSLog(@"右边按钮点击:%@...",sender);
-    AnswerCardViewController *answerCardController = [[AnswerCardViewController alloc] initWithPaperId:_paperId
-                                                                                      andPaperRecordId:_paperRecordId andDisplayAnswer:_displayAnswer];
-    answerCardController.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:answerCardController animated:YES];
+    AnswerCardViewController *targetController = nil;
+    NSArray *arrays = self.navigationController.viewControllers;
+    if(arrays && arrays.count > 0){
+        for(UIViewController *vc in arrays){
+            if(vc && [vc isKindOfClass:[AnswerCardViewController class]]){
+                targetController = (AnswerCardViewController *)vc;
+                break;
+            }
+        }
+    }
+    if(!targetController){
+        targetController = [[AnswerCardViewController alloc] init];
+    }
+    
+    targetController.answerCardDataSource = self;
+    targetController.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:targetController animated:YES];
 }
 
 //加载底部工具栏
@@ -248,11 +252,7 @@
         }
         [itemController favoriteItem:^(BOOL result) {
             NSLog(@"收藏结果:%d", result);
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //sender.image = (result ? _imgFavoriteHighlight : _imgFavoriteNormal);
-                [sender setImage:(result ? _imgFavoriteHighlight : _imgFavoriteNormal) forState:UIControlStateNormal];
-                //NSLog(@"1.current-image:%@,h:%@,n:%@",sender.image, _imgFavoriteHighlight, _imgFavoriteNormal);
-            });
+            [sender setImage:(result ? _imgFavoriteHighlight : _imgFavoriteNormal) forState:UIControlStateNormal];
         }];
     }
 }
@@ -269,38 +269,17 @@
     //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"异步线程加载试卷数据...");
-        _paperModel = [[self paperService] loadPaperModelWithPaperId:_paperId];
-        if(_paperModel && _paperModel.total > 0 && _paperModel.structures){
-            //初始化试题
-            _itemsArrays = [NSMutableArray arrayWithCapacity:_paperModel.total];
-            //填充数据
-            for(PaperStructureModel *structure in _paperModel.structures){
-                if(!structure || !structure.items) continue;
-                for(PaperItemModel *item in structure.items){
-                    if(!item || !item.itemId || item.itemId.length == 0) continue;
-                    //所属试卷结构ID
-                    item.structureId = structure.code;
-                    //所属试卷结构名称
-                    item.structureTitle = structure.title;
-                    //每题得分
-                    item.structureScore = structure.score;
-                    //最小得分
-                    item.structureMin = structure.min;
-                    //循环试题
-                    for(NSUInteger index = 0; index < item.count; index++){
-                        //试题索引
-                        item.index = index;
-                        if(_itemIndex && _itemIndex.length > 0){
-                            //试题索引
-                            NSString *itemOrderIndex = [NSString stringWithFormat:@"%@$%d", item.itemId, (int)index];
-                            if([_itemIndex isEqualToString:itemOrderIndex]){
-                                _itemOrder = _itemsArrays.count;
-                            }
-                        }
-                        //添加试题数据
-                        [_itemsArrays addObject:item];
-                    }
-                }
+        //初始化服务
+        _paperService = [[PaperService alloc] init];
+        //加载数据
+        if(_delegate && [_delegate respondsToSelector:@selector(dataSourceOfPaperViewController:)]){
+            _itemsArrays = [_delegate dataSourceOfPaperViewController:self];
+        }
+        //当前题号
+        if(_delegate && [_delegate respondsToSelector:@selector(currentOrderOfPaperViewController:)]){
+            _itemOrder = [_delegate currentOrderOfPaperViewController:self];
+            if(_itemOrder > 0 && _itemsArrays && _itemOrder >= _itemsArrays.count){
+                _itemOrder = _itemsArrays.count - 1;
             }
         }
         //UpdateUI
@@ -344,16 +323,6 @@
     }
 }
 
-#pragma mark 根据做题记录继续
--(void)loadRecordContinue{
-    if(!_paperRecordId || _paperRecordId.length == 0)return;
-    //异步线程加载数据
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        NSLog(@"根据做题记录继续...");
-        _itemIndex = [[self paperService] loadNewsItemIndexWithPaperRecordId:_paperRecordId];
-    });
-}
-
 //加载试题数据
 -(UIViewController *)loadItemsControllersWithIndex:(NSUInteger)index{
     if(_itemsArrays && index < _itemsArrays.count){
@@ -373,7 +342,6 @@
             PaperItemViewController *itemController = [[PaperItemViewController alloc] initWithPaperItem:itemModel
                                                                                                 andOrder:index
                                                                                         andDisplayAnswer:_displayAnswer];
-            itemController.PaperRecordId = _paperRecordId;
             itemController.delegate = self;
             controller = [[UINavigationController alloc]initWithRootViewController:itemController];
             //添加到缓存
@@ -392,14 +360,17 @@
         if(currentPageIndex >= 0 && currentPageIndex < _itemsArrays.count){
             //获取当前试题数据
             PaperItemModel *itemModel = [_itemsArrays objectAtIndex:currentPageIndex];
-            if(!itemModel || !itemModel.structureTitle || itemModel.structureTitle.length == 0)return;
+            if(!itemModel)return;
             //获取当前视图控制器
             PaperItemViewController *itemController = (PaperItemViewController *)((UINavigationController *)pagingView.visibleViewController).visibleViewController;
-            if(itemController){
+            if(itemController){//做题记时器开始
                 [itemController start];
             }
             //查询是否收藏
-            BOOL isFavorite = [[self paperService] exitFavoriteWithItemId:itemModel.itemId];
+            BOOL isFavorite = NO;
+            if(_paperService){
+                isFavorite = [_paperService exitFavoriteWithModel:itemModel];
+            }
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.title = itemModel.structureTitle;
                 NSArray *toolbars = self.toolbarItems;
@@ -423,7 +394,6 @@
                                     [btn setImage:(isFavorite ? _imgFavoriteHighlight : _imgFavoriteNormal)
                                          forState:UIControlStateNormal];
                                 }
-                                //NSLog(@"0.current-image:%@,h:%@,n:%@",bar.image, _imgFavoriteHighlight, _imgFavoriteNormal);
                                 break;
                             }
                         }
@@ -440,6 +410,37 @@
 -(void)itemViewController:(PaperItemViewController *)controller singleClickOrder:(NSUInteger)order{
     NSLog(@"下一题...");
     [self btnBarNextClick:nil];
+}
+//加载当前试题答案
+-(NSString *)itemViewController:(PaperItemViewController *)controller loadMyAnswerWithModel:(PaperItemModel *)itemModel{
+    NSLog(@"加载试题答案...");
+    if(_delegate && [_delegate respondsToSelector:@selector(loadMyAnswerWithModel:)]){
+        return [_delegate loadMyAnswerWithModel:itemModel];
+    }
+    return nil;
+}
+//更新做题记录
+-(void)updateRecordAnswerWithModel:(PaperItemModel *)itemModel myAnswers:(NSString *)myAnswers useTimes:(NSUInteger)times{
+    NSLog(@"更新做题记录...");
+    if(_delegate && [_delegate respondsToSelector:@selector(updateRecordAnswerWithModel:myAnswers:useTimes:)]){
+        [_delegate updateRecordAnswerWithModel:itemModel myAnswers:myAnswers useTimes:times];
+    }
+}
+//更新收藏记录
+-(BOOL)updateFavoriteWithModel:(PaperItemModel *)itemModel{
+    NSLog(@"更新收藏记录...");
+    if(_delegate && [_delegate respondsToSelector:@selector(updateFavoriteWithModel:)]){
+        return [_delegate updateFavoriteWithModel:itemModel];
+    }
+    return NO;
+}
+#pragma mark AnswerCardViewControllerDataSource
+//加载答题卡数据源
+-(void)loadAnswerCardDataWithSection:(NSArray *__autoreleasing *)sections andAllData:(NSDictionary *__autoreleasing *)dict{
+    NSLog(@"加载答题卡数据...");
+    if(_delegate && [_delegate respondsToSelector:@selector(loadAnswerCardDataWithSection:andAllData:)]){
+        [_delegate loadAnswerCardDataWithSection:sections andAllData:dict];
+    }
 }
 
 #pragma mark 内存告警

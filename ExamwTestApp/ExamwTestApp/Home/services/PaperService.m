@@ -22,7 +22,6 @@
 //试卷服务接口成员变量
 @interface PaperService (){
     FMDatabaseQueue *_dbQueue;
-    //DaoHelpers *_daoHelpers;
 }
 @end
 //试卷服务接口实现
@@ -36,7 +35,6 @@
         if(!_dbQueue){
             NSLog(@"创建数据操作失败!");
         }
-        _pageOfRows = __kPaperService_pageOfRows;
     }
     return self;
 }
@@ -224,13 +222,10 @@
 }
 
 #pragma mark 试题是否被收藏
--(BOOL)exitFavoriteWithItemId:(NSString *)itemId{
+-(BOOL)exitFavoriteWithModel:(PaperItemModel *)itemModel{
     __block BOOL result = NO;
-    if(itemId && itemId.length > 0){
-        if(!_dbQueue){
-            NSLog(@"创建数据操作失败!");
-            return result;
-        }
+    if(_dbQueue && itemModel){
+        NSString *itemId = [NSString stringWithFormat:@"%@$%d", itemModel.itemId, (int)itemModel.index];
         static NSString *query_sql = @"SELECT count(*) FROM tbl_favorites WHERE itemId = ?";
         [_dbQueue inDatabase:^(FMDatabase *db) {
             //执行脚本
@@ -274,6 +269,143 @@
         }];
     }
     return itemIndex;
+}
+#pragma mark 加载试题记录中的答案
+-(NSString *)loadRecordAnswersWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model{
+    __block NSString *answers = nil;
+    if(_dbQueue && recordId && model){
+        NSString *itemId = [NSString stringWithFormat:@"%@$%d", model.itemId, (int)model.index];
+        static NSString *query_sql = @"SELECT answer FROM tbl_itemRecords WHERE paperRecordId = ? and itemId = ? limit 0,1";
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            NSLog(@"exec-sql:%@", query_sql);
+            answers = [db stringForQuery:query_sql, recordId, itemId];
+        }];
+    }
+    return answers;
+}
+
+#pragma mark 添加试题记录
+-(void)addRecordWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model
+                        myAnswers:(NSString *)answers useTimes:(NSUInteger)useTimes{
+    NSLog(@"添加试卷试题记录...");
+    if(!_dbQueue)return;
+    if(!answers || answers.length == 0)return;
+    if(!recordId || recordId.length == 0)return;
+    if(!model || !model.itemId || model.itemId.length == 0)return;
+    //计算得分
+    NSNumber *score = @0;
+    BOOL isRight = NO;
+    if(model.itemAnswer && model.itemAnswer.length > 0){
+        NSUInteger count = 0;
+        isRight =YES;
+        NSArray *myAnswerArrays = [answers componentsSeparatedByString:@","];
+        for(NSString *myAnswer in myAnswerArrays){
+            if(!myAnswer || myAnswer.length == 0)continue;
+            NSRange range = [model.itemAnswer rangeOfString:myAnswer];
+            if(range.location != NSNotFound){
+                count += 1;
+            }else{
+                isRight = NO;
+            }
+        }
+        if(count == 0){
+            isRight = NO;
+        }
+        if(isRight){
+            score = model.structureScore;
+        }else if(count > 0){
+            score = model.structureMin;
+        }
+    }
+    //执行脚本
+    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+        @try {
+            //查询SQL
+            static NSString *query_sql = @"SELECT id FROM tbl_itemRecords WHERE paperRecordId = ? and itemId = ? limit 0,1";
+            NSString *itemId = [NSString stringWithFormat:@"%@$%d", model.itemId, (int)model.index];
+            //查询记录是否存在
+            NSString *itemRecordId = [db stringForQuery:query_sql, recordId, itemId];
+            if(itemRecordId && itemRecordId.length > 0){//更新记录
+                //更新SQL
+                static NSString *update_sql = @"UPDATE tbl_itemRecords SET answer = ?,status = ?,score = ?,useTimes = ?,lastTime = ?,sync = 0 WHERE id = ?";
+                NSLog(@"exec-sql:%@", update_sql);
+                NSDateFormatter *dtFormat = [[NSDateFormatter alloc] init];
+                [dtFormat setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+                NSString *lastTime = [dtFormat stringFromDate:[NSDate date]];
+                [db executeUpdate:update_sql, answers, [NSNumber numberWithBool:isRight],score,[NSNumber numberWithInteger:useTimes],lastTime, itemRecordId];
+            }else{//新增
+                itemRecordId = [[NSUUID UUID] UUIDString];
+                //试题密文
+                NSString *itemJSONEncypt = [PaperUtils encryptPaperContent:[model serializeJSON] andPassword:itemRecordId];
+                //新增SQL
+                static NSString *insert_sql = @"INSERT INTO  tbl_itemRecords(id,paperRecordId,structureId,itemId,itemType,content,answer,status,score,useTimes) values(?,?,?,?,?,?,?,?,?,?)";
+                NSLog(@"exec-sql:%@", insert_sql);
+                [db executeUpdate:insert_sql,itemRecordId,recordId,model.structureId,itemId,[NSNumber numberWithInteger:model.itemType],itemJSONEncypt,answers,[NSNumber numberWithBool:isRight],score,[NSNumber numberWithInteger:useTimes]];
+            }
+        }
+        @catch (NSException *exception) {
+            *rollback = YES;
+            NSLog(@"更新试题记录异常：%@", exception);
+        }
+    }];
+}
+
+#pragma mark 收藏/取消收藏(收藏返回true,取消返回false)
+-(BOOL)updateFavoriteWithPaperId:(NSString *)paperId itemModel:(PaperItemModel *)model{
+    __block BOOL result = NO;
+    if(_dbQueue && model && model.itemId && model.itemId.length > 0){
+        NSLog(@"开始收藏/取消收藏(收藏返回true,取消返回false)...");
+        NSString *itemId = [NSString stringWithFormat:@"%@$%d", model.itemId, (int)model.index];
+        //查询sql
+        static NSString *query_sql = @"SELECT id,status FROM tbl_favorites WHERE itemId = ? limit 0,1";
+        [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            @try {
+                NSString *favId = nil;
+                BOOL status = NO;
+                //查询数据
+                FMResultSet *rs = [db executeQuery:query_sql, itemId];
+                while ([rs next]) {
+                    favId = [rs stringForColumn:@"id"];
+                    status = [rs boolForColumn:@"status"];
+                    break;
+                }
+                [rs close];
+                //
+                if(status){//已收藏(应变为未收藏)
+                    result = YES;
+                    static NSString *update_sql_non = @"UPDATE tbl_favorites SET status = 0 WHERE id = ?";
+                    [db executeUpdate:update_sql_non, favId];
+                    result = NO;
+                }else{//未收藏
+                    result = NO;
+                    if(favId && favId.length > 0){//未收藏状态，更新状态变为已收藏
+                        static NSString *update_sql_has = @"UPDATE tbl_favorites SET status = 1 WHERE id = ?";
+                        [db executeUpdate:update_sql_has, favId];
+                        result = YES;
+                    }else{//新收藏
+                        static NSString *query_subject_sql = @"SELECT subjectCode FROM tbl_papers WHERE id = ?";
+                        NSString *subjectCode = [db stringForQuery:query_subject_sql, paperId];
+                        if(subjectCode && subjectCode.length > 0){
+                            static NSString *insert_sql = @"INSERT INTO tbl_favorites(id,subjectCode,itemId,itemType,content) values(?,?,?,?,?) ";
+                            favId = [[NSUUID UUID] UUIDString];
+                            //试题密文
+                            NSString *itemJSONEncypt = [PaperUtils encryptPaperContent:[model serializeJSON] andPassword:favId];
+                            NSLog(@"exec-sql:%@", insert_sql);
+                            [db executeUpdate:insert_sql,favId,subjectCode,itemId,[NSNumber numberWithInteger:model.itemType],itemJSONEncypt];
+                            result = YES;
+                        }else{
+                            NSLog(@"试卷[%@]或所属科目不存在!", paperId);
+                        }
+                    }
+                }
+            }
+            @catch (NSException *exception) {
+                *rollback = YES;
+                NSLog(@"执行收藏/取消收藏异常:%@",exception);
+            }
+        }];
+    }
+    return result;
 }
 
 #pragma mark 交卷处理
@@ -357,13 +489,13 @@
 }
 
 #pragma mark 加载错题记录
--(NSArray *)totalErrorRecords{
+-(NSArray *)totalErrorRecordsWithExamCode:(NSString *)examCode{
     __block NSMutableArray *arrays = nil;
     if(_dbQueue){
-        static NSString *total_sql = @"SELECT COUNT(a.id) as total,d.code,d.name FROM tbl_itemRecords a LEFT OUTER JOIN tbl_paperRecords b ON b.id = a.paperRecordId LEFT OUTER JOIN tbl_papers c ON c.id = b.paperId LEFT OUTER JOIN tbl_subjects d ON d.code = c.subjectCode WHERE a.status = 0 group by d.code,d.name";
+        static NSString *total_sql = @"SELECT a.code,a.name,COUNT(d.itemId) AS total FROM tbl_subjects a LEFT OUTER JOIN tbl_papers b ON b.subjectCode = a.code LEFT OUTER JOIN tbl_paperRecords c ON c.paperId = b.id LEFT OUTER JOIN tbl_itemRecords d ON d.paperRecordId = c.id WHERE d.status = 0 AND a.examCode = ? GROUP BY a.code,a.name";
         [_dbQueue inDatabase:^(FMDatabase *db) {
             arrays = [NSMutableArray array];
-            FMResultSet *rs = [db executeQuery:total_sql];
+            FMResultSet *rs = [db executeQuery:total_sql, examCode];
             while ([rs next]) {
                 [arrays addObject:@{@"subjectId":[rs stringForColumn:@"code"],
                                     @"subjectName":[rs stringForColumn:@"name"],
@@ -376,13 +508,13 @@
 }
 
 #pragma mark 加载收藏记录
--(NSArray *)totalFavoriteRecords{
+-(NSArray *)totalFavoriteRecordsWithExamCode:(NSString *)examCode{
     __block NSMutableArray *arrays = nil;
     if(_dbQueue){
-        static NSString *total_sql = @"select count(a.itemId) as total,b.code,b.name from tbl_favorites a left outer join tbl_subjects b on b.code = a.subjectCode group by b.code,b.name";
+        static NSString *total_sql = @"SELECT a.code,a.name,COUNT(b.itemId) AS total FROM tbl_subjects a LEFT OUTER JOIN tbl_favorites b ON b.subjectCode = a.code WHERE a.examCode = ? GROUP BY a.code,a.name";
         [_dbQueue inDatabase:^(FMDatabase *db) {
             arrays = [NSMutableArray array];
-            FMResultSet *rs = [db executeQuery:total_sql];
+            FMResultSet *rs = [db executeQuery:total_sql, examCode];
             while ([rs next]) {
                 [arrays addObject:@{@"subjectId":[rs stringForColumn:@"code"],
                                     @"subjectName":[rs stringForColumn:@"name"],

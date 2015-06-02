@@ -7,15 +7,15 @@
 //
 
 #import "AnswerCardViewController.h"
-#import "PaperService.h"
-#import "PaperModel.h"
-#import "PaperStructureModel.h"
-#import "PaperItemModel.h"
+//#import "PaperService.h"
+//#import "PaperModel.h"
+//#import "PaperStructureModel.h"
+//#import "PaperItemModel.h"
 
-#import "AnswerCardSectionModel.h"
+//#import "AnswerCardSectionModel.h"
 #import "AnswerCardSectionModelCellFrame.h"
 
-#import "AnswerCardModel.h"
+//#import "AnswerCardModel.h"
 #import "AnswerCardModelCellFrame.h"
 
 #import "AnswerCardCollectionViewCell.h"
@@ -32,15 +32,10 @@
 #define __kAnswerCardViewController_sectionIdentifier @"_cellSection"//
 //答题卡试图控制器成员变量
 @interface AnswerCardViewController ()<UICollectionViewDelegateFlowLayout,AnswerCardCollectionViewCellDelegate>{
-    //试卷ID/试卷记录ID
-    NSString *_paperId,*_paperRecordId;
-    BOOL _displayAnswer;
     //分组数据源
     NSMutableArray *_sectionSource;
     //数据源
     NSMutableDictionary *_dataSource;
-    //数据服务
-    PaperService *_paperService;
     //等待动画
     MBProgressHUD *_waitHud;
 }
@@ -51,12 +46,10 @@
 @implementation AnswerCardViewController
 
 #pragma mark 初始化
--(instancetype)initWithPaperId:(NSString *)paperId andPaperRecordId:(NSString *)recordId andDisplayAnswer:(BOOL)display{
+-(instancetype)init{
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     if(self = [super initWithCollectionViewLayout:flowLayout]){
-        _paperId = paperId;
-        _paperRecordId = recordId;
-        _displayAnswer = display;
+        
     }
     return self;
 }
@@ -71,7 +64,6 @@
     self.title = __kAnswerCardViewController_title;
     //设置背景色
     self.collectionView.backgroundColor = [UIColor colorWithHex:0xFFFAF0];
-    //设置内边距
     
     //注册数据Cell
     [self.collectionView registerClass:[AnswerCardCollectionViewCell class]
@@ -97,59 +89,46 @@
 
 //加载异步数据
 -(void)loadData{
-    if(!_paperId || _paperId.length == 0)return;
     //异步加载数据
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^(){
         NSLog(@"异步线程加载答题卡数据...");
-        //初始化数据服务
-        _paperService = [[PaperService alloc] init];
-        //加载试卷
-        PaperModel *paperModel = [_paperService loadPaperModelWithPaperId:_paperId];
-        if(!paperModel){
-            NSLog(@"加载试卷数据失败!");
-            return;
-        }
-        NSUInteger len = 0;
-        if(paperModel.structures && (len = paperModel.structures.count) > 0){
-            //初始化分组数据
-            _sectionSource = [NSMutableArray arrayWithCapacity:len];
-            //初始化数据
-            _dataSource = [NSMutableDictionary dictionaryWithCapacity:len];
-            //排序号
-            NSUInteger order = 0, count = 0;
-            //循环试卷结构
-            for(NSUInteger i = 0; i < len; i++){
-                PaperStructureModel *structrueModel = [paperModel.structures objectAtIndex:i];
-                if(!structrueModel) continue;
-                //分组SectionFrame
-                AnswerCardSectionModelCellFrame *sectionFrame = [[AnswerCardSectionModelCellFrame alloc] init];
-                sectionFrame.model = [[AnswerCardSectionModel alloc] initWithTitle:structrueModel.title desc:structrueModel.desc];
-                [_sectionSource addObject:sectionFrame];
-                //试题
-                if(structrueModel.items && (count = structrueModel.items.count) > 0){
-                    NSMutableArray *itemsArrays = [NSMutableArray arrayWithCapacity:count];
-                    for(NSUInteger j = 0; j < count; j++){
-                        PaperItemModel *itemModel = [structrueModel.items objectAtIndex:j];
-                        if(!itemModel)continue;
-                        for(NSUInteger index = 0; index < itemModel.count; index++){
-                            itemModel.index = index;
-                            //查询试题是否存在
-                            NSUInteger status = [_paperService exitRecordWithPaperRecordId:_paperRecordId itemModel:itemModel];
-                            //初始化Cell Frame
-                            AnswerCardModelCellFrame *itemFrame = [[AnswerCardModelCellFrame alloc] init];
-                            itemFrame.model = [[AnswerCardModel alloc] initWithOrder:order status:status displayAnswer:_displayAnswer];
-                            //添加到数组
-                            [itemsArrays addObject:itemFrame];
-                            //序号
-                            order += 1;
-                        }
-                    }
-                    //添加到分组数据源
-                    [_dataSource setObject:[itemsArrays copy] forKey:[NSNumber numberWithInteger:i]];
+        if(_answerCardDataSource && [_answerCardDataSource respondsToSelector:@selector(loadAnswerCardDataWithSection:andAllData:)]){
+            NSArray *sectionArrays;
+            NSDictionary *allDataDicts;
+            [_answerCardDataSource loadAnswerCardDataWithSection:&sectionArrays andAllData:&allDataDicts];
+            if(sectionArrays && sectionArrays.count > 0){
+                _sectionSource = [NSMutableArray arrayWithCapacity:sectionArrays.count];
+                NSLog(@"开始答题卡分组数据模型Frame转换...");
+                for(AnswerCardSectionModel *sectionModel in sectionArrays){
+                    if(!sectionModel)continue;
+                    AnswerCardSectionModelCellFrame *cellFrame = [[AnswerCardSectionModelCellFrame alloc] init];
+                    cellFrame.model = sectionModel;
+                    [_sectionSource addObject:cellFrame];
                 }
+                NSLog(@"加载答题卡分组数据完毕...");
+            }
+            if(allDataDicts && allDataDicts.count > 0){
+                _dataSource = [NSMutableDictionary dictionaryWithCapacity:allDataDicts.count];
+                NSLog(@"开始答题卡数据模型Frame转换...");
+                NSArray *keys = allDataDicts.allKeys;
+                for(NSNumber *key in keys){
+                    if(!key)continue;
+                    NSArray *arrays = [allDataDicts objectForKey:key];
+                    if(arrays){
+                        NSMutableArray *dataArrays = [NSMutableArray arrayWithCapacity:arrays.count];
+                        for(AnswerCardModel *model in arrays){
+                            if(!model)continue;
+                            AnswerCardModelCellFrame *frame = [[AnswerCardModelCellFrame alloc] init];
+                            frame.model = model;
+                            [dataArrays addObject:frame];
+                        }
+                        [_dataSource setObject:[dataArrays copy] forKey:key];
+                    }
+                }
+                NSLog(@"加载答题卡全部数据完毕...");
             }
         }
-        //UpdateUI
+        //update UI
         dispatch_async(dispatch_get_main_queue(), ^{
             //刷新数据
             [self.collectionView reloadData];
@@ -164,12 +143,12 @@
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+    //分组数据
     if(_sectionSource && _sectionSource.count > 0){
-        NSLog(@"清空分组数据...");
         [_sectionSource removeAllObjects];
     }
+    //全部数据
     if(_dataSource && _dataSource.count > 0){
-        NSLog(@"清空数据源...");
         [_dataSource removeAllObjects];
     }
 }
@@ -179,13 +158,12 @@
 -(void)answerCardCell:(AnswerCardCollectionViewCell *)cell clickOrder:(NSUInteger)order{
     NSLog(@"Cell 点击: %d....", (int)order);
     //试题控制器
-    static PaperViewController *targetController;
+    PaperViewController *targetController;
     if(!targetController){
         NSArray *controllers = self.navigationController.viewControllers;
         if(controllers && controllers.count > 0){
             for(UIViewController *controller in controllers){
-                if(!controller) continue;
-                if([controller isKindOfClass:[PaperViewController class]]){
+                if(controller && [controller isKindOfClass:[PaperViewController class]]){
                     targetController = (PaperViewController *)controller;
                     break;
                 }
@@ -205,8 +183,8 @@
 #pragma mark <UICollectionViewDataSource>
 //分组数据
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    if(_sectionSource){
-        return _sectionSource.count;
+    if(_dataSource){
+        return _dataSource.count;
     }
     return 0;
 }
@@ -234,7 +212,6 @@
                 [cell loadModelCellFrame:[arrays objectAtIndex:indexPath.item]];
             }
         }
-
     }
     return cell;
 }
