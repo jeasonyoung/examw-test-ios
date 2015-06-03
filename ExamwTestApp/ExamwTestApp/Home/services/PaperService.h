@@ -71,4 +71,7 @@
 
 //根据科目加载错题集合
 -(NSArray *)loadErrorsWithSubjectCode:(NSString *)subjectCode;
+
+//根据考试加载试卷记录
+-(NSArray *)totalPaperRecordsWithExamCode:(NSString *)examCode;
 @end

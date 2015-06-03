@@ -322,7 +322,7 @@
 -(void)loadAnswerCardDataWithSection:(NSArray *__autoreleasing *)sections andAllData:(NSDictionary *__autoreleasing *)dict{
     NSLog(@"加载答题卡数据源...");
     if(_cardSection && _cardAllData){
-        *sections = [_cardAllData copy];
+        *sections = [_cardSection copy];
         
         //加载做题记录
         if(_cardAllData && _cardAllData.count > 0 && _itemsArrays && _recordModel){

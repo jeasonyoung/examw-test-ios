@@ -7,9 +7,6 @@
 //
 
 #import "PaperViewController.h"
-
-//#import "PaperModel.h"
-//#import "PaperStructureModel.h"
 #import "PaperItemModel.h"
 
 #import "PaperService.h"
@@ -25,6 +22,8 @@
 
 #import "MBProgressHUD.h"
 #import "UIColor+Hex.h"
+
+#import "UIViewController+VisibleView.h"
 
 #define __kPaperViewController_tag_btnPrev 0x01//上一题
 #define __kPaperViewController_tag_btnNext 0x02//下一题
@@ -239,13 +238,8 @@
 //收藏
 -(void)btnBarFavoriteClick:(UIButton *)sender{
     NSLog(@"收藏:%@...",sender);
-    if(_lazyScrollView){
-        UINavigationController *navController = (UINavigationController *)[_lazyScrollView visibleViewController];
-        if(!navController){
-            NSLog(@"获取当前控制器失败!");
-            return;
-        }
-        PaperItemViewController *itemController = (PaperItemViewController *)navController.visibleViewController;
+    if(_lazyScrollView && _viewControllerArrays){
+        PaperItemViewController *itemController = (PaperItemViewController *)[_viewControllerArrays objectAtIndex:_lazyScrollView.currentPage];
         if(!itemController){
             NSLog(@"获取当前试题视图控制器失败!");
             return;
@@ -290,8 +284,10 @@
         }
         //UpdateUI
         dispatch_async(dispatch_get_main_queue(), ^{
+            CGRect rect = [self loadVisibleViewFrame];
+            UIView *panelView = [[UIView alloc] initWithFrame:rect];
             //初始化滚动视图
-            _lazyScrollView = [[DMLazyScrollView alloc] initWithFrame:self.view.bounds];
+            _lazyScrollView = [[DMLazyScrollView alloc] initWithFrame:CGRectMake(0, 0, CGRectGetWidth(rect), CGRectGetHeight(rect))];
             _lazyScrollView.controlDelegate = self;
             //_lazyScrollView.backgroundColor = [UIColor blueColor];
             [_lazyScrollView setEnableCircularScroll:NO];
@@ -311,7 +307,8 @@
                 [_lazyScrollView setPage:_itemOrder animated:YES];
             }
             //添加到容器
-            [self.view addSubview:_lazyScrollView];
+            [panelView addSubview:_lazyScrollView];
+            [self.view addSubview:panelView];
         });
     });
 }
@@ -340,9 +337,8 @@
                                                                                             andOrder:index
                                                                                     andDisplayAnswer:_displayAnswer];
         itemController.delegate = self;
-        UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:itemController];
-        [_viewControllerArrays replaceObjectAtIndex:index withObject:navController];
-        return navController;
+        [_viewControllerArrays replaceObjectAtIndex:index withObject:itemController];
+        return itemController;
     }
     return res;
 }
@@ -357,7 +353,7 @@
             id res = [_viewControllerArrays objectAtIndex:currentPageIndex];
             if(res == [NSNull null])return;
             //获取视图控制器
-            PaperItemViewController *ivc = (PaperItemViewController *)((UINavigationController *)res).visibleViewController;
+            PaperItemViewController *ivc = (PaperItemViewController *)res;
             if(!ivc) return;
             //做题记时器开始
             [ivc start];

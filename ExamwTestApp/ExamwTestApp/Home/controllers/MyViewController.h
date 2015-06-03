@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-//个人信息视图控制器
-@interface MyViewController : UIViewController
+//我的视图控制器
+@interface MyViewController : UITableViewController
 
 @end

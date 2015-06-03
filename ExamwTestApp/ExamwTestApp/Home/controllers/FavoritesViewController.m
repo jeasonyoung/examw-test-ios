@@ -34,6 +34,8 @@
     PaperService *_service;
     NSMutableArray *_dataSource;
     
+    BOOL _isLoad;
+    
     NSArray *_itemsArrays,*_segmentArrays;
 }
 @end
@@ -43,6 +45,7 @@
 #pragma mark 重载初始化
 -(instancetype)init{
     if(self = [super initWithStyle:UITableViewStylePlain]){
+        _isLoad = NO;
         //初始化分段
         _segmentArrays = @[@"错题",@"收藏"];
         //初始化考试代码
@@ -83,12 +86,8 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //初始化数据服务
         _service = [[PaperService alloc] init];
-        //
-        if(!_dataSource){
-            _dataSource = [NSMutableArray array];
-        }else if(_dataSource.count > 0){//清除数据
-            [_dataSource removeAllObjects];
-        }
+        //初始化数据源
+        _dataSource = [NSMutableArray array];
         NSLog(@"异步线程加载数据:[%d]...", (int)segValue);
         NSArray *arrays;
         switch (segValue) {
@@ -258,12 +257,18 @@
     //隐藏导航条
     //self.navigationController.navigationBarHidden = YES;
     [self.navigationController setToolbarHidden:YES];
+    if(_isLoad){
+        //重新加载数据
+        [self loadDataWithSegValue:_segValue];
+    }
 }
 #pragma mark 重载视图将卸载
 -(void)viewWillDisappear:(BOOL)animated{
     NSLog(@"视图将卸载...");
     //隐藏导航条
     //self.navigationController.navigationBarHidden = NO;
+    //
+    _isLoad = YES;
 }
 
 
