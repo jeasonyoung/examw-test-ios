@@ -45,7 +45,7 @@
     //
     DMLazyScrollView *_lazyScrollView;
     //
-    NSMutableDictionary *_controllers;
+    NSMutableArray *_viewControllerArrays;
     //
     PaperExitAlertView *_exitAlert;
     PaperSubmitAlertView *_submitAlert;
@@ -275,6 +275,12 @@
         if(_delegate && [_delegate respondsToSelector:@selector(dataSourceOfPaperViewController:)]){
             _itemsArrays = [_delegate dataSourceOfPaperViewController:self];
         }
+        //初始化控制器缓存
+        NSUInteger numberOfPages = _itemsArrays.count;
+        _viewControllerArrays = [NSMutableArray arrayWithCapacity:numberOfPages];
+        for(NSUInteger i = 0; i < numberOfPages; i++){
+            [_viewControllerArrays addObject:[NSNull null]];
+        }
         //当前题号
         if(_delegate && [_delegate respondsToSelector:@selector(currentOrderOfPaperViewController:)]){
             _itemOrder = [_delegate currentOrderOfPaperViewController:self];
@@ -287,8 +293,7 @@
             //初始化滚动视图
             _lazyScrollView = [[DMLazyScrollView alloc] initWithFrame:self.view.bounds];
             _lazyScrollView.controlDelegate = self;
-            _lazyScrollView.backgroundColor = [UIColor blueColor];
-            [self.view addSubview:_lazyScrollView];
+            //_lazyScrollView.backgroundColor = [UIColor blueColor];
             [_lazyScrollView setEnableCircularScroll:NO];
             [_lazyScrollView setAutoPlay:NO];
             //设置加载试题数据
@@ -297,14 +302,16 @@
                 NSLog(@"加载[%d]试题...", (int)index);
                 return [weakSelf loadItemsControllersWithIndex:index];
             };
+            //设置试题总数
+            _lazyScrollView.numberOfPages = numberOfPages;
             //设置加载完成
             _isLoaded = YES;
-            //设置试题总数
-            _lazyScrollView.numberOfPages = _itemsArrays.count;
             //设置到指定的题序
             if(_itemOrder > 0){
-                [_lazyScrollView setPage:_itemOrder animated:NO];
+                [_lazyScrollView setPage:_itemOrder animated:YES];
             }
+            //添加到容器
+            [self.view addSubview:_lazyScrollView];
         });
     });
 }
@@ -324,32 +331,20 @@
 }
 
 //加载试题数据
--(UIViewController *)loadItemsControllersWithIndex:(NSUInteger)index{
-    if(_itemsArrays && index < _itemsArrays.count){
-        NSLog(@"加载试题控制器[%d]...", (int)index);
-        //控制器
-        UIViewController *controller = nil;
-        if(!_controllers){
-            //初始化Controllers缓存
-            _controllers = [NSMutableDictionary dictionary];
-        }else{
-            controller = [_controllers objectForKey:[NSNumber numberWithInteger:index]];
-        }
-        if(!controller){
-            NSLog(@"创建试题控制器[%d]...", (int)index);
-            PaperItemModel *itemModel = [_itemsArrays objectAtIndex:index];
-            if(!itemModel)return nil;
-            PaperItemViewController *itemController = [[PaperItemViewController alloc] initWithPaperItem:itemModel
-                                                                                                andOrder:index
-                                                                                        andDisplayAnswer:_displayAnswer];
-            itemController.delegate = self;
-            controller = [[UINavigationController alloc]initWithRootViewController:itemController];
-            //添加到缓存
-            [_controllers setObject:controller forKey:[NSNumber numberWithInteger:index]];
-        }
-        return controller;
+-(UIViewController *)loadItemsControllersWithIndex:(NSInteger)index{
+    if(index > _viewControllerArrays.count || index < 0) return nil;
+    id res = [_viewControllerArrays objectAtIndex:index];
+    if(res == [NSNull null]){
+         NSLog(@"创建试题控制器[%d]...", (int)index);
+        PaperItemViewController *itemController = [[PaperItemViewController alloc] initWithPaperItem:[_itemsArrays objectAtIndex:index]
+                                                                                            andOrder:index
+                                                                                    andDisplayAnswer:_displayAnswer];
+        itemController.delegate = self;
+        UINavigationController *navController = [[UINavigationController alloc]initWithRootViewController:itemController];
+        [_viewControllerArrays replaceObjectAtIndex:index withObject:navController];
+        return navController;
     }
-    return nil;
+    return res;
 }
 
 #pragma mark DMLazyScrollViewDelegate
@@ -357,22 +352,27 @@
     //异步线程更新标题
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"异步线程更新试题[%d]标题...", (int)currentPageIndex);
-        if(currentPageIndex >= 0 && currentPageIndex < _itemsArrays.count){
+        if(currentPageIndex >= 0 && currentPageIndex < _viewControllerArrays.count){
+            //获取当前视图控制器
+            id res = [_viewControllerArrays objectAtIndex:currentPageIndex];
+            if(res == [NSNull null])return;
+            //获取视图控制器
+            PaperItemViewController *ivc = (PaperItemViewController *)((UINavigationController *)res).visibleViewController;
+            if(!ivc) return;
+            //做题记时器开始
+            [ivc start];
             //获取当前试题数据
             PaperItemModel *itemModel = [_itemsArrays objectAtIndex:currentPageIndex];
             if(!itemModel)return;
-            //获取当前视图控制器
-            PaperItemViewController *itemController = (PaperItemViewController *)((UINavigationController *)pagingView.visibleViewController).visibleViewController;
-            if(itemController){//做题记时器开始
-                [itemController start];
-            }
             //查询是否收藏
             BOOL isFavorite = NO;
             if(_paperService){
                 isFavorite = [_paperService exitFavoriteWithModel:itemModel];
             }
             dispatch_async(dispatch_get_main_queue(), ^{
-                self.title = itemModel.structureTitle;
+                if(itemModel.structureTitle && itemModel.structureTitle.length > 0){
+                    self.title = itemModel.structureTitle;
+                }
                 NSArray *toolbars = self.toolbarItems;
                 if(toolbars && toolbars.count > 0){
                     for(UIBarButtonItem *bar in toolbars){
@@ -446,8 +446,5 @@
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    if(_controllers && _controllers.count > 0){
-        [_controllers removeAllObjects];
-    }
 }
 @end

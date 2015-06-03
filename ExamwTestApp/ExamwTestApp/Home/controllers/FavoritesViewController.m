@@ -34,7 +34,7 @@
     PaperService *_service;
     NSMutableArray *_dataSource;
     
-    NSArray *_itemsArrays;
+    NSArray *_itemsArrays,*_segmentArrays;
 }
 @end
 //收藏/错题视图控制器实现
@@ -43,6 +43,9 @@
 #pragma mark 重载初始化
 -(instancetype)init{
     if(self = [super initWithStyle:UITableViewStylePlain]){
+        //初始化分段
+        _segmentArrays = @[@"错题",@"收藏"];
+        //初始化考试代码
         AppSettings *settings = ((AppDelegate *)[[UIApplication sharedApplication] delegate]).appSettings;
         if(settings){
             _examCode = [settings.examCode stringValue];
@@ -62,7 +65,7 @@
 
 //加载Nav切换导航器
 -(void)setupNavSwitch{
-    UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:@[@"错题",@"收藏"]];
+    UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:_segmentArrays];
     segment.frame = CGRectMake(0, 0, 200, 30);
     segment.selectedSegmentIndex = __kFavoritesViewController_segErrorValue;
     [segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
@@ -152,6 +155,7 @@
         NSLog(@"subjectId===%d===>%@...", (int)_segValue, _subjectId);
         
         PaperViewController *controller = [[PaperViewController alloc] initWithDisplayAnswer:YES];
+        controller.title = [_segmentArrays objectAtIndex:_segValue];
         controller.delegate = self;
         controller.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:controller animated:YES];
@@ -246,6 +250,22 @@
         *dict = [dataDicts copy];
     }
 }
+
+#pragma mark 重载视图将载入
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSLog(@"视图将载入...");
+    //隐藏导航条
+    //self.navigationController.navigationBarHidden = YES;
+    [self.navigationController setToolbarHidden:YES];
+}
+#pragma mark 重载视图将卸载
+-(void)viewWillDisappear:(BOOL)animated{
+    NSLog(@"视图将卸载...");
+    //隐藏导航条
+    //self.navigationController.navigationBarHidden = NO;
+}
+
 
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {
