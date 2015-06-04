@@ -41,8 +41,6 @@
 		A141145B1B204BEA00179630 /* AppClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A141145A1B204BEA00179630 /* AppClient.m */; };
 		A141145E1B204FE300179630 /* MHTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A141145D1B204FE300179630 /* MHTextField.m */; };
 		A14114611B20505300179630 /* UserRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114601B20505300179630 /* UserRegisterModel.m */; };
-		A14114641B20582800179630 /* MyRegisterModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114631B20582800179630 /* MyRegisterModelCellFrame.m */; };
-		A14114671B2059DA00179630 /* MyRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114661B2059DA00179630 /* MyRegisterModel.m */; };
 		A141146A1B20608700179630 /* ESTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114691B20608700179630 /* ESTextField.m */; };
 		A17098E71B0581C00083AF01 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A17098CF1B0581C00083AF01 /* MJRefresh.bundle */; };
 		A17098E81B0581C00083AF01 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098D21B0581C00083AF01 /* MJRefreshComponent.m */; };
@@ -247,10 +245,6 @@
 		A141145D1B204FE300179630 /* MHTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHTextField.m; path = libs/MHTextField/MHTextField.m; sourceTree = "<group>"; };
 		A141145F1B20505300179630 /* UserRegisterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserRegisterModel.h; path = Home/models/UserRegisterModel.h; sourceTree = "<group>"; };
 		A14114601B20505300179630 /* UserRegisterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserRegisterModel.m; path = Home/models/UserRegisterModel.m; sourceTree = "<group>"; };
-		A14114621B20582800179630 /* MyRegisterModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyRegisterModelCellFrame.h; path = Home/models/MyRegisterModelCellFrame.h; sourceTree = "<group>"; };
-		A14114631B20582800179630 /* MyRegisterModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyRegisterModelCellFrame.m; path = Home/models/MyRegisterModelCellFrame.m; sourceTree = "<group>"; };
-		A14114651B2059DA00179630 /* MyRegisterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyRegisterModel.h; path = Home/models/MyRegisterModel.h; sourceTree = "<group>"; };
-		A14114661B2059DA00179630 /* MyRegisterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyRegisterModel.m; path = Home/models/MyRegisterModel.m; sourceTree = "<group>"; };
 		A14114681B20608700179630 /* ESTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESTextField.h; path = ExamwTestApp/Utils/ESTextField.h; sourceTree = "<group>"; };
 		A14114691B20608700179630 /* ESTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESTextField.m; path = ExamwTestApp/Utils/ESTextField.m; sourceTree = "<group>"; };
 		A17098CF1B0581C00083AF01 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MJRefresh.bundle; path = libs/MJRefresh/MJRefresh.bundle; sourceTree = "<group>"; };
@@ -728,10 +722,6 @@
 				A1B827861B1EF34000DA9CC2 /* MySubjectModelCellFrame.m */,
 				A141145F1B20505300179630 /* UserRegisterModel.h */,
 				A14114601B20505300179630 /* UserRegisterModel.m */,
-				A14114651B2059DA00179630 /* MyRegisterModel.h */,
-				A14114661B2059DA00179630 /* MyRegisterModel.m */,
-				A14114621B20582800179630 /* MyRegisterModelCellFrame.h */,
-				A14114631B20582800179630 /* MyRegisterModelCellFrame.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -1183,7 +1173,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A14114671B2059DA00179630 /* MyRegisterModel.m in Sources */,
 				A1C6AD831B0C74770002BE81 /* AFURLSessionManager.m in Sources */,
 				A1936CA51B0F1C4900C59A06 /* MyViewController.m in Sources */,
 				A1C51B0A1B1F32E3000F172B /* MySubjectModelTableViewCell.m in Sources */,
@@ -1207,7 +1196,6 @@
 				A1DF97EA1B1220F3000F2B73 /* PaperService.m in Sources */,
 				A1C6AD911B0C90AC0002BE81 /* MBProgressHUD.m in Sources */,
 				A1DF97ED1B12AC01000F2B73 /* PaperInfoModelCellFrame.m in Sources */,
-				A14114641B20582800179630 /* MyRegisterModelCellFrame.m in Sources */,
 				A1BD6FF21B198E9E00A754B7 /* AnswerCardModelCellFrame.m in Sources */,
 				A17098EA1B0581C00083AF01 /* MJRefreshFooter.m in Sources */,
 				A1BD6FE91B196D1D00A754B7 /* AnswerCardModel.m in Sources */,
