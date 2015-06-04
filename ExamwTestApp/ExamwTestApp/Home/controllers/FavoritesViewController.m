@@ -34,7 +34,7 @@
     PaperService *_service;
     NSMutableArray *_dataSource;
     
-    BOOL _isLoad;
+    BOOL _isReLoad;
     
     NSArray *_itemsArrays,*_segmentArrays;
 }
@@ -45,7 +45,7 @@
 #pragma mark 重载初始化
 -(instancetype)init{
     if(self = [super initWithStyle:UITableViewStylePlain]){
-        _isLoad = NO;
+        _isReLoad = NO;
         //初始化分段
         _segmentArrays = @[@"错题",@"收藏"];
         //初始化考试代码
@@ -257,7 +257,8 @@
     //隐藏导航条
     //self.navigationController.navigationBarHidden = YES;
     [self.navigationController setToolbarHidden:YES];
-    if(_isLoad){
+    if(_isReLoad){
+        _isReLoad = NO;
         //重新加载数据
         [self loadDataWithSegValue:_segValue];
     }
@@ -268,7 +269,7 @@
     //隐藏导航条
     //self.navigationController.navigationBarHidden = NO;
     //
-    _isLoad = YES;
+    _isReLoad = YES;
 }
 
 

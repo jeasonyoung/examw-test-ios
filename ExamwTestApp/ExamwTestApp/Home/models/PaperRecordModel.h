@@ -16,6 +16,9 @@
 //所属试卷ID
 @property(nonatomic,copy)NSString *paperId;
 
+//所属
+@property(nonatomic,copy)NSString *paperName;
+
 //做卷状态(Yes-已做完,No-未做完)
 @property(nonatomic,assign)BOOL status;
 
@@ -27,6 +30,9 @@
 
 //用时(秒)
 @property(nonatomic,assign)NSUInteger useTimes;
+
+//最后修改时间
+@property(nonatomic,copy)NSString *lastTime;
 
 //初始化
 -(instancetype)initWithPaperId:(NSString *)paperId;

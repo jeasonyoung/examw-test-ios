@@ -33,6 +33,9 @@
 		A13BB7951B0B31930063C64B /* ExamViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB7941B0B31930063C64B /* ExamViewController.m */; };
 		A13BB7981B0B38B00063C64B /* ExamModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB7971B0B38B00063C64B /* ExamModelCellFrame.m */; };
 		A13BB79C1B0B47800063C64B /* ExamTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A13BB79B1B0B47800063C64B /* ExamTableViewCell.m */; };
+		A141144C1B1FDE1300179630 /* PaperRecordModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A141144B1B1FDE1300179630 /* PaperRecordModelCellFrame.m */; };
+		A141144E1B1FE5F600179630 /* iconRecord.png in Resources */ = {isa = PBXBuildFile; fileRef = A141144D1B1FE5F600179630 /* iconRecord.png */; };
+		A14114511B20001F00179630 /* PaperRecordModelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114501B20001F00179630 /* PaperRecordModelTableViewCell.m */; };
 		A17098E71B0581C00083AF01 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A17098CF1B0581C00083AF01 /* MJRefresh.bundle */; };
 		A17098E81B0581C00083AF01 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098D21B0581C00083AF01 /* MJRefreshComponent.m */; };
 		A17098E91B0581C00083AF01 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098D41B0581C00083AF01 /* MJRefreshConst.m */; };
@@ -113,6 +116,7 @@
 		A1BD6FF81B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1BD6FF71B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.m */; };
 		A1C51B0A1B1F32E3000F172B /* MySubjectModelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C51B091B1F32E3000F172B /* MySubjectModelTableViewCell.m */; };
 		A1C51B0C1B1F4682000F172B /* iconSubject.png in Resources */ = {isa = PBXBuildFile; fileRef = A1C51B0B1B1F4682000F172B /* iconSubject.png */; };
+		A1C51B0F1B1F4B9F000F172B /* MyRecordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C51B0E1B1F4B9F000F172B /* MyRecordViewController.m */; };
 		A1C6AD4C1B0C0C790002BE81 /* ProductViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD4B1B0C0C790002BE81 /* ProductViewController.m */; };
 		A1C6AD4F1B0C0EC60002BE81 /* ProductModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD4E1B0C0EC60002BE81 /* ProductModelCellFrame.m */; };
 		A1C6AD521B0C31000002BE81 /* ProductTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1C6AD511B0C31000002BE81 /* ProductTableViewCell.m */; };
@@ -220,6 +224,11 @@
 		A13BB7991B0B39780063C64B /* DataModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataModelCellFrame.h; path = ExamwTestApp/Utils/DataModelCellFrame.h; sourceTree = "<group>"; };
 		A13BB79A1B0B47800063C64B /* ExamTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ExamTableViewCell.h; path = SwitchProduct/views/ExamTableViewCell.h; sourceTree = "<group>"; };
 		A13BB79B1B0B47800063C64B /* ExamTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ExamTableViewCell.m; path = SwitchProduct/views/ExamTableViewCell.m; sourceTree = "<group>"; };
+		A141144A1B1FDE1300179630 /* PaperRecordModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperRecordModelCellFrame.h; path = Home/models/PaperRecordModelCellFrame.h; sourceTree = "<group>"; };
+		A141144B1B1FDE1300179630 /* PaperRecordModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperRecordModelCellFrame.m; path = Home/models/PaperRecordModelCellFrame.m; sourceTree = "<group>"; };
+		A141144D1B1FE5F600179630 /* iconRecord.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iconRecord.png; path = images/iconRecord.png; sourceTree = "<group>"; };
+		A141144F1B20001F00179630 /* PaperRecordModelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperRecordModelTableViewCell.h; path = Home/views/PaperRecordModelTableViewCell.h; sourceTree = "<group>"; };
+		A14114501B20001F00179630 /* PaperRecordModelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperRecordModelTableViewCell.m; path = Home/views/PaperRecordModelTableViewCell.m; sourceTree = "<group>"; };
 		A17098CF1B0581C00083AF01 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MJRefresh.bundle; path = libs/MJRefresh/MJRefresh.bundle; sourceTree = "<group>"; };
 		A17098D01B0581C00083AF01 /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MJRefresh.h; path = libs/MJRefresh/MJRefresh.h; sourceTree = "<group>"; };
 		A17098D11B0581C00083AF01 /* MJRefreshComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MJRefreshComponent.h; path = libs/MJRefresh/MJRefreshComponent.h; sourceTree = "<group>"; };
@@ -368,6 +377,8 @@
 		A1C51B081B1F32E3000F172B /* MySubjectModelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MySubjectModelTableViewCell.h; path = Home/views/MySubjectModelTableViewCell.h; sourceTree = "<group>"; };
 		A1C51B091B1F32E3000F172B /* MySubjectModelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MySubjectModelTableViewCell.m; path = Home/views/MySubjectModelTableViewCell.m; sourceTree = "<group>"; };
 		A1C51B0B1B1F4682000F172B /* iconSubject.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iconSubject.png; path = images/iconSubject.png; sourceTree = "<group>"; };
+		A1C51B0D1B1F4B9F000F172B /* MyRecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyRecordViewController.h; path = Home/controllers/MyRecordViewController.h; sourceTree = "<group>"; };
+		A1C51B0E1B1F4B9F000F172B /* MyRecordViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyRecordViewController.m; path = Home/controllers/MyRecordViewController.m; sourceTree = "<group>"; };
 		A1C6AD4A1B0C0C790002BE81 /* ProductViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductViewController.h; path = SwitchProduct/controllers/ProductViewController.h; sourceTree = "<group>"; };
 		A1C6AD4B1B0C0C790002BE81 /* ProductViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductViewController.m; path = SwitchProduct/controllers/ProductViewController.m; sourceTree = "<group>"; };
 		A1C6AD4D1B0C0EC60002BE81 /* ProductModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductModelCellFrame.h; path = SwitchProduct/models/ProductModelCellFrame.h; sourceTree = "<group>"; };
@@ -656,6 +667,8 @@
 				A1A478FE1B16A6A5000B7E22 /* PaperItemAnalysisModelCellFrame.m */,
 				A1185FA21B1324950099F910 /* PaperRecordModel.h */,
 				A1185FA31B1324950099F910 /* PaperRecordModel.m */,
+				A141144A1B1FDE1300179630 /* PaperRecordModelCellFrame.h */,
+				A141144B1B1FDE1300179630 /* PaperRecordModelCellFrame.m */,
 				A1BD6FE71B196D1D00A754B7 /* AnswerCardModel.h */,
 				A1BD6FE81B196D1D00A754B7 /* AnswerCardModel.m */,
 				A1BD6FF01B198E9E00A754B7 /* AnswerCardModelCellFrame.h */,
@@ -705,6 +718,8 @@
 				A1936CA11B0F1BDF00C59A06 /* FavoritesViewController.m */,
 				A1936CA31B0F1C4900C59A06 /* MyViewController.h */,
 				A1936CA41B0F1C4900C59A06 /* MyViewController.m */,
+				A1C51B0D1B1F4B9F000F172B /* MyRecordViewController.h */,
+				A1C51B0E1B1F4B9F000F172B /* MyRecordViewController.m */,
 				A1936CA61B0F1C7F00C59A06 /* MoreViewController.h */,
 				A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */,
 			);
@@ -744,6 +759,8 @@
 				A1B827891B1F0A6600DA9CC2 /* MyUserModelTableViewCell.m */,
 				A1C51B081B1F32E3000F172B /* MySubjectModelTableViewCell.h */,
 				A1C51B091B1F32E3000F172B /* MySubjectModelTableViewCell.m */,
+				A141144F1B20001F00179630 /* PaperRecordModelTableViewCell.h */,
+				A14114501B20001F00179630 /* PaperRecordModelTableViewCell.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -794,6 +811,7 @@
 				A1BD6FDD1B19413100A754B7 /* btnFavoriteHighlight.png */,
 				A1A528D91B1C592100A8637F /* btnFavoriteNormal.png */,
 				A1A528CA1B1BEBC300A8637F /* btnSubmit.png */,
+				A141144D1B1FE5F600179630 /* iconRecord.png */,
 				A1A478F11B169687000B7E22 /* option_error.png */,
 				A1A478F21B169687000B7E22 /* option_multy_normal.png */,
 				A1A478F31B169687000B7E22 /* option_multy_selected.png */,
@@ -1099,6 +1117,7 @@
 				A1A528DA1B1C592100A8637F /* btnFavoriteNormal.png in Resources */,
 				A1A528CB1B1BEBC300A8637F /* btnSubmit.png in Resources */,
 				A1936C961B0F0A4500C59A06 /* mainBottomMenus.plist in Resources */,
+				A141144E1B1FE5F600179630 /* iconRecord.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1169,6 +1188,7 @@
 				A13BB7811B0971B10063C64B /* ProductModel.m in Sources */,
 				A1C6AD7B1B0C74770002BE81 /* AFHTTPRequestOperationManager.m in Sources */,
 				A18E19411B1CA4CA00210968 /* PaperSegmentModelCellFrame.m in Sources */,
+				A141144C1B1FDE1300179630 /* PaperRecordModelCellFrame.m in Sources */,
 				A1F724D71B0342330023A3C8 /* SecureUtils.m in Sources */,
 				A1BD6FEF1B19888A00A754B7 /* AnswerCardSectionModelCellFrame.m in Sources */,
 				A1185FA41B1324950099F910 /* PaperRecordModel.m in Sources */,
@@ -1176,6 +1196,7 @@
 				A1936CA21B0F1BDF00C59A06 /* FavoritesViewController.m in Sources */,
 				A19D5B541B064706009F7360 /* CategoryModel.m in Sources */,
 				A1CA97E81B0F81C6003006F2 /* DAPagesContainer.m in Sources */,
+				A1C51B0F1B1F4B9F000F172B /* MyRecordViewController.m in Sources */,
 				A121F2531B1422A6004EC63C /* PaperTitleTableViewCell.m in Sources */,
 				A1C6AD7F1B0C74770002BE81 /* AFSecurityPolicy.m in Sources */,
 				A1A478D61B15F3D0000B7E22 /* PaperItemTitleModel.m in Sources */,
@@ -1189,6 +1210,7 @@
 				A1F8DED11B0CBAE500317B0E /* UserAccount.m in Sources */,
 				A1BD6FE61B195AD600A754B7 /* AnswerCardViewController.m in Sources */,
 				A1DF97F01B12BF20000F2B73 /* PaperInfoTableViewCell.m in Sources */,
+				A14114511B20001F00179630 /* PaperRecordModelTableViewCell.m in Sources */,
 				A1C6AD861B0C74770002BE81 /* UIButton+AFNetworking.m in Sources */,
 				A1C6AD8A1B0C74770002BE81 /* UIWebView+AFNetworking.m in Sources */,
 				A1F724C61B0305C00023A3C8 /* FMDatabaseQueue.m in Sources */,

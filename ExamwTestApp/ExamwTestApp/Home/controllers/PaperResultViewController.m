@@ -74,7 +74,6 @@
         for(UIViewController *vc in arrays){
             if(vc && [vc isKindOfClass:[PaperViewController class]]){
                 controller = (PaperViewController *)vc;
-                controller.displayAnswer = YES;
                 break;
             }
         }
@@ -82,8 +81,12 @@
     if(!controller){
         controller = [[PaperViewController alloc] initWithDisplayAnswer:YES];
         controller.delegate = self.paperViewControllerDelegate;
+        [self.navigationController pushViewController:controller animated:YES];
+    }else{
+        controller.delegate = self.paperViewControllerDelegate;
+        controller.displayAnswer = YES;
+        [self.navigationController popToViewController:controller animated:YES];
     }
-    [self.navigationController pushViewController:controller animated:YES];
 }
 
 //加载数据

@@ -21,12 +21,16 @@
 
 #import "PaperService.h"
 
+#import "MyRecordViewController.h"
+
 #define __kMyViewController_cellSectionIdentifier @"_cellSection"//
 #define __kMyViewController_cellIdentifier @"_cellSubject"//
 //我的视图控制器成员变量
 @interface MyViewController ()<MyUserModelCellDelegate>{
     //数据源
     NSMutableDictionary *_dataSource;
+    //是否重新加载
+    BOOL _isReload;
 }
 @end
 //我的视图控制器实现
@@ -35,7 +39,7 @@
 #pragma mark 重载初始化
 -(instancetype)init{
     if(self = [super initWithStyle:UITableViewStyleGrouped]){
-        
+        _isReload = NO;
     }
     return self;
 }
@@ -65,6 +69,7 @@
         //初始化服务
         static PaperService *service;
         if(!service){
+            NSLog(@"初始化服务...");
             service = [[PaperService alloc] init];
         }
         //
@@ -80,13 +85,26 @@
             //添加数据源
             [_dataSource setObject:[arrays copy] forKey:@1];
         }
-        
         //updateUI
         dispatch_async(dispatch_get_main_queue(), ^{
             //刷新数据
             [self.tableView reloadData];
         });
     });
+}
+
+#pragma mark View将进入
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if(_isReload){//重新加载数据
+        _isReload = NO;
+        [self loadData];
+    }
+}
+#pragma mark View将关闭
+-(void)viewWillDisappear:(BOOL)animated{
+    _isReload = YES;
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark UITableViewDataSource
@@ -112,8 +130,8 @@
     NSLog(@"创建行[%@]...",indexPath);
     NSArray *arrarys = [_dataSource objectForKey:[NSNumber numberWithInteger:indexPath.section]];
     if(arrarys > 0 && arrarys.count > indexPath.row){
-        id model = [arrarys objectAtIndex:indexPath.row];
-        if([model isKindOfClass:[MyUserModelCellFrame class]]){
+        id frame = [arrarys objectAtIndex:indexPath.row];
+        if([frame isKindOfClass:[MyUserModelCellFrame class]]){
             MyUserModelTableViewCell *sectionCell = [tableView dequeueReusableCellWithIdentifier:__kMyViewController_cellSectionIdentifier];
             if(!sectionCell){
                 sectionCell = [[MyUserModelTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
@@ -122,9 +140,9 @@
                 sectionCell.selectionStyle = UITableViewCellSelectionStyleNone;
             }
             //加载数据
-            [sectionCell loadModelCellFrame:model];
+            [sectionCell loadModelCellFrame:frame];
             return sectionCell;
-        }else if([model isKindOfClass:[MySubjectModelCellFrame class]]){
+        }else if([frame isKindOfClass:[MySubjectModelCellFrame class]]){
             MySubjectModelTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:__kMyViewController_cellIdentifier];
             if(!cell){
                 cell = [[MySubjectModelTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
@@ -132,7 +150,7 @@
                 cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             }
             //加载数据
-            [cell loadModelCellFrame:model];
+            [cell loadModelCellFrame:frame];
             return cell;
         }
     }
@@ -157,6 +175,26 @@
 //点击处理
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"点击事件:%@", indexPath);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if(indexPath.section > 0){
+            NSArray *arrays = [_dataSource objectForKey:[NSNumber numberWithInteger:indexPath.section]];
+            if(arrays && arrays.count > indexPath.row){
+                id frame = [arrays objectAtIndex:indexPath.row];
+                if(frame && [frame isKindOfClass:[MySubjectModelCellFrame class]]){
+                    MySubjectModel *model = ((MySubjectModelCellFrame *)frame).model;
+                    if(model && model.total > 0){
+                        //updateUI
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            MyRecordViewController *controller = [[MyRecordViewController alloc] initWithSubjectCode:model.subjectCode];
+                            controller.title = [NSString stringWithFormat:@"%@(%d)",model.subject, (int)model.total];
+                            controller.hidesBottomBarWhenPushed = YES;
+                            [self.navigationController pushViewController:controller animated:YES];
+                        });
+                    }
+                }
+            }
+        }
+    });
 }
 
 #pragma mark MyUserModelCellDelegate

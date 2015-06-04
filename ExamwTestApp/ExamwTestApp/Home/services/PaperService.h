@@ -30,6 +30,9 @@
 //按试卷记录ID加载试卷记录
 -(PaperRecordModel *)loadRecordWithPaperRecordId:(NSString *)paperRecordId;
 
+//加载科目下的试卷记录集合
+-(NSArray *)loadPaperRecordsWithSubjectCode:(NSString *)subjectCode andPageIndex:(NSUInteger)pageIndex;
+
 //新增试卷记录
 -(void)addPaperRecord:(PaperRecordModel *)record;
 
@@ -44,6 +47,9 @@
 
 //加载试题记录中的答案
 -(NSString *)loadRecordAnswersWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model;
+
+//删除试卷记录
+-(void)deleteRecordWithPaperRecordId:(NSString *)recordId;
 
 //添加试题记录
 -(void)addRecordWithPaperRecordId:(NSString *)recordId itemModel:(PaperItemModel *)model myAnswers:(NSString *)answers useTimes:(NSUInteger)useTimes;

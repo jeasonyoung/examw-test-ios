@@ -176,6 +176,35 @@
     return recordModel;
 }
 
+#pragma mark 加载科目下的试卷记录集合
+-(NSArray *)loadPaperRecordsWithSubjectCode:(NSString *)subjectCode andPageIndex:(NSUInteger)pageIndex{
+    if(_dbQueue && subjectCode && subjectCode.length > 0){
+        NSLog(@"加载科目[%@]下的试卷记录集合...", subjectCode);
+        NSString *query_sql = [NSString stringWithFormat:@"SELECT a.id,a.paperId,b.title,a.status,a.score,a.rights,a.useTimes,a.lastTime FROM tbl_paperRecords a LEFT OUTER JOIN tbl_papers b ON b.id = a.paperId WHERE b.subjectCode = ? ORDER BY a.lastTime DESC LIMIT %d,%d",(int)(pageIndex * _pageOfRows), (int)_pageOfRows];
+        //
+        NSMutableArray *arrays = [NSMutableArray arrayWithCapacity:_pageOfRows];
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            NSLog(@"exec-sql:%@", query_sql);
+            FMResultSet *rs = [db executeQuery:query_sql, subjectCode];
+            while ([rs next]) {
+                PaperRecordModel *model = [[PaperRecordModel alloc] init];
+                model.Id = [rs stringForColumn:@"id"];
+                model.paperId = [rs stringForColumn:@"paperId"];
+                model.paperName = [rs stringForColumn:@"title"];
+                model.status = [rs boolForColumn:@"status"];
+                model.score = [NSNumber numberWithDouble:[rs doubleForColumn:@"score"]];
+                model.rights = [rs intForColumn:@"rights"];
+                model.useTimes = [rs intForColumn:@"useTimes"];
+                model.lastTime = [rs stringForColumn:@"lastTime"];
+                [arrays addObject:model];
+            }
+            [rs close];
+        }];
+        return arrays;
+    }
+    return nil;
+}
+
 #pragma mark 更新试卷记录
 -(void)addPaperRecord:(PaperRecordModel *)record{
     if(!record)return;
@@ -284,6 +313,32 @@
         }];
     }
     return answers;
+}
+
+#pragma mark 删除试卷记录
+-(void)deleteRecordWithPaperRecordId:(NSString *)recordId{
+    if(_dbQueue && recordId && recordId.length > 0){
+        NSLog(@"准备删除试卷记录[%@]...", recordId);
+        //删除试题SQL
+        static NSString *del_item_sql = @"DELETE FROM tbl_itemRecords WHERE paperRecordId = ?";
+        //删除试卷SQL
+        static NSString *del_paper_sql = @"DELETE FROM tbl_paperRecords WHERE id = ?";
+        //
+        [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+            @try {
+                //1.先删除试题记录
+                NSLog(@"exec-sql-1.%@", del_item_sql);
+                [db executeUpdate:del_item_sql, recordId];
+                //2.再删除试卷记录
+                 NSLog(@"exec-sql-2.%@", del_paper_sql);
+                [db executeUpdate:del_paper_sql, recordId];
+            }
+            @catch (NSException *exception) {
+                *rollback = YES;
+                NSLog(@"删除试卷记录[%@]异常:%@",recordId, exception);
+            }
+        }];
+    }
 }
 
 #pragma mark 添加试题记录
