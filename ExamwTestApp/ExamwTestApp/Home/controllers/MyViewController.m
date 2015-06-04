@@ -22,6 +22,7 @@
 #import "PaperService.h"
 
 #import "MyRecordViewController.h"
+#import "MyUserRegisterViewController.h"
 
 #define __kMyViewController_cellSectionIdentifier @"_cellSection"//
 #define __kMyViewController_cellIdentifier @"_cellSubject"//
@@ -201,6 +202,10 @@
 //注册点击
 -(void)userRegisterClick:(id)sender{
     NSLog(@"注册点击:%@...", sender);
+    MyUserRegisterViewController *controller = [[MyUserRegisterViewController alloc] init];
+    controller.title = @"用户注册";
+    controller.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 //登录点击
 -(void)userLoginClick:(id)sender{

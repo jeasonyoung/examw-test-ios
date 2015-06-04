@@ -7,12 +7,7 @@
 //
 
 #import "AppClientSync.h"
-#import <AdSupport/AdSupport.h>
-#import <UIKit/UIKit.h>
-
-#import "AppConstants.h"
-#import "AppSettings.h"
-#import "AppDelegate.h"
+#import "UserAccount.h"
 
 //客户端同步请求数据模型实现
 @implementation AppClientSync
@@ -35,42 +30,26 @@
 
 //初始化组件
 -(void)initializationComponents{
-    NSLog(@"初始化客户端同步配置信息...");
-    //客户端唯一标示
-    _clientId = __kAPP_ID;
-    //客户端名称
-    _clientName = [NSString stringWithFormat:__kAPP_NAME, __kAPP_VER];
-    //客户端软件版本
-    _clientVersion = [@__kAPP_VER stringValue];
-    //客户端类型代码
-    _clientTypeCode = [@__kAPP_TYPECODE stringValue];
-    //设备唯一标示(优先广告标示)
-    _clientMachine = [[[ASIdentifierManager sharedManager] advertisingIdentifier] UUIDString];
-    if(!_clientMachine || _clientMachine.length == 0){//无法获取广告标示时取idfv
-        _clientMachine = [[[UIDevice currentDevice] identifierForVendor] UUIDString];
-    }
     //是否忽略注册码
     _ignoreCode = NO;
-    //获取应用设置
-    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    if(app && app.appSettings){
-        _productId = app.appSettings.productId;
+    UserAccount *accont = [UserAccount current];
+    if(accont){
+        _code = accont.regCode;
     }
 }
 
 #pragma mark 序列化
 -(NSDictionary *)serialize{
-    NSDictionary *dict = @{@"clientId" : (_clientId ? _clientId : @""),
-                           @"clientName" : (_clientName ? _clientName : @""),
-                           @"clientVersion" : (_clientVersion ? _clientVersion : @""),
-                           @"clientTypeCode" : (_clientTypeCode ? _clientTypeCode : @""),
-                           @"clientMachine" : (_clientMachine ? _clientMachine : @""),
-                           @"productId" : (_productId ? _productId : @""),
-                           @"code" : (_code ? _code : @""),
-                           @"ignoreCode" : [NSNumber numberWithBool:_ignoreCode],
-                           @"startTime" : (_startTime ? _startTime : @"")};
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[super serialize]];
+    //注册码
+    [dict setObject:(_code ? _code : @"") forKey:@"code"];
+    //忽略注册码
+    [dict setObject:[NSNumber numberWithBool:_ignoreCode] forKey:@"ignoreCode"];
+    //起始时间
+    [dict setObject:(_startTime ? _startTime : @"") forKey:@"startTime"];
     
     NSLog(@"序列化客户端配置信息[%@]...",dict);
+    
     return dict;
 }
 

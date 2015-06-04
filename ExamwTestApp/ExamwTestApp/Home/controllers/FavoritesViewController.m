@@ -44,7 +44,7 @@
 
 #pragma mark 重载初始化
 -(instancetype)init{
-    if(self = [super initWithStyle:UITableViewStylePlain]){
+    if(self = [super initWithStyle:UITableViewStyleGrouped]){
         _isReLoad = NO;
         //初始化分段
         _segmentArrays = @[@"错题",@"收藏"];

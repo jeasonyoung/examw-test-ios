@@ -7,21 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "JSONSerialize.h"
+#import "AppClient.h"
 //客户端同步请求数据模型
-@interface AppClientSync : NSObject<JSONSerialize>
-//客户端ID
-@property(nonatomic,copy,readonly)NSString *clientId;
-//客户端名称
-@property(nonatomic,copy,readonly)NSString *clientName;
-//客户端版本
-@property(nonatomic,copy,readonly)NSString *clientVersion;
-//客户端类型代码
-@property(nonatomic,copy,readonly)NSString *clientTypeCode;
-//客户端机器码
-@property(nonatomic,copy,readonly)NSString *clientMachine;
-//产品ID
-@property(nonatomic,copy,readonly)NSString *productId;
+@interface AppClientSync : AppClient
 //注册码
 @property(nonatomic,copy,readonly)NSString *code;
 //忽略注册码

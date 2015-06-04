@@ -37,6 +37,13 @@
 		A141144E1B1FE5F600179630 /* iconRecord.png in Resources */ = {isa = PBXBuildFile; fileRef = A141144D1B1FE5F600179630 /* iconRecord.png */; };
 		A14114511B20001F00179630 /* PaperRecordModelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114501B20001F00179630 /* PaperRecordModelTableViewCell.m */; };
 		A14114541B202F3100179630 /* AnswerCardModel+MakeObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114531B202F3100179630 /* AnswerCardModel+MakeObjects.m */; };
+		A14114581B20499E00179630 /* MyUserRegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114571B20499E00179630 /* MyUserRegisterViewController.m */; };
+		A141145B1B204BEA00179630 /* AppClient.m in Sources */ = {isa = PBXBuildFile; fileRef = A141145A1B204BEA00179630 /* AppClient.m */; };
+		A141145E1B204FE300179630 /* MHTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A141145D1B204FE300179630 /* MHTextField.m */; };
+		A14114611B20505300179630 /* UserRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114601B20505300179630 /* UserRegisterModel.m */; };
+		A14114641B20582800179630 /* MyRegisterModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114631B20582800179630 /* MyRegisterModelCellFrame.m */; };
+		A14114671B2059DA00179630 /* MyRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114661B2059DA00179630 /* MyRegisterModel.m */; };
+		A141146A1B20608700179630 /* ESTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114691B20608700179630 /* ESTextField.m */; };
 		A17098E71B0581C00083AF01 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A17098CF1B0581C00083AF01 /* MJRefresh.bundle */; };
 		A17098E81B0581C00083AF01 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098D21B0581C00083AF01 /* MJRefreshComponent.m */; };
 		A17098E91B0581C00083AF01 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098D41B0581C00083AF01 /* MJRefreshConst.m */; };
@@ -232,6 +239,20 @@
 		A14114501B20001F00179630 /* PaperRecordModelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperRecordModelTableViewCell.m; path = Home/views/PaperRecordModelTableViewCell.m; sourceTree = "<group>"; };
 		A14114521B202F3100179630 /* AnswerCardModel+MakeObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AnswerCardModel+MakeObjects.h"; path = "Home/models/AnswerCardModel+MakeObjects.h"; sourceTree = "<group>"; };
 		A14114531B202F3100179630 /* AnswerCardModel+MakeObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AnswerCardModel+MakeObjects.m"; path = "Home/models/AnswerCardModel+MakeObjects.m"; sourceTree = "<group>"; };
+		A14114561B20499E00179630 /* MyUserRegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyUserRegisterViewController.h; path = Home/controllers/MyUserRegisterViewController.h; sourceTree = "<group>"; };
+		A14114571B20499E00179630 /* MyUserRegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyUserRegisterViewController.m; path = Home/controllers/MyUserRegisterViewController.m; sourceTree = "<group>"; };
+		A14114591B204BEA00179630 /* AppClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppClient.h; sourceTree = "<group>"; };
+		A141145A1B204BEA00179630 /* AppClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppClient.m; sourceTree = "<group>"; };
+		A141145C1B204FE300179630 /* MHTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MHTextField.h; path = libs/MHTextField/MHTextField.h; sourceTree = "<group>"; };
+		A141145D1B204FE300179630 /* MHTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MHTextField.m; path = libs/MHTextField/MHTextField.m; sourceTree = "<group>"; };
+		A141145F1B20505300179630 /* UserRegisterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserRegisterModel.h; path = Home/models/UserRegisterModel.h; sourceTree = "<group>"; };
+		A14114601B20505300179630 /* UserRegisterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserRegisterModel.m; path = Home/models/UserRegisterModel.m; sourceTree = "<group>"; };
+		A14114621B20582800179630 /* MyRegisterModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyRegisterModelCellFrame.h; path = Home/models/MyRegisterModelCellFrame.h; sourceTree = "<group>"; };
+		A14114631B20582800179630 /* MyRegisterModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyRegisterModelCellFrame.m; path = Home/models/MyRegisterModelCellFrame.m; sourceTree = "<group>"; };
+		A14114651B2059DA00179630 /* MyRegisterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyRegisterModel.h; path = Home/models/MyRegisterModel.h; sourceTree = "<group>"; };
+		A14114661B2059DA00179630 /* MyRegisterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyRegisterModel.m; path = Home/models/MyRegisterModel.m; sourceTree = "<group>"; };
+		A14114681B20608700179630 /* ESTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESTextField.h; path = ExamwTestApp/Utils/ESTextField.h; sourceTree = "<group>"; };
+		A14114691B20608700179630 /* ESTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESTextField.m; path = ExamwTestApp/Utils/ESTextField.m; sourceTree = "<group>"; };
 		A17098CF1B0581C00083AF01 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MJRefresh.bundle; path = libs/MJRefresh/MJRefresh.bundle; sourceTree = "<group>"; };
 		A17098D01B0581C00083AF01 /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MJRefresh.h; path = libs/MJRefresh/MJRefresh.h; sourceTree = "<group>"; };
 		A17098D11B0581C00083AF01 /* MJRefreshComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MJRefreshComponent.h; path = libs/MJRefresh/MJRefreshComponent.h; sourceTree = "<group>"; };
@@ -499,6 +520,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A14114551B20477700179630 /* MHTextField */ = {
+			isa = PBXGroup;
+			children = (
+				A141145C1B204FE300179630 /* MHTextField.h */,
+				A141145D1B204FE300179630 /* MHTextField.m */,
+			);
+			name = MHTextField;
+			sourceTree = "<group>";
+		};
 		A152FBFF1B048985006523CE /* SwitchProduct */ = {
 			isa = PBXGroup;
 			children = (
@@ -696,6 +726,12 @@
 				A1B827831B1EF1EA00DA9CC2 /* MySubjectModel.m */,
 				A1B827851B1EF34000DA9CC2 /* MySubjectModelCellFrame.h */,
 				A1B827861B1EF34000DA9CC2 /* MySubjectModelCellFrame.m */,
+				A141145F1B20505300179630 /* UserRegisterModel.h */,
+				A14114601B20505300179630 /* UserRegisterModel.m */,
+				A14114651B2059DA00179630 /* MyRegisterModel.h */,
+				A14114661B2059DA00179630 /* MyRegisterModel.m */,
+				A14114621B20582800179630 /* MyRegisterModelCellFrame.h */,
+				A14114631B20582800179630 /* MyRegisterModelCellFrame.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -725,6 +761,8 @@
 				A1936CA41B0F1C4900C59A06 /* MyViewController.m */,
 				A1C51B0D1B1F4B9F000F172B /* MyRecordViewController.h */,
 				A1C51B0E1B1F4B9F000F172B /* MyRecordViewController.m */,
+				A14114561B20499E00179630 /* MyUserRegisterViewController.h */,
+				A14114571B20499E00179630 /* MyUserRegisterViewController.m */,
 				A1936CA61B0F1C7F00C59A06 /* MoreViewController.h */,
 				A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */,
 			);
@@ -869,6 +907,8 @@
 				A1F724D01B033F4A0023A3C8 /* AppSettings.m */,
 				A1F724201B02F88A0023A3C8 /* AppDelegate.h */,
 				A1F724211B02F88A0023A3C8 /* AppDelegate.m */,
+				A14114591B204BEA00179630 /* AppClient.h */,
+				A141145A1B204BEA00179630 /* AppClient.m */,
 				A1F8DECF1B0CBAE500317B0E /* UserAccount.h */,
 				A1F8DED01B0CBAE500317B0E /* UserAccount.m */,
 				A1F8DECC1B0CB88300317B0E /* DaoHelpers.h */,
@@ -920,6 +960,7 @@
 				A17099031B05DEF80083AF01 /* XHRealTimeBlur */,
 				A1A478C01B155B50000B7E22 /* DMLazyScrollView */,
 				A1A478E01B1602EE000B7E22 /* EMString */,
+				A14114551B20477700179630 /* MHTextField */,
 				A1CA97E01B0F8195003006F2 /* DAPagesContainer */,
 			);
 			name = libs;
@@ -1018,6 +1059,8 @@
 				A1B827801B1EDB2900DA9CC2 /* UIViewController+VisibleView.m */,
 				A1185F9F1B130AFA0099F910 /* EffectsUtils.h */,
 				A1185FA01B130AFA0099F910 /* EffectsUtils.m */,
+				A14114681B20608700179630 /* ESTextField.h */,
+				A14114691B20608700179630 /* ESTextField.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1140,6 +1183,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A14114671B2059DA00179630 /* MyRegisterModel.m in Sources */,
 				A1C6AD831B0C74770002BE81 /* AFURLSessionManager.m in Sources */,
 				A1936CA51B0F1C4900C59A06 /* MyViewController.m in Sources */,
 				A1C51B0A1B1F32E3000F172B /* MySubjectModelTableViewCell.m in Sources */,
@@ -1163,6 +1207,7 @@
 				A1DF97EA1B1220F3000F2B73 /* PaperService.m in Sources */,
 				A1C6AD911B0C90AC0002BE81 /* MBProgressHUD.m in Sources */,
 				A1DF97ED1B12AC01000F2B73 /* PaperInfoModelCellFrame.m in Sources */,
+				A14114641B20582800179630 /* MyRegisterModelCellFrame.m in Sources */,
 				A1BD6FF21B198E9E00A754B7 /* AnswerCardModelCellFrame.m in Sources */,
 				A17098EA1B0581C00083AF01 /* MJRefreshFooter.m in Sources */,
 				A1BD6FE91B196D1D00A754B7 /* AnswerCardModel.m in Sources */,
@@ -1186,6 +1231,7 @@
 				A1BD6FEC1B19720400A754B7 /* AnswerCardSectionModel.m in Sources */,
 				A1C6AD821B0C74770002BE81 /* AFURLResponseSerialization.m in Sources */,
 				A10F5FB61B0DBAEA00BD0491 /* DownloadDao.m in Sources */,
+				A141145B1B204BEA00179630 /* AppClient.m in Sources */,
 				A121F2501B140BE2004EC63C /* PaperDetailsModelCellFrame.m in Sources */,
 				A1A478DF1B15FDB0000B7E22 /* PaperItemTitleModelCellFrame.m in Sources */,
 				A1BD6FF51B19947A00A754B7 /* AnswerCardCollectionViewCell.m in Sources */,
@@ -1197,6 +1243,7 @@
 				A1F724D71B0342330023A3C8 /* SecureUtils.m in Sources */,
 				A1BD6FEF1B19888A00A754B7 /* AnswerCardSectionModelCellFrame.m in Sources */,
 				A1185FA41B1324950099F910 /* PaperRecordModel.m in Sources */,
+				A141145E1B204FE300179630 /* MHTextField.m in Sources */,
 				A1C6AD841B0C74770002BE81 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				A1936CA21B0F1BDF00C59A06 /* FavoritesViewController.m in Sources */,
 				A19D5B541B064706009F7360 /* CategoryModel.m in Sources */,
@@ -1213,6 +1260,7 @@
 				A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */,
 				A1C6AD7E1B0C74770002BE81 /* AFNetworkReachabilityManager.m in Sources */,
 				A1F8DED11B0CBAE500317B0E /* UserAccount.m in Sources */,
+				A14114581B20499E00179630 /* MyUserRegisterViewController.m in Sources */,
 				A1BD6FE61B195AD600A754B7 /* AnswerCardViewController.m in Sources */,
 				A1DF97F01B12BF20000F2B73 /* PaperInfoTableViewCell.m in Sources */,
 				A14114511B20001F00179630 /* PaperRecordModelTableViewCell.m in Sources */,
@@ -1234,12 +1282,14 @@
 				A1F724E01B034E950023A3C8 /* NSString+Reversed.m in Sources */,
 				A13BB78B1B0AE6A40063C64B /* CategoryModelCellFrame.m in Sources */,
 				A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */,
+				A14114611B20505300179630 /* UserRegisterModel.m in Sources */,
 				A1936CA81B0F1C7F00C59A06 /* MoreViewController.m in Sources */,
 				A18E193E1B1C97E800210968 /* PaperSegmentModel.m in Sources */,
 				A1A623D11B1B49F100637525 /* PaperExitAlertView.m in Sources */,
 				A13BB7921B0B0B7F0063C64B /* CategoryTableViewCell.m in Sources */,
 				A1A478C31B155B97000B7E22 /* DMLazyScrollView.m in Sources */,
 				A1C6AD881B0C74770002BE81 /* UIProgressView+AFNetworking.m in Sources */,
+				A141146A1B20608700179630 /* ESTextField.m in Sources */,
 				A121F24D1B13FBE8004EC63C /* PaperButtonModelCellFrame.m in Sources */,
 				A13BB77E1B096D8C0063C64B /* ExamModel.m in Sources */,
 				A1B8278A1B1F0A6600DA9CC2 /* MyUserModelTableViewCell.m in Sources */,
