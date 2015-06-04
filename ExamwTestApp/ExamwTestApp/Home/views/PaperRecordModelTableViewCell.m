@@ -22,6 +22,8 @@
     if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]){
         //图片
         _imgView = [[UIImageView alloc] init];
+        _imgView.contentMode = UIViewContentModeScaleAspectFit;
+        //_imgView.backgroundColor = [UIColor lightGrayColor];
         //试卷名称
         _lbPaperName = [[UILabel alloc] init];
         _lbPaperName.textAlignment = NSTextAlignmentLeft;

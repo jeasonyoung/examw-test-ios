@@ -16,6 +16,14 @@
 
 //答题卡试图控制器
 @interface AnswerCardViewController : UICollectionViewController
+
 //答题卡数据源
 @property(nonatomic,assign)id<AnswerCardViewControllerDataSource> answerCardDataSource;
+
+//是否显示答案
+@property(nonatomic,assign)BOOL displayAnswer;
+
+//初始化
+-(instancetype)initWithDisplayAnswer:(BOOL)display;
+
 @end

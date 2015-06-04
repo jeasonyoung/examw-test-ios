@@ -19,6 +19,4 @@
 @property(nonatomic,assign)NSUInteger nots;
 //开始时间
 @property(nonatomic,copy)NSString *createTime;
-//结束时间
-@property(nonatomic,copy)NSString *lastTime;
 @end

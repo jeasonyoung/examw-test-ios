@@ -28,7 +28,8 @@
 @interface PaperItemViewController : UITableViewController
 //代理
 @property(nonatomic,assign)id<PaperItemViewControllerDelegate> delegate;
-
+//是否显示答案
+@property(nonatomic,assign)BOOL displayAnswer;
 //初始化
 -(instancetype)initWithPaperItem:(PaperItemModel *)model andOrder:(NSUInteger)order andDisplayAnswer:(BOOL)display;
 //收藏/取消收藏试题

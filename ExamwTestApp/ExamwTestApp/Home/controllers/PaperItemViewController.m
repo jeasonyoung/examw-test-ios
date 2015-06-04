@@ -34,14 +34,10 @@
     PaperItemModel *_itemModel;
     //当前序号
     NSUInteger _order;
-    //是否显示答案
-    BOOL _displayAnswer;
     //做题开始时间
     NSDate *_dtStart;
     //试题数据源
     NSMutableArray *_itemsDataSource;
-    //试卷记录服务
-    //PaperService *_service;
     //等待动画
     MBProgressHUD *_waitHud;
 }
@@ -66,12 +62,19 @@
     //初始化等待
     _waitHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     _waitHud.color = [UIColor colorWithHex:0xD3D3D3];
-    //初始化数据源
-    _itemsDataSource = [NSMutableArray array];
     //清除TableView分割线
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //加载数据
     [self loadData];
+}
+
+#pragma mark 设置是否显示答案
+-(void)setDisplayAnswer:(BOOL)displayAnswer{
+    if(_displayAnswer != displayAnswer){
+        _displayAnswer = displayAnswer;
+        NSLog(@"重新加载数据...");
+        [self loadData];
+    }
 }
 
 //加载试题数据
@@ -81,6 +84,8 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"开始异步线程加载试题[%d]数据...",(int)_order);
         if(!_itemModel)return;
+        //初始化数据源
+        _itemsDataSource = [NSMutableArray array];
         //加载我的答案
         NSString *myAnswers = nil;
         //加载已做题目答案

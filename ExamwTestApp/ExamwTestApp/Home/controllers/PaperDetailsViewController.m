@@ -29,6 +29,7 @@
 
 #import "AnswerCardSectionModel.h"
 #import "AnswerCardModel.h"
+#import "AnswerCardModel+MakeObjects.h"
 
 #import "PaperService.h"
 
@@ -38,29 +39,6 @@
 
 #import "PaperViewController.h"
 #import "PaperResultViewController.h"
-
-
-//答题卡数据模型扩展
-@interface AnswerCardModel(makeObjects)
-//加载试题状态
--(void)loadItemStatusWithObjs:(NSArray *)objs;
-@end
-//答题卡数据模型扩展实现
-@implementation AnswerCardModel(makeObjects)
-#pragma mark 加载试题状态
--(void)loadItemStatusWithObjs:(NSArray *)objs{
-    PaperService *paperService = [objs objectAtIndex:0];
-    NSString *paperRecordId = [objs objectAtIndex:1];
-    NSArray *itemsArrays = [objs objectAtIndex:2];
-    
-    if(paperService && paperRecordId && itemsArrays && itemsArrays.count > self.order){
-        PaperItemModel *itemModel = [itemsArrays objectAtIndex:self.order];
-        if(!itemModel)return;
-        NSLog(@"加载试题[%@$%d]做题状态...",itemModel.itemId, (int)itemModel.index);
-        self.status = [paperService exitRecordWithPaperRecordId:paperRecordId itemModel:itemModel];
-    }
-}
-@end
 
 #define __kPaperDetailsViewController_title @"试卷详情"//
 
@@ -75,7 +53,7 @@
     //按钮类型
     NSUInteger _tagValue;
     //
-    BOOL _displayAnswer;
+    BOOL _displayAnswer,_isReload;
     //试卷信息数据模型
     PaperInfoModel *_infoModel;
     //试卷数据模型
@@ -116,8 +94,6 @@
     //开启等待动画
     _waitHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     _waitHud.color = [UIColor colorWithHex:0xD3D3D3];
-    //初始化数据源
-    _dataSource = [NSMutableArray arrayWithCapacity:3];
     //加载数据
     [self loadData];
 }
@@ -128,6 +104,8 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //异步加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //初始化数据源
+        _dataSource = [NSMutableArray arrayWithCapacity:3];
         //初始化试卷服务
         _service = [[PaperService alloc] init];
         //加载数据
@@ -254,7 +232,7 @@
                     //添加到数组
                     [_itemsArrays addObject:item];
                     //
-                    [cardModels addObject:[[AnswerCardModel alloc] initWithOrder:order status:0 displayAnswer:_displayAnswer]];
+                    [cardModels addObject:[[AnswerCardModel alloc] initWithOrder:order status:0]];
                     //
                     order += 1;
                 }
@@ -402,6 +380,21 @@
 //获取行高
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return [[_dataSource objectAtIndex:indexPath.row] cellHeight];
+}
+
+#pragma mark 重载View将出现
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self.navigationController setToolbarHidden:YES];
+    if(_isReload){
+        _isReload = NO;
+        [self loadData];
+    }
+}
+#pragma mark 重载View将消失
+-(void)viewWillDisappear:(BOOL)animated{
+    _isReload = YES;
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark 内存告警

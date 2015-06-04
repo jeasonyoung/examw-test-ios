@@ -12,11 +12,10 @@
 @implementation AnswerCardModel
 
 #pragma mark 初始化
--(instancetype)initWithOrder:(NSUInteger)order status:(NSUInteger)status displayAnswer:(BOOL)display{
+-(instancetype)initWithOrder:(NSUInteger)order status:(NSUInteger)status{
     if(self = [super init]){
         _order = order;
         _status = status;
-        _displayAnswer = display;
     }
     return self;
 }

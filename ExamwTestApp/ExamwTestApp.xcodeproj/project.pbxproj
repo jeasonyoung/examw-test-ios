@@ -36,6 +36,7 @@
 		A141144C1B1FDE1300179630 /* PaperRecordModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A141144B1B1FDE1300179630 /* PaperRecordModelCellFrame.m */; };
 		A141144E1B1FE5F600179630 /* iconRecord.png in Resources */ = {isa = PBXBuildFile; fileRef = A141144D1B1FE5F600179630 /* iconRecord.png */; };
 		A14114511B20001F00179630 /* PaperRecordModelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114501B20001F00179630 /* PaperRecordModelTableViewCell.m */; };
+		A14114541B202F3100179630 /* AnswerCardModel+MakeObjects.m in Sources */ = {isa = PBXBuildFile; fileRef = A14114531B202F3100179630 /* AnswerCardModel+MakeObjects.m */; };
 		A17098E71B0581C00083AF01 /* MJRefresh.bundle in Resources */ = {isa = PBXBuildFile; fileRef = A17098CF1B0581C00083AF01 /* MJRefresh.bundle */; };
 		A17098E81B0581C00083AF01 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098D21B0581C00083AF01 /* MJRefreshComponent.m */; };
 		A17098E91B0581C00083AF01 /* MJRefreshConst.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098D41B0581C00083AF01 /* MJRefreshConst.m */; };
@@ -229,6 +230,8 @@
 		A141144D1B1FE5F600179630 /* iconRecord.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = iconRecord.png; path = images/iconRecord.png; sourceTree = "<group>"; };
 		A141144F1B20001F00179630 /* PaperRecordModelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperRecordModelTableViewCell.h; path = Home/views/PaperRecordModelTableViewCell.h; sourceTree = "<group>"; };
 		A14114501B20001F00179630 /* PaperRecordModelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperRecordModelTableViewCell.m; path = Home/views/PaperRecordModelTableViewCell.m; sourceTree = "<group>"; };
+		A14114521B202F3100179630 /* AnswerCardModel+MakeObjects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "AnswerCardModel+MakeObjects.h"; path = "Home/models/AnswerCardModel+MakeObjects.h"; sourceTree = "<group>"; };
+		A14114531B202F3100179630 /* AnswerCardModel+MakeObjects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "AnswerCardModel+MakeObjects.m"; path = "Home/models/AnswerCardModel+MakeObjects.m"; sourceTree = "<group>"; };
 		A17098CF1B0581C00083AF01 /* MJRefresh.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; name = MJRefresh.bundle; path = libs/MJRefresh/MJRefresh.bundle; sourceTree = "<group>"; };
 		A17098D01B0581C00083AF01 /* MJRefresh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MJRefresh.h; path = libs/MJRefresh/MJRefresh.h; sourceTree = "<group>"; };
 		A17098D11B0581C00083AF01 /* MJRefreshComponent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MJRefreshComponent.h; path = libs/MJRefresh/MJRefreshComponent.h; sourceTree = "<group>"; };
@@ -671,6 +674,8 @@
 				A141144B1B1FDE1300179630 /* PaperRecordModelCellFrame.m */,
 				A1BD6FE71B196D1D00A754B7 /* AnswerCardModel.h */,
 				A1BD6FE81B196D1D00A754B7 /* AnswerCardModel.m */,
+				A14114521B202F3100179630 /* AnswerCardModel+MakeObjects.h */,
+				A14114531B202F3100179630 /* AnswerCardModel+MakeObjects.m */,
 				A1BD6FF01B198E9E00A754B7 /* AnswerCardModelCellFrame.h */,
 				A1BD6FF11B198E9E00A754B7 /* AnswerCardModelCellFrame.m */,
 				A1BD6FEA1B19720400A754B7 /* AnswerCardSectionModel.h */,
@@ -1211,6 +1216,7 @@
 				A1BD6FE61B195AD600A754B7 /* AnswerCardViewController.m in Sources */,
 				A1DF97F01B12BF20000F2B73 /* PaperInfoTableViewCell.m in Sources */,
 				A14114511B20001F00179630 /* PaperRecordModelTableViewCell.m in Sources */,
+				A14114541B202F3100179630 /* AnswerCardModel+MakeObjects.m in Sources */,
 				A1C6AD861B0C74770002BE81 /* UIButton+AFNetworking.m in Sources */,
 				A1C6AD8A1B0C74770002BE81 /* UIWebView+AFNetworking.m in Sources */,
 				A1F724C61B0305C00023A3C8 /* FMDatabaseQueue.m in Sources */,

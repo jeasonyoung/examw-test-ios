@@ -84,6 +84,15 @@
     [self setupBottomBars];
 }
 
+#pragma mark 设置是否显示答案
+-(void)setDisplayAnswer:(BOOL)displayAnswer{
+    if(_displayAnswer != displayAnswer){
+        _displayAnswer = displayAnswer;
+        //重置底部按钮
+        [self setupBottomBars];
+    }
+}
+
 //加载顶部工具栏
 -(void)setupTopBars{
     //左边按钮
@@ -158,12 +167,13 @@
         for(UIViewController *vc in arrays){
             if(vc && [vc isKindOfClass:[AnswerCardViewController class]]){
                 targetController = (AnswerCardViewController *)vc;
+                targetController.displayAnswer = _displayAnswer;
                 break;
             }
         }
     }
     if(!targetController){
-        targetController = [[AnswerCardViewController alloc] init];
+        targetController = [[AnswerCardViewController alloc] initWithDisplayAnswer:_displayAnswer];
     }
     
     targetController.answerCardDataSource = self;
@@ -355,6 +365,8 @@
             //获取视图控制器
             PaperItemViewController *ivc = (PaperItemViewController *)res;
             if(!ivc) return;
+            //重新设置是否显示答案
+            ivc.displayAnswer = _displayAnswer;
             //做题记时器开始
             [ivc start];
             //获取当前试题数据

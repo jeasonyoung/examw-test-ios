@@ -19,8 +19,8 @@
 #define __kPaperRecordModelCellFrame_marginH 5//横向间距
 #define __kPaperRecordModelCellFrame_marginV 5//纵向间距
 
-#define __kPaperRecordModelCellFrame_imgWith 80//图片宽度
-#define __kPaperRecordModelCellFrame_imgHeight 80//图片高度
+#define __kPaperRecordModelCellFrame_imgWith 60//图片宽度
+#define __kPaperRecordModelCellFrame_imgHeight 60//图片高度
 
 #define __kPaperRecordModelCellFrame_statusYES @"已交卷"
 #define __kPaperRecordModelCellFrame_statusNO @"未交卷"
@@ -101,16 +101,18 @@
         x = CGRectGetMaxX(_scoreFrame) + __kPaperRecordModelCellFrame_marginH;
     }
     //正确(右边第3行2列)
-    _rights = [NSString stringWithFormat:__kPaperRecordModelCellFrame_rightsFormat,(int)_model.rights];
-    CGSize rightSize = [_rights boundingRectWithSize:CGSizeMake(maxWith - x, CGFLOAT_MAX)
-                                             options:STR_SIZE_OPTIONS
-                                          attributes:@{NSFontAttributeName : _rightsFont}
-                                             context:nil].size;
-    if(maxHeight < rightSize.height){
-        maxHeight = rightSize.height;
+    if(_model.status){
+        _rights = [NSString stringWithFormat:__kPaperRecordModelCellFrame_rightsFormat,(int)_model.rights];
+        CGSize rightSize = [_rights boundingRectWithSize:CGSizeMake(maxWith - x, CGFLOAT_MAX)
+                                                 options:STR_SIZE_OPTIONS
+                                              attributes:@{NSFontAttributeName : _rightsFont}
+                                                 context:nil].size;
+        if(maxHeight < rightSize.height){
+            maxHeight = rightSize.height;
+        }
+        _rightsFrame = CGRectMake(x, y, rightSize.width, rightSize.height);
+        x = CGRectGetMaxX(_rightsFrame) + __kPaperRecordModelCellFrame_marginH;
     }
-    _rightsFrame = CGRectMake(x, y, rightSize.width, rightSize.height);
-    x = CGRectGetMaxX(_rightsFrame) + __kPaperRecordModelCellFrame_marginH;
     //用时(右边第3行3列)
     if(_model.status){
         NSUInteger h = 0, m = 0, s = 0;

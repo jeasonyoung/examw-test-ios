@@ -85,6 +85,7 @@
     }else{
         controller.delegate = self.paperViewControllerDelegate;
         controller.displayAnswer = YES;
+        [controller loadItemOrder:0];
         [self.navigationController popToViewController:controller animated:YES];
     }
 }
@@ -204,5 +205,4 @@
         [_dataSource removeAllObjects];
     }
 }
-
 @end

@@ -7,15 +7,11 @@
 //
 
 #import "AnswerCardViewController.h"
-//#import "PaperService.h"
-//#import "PaperModel.h"
-//#import "PaperStructureModel.h"
-//#import "PaperItemModel.h"
 
-//#import "AnswerCardSectionModel.h"
+#import "AnswerCardSectionModel.h"
 #import "AnswerCardSectionModelCellFrame.h"
 
-//#import "AnswerCardModel.h"
+#import "AnswerCardModel.h"
 #import "AnswerCardModelCellFrame.h"
 
 #import "AnswerCardCollectionViewCell.h"
@@ -46,12 +42,17 @@
 @implementation AnswerCardViewController
 
 #pragma mark 初始化
--(instancetype)init{
+-(instancetype)initWithDisplayAnswer:(BOOL)display{
     UICollectionViewFlowLayout *flowLayout = [[UICollectionViewFlowLayout alloc] init];
     if(self = [super initWithCollectionViewLayout:flowLayout]){
-        
+        _displayAnswer = display;
     }
     return self;
+}
+
+#pragma mark 重载初始化
+-(instancetype)init{
+    return [self initWithDisplayAnswer:NO];
 }
 
 #pragma mark UI入口
@@ -119,6 +120,7 @@
                         for(AnswerCardModel *model in arrays){
                             if(!model)continue;
                             AnswerCardModelCellFrame *frame = [[AnswerCardModelCellFrame alloc] init];
+                            model.displayAnswer = _displayAnswer;
                             frame.model = model;
                             [dataArrays addObject:frame];
                         }
@@ -138,6 +140,37 @@
             }
         });
     });
+}
+
+#pragma mark 设置是否显示答案
+-(void)setDisplayAnswer:(BOOL)displayAnswer{
+    if(_displayAnswer != displayAnswer){
+        _displayAnswer = displayAnswer;
+        //异步线程修改数据
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSLog(@"异步线程修改是否显示答案[%d]的属性...",_displayAnswer);
+            if(_dataSource && _dataSource.count > 0){
+                NSArray *keys = _dataSource.allKeys;
+                for(NSNumber *key in keys){
+                    NSArray *arrays = [_dataSource objectForKey:key];
+                    if(arrays && arrays.count > 0){
+                        for(AnswerCardModelCellFrame *frame in arrays){
+                            if(frame && frame.model){
+                                AnswerCardModel *model = frame.model;
+                                model.displayAnswer = _displayAnswer;
+                                frame.model = model;
+                            }
+                        }
+                    }
+                }
+                //updateUI
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //刷新数据
+                    [self.collectionView reloadData];
+                });
+            }
+        });
+    }
 }
 
 #pragma mark 内存告警

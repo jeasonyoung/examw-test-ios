@@ -238,7 +238,7 @@
                     if(itemModel.paperRecordId && itemModel.paperRecordId.length > 0){
                         status = [_service exitRecordWithPaperRecordId:itemModel.paperRecordId itemModel:itemModel];
                     }
-                    [models addObject:[[AnswerCardModel alloc] initWithOrder:order status:status displayAnswer:YES]];
+                    [models addObject:[[AnswerCardModel alloc] initWithOrder:order status:status]];
                     order += 1;
                 }
                 [dataDicts setObject:models forKey:[NSNumber numberWithInteger:i]];
