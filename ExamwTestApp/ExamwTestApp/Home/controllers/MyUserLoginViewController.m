@@ -136,7 +136,7 @@
                                    }
                                    @catch (NSException *exception) {
                                        NSLog(@"发生异常:%@", exception);
-                                       callbackShowMessage(exception.description);
+                                       callbackShowMessage(@"错误，请稍后重试!");
                                    }
                                } fail:^(NSString *err) {
                                    NSLog(@"callback:%@", err);

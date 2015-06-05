@@ -174,7 +174,7 @@
                                        }
                                        @catch (NSException *exception) {
                                            NSLog(@"反馈数据转换时发生异常:%@",exception);
-                                           callbackShowMessage(exception.description);
+                                           callbackShowMessage(@"错误，请稍后重试!");
                                        }
                                    });
                                }

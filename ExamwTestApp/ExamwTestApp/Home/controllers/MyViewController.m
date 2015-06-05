@@ -24,6 +24,7 @@
 #import "MyRecordViewController.h"
 #import "MyUserRegisterViewController.h"
 #import "MyUserLoginViewController.h"
+#import "MyProductRegViewController.h"
 
 #define __kMyViewController_cellSectionIdentifier @"_cellSection"//
 #define __kMyViewController_cellIdentifier @"_cellSubject"//
@@ -223,6 +224,9 @@
 //变更注册码
 -(void)changeRegCode:(id)sender{
     NSLog(@"变更注册码:%@...",sender);
+    MyProductRegViewController *controller = [[MyProductRegViewController alloc] init];
+    controller.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 
 

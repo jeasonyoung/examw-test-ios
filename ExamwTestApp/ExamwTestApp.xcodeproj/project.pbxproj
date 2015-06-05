@@ -102,6 +102,11 @@
 		A1AE083C1B2145C100F6E877 /* MyUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AE083B1B2145C100F6E877 /* MyUserLoginViewController.m */; };
 		A1AE083F1B214E6F00F6E877 /* UserLoginModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AE083E1B214E6F00F6E877 /* UserLoginModel.m */; };
 		A1AE08421B2150D000F6E877 /* MyUserLoginTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AE08411B2150D000F6E877 /* MyUserLoginTableViewCell.m */; };
+		A1AE08451B21864100F6E877 /* MyProductRegViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AE08441B21864100F6E877 /* MyProductRegViewController.m */; };
+		A1AE08481B21892C00F6E877 /* MyProductRegModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AE08471B21892C00F6E877 /* MyProductRegModel.m */; };
+		A1AE084B1B218A5E00F6E877 /* ProductRegisterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AE084A1B218A5E00F6E877 /* ProductRegisterModel.m */; };
+		A1AE084E1B218E9700F6E877 /* MyProductRegModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AE084D1B218E9700F6E877 /* MyProductRegModelCellFrame.m */; };
+		A1AE08511B21987500F6E877 /* MyProductRegModelTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AE08501B21987500F6E877 /* MyProductRegModelTableViewCell.m */; };
 		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
 		A1B7F6A11B1360B700DF8834 /* PaperTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B7F6A01B1360B700DF8834 /* PaperTitleModel.m */; };
 		A1B7F6A41B1362E700DF8834 /* PaperButtonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B7F6A31B1362E700DF8834 /* PaperButtonModel.m */; };
@@ -363,6 +368,16 @@
 		A1AE083E1B214E6F00F6E877 /* UserLoginModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserLoginModel.m; path = Home/models/UserLoginModel.m; sourceTree = "<group>"; };
 		A1AE08401B2150D000F6E877 /* MyUserLoginTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyUserLoginTableViewCell.h; path = Home/views/MyUserLoginTableViewCell.h; sourceTree = "<group>"; };
 		A1AE08411B2150D000F6E877 /* MyUserLoginTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyUserLoginTableViewCell.m; path = Home/views/MyUserLoginTableViewCell.m; sourceTree = "<group>"; };
+		A1AE08431B21864100F6E877 /* MyProductRegViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyProductRegViewController.h; path = Home/controllers/MyProductRegViewController.h; sourceTree = "<group>"; };
+		A1AE08441B21864100F6E877 /* MyProductRegViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyProductRegViewController.m; path = Home/controllers/MyProductRegViewController.m; sourceTree = "<group>"; };
+		A1AE08461B21892C00F6E877 /* MyProductRegModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyProductRegModel.h; path = Home/models/MyProductRegModel.h; sourceTree = "<group>"; };
+		A1AE08471B21892C00F6E877 /* MyProductRegModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyProductRegModel.m; path = Home/models/MyProductRegModel.m; sourceTree = "<group>"; };
+		A1AE08491B218A5E00F6E877 /* ProductRegisterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ProductRegisterModel.h; path = Home/models/ProductRegisterModel.h; sourceTree = "<group>"; };
+		A1AE084A1B218A5E00F6E877 /* ProductRegisterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ProductRegisterModel.m; path = Home/models/ProductRegisterModel.m; sourceTree = "<group>"; };
+		A1AE084C1B218E9700F6E877 /* MyProductRegModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyProductRegModelCellFrame.h; path = Home/models/MyProductRegModelCellFrame.h; sourceTree = "<group>"; };
+		A1AE084D1B218E9700F6E877 /* MyProductRegModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyProductRegModelCellFrame.m; path = Home/models/MyProductRegModelCellFrame.m; sourceTree = "<group>"; };
+		A1AE084F1B21987500F6E877 /* MyProductRegModelTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyProductRegModelTableViewCell.h; path = Home/views/MyProductRegModelTableViewCell.h; sourceTree = "<group>"; };
+		A1AE08501B21987500F6E877 /* MyProductRegModelTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyProductRegModelTableViewCell.m; path = Home/views/MyProductRegModelTableViewCell.m; sourceTree = "<group>"; };
 		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
 		A1B5AF381B0399780086F421 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hex.m"; path = "ExamwTestApp/Utils/UIColor+Hex.m"; sourceTree = "<group>"; };
 		A1B7F69F1B1360B700DF8834 /* PaperTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperTitleModel.h; path = Home/models/PaperTitleModel.h; sourceTree = "<group>"; };
@@ -736,6 +751,12 @@
 				A14114601B20505300179630 /* UserRegisterModel.m */,
 				A1AE083D1B214E6F00F6E877 /* UserLoginModel.h */,
 				A1AE083E1B214E6F00F6E877 /* UserLoginModel.m */,
+				A1AE08491B218A5E00F6E877 /* ProductRegisterModel.h */,
+				A1AE084A1B218A5E00F6E877 /* ProductRegisterModel.m */,
+				A1AE08461B21892C00F6E877 /* MyProductRegModel.h */,
+				A1AE08471B21892C00F6E877 /* MyProductRegModel.m */,
+				A1AE084C1B218E9700F6E877 /* MyProductRegModelCellFrame.h */,
+				A1AE084D1B218E9700F6E877 /* MyProductRegModelCellFrame.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -769,6 +790,8 @@
 				A14114571B20499E00179630 /* MyUserRegisterViewController.m */,
 				A1AE083A1B2145C100F6E877 /* MyUserLoginViewController.h */,
 				A1AE083B1B2145C100F6E877 /* MyUserLoginViewController.m */,
+				A1AE08431B21864100F6E877 /* MyProductRegViewController.h */,
+				A1AE08441B21864100F6E877 /* MyProductRegViewController.m */,
 				A1936CA61B0F1C7F00C59A06 /* MoreViewController.h */,
 				A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */,
 			);
@@ -812,6 +835,8 @@
 				A14114501B20001F00179630 /* PaperRecordModelTableViewCell.m */,
 				A1AE08401B2150D000F6E877 /* MyUserLoginTableViewCell.h */,
 				A1AE08411B2150D000F6E877 /* MyUserLoginTableViewCell.m */,
+				A1AE084F1B21987500F6E877 /* MyProductRegModelTableViewCell.h */,
+				A1AE08501B21987500F6E877 /* MyProductRegModelTableViewCell.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -1268,6 +1293,7 @@
 				A1185F9E1B12F6B00099F910 /* PaperDetailsViewController.m in Sources */,
 				A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */,
 				A1C6AD7E1B0C74770002BE81 /* AFNetworkReachabilityManager.m in Sources */,
+				A1AE084E1B218E9700F6E877 /* MyProductRegModelCellFrame.m in Sources */,
 				A1F8DED11B0CBAE500317B0E /* UserAccount.m in Sources */,
 				A14114581B20499E00179630 /* MyUserRegisterViewController.m in Sources */,
 				A1BD6FE61B195AD600A754B7 /* AnswerCardViewController.m in Sources */,
@@ -1278,6 +1304,8 @@
 				A1C6AD8A1B0C74770002BE81 /* UIWebView+AFNetworking.m in Sources */,
 				A1F724C61B0305C00023A3C8 /* FMDatabaseQueue.m in Sources */,
 				A1AE083F1B214E6F00F6E877 /* UserLoginModel.m in Sources */,
+				A1AE084B1B218A5E00F6E877 /* ProductRegisterModel.m in Sources */,
+				A1AE08481B21892C00F6E877 /* MyProductRegModel.m in Sources */,
 				A13BB7951B0B31930063C64B /* ExamViewController.m in Sources */,
 				A1A478E91B160315000B7E22 /* EMMarkupProperty.m in Sources */,
 				A1A479051B16C16F000B7E22 /* PaperItemOptTableViewCell.m in Sources */,
@@ -1304,8 +1332,10 @@
 				A121F24D1B13FBE8004EC63C /* PaperButtonModelCellFrame.m in Sources */,
 				A13BB77E1B096D8C0063C64B /* ExamModel.m in Sources */,
 				A1B8278A1B1F0A6600DA9CC2 /* MyUserModelTableViewCell.m in Sources */,
+				A1AE08511B21987500F6E877 /* MyProductRegModelTableViewCell.m in Sources */,
 				A1F724C71B0305C00023A3C8 /* FMDatabasePool.m in Sources */,
 				A121F2561B1425C1004EC63C /* PaperButtonTableViewCell.m in Sources */,
+				A1AE08451B21864100F6E877 /* MyProductRegViewController.m in Sources */,
 				A1185FA11B130AFA0099F910 /* EffectsUtils.m in Sources */,
 				A1AE083C1B2145C100F6E877 /* MyUserLoginViewController.m in Sources */,
 				A1BBC9DA1B101359005A1FD3 /* PaperModel.m in Sources */,
