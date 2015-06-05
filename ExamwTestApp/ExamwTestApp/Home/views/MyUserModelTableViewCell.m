@@ -24,6 +24,9 @@
 #pragma mark 重置初始化
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]){
+        //定义颜色
+        UIColor *borderColor = [UIColor colorWithHex:0xB4CDCD];
+        
         //图标
         _imgView = [[UIImageView alloc] init];
         //标题
@@ -34,10 +37,12 @@
         _lbRegCode = [[UILabel alloc] init];
         _lbRegCode.textAlignment = NSTextAlignmentLeft;
         _lbRegCode.numberOfLines = 0;
+        _lbRegCode.textColor = borderColor;
         _lbRegCode.userInteractionEnabled = YES;
+        //_lbRegCode.backgroundColor = [UIColor grayColor];
         [_lbRegCode addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeRegCode:)]];
         //
-        UIColor *borderColor = [UIColor colorWithHex:0xB4CDCD];
+        
         //注册按钮
         _btnUserRegister = [UIButton buttonWithType:UIButtonTypeSystem];
         [_btnUserRegister addTarget:self action:@selector(btnRegisterClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -75,12 +80,16 @@
         _btnUserRegister.frame = cellFrame.userRegFrame;
         _btnUserRegister.titleLabel.font = cellFrame.userRegFont;
         [_btnUserRegister setTitle:cellFrame.userReg forState:UIControlStateNormal];
+    }else{
+        _btnUserRegister.frame = cellFrame.userRegFrame;
     }
     //登录按钮
     if(cellFrame.userLogin && cellFrame.userLogin.length > 0){
         _btnUserLogin.frame = cellFrame.userLoginFrame;
         _btnUserLogin.titleLabel.font = cellFrame.userLoginFont;
         [_btnUserLogin setTitle:cellFrame.userLogin forState:UIControlStateNormal];
+    }else{
+        _btnUserLogin.frame = cellFrame.userLoginFrame;
     }
 }
 

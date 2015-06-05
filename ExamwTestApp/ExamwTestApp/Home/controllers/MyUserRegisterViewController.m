@@ -42,6 +42,8 @@
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //设置标题
+    self.title = @"用户注册";
     //加载文本输入框
     [self setupTextFields];
 }

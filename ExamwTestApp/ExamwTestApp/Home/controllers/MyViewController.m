@@ -23,6 +23,7 @@
 
 #import "MyRecordViewController.h"
 #import "MyUserRegisterViewController.h"
+#import "MyUserLoginViewController.h"
 
 #define __kMyViewController_cellSectionIdentifier @"_cellSection"//
 #define __kMyViewController_cellIdentifier @"_cellSubject"//
@@ -30,6 +31,8 @@
 @interface MyViewController ()<MyUserModelCellDelegate>{
     //数据源
     NSMutableDictionary *_dataSource;
+    //当前应用
+    AppDelegate *_app;
     //是否重新加载
     BOOL _isReload;
 }
@@ -41,6 +44,7 @@
 -(instancetype)init{
     if(self = [super initWithStyle:UITableViewStyleGrouped]){
         _isReload = NO;
+        _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
     }
     return self;
 }
@@ -61,12 +65,15 @@
         _dataSource = [NSMutableDictionary dictionaryWithCapacity:2];
         //当前用户信息
         MyUserModelCellFrame *userFrame = [[MyUserModelCellFrame alloc] init];
-        userFrame.model = [UserAccount current];
+        userFrame.model = (_app ? _app.currentUser : nil);
         //添加到数据源
         [_dataSource setObject:@[userFrame] forKey:@0];
         
         //当前考试代码
-        NSString *examCode = [((AppDelegate *)[[UIApplication sharedApplication] delegate]).appSettings.examCode stringValue];
+        NSString *examCode = @"";
+        if(_app){
+            examCode = [_app.appSettings.examCode stringValue];
+        }
         //初始化服务
         static PaperService *service;
         if(!service){
@@ -203,13 +210,15 @@
 -(void)userRegisterClick:(id)sender{
     NSLog(@"注册点击:%@...", sender);
     MyUserRegisterViewController *controller = [[MyUserRegisterViewController alloc] init];
-    controller.title = @"用户注册";
     controller.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:controller animated:YES];
 }
 //登录点击
 -(void)userLoginClick:(id)sender{
     NSLog(@"登录点击:%@...",sender);
+    MyUserLoginViewController *controller = [[MyUserLoginViewController alloc] init];
+    controller.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:controller animated:YES];
 }
 //变更注册码
 -(void)changeRegCode:(id)sender{

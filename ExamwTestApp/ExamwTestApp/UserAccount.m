@@ -36,6 +36,8 @@
         NSLog(@"更新用户名:[%@,%@]", userId, username);
         _userId = userId;
         _username = username;
+        _password = @"";
+        _regCode = @"";
         _isDirty = YES;
     }
     return self;
@@ -145,7 +147,7 @@
 
 #pragma mark 更新密码
 -(void)updatePassword:(NSString *)password{
-    if(password && password.length > 0){
+    if(password && ![_password isEqualToString:password]){
         NSLog(@"更新密码:%@",password);
         _password = password;
         _isDirty = YES;
@@ -169,9 +171,11 @@
         NSString *key = [NSString stringWithFormat:__kUserAccount_user,[SecureUtils hexMD5WithText:_username]];
         if([self saveUserAccountWithKey:key]){
             _isDirty = NO;
+        }else{
+            return NO;
         }
     }
-    return NO;
+    return YES;
 }
 
 #pragma mark 保存为当前用户
@@ -180,7 +184,7 @@
     //1.先保存到本地
     if ([self save]) {
         //2.再将用户保存为当前用户
-        [self saveUserAccountWithKey:__kUserAccount_currentUser];
+        return [self saveUserAccountWithKey:__kUserAccount_currentUser];
     }
     return NO;
 }
