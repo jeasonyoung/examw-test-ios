@@ -98,6 +98,8 @@
 		A1A528D41B1C306700A8637F /* PaperResultTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A528D31B1C306700A8637F /* PaperResultTableViewCell.m */; };
 		A1A528DA1B1C592100A8637F /* btnFavoriteNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = A1A528D91B1C592100A8637F /* btnFavoriteNormal.png */; };
 		A1A623D11B1B49F100637525 /* PaperExitAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A623D01B1B49F100637525 /* PaperExitAlertView.m */; };
+		A1AE08321B21246300F6E877 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = A1AE08341B21246300F6E877 /* Localizable.strings */; };
+		A1AE083C1B2145C100F6E877 /* MyUserLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1AE083B1B2145C100F6E877 /* MyUserLoginViewController.m */; };
 		A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B5AF381B0399780086F421 /* UIColor+Hex.m */; };
 		A1B7F6A11B1360B700DF8834 /* PaperTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B7F6A01B1360B700DF8834 /* PaperTitleModel.m */; };
 		A1B7F6A41B1362E700DF8834 /* PaperButtonModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1B7F6A31B1362E700DF8834 /* PaperButtonModel.m */; };
@@ -350,6 +352,11 @@
 		A1A528D91B1C592100A8637F /* btnFavoriteNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = btnFavoriteNormal.png; path = images/btnFavoriteNormal.png; sourceTree = "<group>"; };
 		A1A623CF1B1B49F100637525 /* PaperExitAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperExitAlertView.h; path = Home/views/PaperExitAlertView.h; sourceTree = "<group>"; };
 		A1A623D01B1B49F100637525 /* PaperExitAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperExitAlertView.m; path = Home/views/PaperExitAlertView.m; sourceTree = "<group>"; };
+		A1AE08331B21246300F6E877 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		A1AE08361B21261200F6E877 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "zh-Hans"; path = "zh-Hans.lproj/Info.plist"; sourceTree = "<group>"; };
+		A1AE08381B21268700F6E877 /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
+		A1AE083A1B2145C100F6E877 /* MyUserLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyUserLoginViewController.h; path = Home/controllers/MyUserLoginViewController.h; sourceTree = "<group>"; };
+		A1AE083B1B2145C100F6E877 /* MyUserLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyUserLoginViewController.m; path = Home/controllers/MyUserLoginViewController.m; sourceTree = "<group>"; };
 		A1B5AF371B0399780086F421 /* UIColor+Hex.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+Hex.h"; path = "ExamwTestApp/Utils/UIColor+Hex.h"; sourceTree = "<group>"; };
 		A1B5AF381B0399780086F421 /* UIColor+Hex.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+Hex.m"; path = "ExamwTestApp/Utils/UIColor+Hex.m"; sourceTree = "<group>"; };
 		A1B7F69F1B1360B700DF8834 /* PaperTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperTitleModel.h; path = Home/models/PaperTitleModel.h; sourceTree = "<group>"; };
@@ -458,7 +465,6 @@
 		A1DF97EE1B12BF20000F2B73 /* PaperInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperInfoTableViewCell.h; path = Home/views/PaperInfoTableViewCell.h; sourceTree = "<group>"; };
 		A1DF97EF1B12BF20000F2B73 /* PaperInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperInfoTableViewCell.m; path = Home/views/PaperInfoTableViewCell.m; sourceTree = "<group>"; };
 		A1F724191B02F88A0023A3C8 /* ExamwTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamwTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A1F7241D1B02F88A0023A3C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1F7241E1B02F88A0023A3C8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A1F724201B02F88A0023A3C8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		A1F724211B02F88A0023A3C8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -753,6 +759,8 @@
 				A1C51B0E1B1F4B9F000F172B /* MyRecordViewController.m */,
 				A14114561B20499E00179630 /* MyUserRegisterViewController.h */,
 				A14114571B20499E00179630 /* MyUserRegisterViewController.m */,
+				A1AE083A1B2145C100F6E877 /* MyUserLoginViewController.h */,
+				A1AE083B1B2145C100F6E877 /* MyUserLoginViewController.m */,
 				A1936CA61B0F1C7F00C59A06 /* MoreViewController.h */,
 				A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */,
 			);
@@ -915,9 +923,10 @@
 			isa = PBXGroup;
 			children = (
 				A1A478F01B169676000B7E22 /* images */,
-				A1F7241D1B02F88A0023A3C8 /* Info.plist */,
+				A1AE08371B21261200F6E877 /* Info.plist */,
 				A1936C951B0F0A4500C59A06 /* mainBottomMenus.plist */,
 				A1F7241E1B02F88A0023A3C8 /* main.m */,
+				A1AE08341B21246300F6E877 /* Localizable.strings */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1118,6 +1127,7 @@
 			knownRegions = (
 				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = A1F724101B02F88A0023A3C8;
 			productRefGroup = A1F7241A1B02F88A0023A3C8 /* Products */;
@@ -1137,6 +1147,7 @@
 			files = (
 				A1A478FC1B169687000B7E22 /* option_single_selected.png in Resources */,
 				A125477E1B18A7E6002E83C3 /* iconHome.png in Resources */,
+				A1AE08321B21246300F6E877 /* Localizable.strings in Resources */,
 				A12547851B18A948002E83C3 /* btnPrev.png in Resources */,
 				A17098E71B0581C00083AF01 /* MJRefresh.bundle in Resources */,
 				A125477F1B18A7E6002E83C3 /* iconMore.png in Resources */,
@@ -1284,6 +1295,7 @@
 				A1F724C71B0305C00023A3C8 /* FMDatabasePool.m in Sources */,
 				A121F2561B1425C1004EC63C /* PaperButtonTableViewCell.m in Sources */,
 				A1185FA11B130AFA0099F910 /* EffectsUtils.m in Sources */,
+				A1AE083C1B2145C100F6E877 /* MyUserLoginViewController.m in Sources */,
 				A1BBC9DA1B101359005A1FD3 /* PaperModel.m in Sources */,
 				A17098E91B0581C00083AF01 /* MJRefreshConst.m in Sources */,
 				A1C6AD7A1B0C74770002BE81 /* AFHTTPRequestOperation.m in Sources */,
@@ -1332,6 +1344,26 @@
 			targetProxy = A1F724361B02F88A0023A3C8 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		A1AE08341B21246300F6E877 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A1AE08331B21246300F6E877 /* zh-Hans */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		A1AE08371B21261200F6E877 /* Info.plist */ = {
+			isa = PBXVariantGroup;
+			children = (
+				A1AE08361B21261200F6E877 /* zh-Hans */,
+				A1AE08381B21268700F6E877 /* Base */,
+			);
+			name = Info.plist;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		A1F7243D1B02F88A0023A3C8 /* Debug */ = {

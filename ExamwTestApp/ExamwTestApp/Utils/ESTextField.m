@@ -39,6 +39,7 @@
     [self setBackgroundColor:[UIColor whiteColor]];
 }
 
+
 - (void)setNeedsAppearance:(id)sender
 {
     MHTextField *textField = (MHTextField*)sender;

@@ -228,7 +228,10 @@
     
     _isValid = YES;
     
-    if (required && [self.text isEqualToString:@""]){
+    NSString *textValue = [self.text stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+    
+    if (required && ([textValue isEqualToString:@""] || textValue.length == 0) /*[self.text isEqualToString:@""]*/){
+        self.text = @"";
         _isValid = NO;
     }
     else if (_isEmailField){
