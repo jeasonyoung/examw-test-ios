@@ -49,6 +49,14 @@
 //考试类别控制器实现
 @implementation CategoryViewController
 
+#pragma mark 重载初始化
+-(instancetype)init{
+    if(self = [super initWithStyle:UITableViewStylePlain]){
+        
+    }
+    return self;
+}
+
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 //更多视图控制器
-@interface MoreViewController : UIViewController
+@interface MoreViewController : UITableViewController
 
 @end
