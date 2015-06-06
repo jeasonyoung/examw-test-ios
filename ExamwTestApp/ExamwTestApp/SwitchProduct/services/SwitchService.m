@@ -47,14 +47,14 @@ static NSArray *localCategoriesCache;
 }
 
 #pragma mark 从网络下载数据
--(void)loadCategoriesFromNetWorks:(void (^)(NSString *))complete withProgress:(void (^)(NSUInteger))progressPercentage {
+-(void)loadCategoriesFromNetWorks:(void (^)(NSString *))complete{
     NSLog(@"从网络下载数据...");
     //下载进度
-    void (^downloadProgress)(long long,long long) = ^(long long totalBytesRead, long long totalBytesExpectedToRead){
-        if(progressPercentage){//进度百分比
-            progressPercentage((int)((totalBytesRead * 100)/totalBytesExpectedToRead));
-        }
-    };
+//    void (^downloadProgress)(long long,long long) = ^(long long totalBytesRead, long long totalBytesExpectedToRead){
+//        if(progressPercentage){//进度百分比
+//            progressPercentage((int)((totalBytesRead * 100)/totalBytesExpectedToRead));
+//        }
+//    };
     //下载成功处理
     void (^successHandler)(NSDictionary *) = ^(NSDictionary *dict){//主线程
         //开启后台线程处理
@@ -99,7 +99,7 @@ static NSArray *localCategoriesCache;
         NSLog(@"检测网络状态:%d", statusValue);
         if(statusValue){
             [HttpUtils JSONDataWithUrl:_kAPP_API_CATEGORY_URL method:HttpUtilsMethodGET parameters:nil
-                              progress:(progressPercentage ? downloadProgress : nil)
+                              progress:nil
                                success:successHandler
                                   fail:^(NSString *err) {
                                       //开启后台线程处理

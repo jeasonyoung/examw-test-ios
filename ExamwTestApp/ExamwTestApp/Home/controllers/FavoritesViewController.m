@@ -49,9 +49,9 @@
         //初始化分段
         _segmentArrays = @[@"错题",@"收藏"];
         //初始化考试代码
-        AppSettings *settings = ((AppDelegate *)[[UIApplication sharedApplication] delegate]).appSettings;
-        if(settings){
-            _examCode = [settings.examCode stringValue];
+        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        if(app && app.appSettings){
+            _examCode = [app.appSettings.examCode stringValue];
         }
     }
     return self;

@@ -18,12 +18,7 @@
 
 #pragma mark 静态实例化
 +(instancetype)shareInstance{
-    static SwitchViewController *controller;
-    if(!controller){
-        UIViewController *root = [[CategoryViewController alloc]initWithStyle:UITableViewStylePlain];
-        controller = [[self alloc]initWithRootViewController:root];
-    }
-    return controller;
+    return [[self alloc] initWithRootViewController:[[CategoryViewController alloc]init]];
 }
 
 #pragma mark UI入口

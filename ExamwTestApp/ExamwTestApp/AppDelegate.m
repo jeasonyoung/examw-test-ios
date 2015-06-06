@@ -44,8 +44,33 @@ void uncaughtExceptionHandler(NSException *exception){
 #pragma mark 切换当前用户
 -(void)changedCurrentUser:(UserAccount *)userAccount{
     NSLog(@"切换当前用户=>%@", userAccount);
-    _currentUser = userAccount;
+    if(userAccount){
+        _currentUser = userAccount;
+        //异步线程保存数据
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            if(userAccount){
+                NSLog(@"异步线程持久化当前用户数据:%@...", userAccount);
+                [userAccount saveForCurrent];
+            }
+        });
+    }
 }
+
+#pragma mark 更新设置
+-(void)updateSettings:(AppSettings *)appSettings{
+    NSLog(@"更新设置:%@...",appSettings);
+    if(appSettings){
+        _appSettings = appSettings;
+        //异步线程保存数据
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            if(appSettings){
+                NSLog(@"异步线程保存设置更新:%@...", appSettings);
+                [appSettings saveToDefaults];
+            }
+        });
+    }
+}
+
 
 #pragma mark 重置主控制器
 -(void)resetRootController{
@@ -54,10 +79,13 @@ void uncaughtExceptionHandler(NSException *exception){
     //异步线程加载配置数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //加载配置
-        _appSettings = [AppSettings settingsDefaults];
+        if(!_appSettings){
+            _appSettings = [AppSettings settingsDefaults];
+        }
         //加载当前用户数据
-        _currentUser = [UserAccount current];
-        
+        if(!_currentUser){
+            _currentUser = [UserAccount current];
+        }
         //主线程设置控制器
         dispatch_async(dispatch_get_main_queue(), ^{
             //定义根控制器
@@ -67,7 +95,6 @@ void uncaughtExceptionHandler(NSException *exception){
                 root = [SwitchViewController shareInstance];
             }else{//加载主界面
                 root = [MainViewController shareInstance];
-                //root = [SwitchViewController shareInstance];
             }
             //加载主界面
             if(root){

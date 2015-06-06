@@ -37,8 +37,6 @@
     NSMutableArray *_dataSource;
     //切换服务
     SwitchService *_service;
-    //应用设置
-    AppSettings *_appSettings;
     //选中的产品
     ProductModel *_product;
     //等待动画
@@ -73,11 +71,6 @@
 -(void)loadData{
     //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        //加载应用设置
-        AppDelegate *app = [[UIApplication sharedApplication] delegate];
-        if(app && app.appSettings){
-            _appSettings = app.appSettings;
-        }
         NSLog(@"后台线程加载数据...");
         NSString *examName;
         NSArray *arrays = [_service loadProductsWithExamId:_examId outExamName:&examName];
@@ -155,13 +148,6 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     NSLog(@"clickedButtonAtIndex==>%d", buttonIndex);
     if(buttonIndex == 1){//确认
-        //异步线程设置产品
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            //设置产品
-            if(_appSettings &&_product){
-                [_appSettings setProductWithId:_product.Id andName:_product.name];
-            }
-        });
         //等待动画
         _waitHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
         _waitHUD.mode = MBProgressHUDModeAnnularDeterminate;
@@ -169,40 +155,35 @@
         _waitHUD.color = [UIColor colorWithHex:0xD3D3D3];
         //异步线程下载数据
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+            //设置产品
+            if(app && app.appSettings &&_product){
+                NSLog(@"设置选中的产品...");
+                AppSettings *settings = app.appSettings;
+                [settings setProductWithId:_product.Id andName:_product.name];
+                [app updateSettings:settings];
+            }
             //开始下载数据
             [_service syncDownload:^(BOOL result, NSString *msg) {
                 NSLog(@"下载同步数据结果:[%d,%@]...",result,msg);
-                if(result){//同步成功
-                    //保存应用设置
-                    if(_appSettings){
-                        [_appSettings saveToDefaults];
-                    }
-                }
-                //UpdateUI
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    //关闭等待动画
-                    if(_waitHUD){
-                        [_waitHUD hide:YES];
-                    }
-                    if(result){//成功
-                        NSLog(@"更新试卷数据成功,将进行根控制器跳转...");
-                        AppDelegate *app = [[UIApplication sharedApplication] delegate];
-                        if(!app){
-                            NSLog(@"获取应用AppDelegate对象失败!");
-                            return;
-                        }
-                        //根控制器跳转
-                        [app resetRootController];
-                        
-                    }else if(msg){//失败，失败消息
+                if(result){
+                    NSLog(@"更新试卷数据成功,将进行根控制器跳转...");
+                    //根控制器跳转
+                    if(app){[app resetRootController];}
+                    return;
+                }else if(msg){
+                    //UpdateUI
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //关闭等待动画
+                        if(_waitHUD){ [_waitHUD hide:YES]; }
+                        //弹出异常信息
                         UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:msg delegate:nil
                                                                  cancelButtonTitle:__kProductViewController_alertConfirmTitle
                                                                  otherButtonTitles:nil, nil];
                         [alertView show];
-                    }
-                });
+                    });
+                }
             }];
-            
         });
     }
 }

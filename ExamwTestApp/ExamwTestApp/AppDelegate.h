@@ -25,6 +25,9 @@
 //切换用户
 -(void)changedCurrentUser:(UserAccount *)userAccount;
 
+//更新设置
+-(void)updateSettings:(AppSettings *)appSettings;
+
 //重置根控制器
 -(void)resetRootController;
 @end

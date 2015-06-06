@@ -14,8 +14,9 @@
 #import "AppConstants.h"
 #import "HttpUtils.h"
 #import "JSONCallback.h"
-#import "UserAccount.h"
+
 #import "AppDelegate.h"
+#import "UserAccount.h"
 
 #import "MBProgressHUD.h"
 #import "UIColor+Hex.h"
@@ -120,7 +121,7 @@
                                        UserAccount *userAccount = [[UserAccount alloc] initWithUserId:back.data
                                                                                          withUsername:model.account];
                                        [userAccount updatePassword:model.password];
-                                       [userAccount saveForCurrent];
+                                       //[userAccount saveForCurrent];
                                        //替换当前应用用户
                                        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
                                        if(app){

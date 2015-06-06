@@ -126,11 +126,13 @@
         //获取应用设置
         AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
         if(app && app.appSettings){//设置考试ID和名称
-            [app.appSettings setExamWithId:cellFrame.model.Id
-                                   andCode:cellFrame.model.code
-                                   andName:cellFrame.model.name];
+            AppSettings *settings = app.appSettings;
+            //设置数据
+            [settings setExamWithId:cellFrame.model.Id andCode:cellFrame.model.code andName:cellFrame.model.name];
+            //更新配置
+            [app updateSettings:settings];
         }
-        
+        //控制器跳转
         ProductViewController *p = [[ProductViewController alloc]initWithExamId:cellFrame.model.Id];
         [self.navigationController pushViewController:p animated:YES];
     }

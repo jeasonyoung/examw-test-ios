@@ -19,11 +19,12 @@
 
 #pragma mark 静态成实例
 +(instancetype)shareInstance{
-    static MainViewController *mainController;
-    if(!mainController){
-        mainController = [[MainViewController alloc] init];
-    }
-    return mainController;
+    return [[self alloc] init];
+//    static MainViewController *mainController;
+//    if(!mainController){
+//        mainController = [[MainViewController alloc] init];
+//    }
+//    return mainController;
 }
 
 #pragma mark UI入口

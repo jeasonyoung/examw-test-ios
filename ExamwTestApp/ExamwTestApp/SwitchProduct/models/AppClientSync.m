@@ -7,6 +7,7 @@
 //
 
 #import "AppClientSync.h"
+#import "AppDelegate.h"
 #import "UserAccount.h"
 
 //客户端同步请求数据模型实现
@@ -15,7 +16,7 @@
 #pragma mark 初始化
 -(instancetype)initWithDict:(NSDictionary *)dict{
     if(self = [super init]){
-        [self initializationComponents];
+        [self setupSettings];
     }
     return self;
 }
@@ -23,18 +24,18 @@
 #pragma mark 重载初始化
 -(instancetype)init{
     if(self = [super init]){
-        [self initializationComponents];
+        [self setupSettings];
     }
     return self;
 }
 
 //初始化组件
--(void)initializationComponents{
+-(void)setupSettings{
     //是否忽略注册码
     _ignoreCode = NO;
-    UserAccount *accont = [UserAccount current];
-    if(accont){
-        _code = accont.regCode;
+    AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+    if(app && app.currentUser){
+        _code = app.currentUser.regCode;
     }
 }
 

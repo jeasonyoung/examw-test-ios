@@ -11,9 +11,9 @@
 #import "MyProductRegModelCellFrame.h"
 #import "MyProductRegModelTableViewCell.h"
 
-#import "AppSettings.h"
-#import "UserAccount.h"
 #import "AppDelegate.h"
+#import "UserAccount.h"
+#import "AppSettings.h"
 
 #import "HttpUtils.h"
 #import "ProductRegisterModel.h"
@@ -160,7 +160,7 @@
                                        UserAccount *ua = (_app ? _app.currentUser : nil);
                                        if(ua){
                                            [ua updateRegCode:_regCode];
-                                           [ua saveForCurrent];
+                                           //[ua saveForCurrent];
                                            [_app changedCurrentUser:ua];
                                        }
                                        //UpdateUI
