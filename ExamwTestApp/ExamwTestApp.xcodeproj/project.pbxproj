@@ -57,6 +57,14 @@
 		A17098FE1B0599910083AF01 /* CategoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098FA1B0599910083AF01 /* CategoryViewController.m */; };
 		A17098FF1B0599910083AF01 /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A17098FC1B0599910083AF01 /* SwitchViewController.m */; };
 		A17099061B05DF290083AF01 /* XHRealTimeBlur.m in Sources */ = {isa = PBXBuildFile; fileRef = A17099051B05DF290083AF01 /* XHRealTimeBlur.m */; };
+		A18BA4C51B22E0C1008C52C5 /* DownViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18BA4C41B22E0C1008C52C5 /* DownViewController.m */; };
+		A18BA4C81B22E106008C52C5 /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18BA4C71B22E106008C52C5 /* FeedbackViewController.m */; };
+		A18BA4CB1B22E12E008C52C5 /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A18BA4CA1B22E12E008C52C5 /* AboutViewController.m */; };
+		A18BA4D01B22E7D6008C52C5 /* FeedbackTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A18BA4CF1B22E7D6008C52C5 /* FeedbackTableViewCell.m */; };
+		A18BA4D31B232251008C52C5 /* ESTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = A18BA4D21B232251008C52C5 /* ESTextView.m */; };
+		A18BA4D61B2330D7008C52C5 /* TitleTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A18BA4D51B2330D7008C52C5 /* TitleTableViewCell.m */; };
+		A18BA4D91B23311E008C52C5 /* TitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A18BA4D81B23311E008C52C5 /* TitleModel.m */; };
+		A18BA4DC1B23351F008C52C5 /* TitleModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A18BA4DB1B23351F008C52C5 /* TitleModelCellFrame.m */; };
 		A18E193E1B1C97E800210968 /* PaperSegmentModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A18E193D1B1C97E800210968 /* PaperSegmentModel.m */; };
 		A18E19411B1CA4CA00210968 /* PaperSegmentModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A18E19401B1CA4CA00210968 /* PaperSegmentModelCellFrame.m */; };
 		A18E19441B1CADBF00210968 /* PaperSegmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A18E19431B1CADBF00210968 /* PaperSegmentTableViewCell.m */; };
@@ -295,6 +303,22 @@
 		A17098FD1B0599910083AF01 /* SwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SwitchViewController.h; path = SwitchProduct/controllers/SwitchViewController.h; sourceTree = "<group>"; };
 		A17099041B05DF290083AF01 /* XHRealTimeBlur.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XHRealTimeBlur.h; path = libs/XHRealTimeBlur/XHRealTimeBlur.h; sourceTree = "<group>"; };
 		A17099051B05DF290083AF01 /* XHRealTimeBlur.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XHRealTimeBlur.m; path = libs/XHRealTimeBlur/XHRealTimeBlur.m; sourceTree = "<group>"; };
+		A18BA4C31B22E0C1008C52C5 /* DownViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownViewController.h; path = Home/controllers/DownViewController.h; sourceTree = "<group>"; };
+		A18BA4C41B22E0C1008C52C5 /* DownViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownViewController.m; path = Home/controllers/DownViewController.m; sourceTree = "<group>"; };
+		A18BA4C61B22E106008C52C5 /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedbackViewController.h; path = Home/controllers/FeedbackViewController.h; sourceTree = "<group>"; };
+		A18BA4C71B22E106008C52C5 /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedbackViewController.m; path = Home/controllers/FeedbackViewController.m; sourceTree = "<group>"; };
+		A18BA4C91B22E12E008C52C5 /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutViewController.h; path = Home/controllers/AboutViewController.h; sourceTree = "<group>"; };
+		A18BA4CA1B22E12E008C52C5 /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutViewController.m; path = Home/controllers/AboutViewController.m; sourceTree = "<group>"; };
+		A18BA4CE1B22E7D6008C52C5 /* FeedbackTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FeedbackTableViewCell.h; path = Home/views/FeedbackTableViewCell.h; sourceTree = "<group>"; };
+		A18BA4CF1B22E7D6008C52C5 /* FeedbackTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FeedbackTableViewCell.m; path = Home/views/FeedbackTableViewCell.m; sourceTree = "<group>"; };
+		A18BA4D11B232251008C52C5 /* ESTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESTextView.h; path = ExamwTestApp/Utils/ESTextView.h; sourceTree = "<group>"; };
+		A18BA4D21B232251008C52C5 /* ESTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESTextView.m; path = ExamwTestApp/Utils/ESTextView.m; sourceTree = "<group>"; };
+		A18BA4D41B2330D7008C52C5 /* TitleTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TitleTableViewCell.h; path = Home/views/TitleTableViewCell.h; sourceTree = "<group>"; };
+		A18BA4D51B2330D7008C52C5 /* TitleTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TitleTableViewCell.m; path = Home/views/TitleTableViewCell.m; sourceTree = "<group>"; };
+		A18BA4D71B23311E008C52C5 /* TitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TitleModel.h; path = Home/models/TitleModel.h; sourceTree = "<group>"; };
+		A18BA4D81B23311E008C52C5 /* TitleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TitleModel.m; path = Home/models/TitleModel.m; sourceTree = "<group>"; };
+		A18BA4DA1B23351F008C52C5 /* TitleModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TitleModelCellFrame.h; path = Home/models/TitleModelCellFrame.h; sourceTree = "<group>"; };
+		A18BA4DB1B23351F008C52C5 /* TitleModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TitleModelCellFrame.m; path = Home/models/TitleModelCellFrame.m; sourceTree = "<group>"; };
 		A18E193C1B1C97E800210968 /* PaperSegmentModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperSegmentModel.h; path = Home/models/PaperSegmentModel.h; sourceTree = "<group>"; };
 		A18E193D1B1C97E800210968 /* PaperSegmentModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperSegmentModel.m; path = Home/models/PaperSegmentModel.m; sourceTree = "<group>"; };
 		A18E193F1B1CA4CA00210968 /* PaperSegmentModelCellFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperSegmentModelCellFrame.h; path = Home/models/PaperSegmentModelCellFrame.h; sourceTree = "<group>"; };
@@ -782,6 +806,10 @@
 				A1C074371B21D9B10046F388 /* MoreMenuModel.m */,
 				A1C074391B21F10B0046F388 /* MoreMenuModelCellFrame.h */,
 				A1C0743A1B21F10B0046F388 /* MoreMenuModelCellFrame.m */,
+				A18BA4D71B23311E008C52C5 /* TitleModel.h */,
+				A18BA4D81B23311E008C52C5 /* TitleModel.m */,
+				A18BA4DA1B23351F008C52C5 /* TitleModelCellFrame.h */,
+				A18BA4DB1B23351F008C52C5 /* TitleModelCellFrame.m */,
 			);
 			name = models;
 			sourceTree = "<group>";
@@ -819,6 +847,12 @@
 				A1AE08441B21864100F6E877 /* MyProductRegViewController.m */,
 				A1936CA61B0F1C7F00C59A06 /* MoreViewController.h */,
 				A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */,
+				A18BA4C31B22E0C1008C52C5 /* DownViewController.h */,
+				A18BA4C41B22E0C1008C52C5 /* DownViewController.m */,
+				A18BA4C61B22E106008C52C5 /* FeedbackViewController.h */,
+				A18BA4C71B22E106008C52C5 /* FeedbackViewController.m */,
+				A18BA4C91B22E12E008C52C5 /* AboutViewController.h */,
+				A18BA4CA1B22E12E008C52C5 /* AboutViewController.m */,
 			);
 			name = controllers;
 			sourceTree = "<group>";
@@ -864,6 +898,10 @@
 				A1AE08501B21987500F6E877 /* MyProductRegModelTableViewCell.m */,
 				A1AC68DF1B2291C7002AF34A /* MoreMenuModelTableViewCell.h */,
 				A1AC68E01B2291C7002AF34A /* MoreMenuModelTableViewCell.m */,
+				A18BA4CE1B22E7D6008C52C5 /* FeedbackTableViewCell.h */,
+				A18BA4CF1B22E7D6008C52C5 /* FeedbackTableViewCell.m */,
+				A18BA4D41B2330D7008C52C5 /* TitleTableViewCell.h */,
+				A18BA4D51B2330D7008C52C5 /* TitleTableViewCell.m */,
 			);
 			name = views;
 			sourceTree = "<group>";
@@ -1128,6 +1166,8 @@
 				A1185FA01B130AFA0099F910 /* EffectsUtils.m */,
 				A14114681B20608700179630 /* ESTextField.h */,
 				A14114691B20608700179630 /* ESTextField.m */,
+				A18BA4D11B232251008C52C5 /* ESTextView.h */,
+				A18BA4D21B232251008C52C5 /* ESTextView.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1260,12 +1300,14 @@
 			files = (
 				A1C6AD831B0C74770002BE81 /* AFURLSessionManager.m in Sources */,
 				A1936CA51B0F1C4900C59A06 /* MyViewController.m in Sources */,
+				A18BA4C51B22E0C1008C52C5 /* DownViewController.m in Sources */,
 				A1C51B0A1B1F32E3000F172B /* MySubjectModelTableViewCell.m in Sources */,
 				A1BBC9DD1B1013B8005A1FD3 /* PaperItemModel.m in Sources */,
 				A17098FF1B0599910083AF01 /* SwitchViewController.m in Sources */,
 				A17098E81B0581C00083AF01 /* MJRefreshComponent.m in Sources */,
 				A1A478C91B155BF9000B7E22 /* PaperItemViewController.m in Sources */,
 				A1F724DD1B03470B0023A3C8 /* NSData+Hex.m in Sources */,
+				A18BA4CB1B22E12E008C52C5 /* AboutViewController.m in Sources */,
 				A1A478DC1B15FC86000B7E22 /* PaperItemAnalysisModel.m in Sources */,
 				A1A478EA1B160315000B7E22 /* EMStringStylingConfiguration.m in Sources */,
 				A1C6AD851B0C74770002BE81 /* UIAlertView+AFNetworking.m in Sources */,
@@ -1276,6 +1318,7 @@
 				A1B8277A1B1EAADB00DA9CC2 /* MyUserModelCellFrame.m in Sources */,
 				A1BBC9E01B102BC0005A1FD3 /* PaperStructureModel.m in Sources */,
 				A1A478EB1B160315000B7E22 /* EMStylingClass.m in Sources */,
+				A18BA4D01B22E7D6008C52C5 /* FeedbackTableViewCell.m in Sources */,
 				A1A478CC1B156388000B7E22 /* PaperResultViewController.m in Sources */,
 				A121F2591B142873004EC63C /* PaperDetailsTableViewCell.m in Sources */,
 				A1DF97EA1B1220F3000F2B73 /* PaperService.m in Sources */,
@@ -1285,6 +1328,7 @@
 				A17098EA1B0581C00083AF01 /* MJRefreshFooter.m in Sources */,
 				A1BD6FE91B196D1D00A754B7 /* AnswerCardModel.m in Sources */,
 				A17098EE1B0581C00083AF01 /* MJRefreshLegendFooter.m in Sources */,
+				A18BA4DC1B23351F008C52C5 /* TitleModelCellFrame.m in Sources */,
 				A1F724C91B0305C00023A3C8 /* FMDatabase.m in Sources */,
 				A1C6AD521B0C31000002BE81 /* ProductTableViewCell.m in Sources */,
 				A18E19441B1CADBF00210968 /* PaperSegmentTableViewCell.m in Sources */,
@@ -1296,6 +1340,7 @@
 				A1C6AD811B0C74770002BE81 /* AFURLRequestSerialization.m in Sources */,
 				A1CA97E71B0F81C6003006F2 /* DAPageIndicatorView.m in Sources */,
 				A1F724D11B033F4A0023A3C8 /* AppSettings.m in Sources */,
+				A18BA4C81B22E106008C52C5 /* FeedbackViewController.m in Sources */,
 				A1F724C51B0305C00023A3C8 /* FMResultSet.m in Sources */,
 				A1A478C61B155BD7000B7E22 /* PaperViewController.m in Sources */,
 				A1C6AD7C1B0C74770002BE81 /* AFHTTPSessionManager.m in Sources */,
@@ -1315,6 +1360,7 @@
 				A18E19411B1CA4CA00210968 /* PaperSegmentModelCellFrame.m in Sources */,
 				A141144C1B1FDE1300179630 /* PaperRecordModelCellFrame.m in Sources */,
 				A1F724D71B0342330023A3C8 /* SecureUtils.m in Sources */,
+				A18BA4D31B232251008C52C5 /* ESTextView.m in Sources */,
 				A1BD6FEF1B19888A00A754B7 /* AnswerCardSectionModelCellFrame.m in Sources */,
 				A1185FA41B1324950099F910 /* PaperRecordModel.m in Sources */,
 				A141145E1B204FE300179630 /* MHTextField.m in Sources */,
@@ -1361,6 +1407,7 @@
 				A1F724E01B034E950023A3C8 /* NSString+Reversed.m in Sources */,
 				A13BB78B1B0AE6A40063C64B /* CategoryModelCellFrame.m in Sources */,
 				A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */,
+				A18BA4D61B2330D7008C52C5 /* TitleTableViewCell.m in Sources */,
 				A14114611B20505300179630 /* UserRegisterModel.m in Sources */,
 				A1936CA81B0F1C7F00C59A06 /* MoreViewController.m in Sources */,
 				A18E193E1B1C97E800210968 /* PaperSegmentModel.m in Sources */,
@@ -1377,6 +1424,7 @@
 				A121F2561B1425C1004EC63C /* PaperButtonTableViewCell.m in Sources */,
 				A1AE08451B21864100F6E877 /* MyProductRegViewController.m in Sources */,
 				A1185FA11B130AFA0099F910 /* EffectsUtils.m in Sources */,
+				A18BA4D91B23311E008C52C5 /* TitleModel.m in Sources */,
 				A1AE083C1B2145C100F6E877 /* MyUserLoginViewController.m in Sources */,
 				A1BBC9DA1B101359005A1FD3 /* PaperModel.m in Sources */,
 				A17098E91B0581C00083AF01 /* MJRefreshConst.m in Sources */,

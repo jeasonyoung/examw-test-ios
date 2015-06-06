@@ -34,7 +34,7 @@
 			<key>iconName</key>
 			<string>iconDown.png</string>
 			<key>controller</key>
-			<string></string>
+			<string>DownViewController</string>
 			<key>status</key>
 			<true/>
 			<key>order</key>
@@ -49,7 +49,7 @@
 			<key>iconName</key>
 			<string>iconCallback.png</string>
 			<key>controller</key>
-			<string></string>
+			<string>FeedbackViewController</string>
 			<key>status</key>
 			<true/>
 			<key>order</key>
@@ -64,7 +64,7 @@
 			<key>iconName</key>
 			<string>iconAbout.png</string>
 			<key>controller</key>
-			<string></string>
+			<string>AboutViewController</string>
 			<key>status</key>
 			<true/>
 			<key>order</key>
