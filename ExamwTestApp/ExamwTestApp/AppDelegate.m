@@ -44,8 +44,8 @@ void uncaughtExceptionHandler(NSException *exception){
 #pragma mark 切换当前用户
 -(void)changedCurrentUser:(UserAccount *)userAccount{
     NSLog(@"切换当前用户=>%@", userAccount);
+    _currentUser = userAccount;
     if(userAccount){
-        _currentUser = userAccount;
         //异步线程保存数据
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             if(userAccount){

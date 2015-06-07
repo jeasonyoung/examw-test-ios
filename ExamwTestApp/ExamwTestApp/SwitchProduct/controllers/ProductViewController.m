@@ -164,7 +164,7 @@
                 [app updateSettings:settings];
             }
             //开始下载数据
-            [_service syncDownload:^(BOOL result, NSString *msg) {
+            [_service syncDownloadWithIgnoreRegCode:YES resultHandler:^(BOOL result, NSString *msg) {
                 NSLog(@"下载同步数据结果:[%d,%@]...",result,msg);
                 if(result){
                     NSLog(@"更新试卷数据成功,将进行根控制器跳转...");

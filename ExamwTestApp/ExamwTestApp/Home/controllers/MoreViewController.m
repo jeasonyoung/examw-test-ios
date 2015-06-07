@@ -11,21 +11,41 @@
 #import "MoreMenuModelCellFrame.h"
 #import "MoreMenuModelTableViewCell.h"
 
+#import "AppDelegate.h"
+#import "UserAccount.h"
+
+#import "EffectsUtils.h"
+#import "UIColor+Hex.h"
+
 #define __kMoreViewController_moreFileName @"moreSettingMenus"//主界面底部菜单文件名
 #define __kMoreViewController_moreFileTypeName @"plist"//文件类型
+
+#define __kMoreViewController_panelHeight 40//面板高度
+
+#define __kMoreViewController_btnTop 5//顶部间隔
+#define __kMoreViewController_btnLeft 15//顶部间隔
+#define __kMoreViewController_btnRight 15//顶部间隔
+#define __kMoreViewController_btnHeight 30//按钮高度
+#define __kMoreViewController_btnbgColor 0xFF0000//
 
 #define __kMoreViewController_cellIdentifer @"cell"//
 //更多视图控制器成员变量
 @interface MoreViewController (){
     NSMutableDictionary *_dataSource;
+    AppDelegate *_app;
+    UIColor *_btnColor;
+    BOOL _isReload;
 }
 @end
 //更多视图控制器实现
 @implementation MoreViewController
 
+#pragma mark 重载初始化
 -(instancetype)init{
     if(self = [self initWithStyle:UITableViewStyleGrouped]){
-        
+        _isReload = NO;
+        _btnColor = [UIColor colorWithHex:__kMoreViewController_btnbgColor];
+        _app = [[UIApplication sharedApplication] delegate];
     }
     return self;
 }
@@ -35,6 +55,78 @@
     [super viewDidLoad];
     //加载数据
     [self loadData];
+    //加载底部退出按钮
+    [self setupBottomExitView];
+}
+
+#pragma mark 重载View将出现
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    //加载底部按钮
+    if(_isReload){
+        _isReload = NO;
+        [self setupBottomExitView];
+    }
+}
+#pragma mark 重载View消失
+-(void)viewWillDisappear:(BOOL)animated{
+    _isReload = YES;
+    [super viewWillDisappear:animated];
+}
+
+//加载底部退出按钮
+-(void)setupBottomExitView{
+    //异步线程处理
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"异步线程处理底部退出按钮...");
+        if(_app && _app.currentUser){//用户已登录
+            CGFloat maxWidth = CGRectGetWidth(self.tableView.bounds) - __kMoreViewController_btnRight;
+            CGFloat x = __kMoreViewController_btnLeft, y = __kMoreViewController_btnTop;
+            //updateUI
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //添加面板
+                self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, maxWidth + __kMoreViewController_btnRight, __kMoreViewController_panelHeight)];
+                //添加退出按钮
+                UIButton *btnExit = [UIButton buttonWithType:UIButtonTypeSystem];
+                btnExit.frame = CGRectMake(x, y, maxWidth - x, __kMoreViewController_btnHeight);
+                [btnExit setTitle:@"退出" forState:UIControlStateNormal];
+                [btnExit setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+                [btnExit addTarget:self action:@selector(btnExitClick:) forControlEvents:UIControlEventTouchUpInside];
+                [EffectsUtils addBoundsRadiusWithView:btnExit BorderColor:_btnColor BackgroundColor:_btnColor];
+                [self.tableView.tableFooterView addSubview:btnExit];
+            });
+        }else{//未登录,移除按钮
+            UIView *panel = self.tableView.tableFooterView;
+            if(panel){
+                //updateUI
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //移除
+                    [panel removeFromSuperview];
+                });
+            }
+        }
+    });
+}
+
+//退出登录按钮事件处理
+-(void)btnExitClick:(UIButton *)sender{
+    NSLog(@"退出登录按钮事件处理[%@]...", sender);
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"异步线程处理退出登录问题...");
+        if(_app){
+            //清空
+            UserAccount *ua = _app.currentUser;
+            if(ua){//清除当前用户
+                [ua cleanForCurrent];
+                [_app changedCurrentUser:nil];
+            }
+            //updateUI
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //控制器跳转
+                [_app resetRootController];
+            });
+        }
+    });
 }
 
 //加载数据

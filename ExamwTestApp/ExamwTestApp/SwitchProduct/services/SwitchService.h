@@ -30,5 +30,5 @@
 -(NSArray *)loadProductsWithExamId:(NSString *)examId outExamName:(NSString **)examName;
 
 //同步下载数据
--(void)syncDownload:(void(^)(BOOL,NSString *))handler;
+-(void)syncDownloadWithIgnoreRegCode:(BOOL)ignoreRegCode resultHandler:(void(^)(BOOL,NSString *))handler;
 @end

@@ -27,6 +27,7 @@
 //用户登录视图控制器成员变量
 @interface MyUserLoginViewController ()<MyUserLoginTableViewCellDelegate>{
     NSString *_account;
+    AppDelegate *_app;
     MBProgressHUD *_waitHud;
     UIAlertView *_alertView;
 }
@@ -38,6 +39,8 @@
 -(instancetype)initWithAccount:(NSString *)account{
     if(self = [super initWithStyle:UITableViewStyleGrouped]){
         _account = account;
+        //设置当前应用
+        _app = [[UIApplication sharedApplication] delegate];
     }
     return self;
 }
@@ -87,8 +90,6 @@
     //异步线程处理登录
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"异步线程处理登录验证...");
-        //初始化数据
-        UserLoginModel *model = [[UserLoginModel alloc] initWIthAccount:account password:pwd];
         //反馈处理
         void(^callbackShowMessage)(NSString *) = ^(NSString *msg){
             //UpdateUI
@@ -102,43 +103,65 @@
         //检查网络
         [HttpUtils checkNetWorkStatus:^(BOOL statusValue) {
             if(!statusValue){
-                callbackShowMessage(@"请检查网络状态!");
+                //本地登录验证
+                UserAccount *ua = [UserAccount accountWithUsername:account];
+                if(ua){
+                    if([ua validateWithPassword:pwd]){
+                        //更新当前用户
+                        if(_app){
+                            [_app changedCurrentUser:ua];
+                        }
+                        //updateUI
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            //关闭等待动画
+                            if(_waitHud){[_waitHud hide:YES];};
+                            //跳转控制器
+                            [self.navigationController popToRootViewControllerAnimated:YES];
+                        });
+                    }else{
+                        callbackShowMessage(@"密码错误!");
+                    }
+                }else{
+                    callbackShowMessage(@"请检查网络状态!");
+                }
                 return;
             }
+            //初始化数据模型
+            UserLoginModel *model = [[UserLoginModel alloc] initWIthAccount:account password:pwd];
             [HttpUtils JSONDataWithUrl:_kAPP_API_LOGIN_URL
                                 method:HttpUtilsMethodPOST
                             parameters:[model serialize]
                               progress:nil
                                success:^(NSDictionary *callback) {
-                                   @try {
-                                       NSLog(@"callback:%@",callback);
-                                       JSONCallback *back = [[JSONCallback alloc] initWithDict:callback];
-                                       if(!back.success){
-                                           callbackShowMessage(back.msg);
-                                           return;
+                                   //异步线程处理
+                                   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                       @try {
+                                           NSLog(@"callback:%@",callback);
+                                           JSONCallback *back = [[JSONCallback alloc] initWithDict:callback];
+                                           if(!back.success){
+                                               callbackShowMessage(back.msg);
+                                               return;
+                                           }
+                                           //登录成功,记录当前用户
+                                           UserAccount *userAccount = [[UserAccount alloc] initWithUserId:back.data
+                                                                                             withUsername:model.account];
+                                           [userAccount updatePassword:model.password];
+                                           if(_app){
+                                               [_app changedCurrentUser:userAccount];
+                                           }
+                                           //updateUI
+                                           dispatch_async(dispatch_get_main_queue(), ^{
+                                               //关闭等待动画
+                                               if(_waitHud){[_waitHud hide:YES];};
+                                               //跳转控制器
+                                               [self.navigationController popToRootViewControllerAnimated:YES];
+                                           });
                                        }
-                                       //登录成功,记录当前用户
-                                       UserAccount *userAccount = [[UserAccount alloc] initWithUserId:back.data
-                                                                                         withUsername:model.account];
-                                       [userAccount updatePassword:model.password];
-                                       //[userAccount saveForCurrent];
-                                       //替换当前应用用户
-                                       AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                                       if(app){
-                                           [app changedCurrentUser:userAccount];
+                                       @catch (NSException *exception) {
+                                           NSLog(@"发生异常:%@", exception);
+                                           callbackShowMessage(@"错误，请稍后重试!");
                                        }
-                                       //updateUI
-                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                           //关闭等待动画
-                                           if(_waitHud){[_waitHud hide:YES];};
-                                           //跳转控制器
-                                           [self.navigationController popToRootViewControllerAnimated:YES];
-                                       });
-                                   }
-                                   @catch (NSException *exception) {
-                                       NSLog(@"发生异常:%@", exception);
-                                       callbackShowMessage(@"错误，请稍后重试!");
-                                   }
+                                   });
                                } fail:^(NSString *err) {
                                    NSLog(@"callback:%@", err);
                                    callbackShowMessage(err);

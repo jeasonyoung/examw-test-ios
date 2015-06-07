@@ -173,8 +173,8 @@ static NSArray *localCategoriesCache;
 }
 
 #pragma mark 同步下载数据
--(void)syncDownload:(void (^)(BOOL, NSString *))handler{
+-(void)syncDownloadWithIgnoreRegCode:(BOOL)ignoreRegCode resultHandler:(void (^)(BOOL, NSString *))handler{
     DownloadDao *dao = [[DownloadDao alloc] init];
-    [dao downloadWithIgnoreCode:YES andResult:handler];
+    [dao downloadWithIgnoreCode:ignoreRegCode andResult:handler];
 }
 @end

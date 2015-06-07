@@ -75,6 +75,7 @@
 		A1936CA21B0F1BDF00C59A06 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936CA11B0F1BDF00C59A06 /* FavoritesViewController.m */; };
 		A1936CA51B0F1C4900C59A06 /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936CA41B0F1C4900C59A06 /* MyViewController.m */; };
 		A1936CA81B0F1C7F00C59A06 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */; };
+		A19901791B246F0A002025F4 /* MyUserRegisterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A19901781B246F0A002025F4 /* MyUserRegisterTableViewCell.m */; };
 		A19D5B541B064706009F7360 /* CategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A19D5B531B064706009F7360 /* CategoryModel.m */; };
 		A1A478C31B155B97000B7E22 /* DMLazyScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478C21B155B97000B7E22 /* DMLazyScrollView.m */; };
 		A1A478C61B155BD7000B7E22 /* PaperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1A478C51B155BD7000B7E22 /* PaperViewController.m */; };
@@ -338,6 +339,8 @@
 		A1936CA41B0F1C4900C59A06 /* MyViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyViewController.m; path = Home/controllers/MyViewController.m; sourceTree = "<group>"; };
 		A1936CA61B0F1C7F00C59A06 /* MoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MoreViewController.h; path = Home/controllers/MoreViewController.h; sourceTree = "<group>"; };
 		A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MoreViewController.m; path = Home/controllers/MoreViewController.m; sourceTree = "<group>"; };
+		A19901771B246F0A002025F4 /* MyUserRegisterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyUserRegisterTableViewCell.h; path = Home/views/MyUserRegisterTableViewCell.h; sourceTree = "<group>"; };
+		A19901781B246F0A002025F4 /* MyUserRegisterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MyUserRegisterTableViewCell.m; path = Home/views/MyUserRegisterTableViewCell.m; sourceTree = "<group>"; };
 		A19D5B521B064706009F7360 /* CategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CategoryModel.h; path = SwitchProduct/models/CategoryModel.h; sourceTree = "<group>"; };
 		A19D5B531B064706009F7360 /* CategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CategoryModel.m; path = SwitchProduct/models/CategoryModel.m; sourceTree = "<group>"; };
 		A1A478C11B155B97000B7E22 /* DMLazyScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DMLazyScrollView.h; path = libs/DMLazyScrollView/DMLazyScrollView.h; sourceTree = "<group>"; };
@@ -892,6 +895,8 @@
 				A1C51B091B1F32E3000F172B /* MySubjectModelTableViewCell.m */,
 				A141144F1B20001F00179630 /* PaperRecordModelTableViewCell.h */,
 				A14114501B20001F00179630 /* PaperRecordModelTableViewCell.m */,
+				A19901771B246F0A002025F4 /* MyUserRegisterTableViewCell.h */,
+				A19901781B246F0A002025F4 /* MyUserRegisterTableViewCell.m */,
 				A1AE08401B2150D000F6E877 /* MyUserLoginTableViewCell.h */,
 				A1AE08411B2150D000F6E877 /* MyUserLoginTableViewCell.m */,
 				A1AE084F1B21987500F6E877 /* MyProductRegModelTableViewCell.h */,
@@ -1317,6 +1322,7 @@
 				A10F5FBC1B0DBCA000BD0491 /* AppClientSync.m in Sources */,
 				A1B8277A1B1EAADB00DA9CC2 /* MyUserModelCellFrame.m in Sources */,
 				A1BBC9E01B102BC0005A1FD3 /* PaperStructureModel.m in Sources */,
+				A19901791B246F0A002025F4 /* MyUserRegisterTableViewCell.m in Sources */,
 				A1A478EB1B160315000B7E22 /* EMStylingClass.m in Sources */,
 				A18BA4D01B22E7D6008C52C5 /* FeedbackTableViewCell.m in Sources */,
 				A1A478CC1B156388000B7E22 /* PaperResultViewController.m in Sources */,

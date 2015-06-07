@@ -242,4 +242,15 @@
         [defaults synchronize];
     }
 }
+
+#pragma mark 清除当前用户账号信息
+-(void)cleanForCurrent{
+    NSLog(@"清除当前用户账号信息:%@...",__kUserAccount_currentUser);
+    //初始化账号存储
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    //移除存储键
+    [defaults removeObjectForKey:__kUserAccount_currentUser];
+    //更新
+    [defaults synchronize];
+}
 @end

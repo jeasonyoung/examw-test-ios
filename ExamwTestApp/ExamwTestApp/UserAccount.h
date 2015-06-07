@@ -43,4 +43,7 @@
 
 //清除账号信息
 -(void)clean;
+
+//清除当前用户账号信息
+-(void)cleanForCurrent;
 @end

@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 //用户注册视图控制器
-@interface MyUserRegisterViewController : UIViewController
+@interface MyUserRegisterViewController : UITableViewController
 
 @end
