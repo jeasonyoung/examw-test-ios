@@ -10,17 +10,12 @@
 #import "AnswerCardModelCellFrame.h"
 #import "AnswerCardModel.h"
 
-#import "UIColor+Hex.h"
 #import "EffectsUtils.h"
 
-
-#define __kAnswerCardCollectionViewCell_borderColor 0x1E90FF//边框颜色
-#define __kAnswerCardCollectionViewCell_normalFontColor 0x696969//字体颜色
-#define __kAnswerCardCollectionViewCell_highlightFontColor 0xFFDEAD//高亮字体颜色
 //答题卡集合Cell成员变量
 @interface AnswerCardCollectionViewCell (){
     UIButton *_btnOrder;
-    UIColor *_borderColor;
+    //UIColor *_borderColor;
 }
 @end
 //答题卡集合Cell实现
@@ -36,17 +31,8 @@
 
 //初始化组件
 -(void)initializationComponents{
-    //边框颜色
-    _borderColor = [UIColor colorWithHex:__kAnswerCardCollectionViewCell_borderColor];
-    
-    //字体颜色
-    UIColor *normalFontColor = [UIColor colorWithHex:__kAnswerCardCollectionViewCell_normalFontColor],
-    *highlightFontColor = [UIColor colorWithHex:__kAnswerCardCollectionViewCell_highlightFontColor];
-    
     //按钮
-    _btnOrder = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_btnOrder setTitleColor:normalFontColor forState:UIControlStateNormal];
-    [_btnOrder setTitleColor:highlightFontColor forState:UIControlStateHighlighted];
+    _btnOrder = [UIButton buttonWithType:UIButtonTypeSystem];
     [_btnOrder addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
     
     //添加到容器
@@ -57,11 +43,14 @@
 -(void)loadModelCellFrame:(AnswerCardModelCellFrame *)cellFrame{
     if(!cellFrame)return;
     NSLog(@"加载答题卡Cell Frame[%@]...", cellFrame.order);
+    UIColor *color = cellFrame.orderColor;
+    
     _btnOrder.titleLabel.font = cellFrame.orderFont;
     _btnOrder.frame = cellFrame.orderFrame;
     [_btnOrder setTitle:cellFrame.order forState:UIControlStateNormal];
+    [_btnOrder setTitleColor:color forState:UIControlStateNormal];
     //
-    [EffectsUtils addBoundsRadiusWithView:self BorderColor:_borderColor BackgroundColor:cellFrame.orderBgColor];
+    [EffectsUtils addBoundsRadiusWithView:self BorderColor:color BackgroundColor:nil];
     //
     if(cellFrame.model){
         _btnOrder.tag = cellFrame.model.order;

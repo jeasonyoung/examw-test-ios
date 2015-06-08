@@ -7,6 +7,7 @@
 //
 
 #import "PaperDetailsViewController.h"
+#import "AppConstants.h"
 
 #import "PaperInfoModel.h"
 #import "PaperModel.h"
@@ -93,7 +94,7 @@
     self.title = __kPaperDetailsViewController_title;
     //开启等待动画
     _waitHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-    _waitHud.color = [UIColor colorWithHex:0xD3D3D3];
+    _waitHud.color = [UIColor colorWithHex:WAIT_HUD_COLOR];
     //加载数据
     [self loadData];
 }

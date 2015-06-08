@@ -20,11 +20,6 @@
 //#define __kPaperTitleModelCellFrame_marginH 15//横向间距
 
 #define __kPaperTitleModelCellFrame_subjectFormat @"科目:%@"//
-//试卷标题模型CellFrame成员变量
-@interface PaperTitleModelCellFrame (){
-    
-}
-@end
 
 //试卷标题模型CellFrame实现
 @implementation PaperTitleModelCellFrame
@@ -33,9 +28,11 @@
 -(instancetype)init{
     if(self = [super init]){
         //设置试卷标题字体
-        _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+        _titleFont = [AppConstants globalListFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
         //设置所属科目字体
-        _subjectFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+        _subjectFont = [AppConstants globalListThirdFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
     }
     return self;
 }

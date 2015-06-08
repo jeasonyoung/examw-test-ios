@@ -24,9 +24,9 @@
 -(instancetype)init{
     if(self = [super init]){
         //标题字体
-        _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _titleFont = [AppConstants globalListFont];
         //描述字体
-        _descFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        _descFont = [AppConstants globalListSubFont];
     }
     return self;
 }
@@ -62,11 +62,8 @@
         _descFrame = CGRectMake(x, y, descSize.width, descSize.height);
         y = CGRectGetMaxY(_descFrame);
     }
-    //
+    //尺寸
     _cellSize = CGSizeMake(width, y + __kAnswerCardSectionModelCellFrame_bottom);
-    
-    //行高
-    //_cellHeight = y + __kAnswerCardSectionModelCellFrame_bottom;
 }
 
 @end

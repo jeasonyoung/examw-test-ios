@@ -77,7 +77,7 @@
         y = CGRectGetMaxY(_tfPassword.frame) + __kMyUserLoginTableViewCell_marginV;
         
         //登录按钮(第3行1列)
-        UIColor *borderColor = [UIColor colorWithHex:0x1E90FF];
+        UIColor *borderColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
         x = __kMyUserLoginTableViewCell_left;
         CGFloat width = (maxWith - x - __kMyUserLoginTableViewCell_marginH*3)/2;
         CGFloat padding = (maxWith - x)/2 - width;

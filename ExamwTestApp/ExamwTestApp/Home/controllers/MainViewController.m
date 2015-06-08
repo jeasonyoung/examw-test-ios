@@ -9,29 +9,22 @@
 #import "MainViewController.h"
 #import "BottomMenuModel.h"
 
-//主界面视图控制器成员变量
-@interface MainViewController ()<UITabBarControllerDelegate>{
-    
-}
-@end
+#import "AppConstants.h"
+#import "UIColor+Hex.h"
 //主界面视图控制器
 @implementation MainViewController
 
 #pragma mark 静态成实例
 +(instancetype)shareInstance{
     return [[self alloc] init];
-//    static MainViewController *mainController;
-//    if(!mainController){
-//        mainController = [[MainViewController alloc] init];
-//    }
-//    return mainController;
 }
 
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
-    //设置代理
-    self.delegate = self;
+    //设置底部颜色
+    self.tabBar.selectedImageTintColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
+    self.tabBar.barTintColor = [UIColor colorWithHex:0xBEBEBE];
     //加载底部菜单数据
     [self loadBottomMenus];
 }

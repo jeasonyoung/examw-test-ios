@@ -16,11 +16,7 @@
 #import "JSONCallback.h"
 
 #import "DownloadDao.h"
-//产品切换数据服务成员变量
-@interface SwitchService(){
-    
-}
-@end
+
 //产品切换数据服务实现
 @implementation SwitchService
 
@@ -49,12 +45,6 @@ static NSArray *localCategoriesCache;
 #pragma mark 从网络下载数据
 -(void)loadCategoriesFromNetWorks:(void (^)(NSString *))complete{
     NSLog(@"从网络下载数据...");
-    //下载进度
-//    void (^downloadProgress)(long long,long long) = ^(long long totalBytesRead, long long totalBytesExpectedToRead){
-//        if(progressPercentage){//进度百分比
-//            progressPercentage((int)((totalBytesRead * 100)/totalBytesExpectedToRead));
-//        }
-//    };
     //下载成功处理
     void (^successHandler)(NSDictionary *) = ^(NSDictionary *dict){//主线程
         //开启后台线程处理
@@ -97,18 +87,20 @@ static NSArray *localCategoriesCache;
     //从网络加载数据
     [HttpUtils checkNetWorkStatus:^(BOOL statusValue) {
         NSLog(@"检测网络状态:%d", statusValue);
-        if(statusValue){
-            [HttpUtils JSONDataWithUrl:_kAPP_API_CATEGORY_URL method:HttpUtilsMethodGET parameters:nil
-                              progress:nil
-                               success:successHandler
-                                  fail:^(NSString *err) {
-                                      //开启后台线程处理
-                                      dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
-                                          NSLog(@"服务器错误:%@", err);
-                                          complete([NSString stringWithFormat:@"服务器错误:%@",err]);
-                                      });
-                                  }];
+        if(!statusValue){
+            NSLog(@"请检查网络状态!");
+            complete(@"请检查网络状态!");
+            return;
         }
+        [HttpUtils JSONDataWithUrl:_kAPP_API_CATEGORY_URL method:HttpUtilsMethodGET parameters:nil progress:nil
+                           success:successHandler
+                              fail:^(NSString *err) {
+                                  //开启后台线程处理
+                                  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
+                                      NSLog(@"服务器错误:%@", err);
+                                      complete(@"服务器异常，请稍后再试!");
+                                  });
+                              }];
     }];
 }
 
@@ -153,7 +145,7 @@ static NSArray *localCategoriesCache;
 }
 
 #pragma mark 根据考试ID加载产品集合
--(NSArray *)loadProductsWithExamId:(NSString *)examId outExamName:(NSString *__autoreleasing *)examName{
+-(NSArray *)loadProductsWithExamId:(NSString *)examId{
     NSLog(@"根据考试ID[%@]加载产品集合...", examId);
     if(examId && examId.length > 0 && [self hasCategories]){
         for (CategoryModel *category in localCategoriesCache){
@@ -161,9 +153,6 @@ static NSArray *localCategoriesCache;
             for(ExamModel *exam in category.exams){
                 if(exam && exam.Id && [examId isEqualToString:exam.Id]){
                     NSLog(@"加载考试分类:%@", exam.name);
-                    if(examName){
-                        *examName = exam.name;
-                    }
                     return [exam.products copy];
                 }
             }

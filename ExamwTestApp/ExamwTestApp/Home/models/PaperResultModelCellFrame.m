@@ -30,7 +30,8 @@
         _width = SCREEN_WIDTH;
         _maxWidth = _width - __kPaperResultModelCellFrame_right;
         
-        _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _titleFont = [AppConstants globalListFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
         _titleFrame = CGRectZero;
         
         _contentFont = _titleFont;

@@ -7,6 +7,9 @@
 //
 
 #import "PaperViewController.h"
+
+#import "AppConstants.h"
+
 #import "PaperItemModel.h"
 
 #import "PaperService.h"
@@ -74,12 +77,15 @@
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //添加背景色
+    self.view.backgroundColor = [UIColor whiteColor];
     //设置未未加载
     _isLoaded = NO;
     //加载试题滚动视图
     [self setupLazyScrollViews];
     //加载顶部工具栏
     [self setupTopBars];
+    
     //加载底部工具栏
     [self setupBottomBars];
 }
@@ -136,7 +142,7 @@
 -(void)submitPaperHandler{
     if(_delegate && [_delegate respondsToSelector:@selector(submitPaper:)]){
         _waitHud = [MBProgressHUD showHUDAddedTo:_lazyScrollView animated:YES];
-        _waitHud.color = [UIColor colorWithHex:0xD3D3D3];
+        _waitHud.color = [UIColor colorWithHex:WAIT_HUD_COLOR];
         //异步线程处理交卷数据处理
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSLog(@"开始异步线程处理交卷数据处理...");
@@ -183,17 +189,22 @@
 
 //加载底部工具栏
 -(void)setupBottomBars{
+    //
+    UIColor *barColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
+    
     //上一题
     UIBarButtonItem *btnPrev = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btnPrev.png"]
                                                                 style:UIBarButtonItemStyleBordered
                                                                target:self action:@selector(btnBarPrevClick:)];
     btnPrev.tag = __kPaperViewController_tag_btnPrev;
     btnPrev.enabled = NO;
+    btnPrev.tintColor = barColor;
     //下一题
     UIBarButtonItem *btnNext = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btnNext.png"]
                                                                 style:UIBarButtonItemStyleBordered
                                                                target:self action:@selector(btnBarNextClick:)];
     btnNext.tag = __kPaperViewController_tag_btnNext;
+    btnNext.tintColor = barColor;
     //收藏
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
     btn.frame = CGRectMake(0, 0, 20, 20);
@@ -201,6 +212,7 @@
     [btn addTarget:self action:@selector(btnBarFavoriteClick:) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *btnFavorite = [[UIBarButtonItem alloc] initWithCustomView:btn];
     btnFavorite.tag = __kPaperViewController_tag_btnFavorite;
+    btnFavorite.tintColor = barColor;
     
     //分隔平均填充
     UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
@@ -216,7 +228,7 @@
                                                                      target:self
                                                                      action:@selector(btnBarSubmitClick:)];
         btnSubmit.tag = __kPaperViewController_tag_btnSubmit;
-        
+        btnSubmit.tintColor = barColor;
         toolbars = @[btnPrev,space,btnFavorite,space,btnSubmit,space,btnNext];
     }
     
@@ -417,7 +429,13 @@
 //单选点击
 -(void)itemViewController:(PaperItemViewController *)controller singleClickOrder:(NSUInteger)order{
     NSLog(@"下一题...");
-    [self btnBarNextClick:nil];
+    dispatch_time_t offer = dispatch_time(DISPATCH_TIME_NOW, NEXT_ITEM_SEC * NSEC_PER_SEC);
+    dispatch_after(offer, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+       //等待2秒后下一题
+        dispatch_async(dispatch_get_main_queue(), ^{
+           [self btnBarNextClick:nil];
+        });
+    });
 }
 //加载当前试题答案
 -(NSString *)itemViewController:(PaperItemViewController *)controller loadMyAnswerWithModel:(PaperItemModel *)itemModel{

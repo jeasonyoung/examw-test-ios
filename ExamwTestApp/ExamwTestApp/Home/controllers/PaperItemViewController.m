@@ -47,7 +47,7 @@
 
 #pragma mark 初始化
 -(instancetype)initWithPaperItem:(PaperItemModel *)model andOrder:(NSUInteger)order andDisplayAnswer:(BOOL)display{
-    if(self = [super init]){
+    if(self = [super initWithStyle:UITableViewStylePlain]){
         NSLog(@"初始化试题视图控制器[是否显示答案:%d]%@...", display, model);
         _displayAnswer = display;
         _order = order;
@@ -63,7 +63,7 @@
     _waitHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
     _waitHud.color = [UIColor colorWithHex:0xD3D3D3];
     //清除TableView分割线
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    //self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     //加载数据
     [self loadData];
 }
@@ -107,8 +107,11 @@
                 //添加到数据源
                 [_itemsDataSource addObject:titleFrame];
                 //选项
-                NSArray *optFrames = [self createCellOptions:_itemModel.children itemType:_itemModel.itemType
-                                                   myAnswers:myAnswers outOptModels:&optModelArrays];
+                NSArray *optFrames = [self createCellOptions:_itemModel.children
+                                                    itemType:_itemModel.itemType
+                                                rightAnswers:_itemModel.itemAnswer
+                                                   myAnswers:myAnswers
+                                                outOptModels:&optModelArrays];
                 //添加到数据源
                 if(optFrames && optFrames.count > 0){
                     [_itemsDataSource addObjectsFromArray:optFrames];
@@ -137,8 +140,11 @@
                 PaperItemModel *optRightModel = [[PaperItemModel alloc] initWithDict:@{@"id":[NSNumber numberWithInteger:PaperItemJudgeAnswerRight],@"content":[PaperItemModel nameWithItemJudgeAnswer:PaperItemJudgeAnswerRight]}],
                 *optWrongModel = [[PaperItemModel alloc] initWithDict:@{@"id":[NSNumber numberWithInteger:PaperItemJudgeAnswerWrong],@"content":[PaperItemModel nameWithItemJudgeAnswer:PaperItemJudgeAnswerWrong]}];
                 //选项
-                NSArray *optFrames = [self createCellOptions:@[optRightModel, optWrongModel] itemType:PaperItemTypeSingle
-                                                   myAnswers:myAnswers outOptModels:&optModelArrays];
+                NSArray *optFrames = [self createCellOptions:@[optRightModel, optWrongModel]
+                                                    itemType:PaperItemTypeSingle
+                                                rightAnswers:_itemModel.itemAnswer
+                                                   myAnswers:myAnswers
+                                                outOptModels:&optModelArrays];
                 //添加到数据源
                 if(optFrames && optFrames.count > 0){
                     [_itemsDataSource addObjectsFromArray:optFrames];
@@ -194,8 +200,11 @@
                         //添加到数据源
                         [_itemsDataSource addObject:titleFrame];
                         //选项
-                        NSArray *optFrames = [self createCellOptions:child.children itemType:child.itemType
-                                                           myAnswers:myAnswers  outOptModels:&optModelArrays];
+                        NSArray *optFrames = [self createCellOptions:child.children
+                                                            itemType:child.itemType
+                                                        rightAnswers:child.itemAnswer
+                                                           myAnswers:myAnswers
+                                                        outOptModels:&optModelArrays];
                         //添加到数据源
                         if(optFrames && optFrames.count > 0){
                             [_itemsDataSource addObjectsFromArray:optFrames];
@@ -252,8 +261,10 @@
                             //添加到数据源
                             [_itemsDataSource addObject:titleFrame];
                             //选项
-                            NSArray *optFrames = [self createCellOptions:optItemModels itemType:subItemModel.itemType
-                                                               myAnswers:myAnswers outOptModels:&optModelArrays];
+                            NSArray *optFrames = [self createCellOptions:optItemModels
+                                                                itemType:subItemModel.itemType
+                                                            rightAnswers: subItemModel.itemAnswer                                                               myAnswers:myAnswers
+                                                            outOptModels:&optModelArrays];
                             //添加到数据源
                             if(optFrames && optFrames.count > 0){
                                 [_itemsDataSource addObjectsFromArray:optFrames];
@@ -290,6 +301,7 @@
 //加载试题数据
 -(NSArray *)createCellOptions:(NSArray *)options
                      itemType:(NSUInteger)type
+                 rightAnswers:(NSString *)rightAnswers
                     myAnswers:(NSString *)myAnswers
                  outOptModels:(NSArray **)optModels{
     NSUInteger len = 0;
@@ -302,6 +314,7 @@
             if(!itemModel) continue;
             PaperItemOptModel *optModel = [[PaperItemOptModel alloc] initWithItemModel:itemModel];
             optModel.itemType = type;
+            optModel.rightAnswers = rightAnswers;
             optModel.myAnswers = myAnswers;
             optModel.display = _displayAnswer;
             //添加到数据模型数组
@@ -355,7 +368,7 @@
         if(!cell){
             cell = [[PaperItemOptTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
                                                     reuseIdentifier:__kPaperItemViewController_cellOptIdentifier];
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.selectionStyle =  UITableViewCellSelectionStyleGray;
         }
         [cell loadModelCellFrame:data];
         return cell;
@@ -379,6 +392,7 @@
 }
 //点击选中
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(_displayAnswer)return;
     //异步线程处理点击事件
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         id cellFrame = [_itemsDataSource objectAtIndex:indexPath.row];

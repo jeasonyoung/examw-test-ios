@@ -9,7 +9,6 @@
 #import "ExamModelCellFrame.h"
 #import "AppConstants.h"
 
-
 #define __kExamModelCellFrame_top 10//顶部间距
 #define __kExamModelCellFrame_bottom 10//底部间距
 #define __kExamModelCellFrame_left 10//左边间距
@@ -25,7 +24,7 @@
 -(instancetype)init{
     if(self = [super init]){
         //设置考试名称字体
-        _nameFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        _nameFont = [AppConstants globalListFont];
     }
     return self;
 }

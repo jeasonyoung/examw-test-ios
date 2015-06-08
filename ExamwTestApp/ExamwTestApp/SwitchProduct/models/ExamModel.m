@@ -24,17 +24,17 @@
         //考试ID
         if([keys containsObject:__kExamModel_keys_id]){
             id value = [dict objectForKey:__kExamModel_keys_id];
-            _Id = (value == [NSNull null] ? @"" : value);
+            self.Id = (value == [NSNull null] ? @"" : value);
         }
         //考试代码
         if([keys containsObject:__kExamModel_keys_code]){
             id value = [dict objectForKey:__kExamModel_keys_code];
-            _code = (value == [NSNull null] ? @0 : value);
+            self.code = (value == [NSNull null] ? @0 : value);
         }
         //考试名称
         if([keys containsObject:__kExamModel_keys_name]){
             id value = [dict objectForKey:__kExamModel_keys_name];
-            _name = (value == [NSNull null] ? @"" : value);
+            self.name = (value == [NSNull null] ? @"" : value);
         }
         //考试EN简称
         if([keys containsObject:__kExamModel_keys_abbr]){
@@ -60,13 +60,13 @@
                 }
             }
         }
-        NSLog(@"完成反序列化考试:%@",_name);
+        NSLog(@"完成反序列化考试:%@",self.name);
     }
     return self;
 }
 //序列化考试数据
 -(NSDictionary *)serialize{
-    NSLog(@"序列化考试:%@",_name);
+    NSLog(@"序列化考试:%@",self.name);
     NSMutableArray *productsArrays = [NSMutableArray arrayWithCapacity:(_products ? _products.count : 0)];
     if(_products && _products.count > 0){
         for(ProductModel *p in _products){
@@ -78,9 +78,9 @@
     }
     //
     return @{
-             __kExamModel_keys_id:(_Id ? _Id : @""),
-             __kExamModel_keys_code:(_code ? _code : @0),
-             __kExamModel_keys_name:(_name ? _name : @""),
+             __kExamModel_keys_id:(self.Id ? self.Id : @""),
+             __kExamModel_keys_code:(self.code ? self.code : @0),
+             __kExamModel_keys_name:(self.name ? self.name: @""),
              __kExamModel_keys_abbr:(_abbr ? _abbr : @""),
              __kExamModel_keys_products:productsArrays
             };

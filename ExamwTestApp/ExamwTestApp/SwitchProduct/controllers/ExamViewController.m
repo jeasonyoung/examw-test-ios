@@ -15,9 +15,6 @@
 
 #import "ProductViewController.h"
 
-#import "AppDelegate.h"
-#import "AppSettings.h"
-
 #define __kExamViewController_title @"选择考试"
 #define __kExamViewController_cellIdentifier @"_cell_exam"
 
@@ -78,7 +75,6 @@
                 [self.tableView reloadData];
             });
         }
-        
     });
 }
 
@@ -123,17 +119,8 @@
     NSLog(@"选中行[%@]...", indexPath);
     ExamModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
     if(cellFrame && cellFrame.model){
-        //获取应用设置
-        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        if(app && app.appSettings){//设置考试ID和名称
-            AppSettings *settings = app.appSettings;
-            //设置数据
-            [settings setExamWithId:cellFrame.model.Id andCode:cellFrame.model.code andName:cellFrame.model.name];
-            //更新配置
-            [app updateSettings:settings];
-        }
         //控制器跳转
-        ProductViewController *p = [[ProductViewController alloc]initWithExamId:cellFrame.model.Id];
+        ProductViewController *p = [[ProductViewController alloc] initWithExamModel:cellFrame.model];
         [self.navigationController pushViewController:p animated:YES];
     }
 }

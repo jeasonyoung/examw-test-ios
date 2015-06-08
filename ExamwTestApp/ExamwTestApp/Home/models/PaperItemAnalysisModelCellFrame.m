@@ -47,9 +47,9 @@
 -(instancetype)init{
     if(self = [super init]){
         //字体
-        _font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        _font = [AppConstants globalPaperItemFont];//[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
         _rightAnswersFont = _font;
-        _myAnswersFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+        _myAnswersFont = _font;//[UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
     }
     return self;
 }

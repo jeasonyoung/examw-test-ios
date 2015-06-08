@@ -7,10 +7,9 @@
 //
 
 #import "FavoritesViewController.h"
-#import "PaperService.h"
+#import "AppConstants.h"
 
-#import "AppDelegate.h"
-#import "AppSettings.h"
+#import "PaperService.h"
 
 #import "PaperSegmentModel.h"
 #import "PaperSegmentModelCellFrame.h"
@@ -22,13 +21,15 @@
 
 #import "PaperViewController.h"
 
+#import "UIColor+Hex.h"
+
 #define __kFavoritesViewController_segErrorValue 0//错题
 #define __kFavoritesViewController_segFavoriteValue 1//收藏
 
 #define __kFavoritesViewController_cellIdentifer @"cellSeg"
 //收藏和错题试图控制器成员
 @interface FavoritesViewController ()<PaperViewControllerDelegate>{
-    NSString *_examCode,*_subjectId;
+    NSString *_subjectId;
     NSInteger _segValue;
     
     PaperService *_service;
@@ -48,11 +49,6 @@
         _isReLoad = NO;
         //初始化分段
         _segmentArrays = @[@"错题",@"收藏"];
-        //初始化考试代码
-        AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        if(app && app.appSettings){
-            _examCode = [app.appSettings.examCode stringValue];
-        }
     }
     return self;
 }
@@ -60,6 +56,11 @@
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //bar头颜色设置
+    UIColor *color = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
+    self.navigationController.navigationBar.tintColor = color;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : color}];
+    //self.navigationController.navigationBar.barTintColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
     //加载Nav切换导航器
     [self setupNavSwitch];
     //加载数据
@@ -71,6 +72,7 @@
     UISegmentedControl *segment = [[UISegmentedControl alloc] initWithItems:_segmentArrays];
     segment.frame = CGRectMake(0, 0, 200, 30);
     segment.selectedSegmentIndex = __kFavoritesViewController_segErrorValue;
+    segment.tintColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
     [segment addTarget:self action:@selector(segmentAction:) forControlEvents:UIControlEventValueChanged];
     self.navigationItem.titleView = segment;
 }
@@ -85,18 +87,20 @@
     //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //初始化数据服务
-        _service = [[PaperService alloc] init];
+        if(!_service){
+            _service = [[PaperService alloc] init];
+        }
         //初始化数据源
         _dataSource = [NSMutableArray array];
         NSLog(@"异步线程加载数据:[%d]...", (int)segValue);
         NSArray *arrays;
         switch (segValue) {
             case __kFavoritesViewController_segErrorValue:{//错题加载
-                arrays = [_service totalErrorRecordsWithExamCode:_examCode];
+                arrays = [_service totalErrorRecords];
                 break;
             }
             case __kFavoritesViewController_segFavoriteValue:{//收藏加载
-                arrays = [_service totalFavoriteRecordsWithExamCode:_examCode];
+                arrays = [_service totalFavoriteRecords];
                 break;
             }
         }
@@ -146,19 +150,22 @@
 //选中行
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"click:%@...", indexPath);
-    PaperSegmentModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
-    if(cellFrame && cellFrame.model && cellFrame.model.total > 0){
-        _segValue = cellFrame.model.segValue;
-        _subjectId = cellFrame.model.subjectId;
-        
-        NSLog(@"subjectId===%d===>%@...", (int)_segValue, _subjectId);
-        
-        PaperViewController *controller = [[PaperViewController alloc] initWithDisplayAnswer:YES];
-        controller.title = [_segmentArrays objectAtIndex:_segValue];
-        controller.delegate = self;
-        controller.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:controller animated:YES];
-    }
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        PaperSegmentModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
+        if(cellFrame && cellFrame.model && cellFrame.model.total > 0){
+            _segValue = cellFrame.model.segValue;
+            _subjectId = cellFrame.model.subjectId;
+            
+            NSLog(@"subjectId===%d===>%@...", (int)_segValue, _subjectId);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                PaperViewController *controller = [[PaperViewController alloc] initWithDisplayAnswer:YES];
+                controller.title = [_segmentArrays objectAtIndex:_segValue];
+                controller.delegate = self;
+                controller.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:controller animated:YES];
+            });
+        }
+    });
 }
 
 
@@ -255,7 +262,6 @@
     [super viewWillAppear:animated];
     NSLog(@"视图将载入...");
     //隐藏导航条
-    //self.navigationController.navigationBarHidden = YES;
     [self.navigationController setToolbarHidden:YES];
     if(_isReLoad){
         _isReLoad = NO;
@@ -266,8 +272,6 @@
 #pragma mark 重载视图将卸载
 -(void)viewWillDisappear:(BOOL)animated{
     NSLog(@"视图将卸载...");
-    //隐藏导航条
-    //self.navigationController.navigationBarHidden = NO;
     //
     _isReLoad = YES;
 }

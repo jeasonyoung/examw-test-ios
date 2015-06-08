@@ -27,7 +27,7 @@
 -(void)findSearchExamsWithName:(NSString *)searchName resultBlock:(void(^)(ExamModel *))result;
 
 //根据考试ID加载产品集合
--(NSArray *)loadProductsWithExamId:(NSString *)examId outExamName:(NSString **)examName;
+-(NSArray *)loadProductsWithExamId:(NSString *)examId;
 
 //同步下载数据
 -(void)syncDownloadWithIgnoreRegCode:(BOOL)ignoreRegCode resultHandler:(void(^)(BOOL,NSString *))handler;

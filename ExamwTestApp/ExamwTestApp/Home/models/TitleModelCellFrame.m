@@ -21,7 +21,8 @@
 #pragma mark 重载初始化
 -(instancetype)init{
     if(self = [super init]){
-        _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _titleFont = [AppConstants globalListFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     }
     return self;
 }

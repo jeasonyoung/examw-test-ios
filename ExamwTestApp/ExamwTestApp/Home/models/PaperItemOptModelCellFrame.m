@@ -44,7 +44,7 @@
 -(instancetype)init{
     if(self = [super init]){
         //字体
-        _font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _font = [AppConstants globalPaperItemFont];
     }
     return self;
 }
@@ -93,19 +93,20 @@
     //选中
     if(_isSelected){
         _icon = [UIImage imageNamed:(_model.itemType == PaperItemTypeSingle ? __kPaperItemOptModelCellFrame_opt_singleSelected : __kPaperItemOptModelCellFrame_opt_multySelected)];
-    }
-    //显示答案
-    if(_model.display && _model.Id && _model.rightAnswers){
-        BOOL isRight = NO;
-        //是否选对
-        if(_model.rightAnswers){
-            NSRange range = [_model.rightAnswers rangeOfString:_model.Id];
-            isRight = (range.location != NSNotFound);
-        }
-        if(isRight){//选对
-            _icon = [UIImage imageNamed:__kPaperItemOptModelCellFrame_opt_right];
-        }else if(_isSelected){//选错
-            _icon = [UIImage imageNamed:__kPaperItemOptModelCellFrame_opt_right];
+     
+        //显示答案
+        if(_model.display && _model.Id && _model.rightAnswers){
+            BOOL isRight = NO;
+            //是否选对
+            if(_model.rightAnswers){
+                NSRange range = [_model.rightAnswers rangeOfString:_model.Id];
+                isRight = (range.location != NSNotFound);
+            }
+            if(isRight){//选对
+                _icon = [UIImage imageNamed:__kPaperItemOptModelCellFrame_opt_right];
+            }else{//选错
+                _icon = [UIImage imageNamed:__kPaperItemOptModelCellFrame_opt_error];
+            }
         }
     }
     //尺寸

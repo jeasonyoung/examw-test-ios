@@ -10,11 +10,13 @@
 #import "AnswerCardModel.h"
 #import "UIColor+Hex.h"
 
+#import "AppConstants.h"
+
 #define __kAnswerCardModelCellFrame_width 38//固定宽度
 #define __kAnswerCardModelCellFrame_height 35//固定高度
 
 #define __kAnswerCardModelCellFrame_hasColor 0x1E90FF//已做
-#define __kAnswerCardModelCellFrame_nonColor 0xFFFFFF//未做
+#define __kAnswerCardModelCellFrame_nonColor 0x696969//0xBEBEBE//未做
 #define __kAnswerCardModelCellFrame_rightColor 0x008B00//做对
 #define __kAnswerCardModelCellFrame_errorColor 0xFF0000//做错
 //答题卡试题数据模型CellFrame实现
@@ -24,7 +26,7 @@
 -(instancetype)init{
     if(self = [super init]){
         //字体
-        _orderFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        _orderFont = [AppConstants globalPaperItemFont];
     }
     return self;
 }
@@ -40,14 +42,17 @@
     //背景色
     switch (_model.status) {
         case 0:{//未做
-            _orderBgColor = [UIColor colorWithHex:__kAnswerCardModelCellFrame_nonColor];
+            _orderColor = [UIColor colorWithHex:__kAnswerCardModelCellFrame_nonColor];
             break;
         }
         case 1:{//做对
-            _orderBgColor = [UIColor colorWithHex:(_model.displayAnswer ? __kAnswerCardModelCellFrame_rightColor : __kAnswerCardModelCellFrame_hasColor)];            break;
+            int hex = _model.displayAnswer ? __kAnswerCardModelCellFrame_rightColor : __kAnswerCardModelCellFrame_hasColor;
+            _orderColor = [UIColor colorWithHex:hex];
+            break;
         }
         case 2:{
-            _orderBgColor = [UIColor colorWithHex:(_model.displayAnswer ? __kAnswerCardModelCellFrame_errorColor : __kAnswerCardModelCellFrame_hasColor)];
+            int hex = _model.displayAnswer ? __kAnswerCardModelCellFrame_errorColor : __kAnswerCardModelCellFrame_hasColor;
+            _orderColor = [UIColor colorWithHex:hex];
             break;
         }
     }

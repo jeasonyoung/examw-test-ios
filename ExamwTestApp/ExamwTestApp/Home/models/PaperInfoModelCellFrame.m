@@ -20,12 +20,6 @@
 
 #define __kPaperInfoModelCellFrame_subjectFormate @"科目:%@"//
 #define __kPaperInfoModelCellFrame_totalFormate @"试题:%d"//
-//试卷信息数据模型的CellFrame成员变量
-@interface PaperInfoModelCellFrame (){
-    
-}
-@end
-
 //试卷信息数据模型的CellFrame实现
 @implementation PaperInfoModelCellFrame
 
@@ -33,13 +27,14 @@
 -(instancetype)init{
     if(self = [super init]){
         //设置试卷标题字体
-        _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
+        _titleFont = [AppConstants globalListFont];
         //设置所属科目字体
-        _subjectFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        _subjectFont = [AppConstants globalListSubFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
         //设置试题总数字体
-        _totalFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        _totalFont = _subjectFont;
         //设置创建时间字体
-        _createTimeFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        _createTimeFont = _subjectFont;
     }
     return self;
 }

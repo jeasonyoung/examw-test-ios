@@ -107,13 +107,14 @@
     }
     //添加按钮
     x = __kMyUserRegisterTableViewCell_left;
+    UIColor *color = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
     UIButton *btnSubmit = [UIButton buttonWithType:UIButtonTypeSystem];
     [btnSubmit setTitle:@"注册" forState:UIControlStateNormal];
-    [btnSubmit setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [btnSubmit setTitleColor:color forState:UIControlStateNormal];
     btnSubmit.frame = CGRectMake(x, y + 2* __kMyUserRegisterTableViewCell_marginV, maxWidth - x, __kMyUserRegisterTableViewCell_height);
     [btnSubmit addTarget:self action:@selector(btnRegisterClick:) forControlEvents:UIControlEventTouchUpInside];
-    UIColor *color = [UIColor colorWithHex:0x1E90FF];
-    [EffectsUtils addBoundsRadiusWithView:btnSubmit BorderColor:color BackgroundColor:color];
+    
+    [EffectsUtils addBoundsRadiusWithView:btnSubmit BorderColor:color BackgroundColor:nil];
     [self.contentView addSubview:btnSubmit];
     //实际行高
     NSLog(@">>>实际行高:%f....", CGRectGetMaxY(btnSubmit.frame) + __kMyUserRegisterTableViewCell_marginV);

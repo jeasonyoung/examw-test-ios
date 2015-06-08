@@ -17,20 +17,15 @@
 #define __kCategoryModelCellFrame_right 5//右边间距
 #define __kCategoryModelCellFrame_maginMin 10//最小间距
 
-//考试分类数据模型CellFrame成员变量
-@interface CategoryModelCellFrame (){
-    
-}
-@end
 //考试分类数据模型CellFrame实现
 @implementation CategoryModelCellFrame
 #pragma mark 重载构造函数。
 -(instancetype)init{
     if(self = [super init]){
         //设置考试分类字体
-        _categoryFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        _categoryFont = [AppConstants globalListFont];
         //设置考试字体
-        _examFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _examFont = [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
     }
     return self;
 }

@@ -21,7 +21,7 @@
 @property(nonatomic,assign,readonly)CGRect orderFrame;
 
 //背景色
-@property(nonatomic,readonly)UIColor *orderBgColor;
+@property(nonatomic,readonly)UIColor *orderColor;
 
 //序号数据模型
 @property(nonatomic,copy)AnswerCardModel *model;

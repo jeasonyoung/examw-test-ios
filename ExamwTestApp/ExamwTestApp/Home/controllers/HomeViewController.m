@@ -8,6 +8,8 @@
 
 #import "HomeViewController.h"
 
+#import "AppConstants.h"
+
 #import "DAPagesContainer.h"
 #import "UIColor+Hex.h"
 
@@ -29,6 +31,12 @@
     [super viewDidLoad];
     //初始化可滚动导航条
     [self setupPagesContainers];
+    
+    //bar头颜色设置
+    UIColor *color = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = color;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : color}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
 }
 
 //初始化可滚动导航条
@@ -36,7 +44,7 @@
     NSLog(@"初始化可滚动导航条...");
     _pagesContainer = [[DAPagesContainer alloc]init];
     [_pagesContainer willMoveToParentViewController:self];
-    //_pagesContainer.topBarBackgroundColor = [UIColor colorWithHex:0x696969];
+    _pagesContainer.topBarBackgroundColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
     _pagesContainer.view.frame = self.view.bounds;
     _pagesContainer.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     [self.view addSubview:_pagesContainer.view];
@@ -46,7 +54,7 @@
     PaperInfoViewController *realController = [PaperInfoViewController infoControllerWithType:PaperTypeReal
                                                                          parentViewController:self];
     realController.title = [PaperModel nameWithPaperType:PaperTypeReal];
-
+    
     //模拟题
     PaperInfoViewController *simuController = [PaperInfoViewController infoControllerWithType:PaperTypeSimu
                                                                          parentViewController:self];
@@ -57,7 +65,8 @@
                                                                             parentViewController:self];
     forecasController.title = [PaperModel nameWithPaperType:PaperTypeForecas];
     
-    _pagesContainer.viewControllers = @[realController,simuController,forecasController];
+    _pagesContainer.viewControllers = @[simuController,realController,forecasController];
+    //_pagesContainer.selectedIndex = 1;
 }
 
 #pragma mark 重载视图将载入

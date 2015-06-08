@@ -40,7 +40,8 @@
 -(instancetype)init{
     if(self = [super init]){
         //按钮字体
-        _btnFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _btnFont = [AppConstants globalListSubFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     }
     return self;
 }

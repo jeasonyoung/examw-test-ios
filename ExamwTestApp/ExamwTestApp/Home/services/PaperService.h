@@ -67,10 +67,10 @@
 -(PaperResultModel *)loadPaperResultWithPaperRecordId:(NSString *)paperRecordId;
 
 //加载错题记录
--(NSArray *)totalErrorRecordsWithExamCode:(NSString *)examCode;
+-(NSArray *)totalErrorRecords;
 
 //加载收藏记录
--(NSArray *)totalFavoriteRecordsWithExamCode:(NSString *)examCode;
+-(NSArray *)totalFavoriteRecords;
 
 //根据科目加载收藏集合
 -(NSArray *)loadFavoritesWithSubjectCode:(NSString *)subjectCode;
@@ -79,5 +79,5 @@
 -(NSArray *)loadErrorsWithSubjectCode:(NSString *)subjectCode;
 
 //根据考试加载试卷记录
--(NSArray *)totalPaperRecordsWithExamCode:(NSString *)examCode;
+-(NSArray *)totalPaperRecords;
 @end

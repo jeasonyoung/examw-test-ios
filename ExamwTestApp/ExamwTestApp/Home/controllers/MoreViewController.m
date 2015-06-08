@@ -7,6 +7,8 @@
 //
 
 #import "MoreViewController.h"
+#import "AppConstants.h"
+
 #import "MoreMenuModel.h"
 #import "MoreMenuModelCellFrame.h"
 #import "MoreMenuModelTableViewCell.h"
@@ -20,13 +22,12 @@
 #define __kMoreViewController_moreFileName @"moreSettingMenus"//主界面底部菜单文件名
 #define __kMoreViewController_moreFileTypeName @"plist"//文件类型
 
-#define __kMoreViewController_panelHeight 40//面板高度
+#define __kMoreViewController_panelHeight 50//面板高度
 
 #define __kMoreViewController_btnTop 5//顶部间隔
 #define __kMoreViewController_btnLeft 15//顶部间隔
 #define __kMoreViewController_btnRight 15//顶部间隔
 #define __kMoreViewController_btnHeight 30//按钮高度
-#define __kMoreViewController_btnbgColor 0xFF0000//
 
 #define __kMoreViewController_cellIdentifer @"cell"//
 //更多视图控制器成员变量
@@ -44,7 +45,7 @@
 -(instancetype)init{
     if(self = [self initWithStyle:UITableViewStyleGrouped]){
         _isReload = NO;
-        _btnColor = [UIColor colorWithHex:__kMoreViewController_btnbgColor];
+        _btnColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
         _app = [[UIApplication sharedApplication] delegate];
     }
     return self;
@@ -53,6 +54,11 @@
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //bar头颜色设置
+    UIColor *color = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = color;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : color}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
     //加载数据
     [self loadData];
     //加载底部退出按钮

@@ -7,6 +7,7 @@
 //
 
 #import "AnswerCardViewController.h"
+#import "AppConstants.h"
 
 #import "AnswerCardSectionModel.h"
 #import "AnswerCardSectionModelCellFrame.h"
@@ -60,11 +61,11 @@
     [super viewDidLoad];
     //开启等待动画
     _waitHud = [MBProgressHUD showHUDAddedTo:self.collectionView animated:YES];
-    _waitHud.color = [UIColor colorWithHex:0xD3D3D3];
+    _waitHud.color = [UIColor colorWithHex:WAIT_HUD_COLOR];
     //设置标题
     self.title = __kAnswerCardViewController_title;
     //设置背景色
-    self.collectionView.backgroundColor = [UIColor colorWithHex:0xFFFAF0];
+    self.collectionView.backgroundColor = [UIColor whiteColor];
     
     //注册数据Cell
     [self.collectionView registerClass:[AnswerCardCollectionViewCell class]
@@ -236,7 +237,6 @@
     AnswerCardCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:__kAnswerCardViewController_cellIdentifier forIndexPath:indexPath];
     if(cell){
         cell.delegate = self;
-        //cell.backgroundColor = [UIColor blueColor];
         NSLog(@"开始异步线程加载数据模型Frame[%@]...", indexPath);
         if(_dataSource && _dataSource.count > 0){
             NSArray *arrays = [_dataSource objectForKey:[NSNumber numberWithInteger:indexPath.section]];

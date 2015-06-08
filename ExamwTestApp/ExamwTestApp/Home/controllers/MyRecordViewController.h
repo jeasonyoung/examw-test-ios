@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class MySubjectModel;
 //试卷记录视图控制器
 @interface MyRecordViewController : UITableViewController
 
 //初始化
--(instancetype)initWithSubjectCode:(NSString *)subjectCode;
+-(instancetype)initWithModel:(MySubjectModel *)model;
 
 @end

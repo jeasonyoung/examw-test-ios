@@ -7,10 +7,13 @@
 //
 
 #import "DownViewController.h"
+#import "AppConstants.h"
+
 #import "TitleModel.h"
 #import "TitleModelCellFrame.h"
 #import "TitleTableViewCell.h"
 
+#import "MBProgressHUD.h"
 #import "EffectsUtils.h"
 #import "UIColor+Hex.h"
 
@@ -19,9 +22,6 @@
 
 #import "MyUserLoginViewController.h"
 #import "MyProductRegViewController.h"
-
-#import "MBProgressHUD.h"
-#import "AppConstants.h"
 
 #import "SwitchService.h"
 
@@ -33,7 +33,6 @@
 #define __kDownViewController_btnLeft 15//顶部间隔
 #define __kDownViewController_btnRight 15//顶部间隔
 #define __kDownViewController_btnHeight 30//按钮高度
-#define __kDownViewController_btnbgColor 0xFF0000//
 
 #define __kDownViewController_cellIdentifer @"cell"//
 //下载视图控制器成员变量
@@ -52,7 +51,7 @@
 -(instancetype)init{
     if(self = [super initWithStyle:UITableViewStyleGrouped]){
         _isReload = NO;
-        _btnColor = [UIColor colorWithHex:__kDownViewController_btnbgColor];
+        _btnColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
     }
     return self;
 }

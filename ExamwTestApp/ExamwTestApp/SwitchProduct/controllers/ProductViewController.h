@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+@class ExamBaseModel;
 //产品列表控制器
 @interface ProductViewController : UITableViewController
 //初始化
--(instancetype)initWithExamId:(NSString *)examId;
+-(instancetype)initWithExamModel:(ExamBaseModel *)model;
 @end

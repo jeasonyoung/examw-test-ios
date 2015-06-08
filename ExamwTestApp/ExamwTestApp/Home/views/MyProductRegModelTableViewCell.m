@@ -7,12 +7,12 @@
 //
 
 #import "MyProductRegModelTableViewCell.h"
+#import "AppConstants.h"
 #import "MyProductRegModelCellFrame.h"
 #import "ESTextField.h"
 #import "EffectsUtils.h"
 #import "UIColor+Hex.h"
 
-#define __kMyProductRegModelTableViewCell_btnColor 0x1E90FF//按钮颜色
 //产品注册数据模型Cell成员变量
 @interface MyProductRegModelTableViewCell (){
     NSString *_regCode;
@@ -41,12 +41,12 @@
         _tfRegCode.keyboardType = UIKeyboardTypeNumberPad;
         _tfRegCode.clearButtonMode = UITextFieldViewModeWhileEditing;
         //4.按钮
+        UIColor *btnColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
         _btnRegister = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_btnRegister setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [_btnRegister setTitle:@"产品注册码绑定" forState:UIControlStateNormal];
+        [_btnRegister setTitleColor:btnColor forState:UIControlStateNormal];
         [_btnRegister addTarget:self action:@selector(btnRegisterClik:) forControlEvents:UIControlEventTouchUpInside];
-        UIColor *btnColor = [UIColor colorWithHex:__kMyProductRegModelTableViewCell_btnColor];
-        [EffectsUtils addBoundsRadiusWithView:_btnRegister BorderColor:btnColor BackgroundColor:btnColor];
+        [EffectsUtils addBoundsRadiusWithView:_btnRegister BorderColor:btnColor BackgroundColor:nil];
         
         //添加到容器
         [self.contentView addSubview:_lbExamName];

@@ -7,6 +7,8 @@
 //
 
 #import "PaperResultViewController.h"
+#import "AppConstants.h"
+
 #import "PaperService.h"
 #import "PaperResultModel.h"
 #import "PaperResultModelCellFrame.h"
@@ -55,13 +57,17 @@
 //查看试题
 -(void)setupQueryItemButtons{
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 320, 30)];
+    //
+    UIColor *color = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
+    //
     UIButton *btn = [UIButton buttonWithType:UIButtonTypeSystem];
     btn.frame = CGRectMake(0, 0, 80, 25);
     btn.center = self.tableView.tableFooterView.center;
     btn.titleLabel.font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     [btn setTitle:__kPaperResultViewController_btnText forState:UIControlStateNormal];
+    [btn setTitleColor:color forState:UIControlStateNormal];
     [btn addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
-    [EffectsUtils addBoundsRadiusWithView:btn BorderColor:[UIColor colorWithHex:0x1E90FF] BackgroundColor:nil];
+    [EffectsUtils addBoundsRadiusWithView:btn BorderColor:color BackgroundColor:nil];
     
     [self.tableView.tableFooterView addSubview:btn];
 }

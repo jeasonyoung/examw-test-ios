@@ -7,6 +7,7 @@
 //
 
 #import "MyRecordViewController.h"
+#import "MySubjectModel.h"
 
 #import "PaperModel.h"
 #import "PaperStructureModel.h"
@@ -28,8 +29,9 @@
 #define __kMyRecordViewController_cellIdentifier @"_cellRecord"//
 //试卷记录视图控制器成员变量
 @interface MyRecordViewController ()<PaperViewControllerDelegate>{
+    MySubjectModel *_mySubjectModel;
     //科目ID
-    NSString *_subjectCode,*_paperId,*_paperRecordId;
+    NSString *_paperId,*_paperRecordId;
     //数据源
     NSMutableArray *_dataSource,*_itemsArrays,*_cardSectionArrays;
     NSMutableDictionary *_cardAllDataDict;
@@ -45,9 +47,9 @@
 @implementation MyRecordViewController
 
 #pragma mark 初始化
--(instancetype)initWithSubjectCode:(NSString *)subjectCode{
+-(instancetype)initWithModel:(MySubjectModel *)model{
     if(self = [super initWithStyle:UITableViewStylePlain]){
-        _subjectCode = subjectCode;
+        _mySubjectModel = model;
         _isAddedRefresh = NO;
         _displayAnswer = YES;
     }
@@ -73,7 +75,11 @@
             _service = [[PaperService alloc] init];
         }
         //加载数据
-        NSArray *models = [_service loadPaperRecordsWithSubjectCode:_subjectCode andPageIndex:index];
+        NSString *subjectCode = @"";
+        if(_mySubjectModel && _mySubjectModel.subjectCode){
+            subjectCode = _mySubjectModel.subjectCode;
+        }
+        NSArray *models = [_service loadPaperRecordsWithSubjectCode:subjectCode andPageIndex:index];
         NSUInteger count = 0;
         if(!models || (count = models.count) == 0){
             if(_pageIndex > 0)_pageIndex -= 1;//页码回退
@@ -164,9 +170,19 @@
             }
             //3.再在数据源中删除行
             [_dataSource removeObjectAtIndex:indexPath.row];
-            //4.更新前台UI
+            //4.更新标题
+            NSString *title = nil;
+            if(_mySubjectModel){
+                if(_mySubjectModel.total > 0){_mySubjectModel.total -= 1;}
+                title = [NSString stringWithFormat:@"%@(%d)",_mySubjectModel.subject, (int)_mySubjectModel.total];
+            }
+            //5.更新前台UI
             dispatch_async(dispatch_get_main_queue(), ^{
+                if(title){
+                    self.title = title;
+                }
                 [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                
             });
         });
     }
@@ -259,9 +275,9 @@
 }
 //更新收藏记录(异步线程中被调用)
 -(BOOL)updateFavoriteWithModel:(PaperItemModel *)itemModel{
-    if(_service && itemModel && _subjectCode && _subjectCode.length > 0){
+    if(_service && itemModel && _mySubjectModel && _mySubjectModel.subjectCode){
         NSLog(@"更新试题[%@$%d]收藏记录...", itemModel.itemId, (int)itemModel.index);
-        return [_service updateFavoriteWithSubjectCode:_subjectCode itemModel:itemModel];
+        return [_service updateFavoriteWithSubjectCode:_mySubjectModel.subjectCode itemModel:itemModel];
     }
     return NO;
 }

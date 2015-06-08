@@ -24,7 +24,6 @@
 #define __kFeedbackTableViewCell_contentHeight 250//文本框高度
 #define __kFeedbackTableViewCell_btnHeight 30//按钮高度
 
-#define __kFeedbackTableViewCell_borderColor 0x1E90FF
 //意见反馈Cell成员变量
 @interface FeedbackTableViewCell (){
     ESTextView *_tfContent;
@@ -49,7 +48,7 @@
         y = CGRectGetMaxY(_tfContent.frame) + __kFeedbackTableViewCell_marginV;
         
         //按钮
-        UIColor *borderColor = [UIColor colorWithHex:__kFeedbackTableViewCell_borderColor];
+        UIColor *borderColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
         _btn = [UIButton buttonWithType:UIButtonTypeSystem];
         _btn.frame = CGRectMake(x, y, maxWidth - x, __kFeedbackTableViewCell_btnHeight);
         _btn.titleLabel.font = font;

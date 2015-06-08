@@ -20,8 +20,10 @@
 @implementation PaperSegmentModelCellFrame
 -(instancetype)init{
     if(self = [super init]){
-        _subjectFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
-        _totalFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        _subjectFont = [AppConstants globalListFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _totalFont = [AppConstants globalListSubFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
     }
     return self;
 }

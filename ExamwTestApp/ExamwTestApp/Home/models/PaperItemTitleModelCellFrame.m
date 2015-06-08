@@ -32,7 +32,8 @@
 -(instancetype)init{
     if(self = [super init]){
         //字体
-        _font = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _font = [AppConstants globalPaperItemFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     }
     return self;
 }

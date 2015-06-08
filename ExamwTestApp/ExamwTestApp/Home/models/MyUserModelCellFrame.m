@@ -36,9 +36,12 @@
 #pragma mark 重载初始化
 -(instancetype)init{
     if(self = [super init]){
-        _titleFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-        _regCodeFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
-        _userLoginFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _titleFont = [AppConstants globalListFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+        _regCodeFont = [AppConstants globalListThirdFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+        _userLoginFont = [AppConstants globalListSubFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
         _userRegFont = _userLoginFont;
     }
     return self;

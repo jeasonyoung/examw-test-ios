@@ -7,11 +7,8 @@
 //
 
 #import "MyUserRegisterViewController.h"
-#import "UserRegisterModel.h"
-//#import "ESTextField.h"
 
-//#import "EffectsUtils.h"
-//
+#import "UserRegisterModel.h"
 #import "MBProgressHUD.h"
 #import "UIColor+Hex.h"
 

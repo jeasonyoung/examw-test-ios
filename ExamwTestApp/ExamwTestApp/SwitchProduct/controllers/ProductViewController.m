@@ -7,19 +7,21 @@
 //
 
 #import "ProductViewController.h"
+#import "ExamBaseModel.h"
+
+#import "AppConstants.h"
 
 #import "ProductModel.h"
 #import "ProductModelCellFrame.h"
 #import "ProductTableViewCell.h"
-#import "MBProgressHUD.h"
 
+#import "MBProgressHUD.h"
 #import "UIColor+Hex.h"
 
 #import "SwitchService.h"
 
 #import "AppDelegate.h"
 #import "AppSettings.h"
-
 
 #define __kProductViewController_title @"选择产品"//
 #define __kProductViewController_cellIdentifier @"_cellProduct"//
@@ -31,8 +33,10 @@
 
 //产品列表控制器成员变量
 @interface ProductViewController ()<UIAlertViewDelegate>{
-    //所属考试ID
-    NSString *_examId;
+    //考试数据模型
+    ExamBaseModel *_examBaseModel;
+    //当前应用
+    AppDelegate *_app;
     //数据源
     NSMutableArray *_dataSource;
     //切换服务
@@ -41,15 +45,20 @@
     ProductModel *_product;
     //等待动画
     MBProgressHUD *_waitHUD;
+    //弹出框
+    UIAlertView *_alertView;
 }
 @end
 //产品列表控制器实现
 @implementation ProductViewController
 
 #pragma mark 初始化
--(instancetype)initWithExamId:(NSString *)examId{
+-(instancetype)initWithExamModel:(ExamBaseModel *)model{
     if(self = [super initWithStyle:UITableViewStylePlain]){
-        _examId = examId;
+        //考试数据模型
+        _examBaseModel = model;
+        //获取当前应用
+        _app = [[UIApplication sharedApplication] delegate];
     }
     return self;
 }
@@ -72,8 +81,13 @@
     //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"后台线程加载数据...");
-        NSString *examName;
-        NSArray *arrays = [_service loadProductsWithExamId:_examId outExamName:&examName];
+        NSString *examId,*examName;
+        //考试ID
+        if(_examBaseModel && _examBaseModel.Id){
+            examId = _examBaseModel.Id;
+            examName = _examBaseModel.name;
+        }
+        NSArray *arrays = [_service loadProductsWithExamId:examId];
         if(arrays && arrays.count > 0){
             for(ProductModel *p in arrays){
                 if(!p) continue;
@@ -135,12 +149,10 @@
     ProductModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
     if(cellFrame && cellFrame.model){
         _product = cellFrame.model;
-        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil
-                                                           message:_product.name
-                                                          delegate:self
-                                                 cancelButtonTitle:__kProductViewController_alertCancelTitle
-                                                 otherButtonTitles:__kProductViewController_alertConfirmTitle, nil];
-        [alertView show];
+        _alertView = [[UIAlertView alloc]initWithTitle:nil message:_product.name delegate:self
+                                     cancelButtonTitle:__kProductViewController_alertCancelTitle
+                                     otherButtonTitles:__kProductViewController_alertConfirmTitle, nil];
+        [_alertView show];
     }
 }
 
@@ -150,18 +162,21 @@
     if(buttonIndex == 1){//确认
         //等待动画
         _waitHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        _waitHUD.mode = MBProgressHUDModeAnnularDeterminate;
-        _waitHUD.labelText = __kProductViewController_waitMsg;
-        _waitHUD.color = [UIColor colorWithHex:0xD3D3D3];
+        _waitHUD.color = [UIColor colorWithHex:WAIT_HUD_COLOR];
         //异步线程下载数据
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            AppDelegate *app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-            //设置产品
-            if(app && app.appSettings &&_product){
-                NSLog(@"设置选中的产品...");
-                AppSettings *settings = app.appSettings;
-                [settings setProductWithId:_product.Id andName:_product.name];
-                [app updateSettings:settings];
+            if(_app && _app.appSettings){
+                AppSettings *settings = _app.appSettings;
+                //设置考试数据
+                if(_examBaseModel){
+                    [settings setExamWithId:_examBaseModel.Id andCode:_examBaseModel.code andName:_examBaseModel.name];
+                }
+                //设置产品数据
+                if(_product){
+                    [settings setProductWithId:_product.Id andName:_product.name];
+                    //更新设置
+                    [_app updateSettings:settings];
+                }
             }
             //开始下载数据
             [_service syncDownloadWithIgnoreRegCode:YES resultHandler:^(BOOL result, NSString *msg) {
@@ -169,7 +184,7 @@
                 if(result){
                     NSLog(@"更新试卷数据成功,将进行根控制器跳转...");
                     //根控制器跳转
-                    if(app){[app resetRootController];}
+                    if(_app){[_app resetRootController];}
                     return;
                 }else if(msg){
                     //UpdateUI
@@ -177,10 +192,10 @@
                         //关闭等待动画
                         if(_waitHUD){ [_waitHUD hide:YES]; }
                         //弹出异常信息
-                        UIAlertView *alertView = [[UIAlertView alloc]initWithTitle:nil message:msg delegate:nil
-                                                                 cancelButtonTitle:__kProductViewController_alertConfirmTitle
-                                                                 otherButtonTitles:nil, nil];
-                        [alertView show];
+                        _alertView = [[UIAlertView alloc]initWithTitle:nil message:msg delegate:nil
+                                                     cancelButtonTitle:__kProductViewController_alertConfirmTitle
+                                                     otherButtonTitles:nil, nil];
+                        [_alertView show];
                     });
                 }
             }];

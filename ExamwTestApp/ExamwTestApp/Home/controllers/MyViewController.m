@@ -7,10 +7,13 @@
 //
 
 #import "MyViewController.h"
+#import "AppConstants.h"
 
 #import "AppDelegate.h"
 #import "AppSettings.h"
 #import "UserAccount.h"
+
+#import "UIColor+Hex.h"
 
 #import "MyUserModelCellFrame.h"
 #import "MyUserModelTableViewCell.h"
@@ -30,10 +33,13 @@
 #define __kMyViewController_cellIdentifier @"_cellSubject"//
 //我的视图控制器成员变量
 @interface MyViewController ()<MyUserModelCellDelegate>{
+    //服务
+    PaperService *_service;
     //数据源
     NSMutableDictionary *_dataSource;
     //当前应用
     AppDelegate *_app;
+    
     //是否重新加载
     BOOL _isReload;
 }
@@ -44,8 +50,10 @@
 #pragma mark 重载初始化
 -(instancetype)init{
     if(self = [super initWithStyle:UITableViewStyleGrouped]){
+        //是否重新加载
         _isReload = NO;
-        _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        //初始化应用
+        _app = [[UIApplication sharedApplication] delegate];
     }
     return self;
 }
@@ -53,6 +61,11 @@
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //bar头颜色设置
+    UIColor *color = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = color;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : color}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
     //加载数据
     [self loadData];
 }
@@ -69,20 +82,13 @@
         userFrame.model = (_app ? _app.currentUser : nil);
         //添加到数据源
         [_dataSource setObject:@[userFrame] forKey:@0];
-        
-        //当前考试代码
-        NSString *examCode = @"";
-        if(_app){
-            examCode = [_app.appSettings.examCode stringValue];
-        }
         //初始化服务
-        static PaperService *service;
-        if(!service){
+        if(!_service){
             NSLog(@"初始化服务...");
-            service = [[PaperService alloc] init];
+            _service = [[PaperService alloc] init];
         }
         //
-        NSArray *records = [service totalPaperRecordsWithExamCode:examCode];
+        NSArray *records = [_service totalPaperRecords];
         if(records && records.count > 0){
             NSMutableArray *arrays = [NSMutableArray arrayWithCapacity:records.count];
             for(MySubjectModel *model in records){
@@ -194,7 +200,7 @@
                     if(model && model.total > 0){
                         //updateUI
                         dispatch_async(dispatch_get_main_queue(), ^{
-                            MyRecordViewController *controller = [[MyRecordViewController alloc] initWithSubjectCode:model.subjectCode];
+                            MyRecordViewController *controller = [[MyRecordViewController alloc] initWithModel:model];
                             controller.title = [NSString stringWithFormat:@"%@(%d)",model.subject, (int)model.total];
                             controller.hidesBottomBarWhenPushed = YES;
                             [self.navigationController pushViewController:controller animated:YES];
@@ -228,7 +234,6 @@
     controller.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:controller animated:YES];
 }
-
 
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {

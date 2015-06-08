@@ -37,9 +37,11 @@
 -(instancetype)init{
     if(self = [super init]){
         //试卷名称字体
-        _paperNameFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _paperNameFont = [AppConstants globalListFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
         //状态字体
-        _statusFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        _statusFont = [AppConstants globalListSubFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
         //得分字体
         _scoreFont = _statusFont;
         //正确字体
@@ -47,7 +49,8 @@
         //用时字体
         _useTimesFont = _statusFont;
         //时间字体
-        _timeFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+        _timeFont = _statusFont;
+        //[AppConstants globalListThirdFont];
     }
     return self;
 }

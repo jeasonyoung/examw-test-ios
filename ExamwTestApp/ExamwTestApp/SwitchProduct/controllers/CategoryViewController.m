@@ -29,8 +29,6 @@
 #define __kCategoryViewController_search_height 40//查询框高度
 #define __kCategoryViewController_search_placeholder @"输入考试名称"//查询框提示文字
 
-//#define __kCategoryViewController_waitMsg @"下载中..."
-
 #define __kCategoryViewController_cellIdentifierCategory @"_cellCategory"//
 #define __kCategoryViewController_cellIdentifierExam @"_cellExam"//
 //考试类别控制器成员变量
@@ -52,10 +50,7 @@
 
 #pragma mark 重载初始化
 -(instancetype)init{
-    if(self = [super initWithStyle:UITableViewStylePlain]){
-        
-    }
-    return self;
+    return [super initWithStyle:UITableViewStyleGrouped];
 }
 
 #pragma mark UI入口
@@ -113,10 +108,7 @@
         NSLog(@"从网络下载数据...");
         //设置等待动画
         _progress = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
-        //_progress.mode = MBProgressHUDModeAnnularDeterminate;
-        //_progress.labelText = __kCategoryViewController_waitMsg;
         _progress.color = [UIColor colorWithHex:WAIT_HUD_COLOR];
-        
         //开始异步线程处理
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             //下载数据
@@ -270,7 +262,7 @@
         NSLog(@"搜索考试...");
         ExamModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
         if(cellFrame && cellFrame.model){
-            ProductViewController *productController = [[ProductViewController alloc]initWithExamId:cellFrame.model.Id];
+            ProductViewController *productController = [[ProductViewController alloc] initWithExamModel:cellFrame.model];
             [self.navigationController pushViewController:productController animated:YES];
         }
     }else{
@@ -290,5 +282,4 @@
         [_dataSource removeAllObjects];
     }
 }
-
 @end

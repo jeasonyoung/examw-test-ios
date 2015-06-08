@@ -26,11 +26,14 @@
 -(instancetype)init{
     if(self = [super init]){
         //考试名称字体
-        _examNameFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        _examNameFont = [AppConstants globalListThirdFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
         //产品名称字体
-        _productNameFont = [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
+        _productNameFont = [AppConstants globalListFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleBody];
         //注册码字体
-        _productRegCodeFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _productRegCodeFont = [AppConstants globalListSubFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     }
     return self;
 }

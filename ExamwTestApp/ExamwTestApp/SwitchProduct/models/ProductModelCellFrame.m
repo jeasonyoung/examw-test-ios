@@ -29,11 +29,13 @@
 -(instancetype)init{
     if(self = [super init]){
         //产品名称字体
-        _nameFont = [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _nameFont = [AppConstants globalListFont];
         //产品简介字体
-        _contentFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+        _contentFont = [AppConstants globalListThirdFont];
+        //UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
         //所属地区字体
-        _areaFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        _areaFont = [AppConstants globalListSubFont];
+        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
         //原价字体
         _originalPriceFont = _areaFont;
         //优惠价字体
