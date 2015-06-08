@@ -76,7 +76,7 @@
 }
 //分段切换事件
 -(void)segmentAction:(UISegmentedControl *)action{
-    NSLog(@"index>>:%i", action.selectedSegmentIndex);
+    NSLog(@"index>>:%i", (int)action.selectedSegmentIndex);
     [self loadDataWithSegValue:action.selectedSegmentIndex];
 };
 

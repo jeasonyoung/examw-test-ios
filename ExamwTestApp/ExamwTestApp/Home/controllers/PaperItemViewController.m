@@ -503,7 +503,7 @@
 -(void)favoriteItem:(void (^)(BOOL))result{
     if(_delegate && [_delegate respondsToSelector:@selector(updateFavoriteWithModel:)]){
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            NSLog(@"异步线程开始收藏/取消收藏当前试题[%@:%d]...",_itemModel.itemId, _itemModel.index);
+            NSLog(@"异步线程开始收藏/取消收藏当前试题[%@$%d]...",_itemModel.itemId, (int)_itemModel.index);
             BOOL flag = [_delegate updateFavoriteWithModel:_itemModel];
             if(result){//UpdateUI
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -516,7 +516,7 @@
 
 #pragma mark 开始做题
 -(void)start{
-    NSLog(@"开始做题[%@$%d]...",_itemModel.itemId,_itemModel.index);
+    NSLog(@"开始做题[%@$%d]...",_itemModel.itemId,(int)_itemModel.index);
     _dtStart = [NSDate date];
 }
 @end

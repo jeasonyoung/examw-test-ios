@@ -49,7 +49,7 @@
         x = CGRectGetMaxX(_subjectFrame) + __kPaperSegmentModelCellFrame_marginH;
     }
     //统计
-    _total = [NSString stringWithFormat:@"(%d)", _model.total];
+    _total = [NSString stringWithFormat:@"(%d)", (int)_model.total];
     CGSize totalSize = [_total boundingRectWithSize:CGSizeMake(maxWidth - x, CGFLOAT_MAX)
                                             options:STR_SIZE_OPTIONS
                                          attributes:@{NSFontAttributeName : _totalFont}

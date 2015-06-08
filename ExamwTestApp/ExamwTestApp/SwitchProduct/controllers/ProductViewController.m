@@ -146,7 +146,7 @@
 
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    NSLog(@"clickedButtonAtIndex==>%d", buttonIndex);
+    NSLog(@"clickedButtonAtIndex==>%d", (int)buttonIndex);
     if(buttonIndex == 1){//确认
         //等待动画
         _waitHUD = [MBProgressHUD showHUDAddedTo:self.view animated:YES];

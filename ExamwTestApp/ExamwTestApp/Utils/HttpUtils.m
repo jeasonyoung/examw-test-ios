@@ -153,7 +153,7 @@ static NSDictionary *digestHeaders;
             //摘要认证头信息
             digestHeaders = @{__kHttpUtils_authorization : authz};
             //重新调用认证
-            NSLog(@"第[%d]次认证:%@", counters + 1, digestHeaders);
+            NSLog(@"第[%d]次认证:%@", (int)(counters + 1), digestHeaders);
             [self JSONDigestDataWithUrl:url method:method headers:digestHeaders parameters:parameters
                                username:username password:password counters:(counters+1)
                                progress:progressHandler
@@ -178,7 +178,7 @@ static NSDictionary *digestHeaders;
             break;
         }
         default:{
-            NSLog(@"请求方式:[%d]不能被识别!", method);
+            NSLog(@"请求方式:[%d]不能被识别!", (int)method);
             break;
         }
     }
@@ -205,7 +205,7 @@ static NSDictionary *digestHeaders;
         *nonce = [self valueWithAuthenticate:authc parameterName:__kHttpUtils_digest_nonce],
         *cnonce = [NSString stringWithFormat:@"%08d",(int)(arc4random())],
         *opaque = [self valueWithAuthenticate:authc parameterName:__kHttpUtils_digest_opaque];
-        NSString *nc = [NSString stringWithFormat:@"%08d",(counters + 1)];
+        NSString *nc = [NSString stringWithFormat:@"%08d",(int)(counters + 1)];
         NSString *ha1 = [SecureUtils hexMD5WithText:[NSString stringWithFormat:@"%@:%@:%@",username,realm,password]],
         *ha2 = [SecureUtils hexMD5WithText:[NSString stringWithFormat:@"%@:%@",(method == HttpUtilsMethodGET ? __kHttpUtils_digest_get : __kHttpUtils_digest_post),url]],
         *response = [SecureUtils hexMD5WithText:[NSString stringWithFormat:@"%@:%@:%@:%@:%@:%@",ha1,nonce,nc,cnonce,__kHttpUtils_digest_qop,ha2]];
