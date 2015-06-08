@@ -16,9 +16,9 @@
 @interface PaperDetailsModelCellFrame : NSObject<DataModelCellFrame>
 
 //描述
-@property(nonatomic,copy,readonly)NSString *desc;
+@property(nonatomic,copy,readonly)NSAttributedString *desc;
 //描述字体
-@property(nonatomic,readonly)UIFont *descFont;
+//@property(nonatomic,readonly)UIFont *descFont;
 //描述Frame
 @property(nonatomic,assign,readonly)CGRect descFrame;
 

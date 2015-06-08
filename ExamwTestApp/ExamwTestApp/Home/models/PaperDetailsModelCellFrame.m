@@ -12,6 +12,8 @@
 #import "PaperDetailsModel.h"
 #import "PaperModel.h"
 
+#import "NSString+EMAdditions.h"
+
 #define __kPaperDetailsModelCellFrame_top 10//顶部间距
 #define __kPaperDetailsModelCellFrame_bottom 10//底部间距
 #define __kPaperDetailsModelCellFrame_left 10//左边间距
@@ -31,6 +33,7 @@
 //试卷明细数据模型CellFrame成员变量
 @interface PaperDetailsModelCellFrame (){
     CGFloat _maxWith,_centerX;
+    UIFont *_font;
 }
 @end
 //试卷明细数据模型CellFrame实现
@@ -39,22 +42,22 @@
 #pragma mark 重置初始化
 -(instancetype)init{
     if(self = [super init]){
-        //描述字体
-        _descFont = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        //字体
+        _font = [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
         //试卷来源字体
-        _sourceFont = _descFont;
+        _sourceFont = _font;
         //所属地区字体
-        _areaFont = _descFont;
+        _areaFont = _font;
         //试卷类型字体
-        _typeFont = _descFont;
+        _typeFont = _font;
         //考试时长字体
-        _timeFont = _descFont;
+        _timeFont = _font;
         //使用年份字体
-        _yearFont = _descFont;
+        _yearFont = _font;
         //试题数字体
-        _totalFont = _descFont;
+        _totalFont = _font;
         //试卷总分字体
-        _scoreFont = _descFont;
+        _scoreFont = _font;
     }
     return self;
 }
@@ -72,7 +75,7 @@
     
     NSNumber *outY = [NSNumber numberWithFloat:__kPaperDetailsModelCellFrame_top];
     //1.描述
-    _desc = _model.desc;
+    //_desc = _model.desc;
     [self setupDescWithOutY:&outY];
     //2.来源和所属地区
     _source = _model.source;
@@ -103,11 +106,17 @@
 
 //描述
 -(void)setupDescWithOutY:(NSNumber **)outY{
-    if(_desc && _desc.length > 0){
+    if(_model.desc && _model.desc.length > 0){
         CGFloat x = __kPaperDetailsModelCellFrame_left, y = (*outY).floatValue;
+        NSMutableAttributedString *attri = [[NSMutableAttributedString alloc] initWithAttributedString:[_model.desc attributedString]];
+        if(attri){
+            //添加字体
+            [attri addAttribute:NSFontAttributeName value:_font range:NSMakeRange(0, attri.length)];
+        }
+        _desc = [_model.desc attributedString];
+        //尺寸
         CGSize descSize = [_desc boundingRectWithSize:CGSizeMake(_maxWith - x, CGFLOAT_MAX)
                                               options:STR_SIZE_OPTIONS
-                                           attributes:@{NSFontAttributeName : _descFont}
                                               context:nil].size;
         _descFrame = CGRectMake(x, y, descSize.width, descSize.height);
         y = CGRectGetMaxY(_descFrame) + __kPaperDetailsModelCellFrame_marginV;

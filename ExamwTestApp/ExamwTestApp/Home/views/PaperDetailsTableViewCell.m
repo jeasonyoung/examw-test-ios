@@ -74,9 +74,9 @@
     NSLog(@"加载试卷明细数据模型CellFrame...");
     if(!cellFrame)return;
     //描述
-    _lbDesc.text = cellFrame.desc;
-    _lbDesc.font = cellFrame.descFont;
     _lbDesc.frame = cellFrame.descFrame;
+    _lbDesc.attributedText = cellFrame.desc;
+    //_lbDesc.font = cellFrame.descFont;
     //试卷来源
     _lbSource.text = cellFrame.source;
     _lbSource.font = cellFrame.sourceFont;
