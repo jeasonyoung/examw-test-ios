@@ -33,7 +33,6 @@
     if(self = [super init]){
         //字体
         _font = [AppConstants globalPaperItemFont];
-        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
     }
     return self;
 }

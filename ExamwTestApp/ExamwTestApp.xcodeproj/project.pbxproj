@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A101CD411B2679E1000C11BE /* ESTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A101CD401B2679E1000C11BE /* ESTimerView.m */; };
 		A10F5FB61B0DBAEA00BD0491 /* DownloadDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A10F5FB51B0DBAEA00BD0491 /* DownloadDao.m */; };
 		A10F5FBC1B0DBCA000BD0491 /* AppClientSync.m in Sources */ = {isa = PBXBuildFile; fileRef = A10F5FBB1B0DBCA000BD0491 /* AppClientSync.m */; };
 		A10F5FBF1B0E383000BD0491 /* PaperUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A10F5FBE1B0E383000BD0491 /* PaperUtils.m */; };
@@ -211,6 +212,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		A101CD3F1B2679E1000C11BE /* ESTimerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESTimerView.h; path = ExamwTestApp/Utils/ESTimerView.h; sourceTree = "<group>"; };
+		A101CD401B2679E1000C11BE /* ESTimerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESTimerView.m; path = ExamwTestApp/Utils/ESTimerView.m; sourceTree = "<group>"; };
 		A10F5FB41B0DBAEA00BD0491 /* DownloadDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadDao.h; path = SwitchProduct/dao/DownloadDao.h; sourceTree = "<group>"; };
 		A10F5FB51B0DBAEA00BD0491 /* DownloadDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadDao.m; path = SwitchProduct/dao/DownloadDao.m; sourceTree = "<group>"; };
 		A10F5FBA1B0DBCA000BD0491 /* AppClientSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppClientSync.h; path = SwitchProduct/models/AppClientSync.h; sourceTree = "<group>"; };
@@ -1181,6 +1184,8 @@
 				A14114691B20608700179630 /* ESTextField.m */,
 				A18BA4D11B232251008C52C5 /* ESTextView.h */,
 				A18BA4D21B232251008C52C5 /* ESTextView.m */,
+				A101CD3F1B2679E1000C11BE /* ESTimerView.h */,
+				A101CD401B2679E1000C11BE /* ESTimerView.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1391,6 +1396,7 @@
 				A1BE0B391B254D0E0056CCE1 /* ExamBaseModel.m in Sources */,
 				A1936C9F1B0F1B6E00C59A06 /* HomeViewController.m in Sources */,
 				A1CA97EC1B0F874F003006F2 /* PaperInfoViewController.m in Sources */,
+				A101CD411B2679E1000C11BE /* ESTimerView.m in Sources */,
 				A1A528D11B1C0AAF00A8637F /* PaperResultModelCellFrame.m in Sources */,
 				A1C6AD871B0C74770002BE81 /* UIImageView+AFNetworking.m in Sources */,
 				A1185F9E1B12F6B00099F910 /* PaperDetailsViewController.m in Sources */,

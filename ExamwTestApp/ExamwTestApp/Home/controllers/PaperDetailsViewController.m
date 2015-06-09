@@ -199,7 +199,7 @@
 
 #pragma mark PaperViewControllerDelegate
 //加载数据源(PaperItemModel数组,异步线程加载)
--(NSArray *)dataSourceOfPaperViewController:(PaperViewController *)controller{
+-(NSArray *)dataSourceOfPaperView{
     NSLog(@"开始加载试卷数据...");
     if(_paperModel && _paperModel.total > 0 && _paperModel.structures){
         //初始化
@@ -248,7 +248,7 @@
     return nil;
 }
 //加载的当前试题题序
--(NSUInteger)currentOrderOfPaperViewController:(PaperViewController *)controller{
+-(NSUInteger)currentOrderOfPaperView{
     //继续考试
     if((_tagValue == __kPaperDetailsViewController_tag_continue) && _recordModel && _itemsArrays && _itemsArrays.count > 0){
         NSString *lastItemId = [_service loadNewsItemIndexWithPaperRecordId:_recordModel.Id];
@@ -262,6 +262,13 @@
                 }
             }
         }
+    }
+    return 0;
+}
+//加载考试时长
+-(NSUInteger)timeOfPaperView{
+    if(_paperModel){
+        return _paperModel.time;
     }
     return 0;
 }

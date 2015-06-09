@@ -210,7 +210,7 @@
 
 #pragma mark PaperViewControllerDelegate
 //加载数据源(PaperItemModel数组,异步线程调用)
--(NSArray *)dataSourceOfPaperViewController:(PaperViewController *)controller{
+-(NSArray *)dataSourceOfPaperView{
     NSLog(@"加载试卷[%@/%@]数据...",_paperId,_paperRecordId);
     if(!_service || !_paperId || _paperId.length == 0)return nil;
     PaperModel *paperModel = [_service loadPaperModelWithPaperId:_paperId];

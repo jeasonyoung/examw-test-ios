@@ -171,7 +171,7 @@
 
 #pragma mark PaperViewControllerDelegate
 //加载数据源(PaperItemModel数组,异步线程调用)
--(NSArray *)dataSourceOfPaperViewController:(PaperViewController *)controller{
+-(NSArray *)dataSourceOfPaperView{
     switch (_segValue) {
         case __kFavoritesViewController_segErrorValue:{//错题加载
             _itemsArrays = [_service loadErrorsWithSubjectCode:_subjectId];

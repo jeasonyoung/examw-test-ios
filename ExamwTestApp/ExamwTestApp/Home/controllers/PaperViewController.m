@@ -15,6 +15,7 @@
 #import "PaperService.h"
 
 #import "DMLazyScrollView.h"
+#import "ESTimerView.h"
 
 #import "PaperExitAlertView.h"
 #import "PaperSubmitAlertView.h"
@@ -32,9 +33,9 @@
 #define __kPaperViewController_tag_btnNext 0x02//下一题
 #define __kPaperViewController_tag_btnFavorite 0x03//收藏
 #define __kPaperViewController_tag_btnSubmit 0x04//交卷
-
+#define __kPaperViewController_tag_btnTimer 0x05//倒计时
 //试卷控制器成员变量
-@interface PaperViewController ()<DMLazyScrollViewDelegate,PaperExitAlertViewDelegate,PaperSubmitAlertViewDelegate,PaperItemViewControllerDelegate,AnswerCardViewControllerDataSource>{
+@interface PaperViewController ()<DMLazyScrollViewDelegate,PaperExitAlertViewDelegate,PaperSubmitAlertViewDelegate,PaperItemViewControllerDelegate,AnswerCardViewControllerDataSource,ESTimerViewDelegate>{
     //
     PaperService *_paperService;
     //
@@ -204,14 +205,6 @@
                                                                target:self action:@selector(btnBarNextClick:)];
     btnNext.tag = __kPaperViewController_tag_btnNext;
     btnNext.tintColor = barColor;
-    //收藏
-    UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
-    btn.frame = CGRectMake(0, 0, 20, 20);
-    [btn setImage:_imgFavoriteNormal forState:UIControlStateNormal];
-    [btn addTarget:self action:@selector(btnBarFavoriteClick:) forControlEvents:UIControlEventTouchUpInside];
-    UIBarButtonItem *btnFavorite = [[UIBarButtonItem alloc] initWithCustomView:btn];
-    btnFavorite.tag = __kPaperViewController_tag_btnFavorite;
-    btnFavorite.tintColor = barColor;
     
     //分隔平均填充
     UIBarButtonItem *space = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace
@@ -219,8 +212,30 @@
     //工具栏按钮
     NSArray *toolbars;
     if(_displayAnswer){//显示答案
+        //收藏
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        btn.frame = CGRectMake(0, 0, 20, 20);
+        [btn setImage:_imgFavoriteNormal forState:UIControlStateNormal];
+        [btn addTarget:self action:@selector(btnBarFavoriteClick:) forControlEvents:UIControlEventTouchUpInside];
+        UIBarButtonItem *btnFavorite = [[UIBarButtonItem alloc] initWithCustomView:btn];
+        btnFavorite.tag = __kPaperViewController_tag_btnFavorite;
+        btnFavorite.tintColor = barColor;
+        
         toolbars = @[btnPrev,space,btnFavorite,space,btnNext];
     }else{//不显示答案
+        //倒计时
+        ESTimerView *timerView = [[ESTimerView alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
+        //获取考试时长
+        if(_delegate && [_delegate respondsToSelector:@selector(timeOfPaperView)]){
+            timerView.totalSec = [_delegate timeOfPaperView] * 60;
+        }
+        timerView.delegate = self;
+        [timerView start];
+        
+        UIBarButtonItem *btnTimer = [[UIBarButtonItem alloc] initWithCustomView:timerView];
+        btnTimer.tag = __kPaperViewController_tag_btnTimer;
+        btnTimer.tintColor = barColor;
+        
         //交卷
         UIBarButtonItem *btnSubmit = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"btnSubmit.png"]
                                                                       style:UIBarButtonItemStyleBordered
@@ -228,12 +243,18 @@
                                                                      action:@selector(btnBarSubmitClick:)];
         btnSubmit.tag = __kPaperViewController_tag_btnSubmit;
         btnSubmit.tintColor = barColor;
-        toolbars = @[btnPrev,space,btnFavorite,space,btnSubmit,space,btnNext];
+        toolbars = @[btnPrev,space,btnTimer,space,btnSubmit,space,btnNext];
     }
     
     //添加到底部工具栏
     self.navigationController.toolbarHidden = NO;
     [self setToolbarItems:toolbars animated:YES];
+}
+
+#pragma mark ESTimerViewDelegate
+-(void)timerView:(ESTimerView *)view autoStop:(BOOL)isAuto totalUseTimes:(NSUInteger)useTimes{
+    NSLog(@">>>共用时:%d's", useTimes);
+    
 }
 
 //上一题
@@ -287,8 +308,8 @@
         //初始化服务
         _paperService = [[PaperService alloc] init];
         //加载数据
-        if(_delegate && [_delegate respondsToSelector:@selector(dataSourceOfPaperViewController:)]){
-            _itemsArrays = [_delegate dataSourceOfPaperViewController:self];
+        if(_delegate && [_delegate respondsToSelector:@selector(dataSourceOfPaperView)]){
+            _itemsArrays = [_delegate dataSourceOfPaperView];
         }
         //初始化控制器缓存
         NSUInteger numberOfPages = _itemsArrays.count;
@@ -297,8 +318,8 @@
             [_viewControllerArrays addObject:[NSNull null]];
         }
         //当前题号
-        if(_delegate && [_delegate respondsToSelector:@selector(currentOrderOfPaperViewController:)]){
-            _itemOrder = [_delegate currentOrderOfPaperViewController:self];
+        if(_delegate && [_delegate respondsToSelector:@selector(currentOrderOfPaperView)]){
+            _itemOrder = [_delegate currentOrderOfPaperView];
             if(_itemOrder > 0 && _itemsArrays && _itemOrder >= _itemsArrays.count){
                 _itemOrder = _itemsArrays.count - 1;
             }
