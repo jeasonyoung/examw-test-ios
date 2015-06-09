@@ -29,9 +29,9 @@
 
 #define __kPaperItemAnalysisModelCellFrame_my_padding 5//内间距
 #define __kPaperItemAnalysisModelCellFrame_my_Right @" √ 答对了"//
-#define __kPaperItemAnalysisModelCellFrame_my_RightBgColor 0x008B00//背景色
+//#define __kPaperItemAnalysisModelCellFrame_my_RightBgColor 0x008B00//背景色
 #define __kPaperItemAnalysisModelCellFrame_my_Wrong @" × 答错了"//
-#define __kPaperItemAnalysisModelCellFrame_my_WrongBgColor 0xFF0000//背景色
+//#define __kPaperItemAnalysisModelCellFrame_my_WrongBgColor 0xFF0000//背景色
 
 #define __kPaperItemAnalysisModelCellFrame_analysis @"题目解析:%@"//
 //试题答案解析数据模型CellFrame成员变量
@@ -119,7 +119,7 @@
         }
     }
     _myAnswers = isMyRight ? __kPaperItemAnalysisModelCellFrame_my_Right : __kPaperItemAnalysisModelCellFrame_my_Wrong;
-    _myAnswersBgColor = [UIColor colorWithHex:(isMyRight ? __kPaperItemAnalysisModelCellFrame_my_RightBgColor : __kPaperItemAnalysisModelCellFrame_my_WrongBgColor)];
+    _myAnswersBgColor = [UIColor colorWithHex:(isMyRight ? GLOBAL_ITEM_RIGHT_COLOR : GLOBAL_ITEM_WRONG_COLOR)];
     CGSize myAnswersSize = [_myAnswers boundingRectWithSize:CGSizeMake(_maxWith - x, CGFLOAT_MAX)
                                                     options:STR_SIZE_OPTIONS
                                                  attributes:@{NSFontAttributeName : _myAnswersFont}

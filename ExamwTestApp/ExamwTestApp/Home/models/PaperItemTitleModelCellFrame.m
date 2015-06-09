@@ -9,7 +9,6 @@
 #import "PaperItemTitleModelCellFrame.h"
 #import "PaperItemTitleModel.h"
 
-#import "EMStringStylingConfiguration.h"
 #import "NSString+EMAdditions.h"
 
 #import "AppConstants.h"
@@ -33,6 +32,7 @@
     if(self = [super init]){
         //字体
         _font = [AppConstants globalPaperItemFont];
+        
     }
     return self;
 }
@@ -43,20 +43,21 @@
     _titleFrame = CGRectZero;
     if(!_model || !_model.content)return;
     NSLog(@"设置试题标题数据模型:%@...", _model);
-    NSString *data = [self replaceFristContent:_model.content regex:@"([1-9]+\\.)" replace:@""];
-    NSString *titleContent = (_model.order > 0) ? [NSString stringWithFormat:@"%d.%@",(int)_model.order, data] : data;
+    NSString *titleContent = [self replaceFristContent:_model.content regex:@"([1-9]+\\.)" replace:@""];
+    if(_model.order > 0){
+        titleContent = [NSString stringWithFormat:@"%d.%@", (int)_model.order, titleContent];
+    }
+    //默认字体
+    [EMStringStylingConfiguration sharedInstance].defaultFont = _font;
     //标题
-    NSMutableAttributedString *titleAttri = [[NSMutableAttributedString alloc] initWithAttributedString:[titleContent attributedString]];
-    NSRange allRange = NSMakeRange(0, titleAttri.length);
-    [titleAttri addAttribute:NSFontAttributeName value:_font range:allRange];
-    _title = titleAttri;
+    _title = [titleContent attributedString];    
     //计算Frame
-    CGFloat width = SCREEN_WIDTH - __kPaperItemTitleModelCellFrame_left - __kPaperItemTitleModelCellFrame_right;
-    CGSize titleSize = [_title boundingRectWithSize:CGSizeMake(width, CGFLOAT_MAX)
+    CGFloat maxWidth = SCREEN_WIDTH - __kPaperItemTitleModelCellFrame_right;
+    CGFloat x = __kPaperItemTitleModelCellFrame_left, y = __kPaperItemTitleModelCellFrame_top;
+    CGSize titleSize = [_title boundingRectWithSize:CGSizeMake(maxWidth - x, CGFLOAT_MAX)
                                             options:STR_SIZE_OPTIONS
                                             context:nil].size;
-    _titleFrame = CGRectMake(__kPaperItemTitleModelCellFrame_left, __kPaperItemTitleModelCellFrame_top,
-                             titleSize.width, titleSize.height);
+    _titleFrame = CGRectMake(x, y,titleSize.width, titleSize.height);
     _cellHeight = CGRectGetMaxY(_titleFrame) + __kPaperItemTitleModelCellFrame_bottom;
 }
 

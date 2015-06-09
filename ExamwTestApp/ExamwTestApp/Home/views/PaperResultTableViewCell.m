@@ -7,10 +7,12 @@
 //
 
 #import "PaperResultTableViewCell.h"
+#import "AppConstants.h"
 #import "PaperResultModelCellFrame.h"
+#import "TTTAttributedLabel.h"
 //试卷结果Cell成员变量
 @interface PaperResultTableViewCell (){
-    UILabel *_lbTitle,*_lbContent;
+    TTTAttributedLabel *_lbTitle,*_lbContent;
 }
 @end
 //试卷结果Cell实现
@@ -20,14 +22,20 @@
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]){
         //标题
-        _lbTitle = [[UILabel alloc] init];
+        _lbTitle = [[TTTAttributedLabel alloc] init];
         _lbTitle.textAlignment = NSTextAlignmentLeft;
+        _lbTitle.lineBreakMode = NSLineBreakByWordWrapping;
+        _lbTitle.lineSpacing = [AppConstants globalLineSpacing];
+        _lbTitle.minimumLineHeight = [AppConstants globalLineHeight];
         _lbTitle.numberOfLines = 0;
         //_lbTitle.backgroundColor = [UIColor redColor];
         
         //内容
-        _lbContent = [[UILabel alloc] init];
+        _lbContent = [[TTTAttributedLabel alloc] init];
         _lbContent.textAlignment = NSTextAlignmentLeft;
+        _lbTitle.lineBreakMode = NSLineBreakByWordWrapping;
+        _lbTitle.lineSpacing = [AppConstants globalLineSpacing];
+        _lbTitle.minimumLineHeight = [AppConstants globalLineHeight];
         _lbContent.numberOfLines = 0;
         //_lbContent.backgroundColor = [UIColor redColor];
         //添加到容器

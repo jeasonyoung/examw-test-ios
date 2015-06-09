@@ -296,10 +296,10 @@
     return NO;
 }
 //交卷处理(异步线程中被调用)
--(void)submitPaper:(void (^)(NSString *))resultController{
+-(void)submitPaperWithUseTimes:(NSUInteger)useTimes resultHandler:(void (^)(NSString *))resultController{
     if(_recordModel){
         NSLog(@"交卷处理[%@]...", _recordModel.Id);
-        [_service submitWithPaperRecordId:_recordModel.Id];
+        [_service submitWithPaperRecordId:_recordModel.Id andUseTimes:useTimes];
         //试卷记录ID
         resultController(_recordModel.Id);
     }

@@ -39,7 +39,8 @@
     //
     PaperService *_paperService;
     //
-    NSUInteger _itemOrder;
+    ESTimerView *_timerView;
+    NSUInteger _itemOrder,_totalUseTimes;
     BOOL _isLoaded;
     //
     NSArray *_itemsArrays;
@@ -131,22 +132,21 @@
     [_submitAlert showAlert];
 }
 
-//下次再做
--(void)nextAlertView:(PaperExitAlertView *)alertView{
-    NSLog(@"下次再做...");
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
 
 #pragma mark PaperSubmitAlertViewDelegate
 //提交试卷处理
 -(void)submitPaperHandler{
-    if(_delegate && [_delegate respondsToSelector:@selector(submitPaper:)]){
+    //计时器停止
+    if(_timerView){
+        [_timerView stop];
+    };
+    if(_delegate && [_delegate respondsToSelector:@selector(submitPaperWithUseTimes:resultHandler:)]){
         _waitHud = [MBProgressHUD showHUDAddedTo:_lazyScrollView animated:YES];
         _waitHud.color = [UIColor colorWithHex:WAIT_HUD_COLOR];
         //异步线程处理交卷数据处理
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             NSLog(@"开始异步线程处理交卷数据处理...");
-            [_delegate submitPaper:^(NSString *paperRecordId) {
+            [_delegate submitPaperWithUseTimes:_totalUseTimes resultHandler:^(NSString *paperRecordId){
                 dispatch_async(dispatch_get_main_queue(), ^{
                     //关闭等待动画
                     if(_waitHud){
@@ -162,6 +162,12 @@
             }];
         });
     }
+}
+
+//下次再做
+-(void)nextAlertView:(PaperExitAlertView *)alertView{
+    NSLog(@"下次再做...");
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 //右边按钮点击事件
@@ -224,15 +230,15 @@
         toolbars = @[btnPrev,space,btnFavorite,space,btnNext];
     }else{//不显示答案
         //倒计时
-        ESTimerView *timerView = [[ESTimerView alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
+        _timerView = [[ESTimerView alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
         //获取考试时长
         if(_delegate && [_delegate respondsToSelector:@selector(timeOfPaperView)]){
-            timerView.totalSec = [_delegate timeOfPaperView] * 60;
+            _timerView.totalSec = [_delegate timeOfPaperView] * 60;
         }
-        timerView.delegate = self;
-        [timerView start];
+        _timerView.delegate = self;
+        [_timerView start];
         
-        UIBarButtonItem *btnTimer = [[UIBarButtonItem alloc] initWithCustomView:timerView];
+        UIBarButtonItem *btnTimer = [[UIBarButtonItem alloc] initWithCustomView:_timerView];
         btnTimer.tag = __kPaperViewController_tag_btnTimer;
         btnTimer.tintColor = barColor;
         
@@ -253,8 +259,11 @@
 
 #pragma mark ESTimerViewDelegate
 -(void)timerView:(ESTimerView *)view autoStop:(BOOL)isAuto totalUseTimes:(NSUInteger)useTimes{
-    NSLog(@">>>共用时:%d's", useTimes);
-    
+    NSLog(@">>>共用时[auto:%d]:%d's", isAuto, useTimes);
+    _totalUseTimes = useTimes;
+    if(isAuto){//倒计时结束自动提交试卷
+        [self submitPaperHandler];
+    }
 }
 
 //上一题
@@ -299,6 +308,7 @@
     _submitAlert.delegate = self;
     [_submitAlert showAlert];
 }
+
 //加载试题滚动视图
 -(void)setupLazyScrollViews{
     NSLog(@"试卷试题UpdateUI....");

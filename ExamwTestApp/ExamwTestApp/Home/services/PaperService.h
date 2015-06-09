@@ -64,7 +64,7 @@
 -(BOOL)updateFavoriteWithSubjectCode:(NSString *)subjectCode itemModel:(PaperItemModel *)model;
 
 //交卷处理
--(void)submitWithPaperRecordId:(NSString *)paperRecordId;
+-(void)submitWithPaperRecordId:(NSString *)paperRecordId andUseTimes:(NSUInteger)useTimes;
 
 //加载考试结果数据
 -(PaperResultModel *)loadPaperResultWithPaperRecordId:(NSString *)paperRecordId;

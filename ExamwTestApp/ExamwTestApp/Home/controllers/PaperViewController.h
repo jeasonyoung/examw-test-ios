@@ -31,7 +31,7 @@
 //更新收藏记录(异步线程中被调用)
 -(BOOL)updateFavoriteWithModel:(PaperItemModel *)itemModel;
 //交卷处理(异步线程中被调用)
--(void)submitPaper:(void(^)(NSString* paperRecordId))resultController;
+-(void)submitPaperWithUseTimes:(NSUInteger)useTimes resultHandler:(void(^)(NSString* paperRecordId))resultController;
 @end
 
 //试卷控制器

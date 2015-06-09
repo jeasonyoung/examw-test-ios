@@ -30,4 +30,13 @@
     return GLOBAL_FONT;
 }
 
+#pragma mark 全局行距
++(CGFloat)globalLineSpacing{
+    return 10.0f;
+}
+
+#pragma mark 全局行高
++(CGFloat)globalLineHeight{
+    return 10.0f;
+}
 @end

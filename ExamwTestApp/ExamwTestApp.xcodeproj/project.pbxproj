@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A101CD411B2679E1000C11BE /* ESTimerView.m in Sources */ = {isa = PBXBuildFile; fileRef = A101CD401B2679E1000C11BE /* ESTimerView.m */; };
+		A101CD451B26B976000C11BE /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = A101CD441B26B976000C11BE /* TTTAttributedLabel.m */; };
 		A10F5FB61B0DBAEA00BD0491 /* DownloadDao.m in Sources */ = {isa = PBXBuildFile; fileRef = A10F5FB51B0DBAEA00BD0491 /* DownloadDao.m */; };
 		A10F5FBC1B0DBCA000BD0491 /* AppClientSync.m in Sources */ = {isa = PBXBuildFile; fileRef = A10F5FBB1B0DBCA000BD0491 /* AppClientSync.m */; };
 		A10F5FBF1B0E383000BD0491 /* PaperUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A10F5FBE1B0E383000BD0491 /* PaperUtils.m */; };
@@ -214,6 +215,8 @@
 /* Begin PBXFileReference section */
 		A101CD3F1B2679E1000C11BE /* ESTimerView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESTimerView.h; path = ExamwTestApp/Utils/ESTimerView.h; sourceTree = "<group>"; };
 		A101CD401B2679E1000C11BE /* ESTimerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESTimerView.m; path = ExamwTestApp/Utils/ESTimerView.m; sourceTree = "<group>"; };
+		A101CD431B26B976000C11BE /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TTTAttributedLabel.h; path = libs/TTTAttributedLabel/TTTAttributedLabel.h; sourceTree = "<group>"; };
+		A101CD441B26B976000C11BE /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TTTAttributedLabel.m; path = libs/TTTAttributedLabel/TTTAttributedLabel.m; sourceTree = "<group>"; };
 		A10F5FB41B0DBAEA00BD0491 /* DownloadDao.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DownloadDao.h; path = SwitchProduct/dao/DownloadDao.h; sourceTree = "<group>"; };
 		A10F5FB51B0DBAEA00BD0491 /* DownloadDao.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DownloadDao.m; path = SwitchProduct/dao/DownloadDao.m; sourceTree = "<group>"; };
 		A10F5FBA1B0DBCA000BD0491 /* AppClientSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppClientSync.h; path = SwitchProduct/models/AppClientSync.h; sourceTree = "<group>"; };
@@ -597,6 +600,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		A101CD421B26B950000C11BE /* TTTAttributedLabel */ = {
+			isa = PBXGroup;
+			children = (
+				A101CD431B26B976000C11BE /* TTTAttributedLabel.h */,
+				A101CD441B26B976000C11BE /* TTTAttributedLabel.m */,
+			);
+			name = TTTAttributedLabel;
+			sourceTree = "<group>";
+		};
 		A14114551B20477700179630 /* MHTextField */ = {
 			isa = PBXGroup;
 			children = (
@@ -1081,6 +1093,7 @@
 				A17099031B05DEF80083AF01 /* XHRealTimeBlur */,
 				A1A478C01B155B50000B7E22 /* DMLazyScrollView */,
 				A1A478E01B1602EE000B7E22 /* EMString */,
+				A101CD421B26B950000C11BE /* TTTAttributedLabel */,
 				A14114551B20477700179630 /* MHTextField */,
 				A1CA97E01B0F8195003006F2 /* DAPagesContainer */,
 			);
@@ -1360,6 +1373,7 @@
 				A13BB7841B09B11B0063C64B /* SwitchService.m in Sources */,
 				A1C6AD811B0C74770002BE81 /* AFURLRequestSerialization.m in Sources */,
 				A1CA97E71B0F81C6003006F2 /* DAPageIndicatorView.m in Sources */,
+				A101CD451B26B976000C11BE /* TTTAttributedLabel.m in Sources */,
 				A1F724D11B033F4A0023A3C8 /* AppSettings.m in Sources */,
 				A18BA4C81B22E106008C52C5 /* FeedbackViewController.m in Sources */,
 				A1F724C51B0305C00023A3C8 /* FMResultSet.m in Sources */,

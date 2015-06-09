@@ -14,6 +14,7 @@
 #import "NSString+EMAdditions.h"
 
 #import "AppConstants.h"
+#import "UIColor+Hex.h"
 
 #define __kPaperItemOptModelCellFrame_top 10//顶部间距
 #define __kPaperItemOptModelCellFrame_bottom 10//底部间距
@@ -35,6 +36,7 @@
 //试题选项数据模型成员变量
 @interface PaperItemOptModelCellFrame (){
     UIFont *_font;
+    BOOL _isRight;
 }
 @end
 //试题选项数据模型实现
@@ -43,6 +45,7 @@
 #pragma mark 重载初始化
 -(instancetype)init{
     if(self = [super init]){
+        _isRight = NO;
         //字体
         _font = [AppConstants globalPaperItemFont];
     }
@@ -70,6 +73,19 @@
     NSMutableAttributedString *contentAttri = [[NSMutableAttributedString alloc] initWithAttributedString:[_model.content attributedString]];
     NSRange allRange = NSMakeRange(0, contentAttri.length);
     [contentAttri addAttribute:NSFontAttributeName value:_font range:allRange];
+    if(_isSelected && _model.display){//显示答案
+        UIColor *color;
+        if(_isRight){
+            color = [UIColor colorWithHex:GLOBAL_ITEM_RIGHT_COLOR];
+            [contentAttri addAttribute:NSForegroundColorAttributeName value:color range:allRange];
+        }else{
+            color = [UIColor colorWithHex:GLOBAL_ITEM_WRONG_COLOR];
+            NSDictionary *wrongAttrs = @{NSForegroundColorAttributeName:color,
+                                    NSStrikethroughStyleAttributeName:@(NSUnderlinePatternSolid | NSUnderlineStyleSingle)};
+            [contentAttri addAttributes:wrongAttrs range:allRange];
+        }
+    }
+    
     _content = contentAttri;
     //内容尺寸
     x = (CGRectEqualToRect(_iconFrame, CGRectZero) ? x : CGRectGetMaxX(_iconFrame) +__kPaperItemOptModelCellFrame_marginH);
@@ -96,13 +112,13 @@
      
         //显示答案
         if(_model.display && _model.Id && _model.rightAnswers){
-            BOOL isRight = NO;
+            _isRight = NO;
             //是否选对
             if(_model.rightAnswers){
                 NSRange range = [_model.rightAnswers rangeOfString:_model.Id];
-                isRight = (range.location != NSNotFound);
+                _isRight = (range.location != NSNotFound);
             }
-            if(isRight){//选对
+            if(_isRight){//选对
                 _icon = [UIImage imageNamed:__kPaperItemOptModelCellFrame_opt_right];
             }else{//选错
                 _icon = [UIImage imageNamed:__kPaperItemOptModelCellFrame_opt_error];
