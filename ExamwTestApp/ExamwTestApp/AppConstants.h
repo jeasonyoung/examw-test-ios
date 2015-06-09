@@ -5,7 +5,6 @@
 //  Created by jeasonyoung on 15/5/13.
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
-
 #ifndef ExamwTestApp_AppConstants_h
 #define ExamwTestApp_AppConstants_h
 
@@ -16,7 +15,7 @@
 //客户端标示(用于考试网用户登陆验证)
 #define __kAPP_ID @"357070005327186"
 //客户端名称
-#define __kAPP_NAME @"中华考试网题库客户端 iOS v%.1f BATE"
+#define __kAPP_NAME @"中华考试网题库客户端 iOS v%.1f"
 //客户端类型代码
 #define __kAPP_TYPECODE 7
 
@@ -53,4 +52,29 @@
 #define STR_SIZE_OPTIONS (NSStringDrawingTruncatesLastVisibleLine|NSStringDrawingUsesLineFragmentOrigin|NSStringDrawingUsesFontLeading)//
 //屏幕宽度
 #define SCREEN_WIDTH CGRectGetWidth([[UIScreen mainScreen] bounds])//
+
+//下一题等待的时间
+#define NEXT_ITEM_SEC 0.6//下一题等待的时间(秒)
+//红色值
+#define GLOBAL_REDCOLOR_HEX 0xBA2121
+//等待颜色
+#define WAIT_HUD_COLOR 0xBA2121//0xD3D3D3
+//全局字体
+#define GLOBAL_FONT [UIFont preferredFontForTextStyle:UIFontTextStyleBody]
 #endif
+
+#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
+
+//应用静态常量
+@interface AppConstants : NSObject
+//全局列表一级字体
++(UIFont *)globalListFont;
+//全局列表二级字体
++(UIFont *)globalListSubFont;
+//全局列表三级字体
++(UIFont *)globalListThirdFont;
+//试卷试题字体
++(UIFont *)globalPaperItemFont;
+
+@end

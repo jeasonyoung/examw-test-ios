@@ -9,6 +9,7 @@
 #import "MyUserModelTableViewCell.h"
 #import "MyUserModelCellFrame.h"
 
+#import "AppConstants.h"
 #import "EffectsUtils.h"
 #import "UIColor+Hex.h"
 //用户信息Cell成员变量
@@ -42,15 +43,17 @@
         //_lbRegCode.backgroundColor = [UIColor grayColor];
         [_lbRegCode addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(changeRegCode:)]];
         //
-        
+        UIColor *btnColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
         //注册按钮
         _btnUserRegister = [UIButton buttonWithType:UIButtonTypeSystem];
+        [_btnUserRegister setTitleColor:btnColor forState:UIControlStateNormal];
         [_btnUserRegister addTarget:self action:@selector(btnRegisterClick:) forControlEvents:UIControlEventTouchUpInside];
-        [EffectsUtils addBoundsRadiusWithView:_btnUserRegister BorderColor:borderColor BackgroundColor:nil];
+        [EffectsUtils addBoundsRadiusWithView:_btnUserRegister BorderColor:btnColor BackgroundColor:nil];
         //登录按钮
         _btnUserLogin = [UIButton buttonWithType:UIButtonTypeSystem];
+        [_btnUserLogin setTitleColor:btnColor forState:UIControlStateNormal];
         [_btnUserLogin addTarget:self action:@selector(btnLoginClick:) forControlEvents:UIControlEventTouchUpInside];
-        [EffectsUtils addBoundsRadiusWithView:_btnUserLogin BorderColor:borderColor BackgroundColor:nil];
+        [EffectsUtils addBoundsRadiusWithView:_btnUserLogin BorderColor:btnColor BackgroundColor:nil];
         //
         [self.contentView addSubview:_imgView];
         [self.contentView addSubview:_lbTitle];

@@ -48,10 +48,25 @@
     [super viewDidLoad];
     //设置标题
     self.title = __kPaperResultViewController_title;
-    //
+    //设置返回按钮
+    [self setupbackButton];
+    //查看试题按钮
     [self setupQueryItemButtons];
     //加载数据
     [self loadData];
+}
+
+//设置返回按钮
+-(void)setupbackButton{
+    UIBarButtonItem *backBtn = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply
+                                                                             target:self action:@selector(backBtnClick:)];
+    self.navigationItem.leftBarButtonItem = backBtn;
+    
+}
+//返回按钮事件处理
+-(void)backBtnClick:(UIBarButtonItem *)sender{
+    //返回根控制器
+    [self.navigationController popToRootViewControllerAnimated:YES];
 }
 
 //查看试题

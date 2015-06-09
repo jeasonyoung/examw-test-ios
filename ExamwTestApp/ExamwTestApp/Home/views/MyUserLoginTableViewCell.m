@@ -55,6 +55,7 @@
         _tfAccount.font = font;
         _tfAccount.placeholder = @"请输入用户名";
         _tfAccount.required = YES;
+        _tfAccount.keyboardType = UIKeyboardTypeASCIICapable;
         _tfAccount.clearButtonMode = UITextFieldViewModeWhileEditing;
         _tfAccount.tag = 0;
         y = CGRectGetMaxY(_tfAccount.frame) + __kMyUserLoginTableViewCell_marginV;

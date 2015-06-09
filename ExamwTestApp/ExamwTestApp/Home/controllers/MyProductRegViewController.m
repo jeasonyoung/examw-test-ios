@@ -23,6 +23,8 @@
 #import "MBProgressHUD.h"
 #import "UIColor+Hex.h"
 
+#import "MyUserLoginViewController.h"
+
 #define __kMyProductRegViewController_cellIdentifer @"cell"//
 //产品注册视图控制器成员变量
 @interface MyProductRegViewController ()<MyProductRegModelTableViewCellDelegate,UIAlertViewDelegate>{
@@ -39,7 +41,7 @@
 #pragma mark 重载初始化
 -(instancetype)init{
     if(self = [super initWithStyle:UITableViewStyleGrouped]){
-        _app = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+        _app = [[UIApplication sharedApplication] delegate];
     }
     return self;
 }
@@ -106,17 +108,30 @@
 -(void)productRegCell:(MyProductRegModelTableViewCell *)cell btnClick:(UIButton *)sender regCode:(NSString *)regCode{
     _regCode = regCode;
     NSLog(@"点击注册按钮[%@]..", _regCode);
-    NSString *msg = [NSString stringWithFormat:@"确认绑定注册码[%@]?", _regCode];
-    _alertView = [[UIAlertView alloc] initWithTitle:@"确认" message:msg delegate:self
-                                 cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
-    [_alertView show];
+    if(!_app.currentUser){
+        _alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"未登录，应先登录!" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+        [_alertView show];
+    }else{
+        NSString *msg = [NSString stringWithFormat:@"确认绑定注册码[%@]?", _regCode];
+        _alertView = [[UIAlertView alloc] initWithTitle:@"确认" message:msg delegate:self
+                                      cancelButtonTitle:@"取消" otherButtonTitles:@"确认", nil];
+        [_alertView show];
+    }
 }
 
 #pragma mark UIAlertViewDelegate
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if(buttonIndex == 1){
-        NSLog(@"准备进行服务器验证注册码...");
-        [self uploadServiceValid];
+    switch (buttonIndex) {
+        case 0:{//
+            MyUserLoginViewController *loginController = [[MyUserLoginViewController alloc] init];
+            [self.navigationController pushViewController:loginController animated:YES];
+            break;
+        }
+        case 1:{
+            NSLog(@"准备进行服务器验证注册码...");
+            [self uploadServiceValid];
+            break;
+        }
     }
 }
 
@@ -152,7 +167,7 @@
                                    @try {
                                        NSLog(@"callback:%@",callback);
                                        JSONCallback *back = [[JSONCallback alloc] initWithDict:callback];
-                                       if(!back.success){
+                                       if(!back.success && (back.msg && back.msg.length > 0)){
                                            callbackShowMessage(back.msg);
                                            return;
                                        }
@@ -160,7 +175,6 @@
                                        UserAccount *ua = (_app ? _app.currentUser : nil);
                                        if(ua){
                                            [ua updateRegCode:_regCode];
-                                           //[ua saveForCurrent];
                                            [_app changedCurrentUser:ua];
                                        }
                                        //UpdateUI

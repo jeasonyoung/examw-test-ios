@@ -85,7 +85,6 @@
     [self setupLazyScrollViews];
     //加载顶部工具栏
     [self setupTopBars];
-    
     //加载底部工具栏
     [self setupBottomBars];
 }

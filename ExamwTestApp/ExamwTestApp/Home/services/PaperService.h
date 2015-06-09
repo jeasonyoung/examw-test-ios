@@ -18,6 +18,9 @@
 //分页数据
 @property(nonatomic,assign,readonly)NSUInteger pageOfRows;
 
+//加载试卷类型集合
+-(NSArray *)findPaperTypes;
+
 //按试卷类型分页查找试卷信息数据
 -(NSArray *)findPapersInfoWithPaperType:(NSUInteger)paperType andPageIndex:(NSUInteger)pageIndex;
 

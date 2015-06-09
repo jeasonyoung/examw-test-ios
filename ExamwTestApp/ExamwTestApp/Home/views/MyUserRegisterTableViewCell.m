@@ -77,6 +77,10 @@
         tf.placeholder = [placeholders objectAtIndex:i];
         tf.clearButtonMode = UITextFieldViewModeWhileEditing;
         switch (i) {
+            case 0:{//用户名
+                tf.keyboardType = UIKeyboardTypeASCIICapable;
+                break;
+            }
             case 1://密码
             case 2://重复密码
             {
@@ -193,11 +197,10 @@
         return;
     }
     [self loadRegisterModelValueWithInput:(ESTextField *)textField];
-    
 }
 
 #pragma mark 行高
 +(CGFloat)cellHeight{
-    return 300;
+    return 320;
 }
 @end

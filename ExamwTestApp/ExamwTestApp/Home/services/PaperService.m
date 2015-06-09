@@ -41,45 +41,63 @@
     return self;
 }
 
+#pragma mark 加载试卷类型集合。
+-(NSArray *)findPaperTypes{
+    NSLog(@"加载试卷类型集合数据...");
+    if(_dbQueue){
+        static NSString *query_sql = @"select type from tbl_papers group by type order by type";
+        NSMutableArray *arrays = [NSMutableArray array];
+        //
+        NSLog(@"exec-sql:%@", query_sql);
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            FMResultSet *rs = [db executeQuery:query_sql];
+            while ([rs next]){
+                [arrays addObject:[NSNumber numberWithInt:[rs intForColumn:@"type"]]];
+            }
+            [rs close];
+        }];
+        return arrays;
+    }
+    return nil;
+}
+
 #pragma mark 按试卷类型分页查找试卷信息数据
 -(NSArray *)findPapersInfoWithPaperType:(NSUInteger)paperType andPageIndex:(NSUInteger)pageIndex{
     NSLog(@"按试卷类型[%d]分页[%d]查找试卷数据...", (int)paperType, (int)pageIndex);
-    if(!_dbQueue){
-        NSLog(@"创建数据操作失败!");
-        return nil;
-    }
-    static NSString *querySubjectNameSql = @"SELECT name FROM tbl_subjects WHERE code = ? limit 0,1";
-    //拼接SQL
-    NSMutableString *query_sql = [NSMutableString string];
-    [query_sql appendString:@" SELECT id, title, total, createTime, subjectCode FROM tbl_papers "];
-    [query_sql appendFormat:@" WHERE type = ? order by createTime desc limit %d,%d;",
-     (int)(pageIndex * __kPaperService_pageOfRows), (int)__kPaperService_pageOfRows];
-    
-    __block NSMutableArray *arrays = [NSMutableArray arrayWithCapacity:__kPaperService_pageOfRows];
-    //查询数据
-    [_dbQueue inDatabase:^(FMDatabase *db) {
-        NSLog(@"exec-sql:%@", query_sql);
-        FMResultSet *rs = [db executeQuery:query_sql, [NSNumber numberWithInteger:paperType]];
-        while ([rs next]) {
-            //科目
-            NSString *subjectCode = [rs stringForColumn:@"subjectCode"], *subjectName = @"";
-            if(subjectCode && subjectCode.length > 0){
-                subjectName = [db stringForQuery:querySubjectNameSql, subjectCode];
+    if(_dbQueue){
+        static NSString *querySubjectNameSql = @"SELECT name FROM tbl_subjects WHERE code = ? limit 0,1";
+        //拼接SQL
+        NSMutableString *query_sql = [NSMutableString string];
+        [query_sql appendString:@" SELECT id, title, total, createTime, subjectCode FROM tbl_papers "];
+        [query_sql appendFormat:@" WHERE type = ? order by createTime desc limit %d,%d;",
+         (int)(pageIndex * __kPaperService_pageOfRows), (int)__kPaperService_pageOfRows];
+        __block NSMutableArray *arrays = [NSMutableArray arrayWithCapacity:__kPaperService_pageOfRows];
+        //查询数据
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            NSLog(@"exec-sql:%@", query_sql);
+            FMResultSet *rs = [db executeQuery:query_sql, [NSNumber numberWithInteger:paperType]];
+            while ([rs next]) {
+                //科目
+                NSString *subjectCode = [rs stringForColumn:@"subjectCode"], *subjectName = @"";
+                if(subjectCode && subjectCode.length > 0){
+                    subjectName = [db stringForQuery:querySubjectNameSql, subjectCode];
+                }
+                //创建试卷信息模型
+                PaperInfoModel *model = [[PaperInfoModel alloc] init];
+                model.Id = [rs stringForColumn:@"id"];
+                model.name = [rs stringForColumn:@"title"];
+                model.total = [rs intForColumn:@"total"];
+                model.subject = subjectName;
+                model.createTime = [rs stringForColumn:@"createTime"];
+                //添加到集合
+                [arrays addObject:model];
             }
-            //创建试卷信息模型
-            PaperInfoModel *model = [[PaperInfoModel alloc] init];
-            model.Id = [rs stringForColumn:@"id"];
-            model.name = [rs stringForColumn:@"title"];
-            model.total = [rs intForColumn:@"total"];
-            model.subject = subjectName;
-            model.createTime = [rs stringForColumn:@"createTime"];
-            //添加到集合
-            [arrays addObject:model];
-        }
-        [rs close];
-    }];
-    //返回数据集合
-    return (arrays && arrays.count > 0) ? [arrays copy] : nil;
+            [rs close];
+        }];
+        //返回数据集合
+        return (arrays && arrays.count > 0) ? [arrays copy] : nil;
+    }
+    return nil;
 }
 
 #pragma 加载试卷数据
@@ -92,11 +110,7 @@
         papersCache = [NSMutableDictionary dictionaryWithCapacity:10];
     }
     PaperModel *paperModel = [papersCache objectForKey:paperId];
-    if(!paperModel){
-        if(!_dbQueue){
-            NSLog(@"创建数据操作失败!");
-            return nil;
-        }
+    if(!paperModel && _dbQueue){
         __block NSString *contentHex = nil;
         //查询数据
         [_dbQueue inDatabase:^(FMDatabase *db) {
@@ -656,7 +670,7 @@
 -(NSArray *)totalPaperRecords{
     NSLog(@"加载试卷记录...");
     if(_dbQueue){
-        static NSString *query_sql = @"SELECT a.code,a.name,COUNT(c.id) AS total FROM tbl_subjects a LEFT OUTER JOIN tbl_papers b ON b.subjectCode = a.code LEFT OUTER JOIN tbl_paperRecords c ON c.paperId = b.id WHERE a.status = 1 GROUP BY a.code,a.name,a.status";
+        static NSString *query_sql = @"SELECT a.code,a.name,COUNT(c.id) AS total FROM tbl_subjects a LEFT OUTER JOIN tbl_papers b ON b.subjectCode = a.code LEFT OUTER JOIN tbl_paperRecords c ON c.paperId = b.id WHERE a.status = 1 GROUP BY a.code,a.name";
         NSMutableArray *arrays = [NSMutableArray array];
         [_dbQueue inDatabase:^(FMDatabase *db) {
             NSLog(@"exec-sql:%@", query_sql);
