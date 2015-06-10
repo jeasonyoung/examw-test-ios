@@ -209,7 +209,10 @@
     //开始检查网络
     [HttpUtils checkNetWorkStatus:^(BOOL statusValue) {
         NSLog(@"检查网络[%d]...",statusValue);
-        if (statusValue) {
+        if(!statusValue){
+            servErrorHandler(@"请检查网络!");
+            return;
+        }else{
             //下载考试科目
             NSLog(@"开始下载考试科目...");
             [HttpUtils JSONDataWithUrl:_kAPP_API_SUBJECTS_URL method:HttpUtilsMethodPOST parameters:[reqParameters serialize]

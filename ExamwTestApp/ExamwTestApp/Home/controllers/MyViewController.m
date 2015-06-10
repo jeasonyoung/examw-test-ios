@@ -111,6 +111,7 @@
 #pragma mark View将进入
 -(void)viewWillAppear:(BOOL)animated{
     [super viewDidAppear:animated];
+    [self.navigationController setToolbarHidden:YES];
     if(_isReload){//重新加载数据
         _isReload = NO;
         [self loadData];

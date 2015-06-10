@@ -312,6 +312,8 @@
 //加载试题滚动视图
 -(void)setupLazyScrollViews{
     NSLog(@"试卷试题UpdateUI....");
+    _waitHud = [MBProgressHUD showHUDAddedTo:self.view animated:YES];
+    _waitHud.color = [UIColor colorWithHex:WAIT_HUD_COLOR];
     //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"异步线程加载试卷数据...");
@@ -361,6 +363,8 @@
             //添加到容器
             [panelView addSubview:_lazyScrollView];
             [self.view addSubview:panelView];
+            //关闭等待动画
+            if(_waitHud){[_waitHud hide:YES];}
         });
     });
 }

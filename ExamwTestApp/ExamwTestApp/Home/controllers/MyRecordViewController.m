@@ -28,7 +28,7 @@
 
 #define __kMyRecordViewController_cellIdentifier @"_cellRecord"//
 //试卷记录视图控制器成员变量
-@interface MyRecordViewController ()<PaperViewControllerDelegate>{
+@interface MyRecordViewController ()<PaperViewControllerDelegate,UIAlertViewDelegate>{
     MySubjectModel *_mySubjectModel;
     //科目ID
     NSString *_paperId,*_paperRecordId;
@@ -41,6 +41,8 @@
     BOOL _isAddedRefresh,_displayAnswer;
     //
     PaperService *_service;
+    //
+    UIAlertView *_alertView;
 }
 @end
 //试卷记录视图控制器实现
@@ -194,21 +196,67 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         PaperRecordModelCellFrame *cellFrame = [_dataSource objectAtIndex:indexPath.row];
         if(!cellFrame || !cellFrame.model)return;
+        _displayAnswer = cellFrame.model.status;
         _paperRecordId = cellFrame.model.Id;
         _paperId = cellFrame.model.paperId;
+        
         if(_paperId && _paperId.length > 0 && _paperRecordId && _paperRecordId.length > 0){
             dispatch_async(dispatch_get_main_queue(), ^{
-                //界面跳转
-                PaperViewController *controller = [[PaperViewController alloc] initWithDisplayAnswer:_displayAnswer];
-                controller.delegate = self;
-                controller.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:controller animated:YES];
+                if(!_displayAnswer){//未做完
+                    //弹出对话框
+                    _alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否继续考试" delegate:self
+                                                  cancelButtonTitle:@"否" otherButtonTitles:@"是", nil];
+                    [_alertView show];
+                    
+                }else{//已做完
+                    [self alertView:_alertView clickedButtonAtIndex:1];
+                }
             });
         }
     });
 }
 
+#pragma mark UIAlertViewDelegate
+//弹出框按钮事件
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    //是否显示答案
+    _displayAnswer = (buttonIndex == 0 ? YES : NO);
+    
+    //界面跳转
+    PaperViewController *controller = [[PaperViewController alloc] initWithDisplayAnswer:_displayAnswer];
+    controller.delegate = self;
+    controller.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:controller animated:YES];
+}
+
 #pragma mark PaperViewControllerDelegate
+//考试时长
+-(NSUInteger)timeOfPaperView{
+    if(_service && _paperId && _paperId.length > 0){
+        PaperModel *paperModel = [_service loadPaperModelWithPaperId:_paperId];
+        if(paperModel){
+            return paperModel.time;
+        }
+    }
+    return 0;
+}
+//加载的当前试题题序(异步线程中调用)
+-(NSUInteger)currentOrderOfPaperView{
+    if(!_displayAnswer && _service && _paperRecordId && _paperRecordId.length > 0 && _itemsArrays && _itemsArrays.count > 0){
+        NSString *lastItemId = [_service loadNewsItemIndexWithPaperRecordId:_paperRecordId];
+        if(lastItemId && lastItemId.length > 0){
+            for(NSUInteger i = 0; i < _itemsArrays.count; i++){
+                PaperItemModel *itemModel = [_itemsArrays objectAtIndex:i];
+                if(!itemModel) continue;
+                NSString *itemId = [NSString stringWithFormat:@"%@$%d", itemModel.itemId, (int)itemModel.index];
+                if([itemId isEqualToString:lastItemId]){
+                    return i;
+                }
+            }
+        }
+    }
+    return 0;
+}
 //加载数据源(PaperItemModel数组,异步线程调用)
 -(NSArray *)dataSourceOfPaperView{
     NSLog(@"加载试卷[%@/%@]数据...",_paperId,_paperRecordId);

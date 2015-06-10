@@ -26,23 +26,21 @@
 //频道(用户登录/注册)
 #define __kAPP_API_CHANNEL @"jzs1"
 
+
 //服务器数据API
+#define _kAPP_API_HOST @"http://127.0.0.1"//
 //注册API
-#define _kAPP_API_REGISTER_URL @"http://localhost:8080/examw-test/api/m/user/register"
+#define _kAPP_API_REGISTER_URL _kAPP_API_HOST@"/examw-test/api/m/user/register"
 //登陆API
-#define _kAPP_API_LOGIN_URL @"http://localhost:8080/examw-test/api/m/user/login"
+#define _kAPP_API_LOGIN_URL _kAPP_API_HOST@"/examw-test/api/m/user/login"
 //注册码校验API
-#define _kAPP_API_REGCODECHECK_URL @"http://localhost:8080/examw-test/api/m/app/register"
+#define _kAPP_API_REGCODECHECK_URL _kAPP_API_HOST@"/examw-test/api/m/app/register"
 //考试类别API
-#define _kAPP_API_CATEGORY_URL @"http://localhost:8080/examw-test/api/m/download/categories"
-//考试数据API
-//#define _kAPP_API_EXAMS_URL @""
+#define _kAPP_API_CATEGORY_URL _kAPP_API_HOST@"/examw-test/api/m/download/categories"
 //科目数据API
-#define _kAPP_API_SUBJECTS_URL @"http://localhost:8080/examw-test/api/m/sync/exams"
-//产品数据API
-//#define _kAPP_API_PRODUCTS_URL @""
+#define _kAPP_API_SUBJECTS_URL _kAPP_API_HOST@"/examw-test/api/m/sync/exams"
 //试卷数据API
-#define _kAPP_API_PAPERS_URL @"http://localhost:8080/examw-test/api/m/sync/papers"
+#define _kAPP_API_PAPERS_URL _kAPP_API_HOST@"/examw-test/api/m/sync/papers"
 
 
 //默认分页数据
@@ -53,14 +51,20 @@
 //屏幕宽度
 #define SCREEN_WIDTH CGRectGetWidth([[UIScreen mainScreen] bounds])//
 
-//下一题等待的时间
-#define NEXT_ITEM_SEC 0.6//下一题等待的时间(秒)
-//红色值
-#define GLOBAL_REDCOLOR_HEX 0xBA2121
 //等待颜色
 #define WAIT_HUD_COLOR 0xBA2121//0xD3D3D3
+//下一题等待的时间
+#define NEXT_ITEM_SEC 0.6//下一题等待的时间(秒)
+//答对颜色
+#define GLOBAL_ITEM_RIGHT_COLOR 0x008B00//题目答对色
+//答错颜色
+#define GLOBAL_ITEM_WRONG_COLOR 0xBA2121//题目答错色
+
+//红色值
+#define GLOBAL_REDCOLOR_HEX 0xBA2121
 //全局字体
 #define GLOBAL_FONT [UIFont preferredFontForTextStyle:UIFontTextStyleBody]
+
 #endif
 
 #import <Foundation/Foundation.h>
@@ -76,5 +80,8 @@
 +(UIFont *)globalListThirdFont;
 //试卷试题字体
 +(UIFont *)globalPaperItemFont;
-
+//全局行距
++(CGFloat)globalLineSpacing;
+//全局行高
++(CGFloat)globalLineHeight;
 @end

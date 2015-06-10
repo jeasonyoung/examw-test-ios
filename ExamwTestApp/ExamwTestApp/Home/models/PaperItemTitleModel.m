@@ -77,12 +77,12 @@
             imgUrl = [imgUrl substringToIndex:(imgUrl.length - 1)];
             if(![imgUrl hasPrefix:@"http"]){
                 imgUrl = [_kAPP_API_HOST stringByAppendingString:imgUrl];
-                imgUrl = [NSString stringWithFormat:@"src=\"%@\"", imgUrl];
-                
-                NSMutableString *data = [[NSMutableString alloc] initWithString:content];
-                [data replaceCharactersInRange:range withString:imgUrl];
-                NSLog(@"img url:%@",data);
-                return data;
+                //imgUrl = [NSString stringWithFormat:@"src=\"%@\"", imgUrl];
+                return [NSString stringWithFormat:@"<img>%@</img>",imgUrl];
+                //NSMutableString *data = [[NSMutableString alloc] initWithString:content];
+                //[data replaceCharactersInRange:range withString:imgUrl];
+                //NSLog(@"img url:%@",data);
+                //return data;
             }
         }
     }
