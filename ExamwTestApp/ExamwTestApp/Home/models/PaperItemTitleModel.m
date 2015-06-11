@@ -8,12 +8,12 @@
 
 #import "PaperItemTitleModel.h"
 #import "PaperItemModel.h"
-
 #import "AppConstants.h"
-
+#import "SDWebImageManager.h"
 //试题标题数据模型实现
 @interface PaperItemTitleModel (){
     NSRegularExpression *_imgRegularExpression;
+    NSMutableArray *_imgPathArrays;
 }
 @end
 //试题标题数据模型实现
@@ -22,6 +22,7 @@
 #pragma mark 初始化
 -(instancetype)initWithItemModel:(PaperItemModel *)itemModel{
     if((self = [super init]) && itemModel){
+        _imgPathArrays = [NSMutableArray array];
         _Id = itemModel.itemId;
         _itemType = itemModel.itemType;
         _order = itemModel.order;
@@ -37,6 +38,7 @@
     }else{
         _content = content;
     }
+    _images = (_imgPathArrays ? [_imgPathArrays copy] : @[]);
 }
 
 //查找并替换Image路径
@@ -77,15 +79,35 @@
             imgUrl = [imgUrl substringToIndex:(imgUrl.length - 1)];
             if(![imgUrl hasPrefix:@"http"]){
                 imgUrl = [_kAPP_API_HOST stringByAppendingString:imgUrl];
-                //imgUrl = [NSString stringWithFormat:@"src=\"%@\"", imgUrl];
-                return [NSString stringWithFormat:@"<img>%@</img>",imgUrl];
-                //NSMutableString *data = [[NSMutableString alloc] initWithString:content];
-                //[data replaceCharactersInRange:range withString:imgUrl];
-                //NSLog(@"img url:%@",data);
-                //return data;
             }
+            if(imgUrl && imgUrl.length > 0){
+                //下载图片
+                [self downloadImageWithUrl:imgUrl];
+                //添加到集合
+                [_imgPathArrays addObject:imgUrl];
+            }
+            return @"";
         }
     }
     return content;
+}
+
+//下载图片
+-(void)downloadImageWithUrl:(NSString *)url{
+    if(!url || url.length == 0)return;
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        NSLog(@"异步线程下载图片:%@...", url);
+        //图片管理
+        SDWebImageManager *imgManager = [SDWebImageManager sharedManager];
+        //下载完成处理
+        void(^downloadCompleted)(UIImage *, NSError *, SDImageCacheType, BOOL, NSURL *) = ^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
+            if(finished && image){
+                NSLog(@"完成图片下载:%@",imageURL);
+                [imgManager saveImageToCache:image forURL:imageURL];
+            }
+        };
+        //开始下载图片
+        [imgManager downloadImageWithURL:[NSURL URLWithString:url] options:0 progress:nil completed:downloadCompleted];
+    });
 }
 @end

@@ -12,11 +12,6 @@
 
 #import "SwitchViewController.h"
 #import "MainViewController.h"
-//入口代理成员变量
-@interface AppDelegate(){
-   
-}
-@end
 //入口代理实现
 @implementation AppDelegate
 

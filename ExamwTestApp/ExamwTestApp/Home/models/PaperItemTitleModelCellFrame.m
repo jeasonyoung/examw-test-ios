@@ -13,6 +13,8 @@
 
 #import "AppConstants.h"
 
+#import "SDWebImageManager.h"
+
 #define __kPaperItemTitleModelCellFrame_top 10//顶部间距
 #define __kPaperItemTitleModelCellFrame_bottom 10//底部间距
 #define __kPaperItemTitleModelCellFrame_left 10//左边间距
@@ -32,7 +34,6 @@
     if(self = [super init]){
         //字体
         _font = [AppConstants globalPaperItemFont];
-        
     }
     return self;
 }
@@ -50,7 +51,28 @@
     //默认字体
     [EMStringStylingConfiguration sharedInstance].defaultFont = _font;
     //标题
-    _title = [titleContent attributedString];    
+    NSMutableAttributedString *titleAttriString = [[NSMutableAttributedString alloc] initWithAttributedString:[titleContent attributedString]];
+    //添加图片附件
+    if(model.images && model.images.count > 0){
+        SDWebImageManager *imageMgr = [SDWebImageManager sharedManager];
+        for(NSString *imgPath in model.images){
+            if(!imgPath || imgPath.length == 0)continue;
+            NSURL *url = [NSURL URLWithString:imgPath];
+            if([imageMgr diskImageExistsForURL:url]){
+                NSString *key = [imageMgr cacheKeyForURL:url];
+                UIImage *img = [imageMgr.imageCache imageFromDiskCacheForKey:key];
+                if(img){
+                    NSTextAttachment *attachment = [[NSTextAttachment alloc] init];
+                    attachment.image = img;
+                    attachment.bounds = CGRectMake(0, 0, img.size.width, img.size.height);
+                    [titleAttriString appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+                }
+            }
+        }
+    }
+    _title = titleAttriString;
+    //[NSAttributedString attributedStringWithAttachment:<#(NSTextAttachment *)#>];
+    
     //计算Frame
     CGFloat maxWidth = SCREEN_WIDTH - __kPaperItemTitleModelCellFrame_right;
     CGFloat x = __kPaperItemTitleModelCellFrame_left, y = __kPaperItemTitleModelCellFrame_top;

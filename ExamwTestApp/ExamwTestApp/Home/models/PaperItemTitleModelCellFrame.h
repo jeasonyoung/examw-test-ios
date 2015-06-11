@@ -11,8 +11,8 @@
 
 #import "DataModelCellFrame.h"
 
-@class PaperItemTitleModel;
 //试题标题数据模型CellFrame
+@class PaperItemTitleModel;
 @interface PaperItemTitleModelCellFrame : NSObject<DataModelCellFrame>
 //标题
 @property(nonatomic,copy,readonly)NSAttributedString *title;

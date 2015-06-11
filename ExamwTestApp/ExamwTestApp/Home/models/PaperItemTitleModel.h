@@ -19,6 +19,8 @@
 @property(nonatomic,assign)NSUInteger order;
 //内容
 @property(nonatomic,copy)NSString *content;
+//图片键集合
+@property(nonatomic,copy)NSArray *images;
 //初始化
 -(instancetype)initWithItemModel:(PaperItemModel *)itemModel;
 @end
