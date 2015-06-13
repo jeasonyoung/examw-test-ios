@@ -195,6 +195,9 @@
 		A1CA97E81B0F81C6003006F2 /* DAPagesContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CA97E41B0F81C6003006F2 /* DAPagesContainer.m */; };
 		A1CA97E91B0F81C6003006F2 /* DAPagesContainerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CA97E61B0F81C6003006F2 /* DAPagesContainerTopBar.m */; };
 		A1CA97EC1B0F874F003006F2 /* PaperInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CA97EB1B0F874F003006F2 /* PaperInfoViewController.m */; };
+		A1D968871B2BC5B600264B57 /* ESTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D968861B2BC5B600264B57 /* ESTextAttachment.m */; };
+		A1D9688A1B2BD01E00264B57 /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D968891B2BD01E00264B57 /* UIImage+Scale.m */; };
+		A1D9688D1B2BDFDE00264B57 /* NSMutableAttributedString+ImageAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D9688C1B2BDFDE00264B57 /* NSMutableAttributedString+ImageAttachment.m */; };
 		A1DF97E71B121C52000F2B73 /* PaperInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DF97E61B121C52000F2B73 /* PaperInfoModel.m */; };
 		A1DF97EA1B1220F3000F2B73 /* PaperService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DF97E91B1220F3000F2B73 /* PaperService.m */; };
 		A1DF97ED1B12AC01000F2B73 /* PaperInfoModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DF97EC1B12AC01000F2B73 /* PaperInfoModelCellFrame.m */; };
@@ -585,6 +588,12 @@
 		A1CA97E61B0F81C6003006F2 /* DAPagesContainerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DAPagesContainerTopBar.m; path = libs/DAPagesContainer/DAPagesContainerTopBar.m; sourceTree = "<group>"; };
 		A1CA97EA1B0F874F003006F2 /* PaperInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperInfoViewController.h; path = Home/controllers/PaperInfoViewController.h; sourceTree = "<group>"; };
 		A1CA97EB1B0F874F003006F2 /* PaperInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperInfoViewController.m; path = Home/controllers/PaperInfoViewController.m; sourceTree = "<group>"; };
+		A1D968851B2BC5B600264B57 /* ESTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESTextAttachment.h; path = ExamwTestApp/Utils/ESTextAttachment.h; sourceTree = "<group>"; };
+		A1D968861B2BC5B600264B57 /* ESTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESTextAttachment.m; path = ExamwTestApp/Utils/ESTextAttachment.m; sourceTree = "<group>"; };
+		A1D968881B2BD01E00264B57 /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Scale.h"; path = "ExamwTestApp/Utils/UIImage+Scale.h"; sourceTree = "<group>"; };
+		A1D968891B2BD01E00264B57 /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Scale.m"; path = "ExamwTestApp/Utils/UIImage+Scale.m"; sourceTree = "<group>"; };
+		A1D9688B1B2BDFDE00264B57 /* NSMutableAttributedString+ImageAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableAttributedString+ImageAttachment.h"; path = "ExamwTestApp/Utils/NSMutableAttributedString+ImageAttachment.h"; sourceTree = "<group>"; };
+		A1D9688C1B2BDFDE00264B57 /* NSMutableAttributedString+ImageAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableAttributedString+ImageAttachment.m"; path = "ExamwTestApp/Utils/NSMutableAttributedString+ImageAttachment.m"; sourceTree = "<group>"; };
 		A1DF97E51B121C52000F2B73 /* PaperInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperInfoModel.h; path = Home/models/PaperInfoModel.h; sourceTree = "<group>"; };
 		A1DF97E61B121C52000F2B73 /* PaperInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperInfoModel.m; path = Home/models/PaperInfoModel.m; sourceTree = "<group>"; };
 		A1DF97E81B1220F3000F2B73 /* PaperService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperService.h; path = Home/services/PaperService.h; sourceTree = "<group>"; };
@@ -1279,6 +1288,10 @@
 				A1F724DF1B034E950023A3C8 /* NSString+Reversed.m */,
 				A1B5AF371B0399780086F421 /* UIColor+Hex.h */,
 				A1B5AF381B0399780086F421 /* UIColor+Hex.m */,
+				A1D968881B2BD01E00264B57 /* UIImage+Scale.h */,
+				A1D968891B2BD01E00264B57 /* UIImage+Scale.m */,
+				A1D9688B1B2BDFDE00264B57 /* NSMutableAttributedString+ImageAttachment.h */,
+				A1D9688C1B2BDFDE00264B57 /* NSMutableAttributedString+ImageAttachment.m */,
 				A1B8277F1B1EDB2900DA9CC2 /* UIViewController+VisibleView.h */,
 				A1B827801B1EDB2900DA9CC2 /* UIViewController+VisibleView.m */,
 				A1185F9F1B130AFA0099F910 /* EffectsUtils.h */,
@@ -1289,6 +1302,8 @@
 				A18BA4D21B232251008C52C5 /* ESTextView.m */,
 				A101CD3F1B2679E1000C11BE /* ESTimerView.h */,
 				A101CD401B2679E1000C11BE /* ESTimerView.m */,
+				A1D968851B2BC5B600264B57 /* ESTextAttachment.h */,
+				A1D968861B2BC5B600264B57 /* ESTextAttachment.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -1503,6 +1518,7 @@
 				A1A1A49D1B286AFE00141BAC /* SDWebImageDownloaderOperation.m in Sources */,
 				A1C51B0F1B1F4B9F000F172B /* MyRecordViewController.m in Sources */,
 				A121F2531B1422A6004EC63C /* PaperTitleTableViewCell.m in Sources */,
+				A1D968871B2BC5B600264B57 /* ESTextAttachment.m in Sources */,
 				A1C6AD7F1B0C74770002BE81 /* AFSecurityPolicy.m in Sources */,
 				A1A478D61B15F3D0000B7E22 /* PaperItemTitleModel.m in Sources */,
 				A1BE0B391B254D0E0056CCE1 /* ExamBaseModel.m in Sources */,
@@ -1580,6 +1596,8 @@
 				A1C6AD891B0C74770002BE81 /* UIRefreshControl+AFNetworking.m in Sources */,
 				A1936C941B0ED80900C59A06 /* MainViewController.m in Sources */,
 				A17098FE1B0599910083AF01 /* CategoryViewController.m in Sources */,
+				A1D9688D1B2BDFDE00264B57 /* NSMutableAttributedString+ImageAttachment.m in Sources */,
+				A1D9688A1B2BD01E00264B57 /* UIImage+Scale.m in Sources */,
 				A17098F21B0581C00083AF01 /* UIView+MJExtension.m in Sources */,
 				A1CA97E91B0F81C6003006F2 /* DAPagesContainerTopBar.m in Sources */,
 				A1B7F6A71B13656F00DF8834 /* PaperDetailsModel.m in Sources */,

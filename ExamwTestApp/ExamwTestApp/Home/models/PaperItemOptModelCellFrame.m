@@ -12,6 +12,7 @@
 
 #import "EMStringStylingConfiguration.h"
 #import "NSString+EMAdditions.h"
+#import "NSMutableAttributedString+ImageAttachment.h"
 
 #import "AppConstants.h"
 #import "UIColor+Hex.h"
@@ -69,11 +70,15 @@
     //选项图标
     [self setupOptIconWithPoint:CGPointMake(x, y)];
     CGFloat maxHeight = __kPaperItemOptModelCellFrame_opt_iconHeight;
+    //默认字体
+    [EMStringStylingConfiguration sharedInstance].defaultFont = _font;
     //内容
     NSMutableAttributedString *contentAttri = [[NSMutableAttributedString alloc] initWithAttributedString:[_model.content attributedString]];
-    NSRange allRange = NSMakeRange(0, contentAttri.length);
-    [contentAttri addAttribute:NSFontAttributeName value:_font range:allRange];
+    //图片处理
+    [contentAttri appendImageAttachmentsWithUrls:_model.images imgByWidthScale:(maxWith - x)];
+    //
     if(_isSelected && _model.display){//显示答案
+        NSRange allRange = NSMakeRange(0, contentAttri.length);
         UIColor *color;
         if(_isRight){
             color = [UIColor colorWithHex:GLOBAL_ITEM_RIGHT_COLOR];

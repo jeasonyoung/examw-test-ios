@@ -63,12 +63,16 @@ typedef NS_ENUM(NSUInteger, PaperItemJudgeAnswer){
 
 //试题内容
 @property(nonatomic,copy,readonly)NSString *itemContent;
+//试题内容图片URLs
+@property(nonatomic,copy,readonly)NSArray *itemContentImgUrls;
 
 //试题答案
 @property(nonatomic,copy,readonly)NSString *itemAnswer;
 
 //试题解析
 @property(nonatomic,copy,readonly)NSString *itemAnalysis;
+//试题解析图片集合
+@property(nonatomic,copy,readonly)NSArray *itemAnalysisImgUrls;
 
 //试题难度值
 @property(nonatomic,assign,readonly)NSUInteger itemLevel;

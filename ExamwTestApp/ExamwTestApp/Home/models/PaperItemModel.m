@@ -7,6 +7,8 @@
 //
 
 #import "PaperItemModel.h"
+#import "AppConstants.h"
+#import "SDWebImageManager.h"
 
 #define __kPaperItemModel_keys_id @"id"//试题ID
 #define __kPaperItemModel_keys_type @"type"//试题类型
@@ -43,7 +45,13 @@
         //试题内容
         if([keys containsObject:__kPaperItemModel_keys_content]){
             id value = [dict objectForKey:__kPaperItemModel_keys_content];
-            _itemContent = (value == [NSNull null] ? @"" : value);
+            NSString *content = (value == [NSNull null] ? @"" : value);
+            //图片处理
+            NSMutableArray *imgUrlArrays = [NSMutableArray array];
+            _itemContent = [self findAndReplaceImgPathsWithText:content imgUrlHandler:^(NSString *imgUrl) {
+                [imgUrlArrays addObject:imgUrl];
+            }];
+            _itemContentImgUrls = (imgUrlArrays.count > 0 ? [imgUrlArrays copy] : nil);
         }
         //试题答案
         if([keys containsObject:__kPaperItemModel_keys_answer]){
@@ -53,7 +61,13 @@
         //试题解析
         if([keys containsObject:__kPaperItemModel_keys_analysis]){
             id value = [dict objectForKey:__kPaperItemModel_keys_analysis];
-            _itemAnalysis = (value == [NSNull null] ? @"" : value);
+            NSString *analysis = (value == [NSNull null] ? @"" : value);
+            //图片处理
+            NSMutableArray *imgUrlArrays = [NSMutableArray array];
+            _itemAnalysis = [self findAndReplaceImgPathsWithText:analysis imgUrlHandler:^(NSString *imgUrl) {
+                [imgUrlArrays addObject:imgUrl];
+            }];
+            _itemAnalysisImgUrls = (imgUrlArrays.count > 0 ? [imgUrlArrays copy] : nil);
         }
         //试题难度值
         if([keys containsObject:__kPaperItemModel_keys_level]){
@@ -98,6 +112,82 @@
         }
     }
     return nil;
+}
+
+//查找并替换图片路径
+-(NSString *)findAndReplaceImgPathsWithText:(NSString *)text imgUrlHandler:(void(^)(NSString *))handler{
+    if(text && text.length > 0){
+        NSRegularExpression *imgRegexExpression = [[NSRegularExpression alloc] initWithPattern:@"(<img.+?/>)"
+                                                                                       options:NSRegularExpressionCaseInsensitive
+                                                                                         error:nil];
+        NSArray *imgResults = [imgRegexExpression matchesInString:text options:NSMatchingWithTransparentBounds range:NSMakeRange(0, text.length)];
+        if(imgResults && imgResults.count > 0){
+            NSLog(@"匹配的ImgUrl结果:%@", imgResults);
+            NSMutableString *resultText = [NSMutableString stringWithString:text];
+            for(NSTextCheckingResult * result in imgResults){
+                NSRange range = result.range;
+                if(range.location == NSNotFound) continue;
+                //img标签数据
+                NSString *imgContent = [text substringWithRange:range];
+                if(imgContent && imgContent.length > 0){
+                    NSRange srcRange = [imgContent rangeOfString:@"src=\"(.+?)\"" options:NSRegularExpressionSearch];
+                    if(srcRange.location == NSNotFound) continue;
+                    NSString *imgUrl = [imgContent substringWithRange:srcRange];
+                    imgUrl = [imgUrl substringFromIndex:5];
+                    imgUrl = [imgUrl substringToIndex:(imgUrl.length - 1)];
+                    if(![imgUrl hasPrefix:@"http"]){
+                        imgUrl = [_kAPP_API_HOST stringByAppendingString:imgUrl];
+                    }
+                    //下载图片
+                    [self downloadImgWithUrl:imgUrl];
+                    //替换为空
+                    [resultText replaceCharactersInRange:range withString:@""];
+                    //block处理
+                    if(handler){
+                        handler(imgUrl);
+                    }
+                }
+            }
+            return resultText;
+        }
+    }
+    return text;
+}
+
+//下载图片
+-(void)downloadImgWithUrl:(NSString *)url{
+    if(!url || url.length == 0)return;
+    //异步线程下载图片
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        @try {
+            NSURL *imgURL = [NSURL URLWithString:url];
+            //图片管理
+            SDWebImageManager *imgMgr = [SDWebImageManager sharedManager];
+            //检查是否下载过有缓存
+            BOOL exists = [imgMgr cachedImageExistsForURL:imgURL];
+            if(exists){
+                NSLog(@"图片[%@]已下载过有缓存，无须下载...", url);
+                return;
+            }
+            //准备图片下载
+            NSLog(@"开始图片[%@]下载...", url);
+            //下载完成处理块
+            void(^downloadCompleted)(UIImage *, NSError *, SDImageCacheType, BOOL, NSURL *) = ^(UIImage *image, NSError *error, SDImageCacheType cacheType, BOOL finished, NSURL *imageURL){
+                if(finished && image){
+                    //异步线程保存图片
+                    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                        NSLog(@"完成图片[%@]下载并缓存...",imageURL);
+                        [imgMgr saveImageToCache:image forURL:imgURL];
+                    });
+                }
+            };
+            //开始下载图片
+            [imgMgr downloadImageWithURL:imgURL options:0 progress:nil completed:downloadCompleted];
+        }
+        @catch (NSException *exception) {
+            NSLog(@"下载图片[%@]发生异常:%@", url, exception);
+        }
+    });
 }
 
 #pragma mark 从JSON的Arrays的反序列化为对象数组

@@ -209,7 +209,7 @@
                     [_alertView show];
                     
                 }else{//已做完
-                    [self alertView:_alertView clickedButtonAtIndex:1];
+                    [self alertView:_alertView clickedButtonAtIndex:0];
                 }
             });
         }

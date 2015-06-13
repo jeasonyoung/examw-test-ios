@@ -16,6 +16,7 @@
 -(instancetype)initWithItemModel:(PaperItemModel *)itemModel{
     if((self = [super initWithItemModel:itemModel]) && itemModel){
         self.content = itemModel.itemAnalysis;
+        self.images = itemModel.itemAnalysisImgUrls;
     }
     return self;
 }

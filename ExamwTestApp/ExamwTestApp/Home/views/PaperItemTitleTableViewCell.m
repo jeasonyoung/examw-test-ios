@@ -7,15 +7,11 @@
 //
 
 #import "PaperItemTitleTableViewCell.h"
-#import "AppConstants.h"
 #import "PaperItemTitleModelCellFrame.h"
-
-#import "TTTAttributedLabel.h"
 
 //试题标题Cell成员变量
 @interface PaperItemTitleTableViewCell (){
-    //UILabel *_lbTitle;
-    TTTAttributedLabel *_lbTitle;
+    UILabel *_lbTitle;
 }
 
 @end
@@ -26,12 +22,10 @@
 -(instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     if(self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]){
         //标题
-        _lbTitle = [[TTTAttributedLabel alloc] init];
+        _lbTitle = [[UILabel alloc] init];
         _lbTitle.textAlignment = NSTextAlignmentLeft;
-        _lbTitle.numberOfLines = 0;
         _lbTitle.lineBreakMode = NSLineBreakByWordWrapping;
-        _lbTitle.lineSpacing = [AppConstants globalLineSpacing];
-        _lbTitle.minimumLineHeight = [AppConstants globalLineHeight];
+        _lbTitle.numberOfLines = 0;
         //添加到容器
         [self.contentView addSubview:_lbTitle];
     }
@@ -46,6 +40,5 @@
     //标题
     _lbTitle.attributedText = cellFrame.title;
     _lbTitle.frame = cellFrame.titleFrame;
-    
 }
 @end

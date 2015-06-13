@@ -7,13 +7,11 @@
 //
 
 #import "PaperItemOptTableViewCell.h"
-#import "AppConstants.h"
 #import "PaperItemOptModelCellFrame.h"
-#import "TTTAttributedLabel.h"
 //试题选项Cell成员变量
 @interface PaperItemOptTableViewCell (){
     UIImageView *_iconView;
-    TTTAttributedLabel *_lbContent;
+    UILabel *_lbContent;
 }
 @end
 //试题选项Cell实现
@@ -25,11 +23,11 @@
         //图标
         _iconView = [[UIImageView alloc] init];
         //内容
-        _lbContent = [[TTTAttributedLabel alloc]  init];
+        _lbContent = [[UILabel alloc]  init];
         _lbContent.textAlignment = NSTextAlignmentLeft;
         _lbContent.lineBreakMode = NSLineBreakByWordWrapping;
-        _lbContent.lineSpacing = [AppConstants globalLineSpacing];
-        _lbContent.minimumLineHeight = [AppConstants globalLineHeight];
+        //_lbContent.lineSpacing = [AppConstants globalLineSpacing];
+        //_lbContent.minimumLineHeight = [AppConstants globalLineHeight];
         _lbContent.numberOfLines = 0;
         
         //添加到容器

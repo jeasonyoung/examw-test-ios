@@ -12,6 +12,7 @@
 
 #import "EMStringStylingConfiguration.h"
 #import "NSString+EMAdditions.h"
+#import "NSMutableAttributedString+ImageAttachment.h"
 
 #import "UIColor+Hex.h"
 
@@ -141,9 +142,13 @@
 -(void)setupAnalysisWithOutY:(NSNumber **)outy{
     CGFloat x = __kPaperItemAnalysisModelCellFrame_left, y = (*outy).floatValue;
     if(_model.content && _model.content.length > 0){
+        //默认字体
+        [EMStringStylingConfiguration sharedInstance].defaultFont = _font;
+        //答案解析内容
         NSMutableAttributedString *contentAttri = [[NSMutableAttributedString alloc] initWithAttributedString:[[NSString stringWithFormat:__kPaperItemAnalysisModelCellFrame_analysis,_model.content] attributedString]];
-        NSRange allRange = NSMakeRange(0, contentAttri.length);
-        [contentAttri addAttribute:NSFontAttributeName value:_font range:allRange];
+        //图片处理
+        [contentAttri appendImageAttachmentsWithUrls:_model.images imgByWidthScale:(_maxWith - x)];
+        
         _analysis = contentAttri;
         CGSize analysisSize = [_analysis boundingRectWithSize:CGSizeMake(_maxWith - x, CGFLOAT_MAX)
                                                       options:STR_SIZE_OPTIONS

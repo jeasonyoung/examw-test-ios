@@ -7,15 +7,16 @@
 //
 
 #import "PaperItemAnalysisTableViewCell.h"
-#import "AppConstants.h"
 #import "PaperItemAnalysisModelCellFrame.h"
+#import "AppConstants.h"
 #import "UIColor+Hex.h"
 #import "TTTAttributedLabel.h"
 
 #define __kPaperItemAnalysisTableViewCell_my_FontColor 0xFFFAFA//字体颜色
 //题目答案解析Cell成员变量
 @interface PaperItemAnalysisTableViewCell (){
-    TTTAttributedLabel *_lbRightAnswers,*_lbMyAnswers,*_lbAnalysis;
+    TTTAttributedLabel *_lbRightAnswers,*_lbMyAnswers;
+    UILabel *_lbAnalysis;
 }
 @end
 //题目答案解析Cell实现
@@ -40,11 +41,11 @@
         _lbMyAnswers.minimumLineHeight = [AppConstants globalLineHeight];
         _lbMyAnswers.numberOfLines = 0;
         //题目解析
-        _lbAnalysis = [[TTTAttributedLabel alloc] init];
+        _lbAnalysis = [[UILabel alloc] init];
         _lbAnalysis.textAlignment = NSTextAlignmentLeft;
         _lbAnalysis.lineBreakMode = NSLineBreakByWordWrapping;
-        _lbAnalysis.lineSpacing = [AppConstants globalLineSpacing];
-        _lbAnalysis.minimumLineHeight = [AppConstants globalLineHeight];
+        //_lbAnalysis.lineSpacing = [AppConstants globalLineSpacing];
+        //_lbAnalysis.minimumLineHeight = [AppConstants globalLineHeight];
         _lbAnalysis.numberOfLines = 0;
         
         //添加到容器
