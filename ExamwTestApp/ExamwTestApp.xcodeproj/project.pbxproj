@@ -198,6 +198,11 @@
 		A1D968871B2BC5B600264B57 /* ESTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D968861B2BC5B600264B57 /* ESTextAttachment.m */; };
 		A1D9688A1B2BD01E00264B57 /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D968891B2BD01E00264B57 /* UIImage+Scale.m */; };
 		A1D9688D1B2BDFDE00264B57 /* NSMutableAttributedString+ImageAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D9688C1B2BDFDE00264B57 /* NSMutableAttributedString+ImageAttachment.m */; };
+		A1D968951B2C067500264B57 /* UploadDataService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D968941B2C067500264B57 /* UploadDataService.m */; };
+		A1D968991B2C071900264B57 /* AppClientPush.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D968981B2C071900264B57 /* AppClientPush.m */; };
+		A1D9689C1B2C0F1900264B57 /* PaperRecordSync.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D9689B1B2C0F1900264B57 /* PaperRecordSync.m */; };
+		A1D9689F1B2C163600264B57 /* PaperItemRecordSync.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D9689E1B2C163600264B57 /* PaperItemRecordSync.m */; };
+		A1D968A21B2C1DFE00264B57 /* FavoriteSync.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D968A11B2C1DFE00264B57 /* FavoriteSync.m */; };
 		A1DF97E71B121C52000F2B73 /* PaperInfoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DF97E61B121C52000F2B73 /* PaperInfoModel.m */; };
 		A1DF97EA1B1220F3000F2B73 /* PaperService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DF97E91B1220F3000F2B73 /* PaperService.m */; };
 		A1DF97ED1B12AC01000F2B73 /* PaperInfoModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DF97EC1B12AC01000F2B73 /* PaperInfoModelCellFrame.m */; };
@@ -594,6 +599,16 @@
 		A1D968891B2BD01E00264B57 /* UIImage+Scale.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIImage+Scale.m"; path = "ExamwTestApp/Utils/UIImage+Scale.m"; sourceTree = "<group>"; };
 		A1D9688B1B2BDFDE00264B57 /* NSMutableAttributedString+ImageAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSMutableAttributedString+ImageAttachment.h"; path = "ExamwTestApp/Utils/NSMutableAttributedString+ImageAttachment.h"; sourceTree = "<group>"; };
 		A1D9688C1B2BDFDE00264B57 /* NSMutableAttributedString+ImageAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSMutableAttributedString+ImageAttachment.m"; path = "ExamwTestApp/Utils/NSMutableAttributedString+ImageAttachment.m"; sourceTree = "<group>"; };
+		A1D968931B2C067500264B57 /* UploadDataService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UploadDataService.h; path = DataService/services/UploadDataService.h; sourceTree = "<group>"; };
+		A1D968941B2C067500264B57 /* UploadDataService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UploadDataService.m; path = DataService/services/UploadDataService.m; sourceTree = "<group>"; };
+		A1D968971B2C071900264B57 /* AppClientPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppClientPush.h; path = DataService/models/AppClientPush.h; sourceTree = "<group>"; };
+		A1D968981B2C071900264B57 /* AppClientPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppClientPush.m; path = DataService/models/AppClientPush.m; sourceTree = "<group>"; };
+		A1D9689A1B2C0F1900264B57 /* PaperRecordSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperRecordSync.h; path = DataService/models/PaperRecordSync.h; sourceTree = "<group>"; };
+		A1D9689B1B2C0F1900264B57 /* PaperRecordSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperRecordSync.m; path = DataService/models/PaperRecordSync.m; sourceTree = "<group>"; };
+		A1D9689D1B2C163600264B57 /* PaperItemRecordSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperItemRecordSync.h; path = DataService/models/PaperItemRecordSync.h; sourceTree = "<group>"; };
+		A1D9689E1B2C163600264B57 /* PaperItemRecordSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperItemRecordSync.m; path = DataService/models/PaperItemRecordSync.m; sourceTree = "<group>"; };
+		A1D968A01B2C1DFE00264B57 /* FavoriteSync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FavoriteSync.h; path = DataService/models/FavoriteSync.h; sourceTree = "<group>"; };
+		A1D968A11B2C1DFE00264B57 /* FavoriteSync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FavoriteSync.m; path = DataService/models/FavoriteSync.m; sourceTree = "<group>"; };
 		A1DF97E51B121C52000F2B73 /* PaperInfoModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperInfoModel.h; path = Home/models/PaperInfoModel.h; sourceTree = "<group>"; };
 		A1DF97E61B121C52000F2B73 /* PaperInfoModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperInfoModel.m; path = Home/models/PaperInfoModel.m; sourceTree = "<group>"; };
 		A1DF97E81B1220F3000F2B73 /* PaperService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperService.h; path = Home/services/PaperService.h; sourceTree = "<group>"; };
@@ -1107,6 +1122,39 @@
 			name = DAPagesContainer;
 			sourceTree = "<group>";
 		};
+		A1D968911B2C05AC00264B57 /* DataService */ = {
+			isa = PBXGroup;
+			children = (
+				A1D968961B2C06BF00264B57 /* models */,
+				A1D968921B2C065900264B57 /* services */,
+			);
+			name = DataService;
+			sourceTree = "<group>";
+		};
+		A1D968921B2C065900264B57 /* services */ = {
+			isa = PBXGroup;
+			children = (
+				A1D968931B2C067500264B57 /* UploadDataService.h */,
+				A1D968941B2C067500264B57 /* UploadDataService.m */,
+			);
+			name = services;
+			sourceTree = "<group>";
+		};
+		A1D968961B2C06BF00264B57 /* models */ = {
+			isa = PBXGroup;
+			children = (
+				A1D968971B2C071900264B57 /* AppClientPush.h */,
+				A1D968981B2C071900264B57 /* AppClientPush.m */,
+				A1D9689A1B2C0F1900264B57 /* PaperRecordSync.h */,
+				A1D9689B1B2C0F1900264B57 /* PaperRecordSync.m */,
+				A1D9689D1B2C163600264B57 /* PaperItemRecordSync.h */,
+				A1D9689E1B2C163600264B57 /* PaperItemRecordSync.m */,
+				A1D968A01B2C1DFE00264B57 /* FavoriteSync.h */,
+				A1D968A11B2C1DFE00264B57 /* FavoriteSync.m */,
+			);
+			name = models;
+			sourceTree = "<group>";
+		};
 		A1F724101B02F88A0023A3C8 = {
 			isa = PBXGroup;
 			children = (
@@ -1144,6 +1192,7 @@
 				A1F8DECD1B0CB88300317B0E /* DaoHelpers.m */,
 				A152FBFF1B048985006523CE /* SwitchProduct */,
 				A1936C8C1B0ED6DC00C59A06 /* Home */,
+				A1D968911B2C05AC00264B57 /* DataService */,
 				A1F7242C1B02F88A0023A3C8 /* Images.xcassets */,
 				A1F7241C1B02F88A0023A3C8 /* Supporting Files */,
 			);
@@ -1438,6 +1487,7 @@
 				A1C6AD831B0C74770002BE81 /* AFURLSessionManager.m in Sources */,
 				A1936CA51B0F1C4900C59A06 /* MyViewController.m in Sources */,
 				A18BA4C51B22E0C1008C52C5 /* DownViewController.m in Sources */,
+				A1D9689F1B2C163600264B57 /* PaperItemRecordSync.m in Sources */,
 				A1C51B0A1B1F32E3000F172B /* MySubjectModelTableViewCell.m in Sources */,
 				A1A1A4A51B286AFE00141BAC /* UIImageView+WebCache.m in Sources */,
 				A1BBC9DD1B1013B8005A1FD3 /* PaperItemModel.m in Sources */,
@@ -1475,6 +1525,7 @@
 				A1F724C91B0305C00023A3C8 /* FMDatabase.m in Sources */,
 				A1C6AD521B0C31000002BE81 /* ProductTableViewCell.m in Sources */,
 				A18E19441B1CADBF00210968 /* PaperSegmentTableViewCell.m in Sources */,
+				A1D9689C1B2C0F1900264B57 /* PaperRecordSync.m in Sources */,
 				A1F724B71B02FEED0023A3C8 /* HttpUtils.m in Sources */,
 				A1B7F6A11B1360B700DF8834 /* PaperTitleModel.m in Sources */,
 				A1A478FF1B16A6A5000B7E22 /* PaperItemAnalysisModelCellFrame.m in Sources */,
@@ -1541,6 +1592,7 @@
 				A1C6AD8A1B0C74770002BE81 /* UIWebView+AFNetworking.m in Sources */,
 				A1F724C61B0305C00023A3C8 /* FMDatabaseQueue.m in Sources */,
 				A1AE083F1B214E6F00F6E877 /* UserLoginModel.m in Sources */,
+				A1D968991B2C071900264B57 /* AppClientPush.m in Sources */,
 				A1AE084B1B218A5E00F6E877 /* ProductRegisterModel.m in Sources */,
 				A1AE08481B21892C00F6E877 /* MyProductRegModel.m in Sources */,
 				A13BB7951B0B31930063C64B /* ExamViewController.m in Sources */,
@@ -1564,6 +1616,7 @@
 				A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */,
 				A18BA4D61B2330D7008C52C5 /* TitleTableViewCell.m in Sources */,
 				A14114611B20505300179630 /* UserRegisterModel.m in Sources */,
+				A1D968951B2C067500264B57 /* UploadDataService.m in Sources */,
 				A1936CA81B0F1C7F00C59A06 /* MoreViewController.m in Sources */,
 				A18E193E1B1C97E800210968 /* PaperSegmentModel.m in Sources */,
 				A1A623D11B1B49F100637525 /* PaperExitAlertView.m in Sources */,
@@ -1613,6 +1666,7 @@
 				A1C6AD4F1B0C0EC60002BE81 /* ProductModelCellFrame.m in Sources */,
 				A1B7F6A41B1362E700DF8834 /* PaperButtonModel.m in Sources */,
 				A1A479021B16BF69000B7E22 /* PaperItemTitleTableViewCell.m in Sources */,
+				A1D968A21B2C1DFE00264B57 /* FavoriteSync.m in Sources */,
 				A13BB7981B0B38B00063C64B /* ExamModelCellFrame.m in Sources */,
 				A1AC68E11B2291C7002AF34A /* MoreMenuModelTableViewCell.m in Sources */,
 				A1BD6FF81B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.m in Sources */,
