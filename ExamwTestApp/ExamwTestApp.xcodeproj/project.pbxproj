@@ -212,7 +212,6 @@
 		A1F724221B02F88A0023A3C8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724211B02F88A0023A3C8 /* AppDelegate.m */; };
 		A1F7242D1B02F88A0023A3C8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1F7242C1B02F88A0023A3C8 /* Images.xcassets */; };
 		A1F7243C1B02F88A0023A3C8 /* ExamwTestAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F7243B1B02F88A0023A3C8 /* ExamwTestAppTests.m */; };
-		A1F724B71B02FEED0023A3C8 /* HttpUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724B61B02FEED0023A3C8 /* HttpUtils.m */; };
 		A1F724C51B0305C00023A3C8 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724BA1B0305BF0023A3C8 /* FMResultSet.m */; };
 		A1F724C61B0305C00023A3C8 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724BD1B0305BF0023A3C8 /* FMDatabaseQueue.m */; };
 		A1F724C71B0305C00023A3C8 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724BF1B0305BF0023A3C8 /* FMDatabasePool.m */; };
@@ -628,8 +627,6 @@
 		A1F724351B02F88A0023A3C8 /* ExamwTestAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExamwTestAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1F7243A1B02F88A0023A3C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A1F7243B1B02F88A0023A3C8 /* ExamwTestAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExamwTestAppTests.m; sourceTree = "<group>"; };
-		A1F724B51B02FEED0023A3C8 /* HttpUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HttpUtils.h; path = ExamwTestApp/Utils/HttpUtils.h; sourceTree = "<group>"; };
-		A1F724B61B02FEED0023A3C8 /* HttpUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HttpUtils.m; path = ExamwTestApp/Utils/HttpUtils.m; sourceTree = "<group>"; };
 		A1F724BA1B0305BF0023A3C8 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = libs/FMDB_v2.5/FMResultSet.m; sourceTree = "<group>"; };
 		A1F724BB1B0305BF0023A3C8 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = libs/FMDB_v2.5/FMResultSet.h; sourceTree = "<group>"; };
 		A1F724BC1B0305BF0023A3C8 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDB.h; path = libs/FMDB_v2.5/FMDB.h; sourceTree = "<group>"; };
@@ -1328,8 +1325,6 @@
 				A13BB7851B0AD52A0063C64B /* JSONSerialize.h */,
 				A13BB7861B0AD6270063C64B /* JSONCallback.h */,
 				A13BB7871B0AD6270063C64B /* JSONCallback.m */,
-				A1F724B51B02FEED0023A3C8 /* HttpUtils.h */,
-				A1F724B61B02FEED0023A3C8 /* HttpUtils.m */,
 				A1F1C9481B2E87D8004A8CC7 /* DigestHTTPJSONProvider.h */,
 				A1F1C9491B2E87D8004A8CC7 /* DigestHTTPJSONProvider.m */,
 				A1F724D51B0342330023A3C8 /* SecureUtils.h */,
@@ -1531,7 +1526,6 @@
 				A1C6AD521B0C31000002BE81 /* ProductTableViewCell.m in Sources */,
 				A18E19441B1CADBF00210968 /* PaperSegmentTableViewCell.m in Sources */,
 				A1D9689C1B2C0F1900264B57 /* PaperRecordSync.m in Sources */,
-				A1F724B71B02FEED0023A3C8 /* HttpUtils.m in Sources */,
 				A1B7F6A11B1360B700DF8834 /* PaperTitleModel.m in Sources */,
 				A1A478FF1B16A6A5000B7E22 /* PaperItemAnalysisModelCellFrame.m in Sources */,
 				A17098EF1B0581C00083AF01 /* MJRefreshLegendHeader.m in Sources */,

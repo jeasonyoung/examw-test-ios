@@ -11,7 +11,7 @@
 #import "ExamModel.h"
 
 #import "AppConstants.h"
-#import "HttpUtils.h"
+#import "DigestHTTPJSONProvider.h"
 
 #import "JSONCallback.h"
 
@@ -44,17 +44,25 @@ static NSArray *localCategoriesCache;
 
 #pragma mark 从网络下载数据
 -(void)loadCategoriesFromNetWorks:(void (^)(NSString *))complete{
-    NSLog(@"从网络下载数据...");
-    //下载成功处理
-    void (^successHandler)(NSDictionary *) = ^(NSDictionary *dict){//主线程
-        //开启后台线程处理
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
-            NSString *msg = @"";
+    DigestHTTPJSONProvider *provider = [DigestHTTPJSONProvider shareProvider];
+    //检测网络状态
+    [provider checkNetworkStatus:^(BOOL statusValue) {
+        NSLog(@"检测网络状态:%d", statusValue);
+        if(!statusValue){
+            complete(@"请检查网络状态!");
+            return;
+        }
+        NSLog(@"开始从网络下载数据...");
+        //从网络加载数据
+        [provider getDataWithUrl:_kAPP_API_CATEGORY_URL parameters:nil success:^(NSDictionary *result) {
             @try {
-                NSLog(@"开启后台线程处理JSON转换");
-                JSONCallback *callback = [JSONCallback callbackWithDict:dict];
+                NSString *msg = @"";
+                JSONCallback *callback = [JSONCallback callbackWithDict:result];
                 if(callback.success){
-                    NSArray *arrays = callback.data;
+                    NSArray *arrays;
+                    if(callback.data && [callback.data isKindOfClass:[NSArray class]]){
+                        arrays = (NSArray *)callback.data;
+                    }
                     if(arrays && arrays.count > 0){
                         //数据转换
                         NSArray *downloads = [CategoryModel categoriesFromJSON:arrays];
@@ -75,32 +83,13 @@ static NSArray *localCategoriesCache;
                 }
             }
             @catch (NSException *exception) {
-                msg = [NSString stringWithFormat:@"发生异常:%@",exception];
-                NSLog(@"后台线程处理下载数据异常:%@", exception);
+                NSLog(@"发生解析异常:%@", exception);
+                complete(@"解析异常,请稍后再试!");
             }
-            @finally{
-                //处理完成
-                complete(msg);
-            }
-        });
-    };
-    //从网络加载数据
-    [HttpUtils checkNetWorkStatus:^(BOOL statusValue) {
-        NSLog(@"检测网络状态:%d", statusValue);
-        if(!statusValue){
-            NSLog(@"请检查网络状态!");
-            complete(@"请检查网络状态!");
-            return;
-        }
-        [HttpUtils JSONDataWithUrl:_kAPP_API_CATEGORY_URL method:HttpUtilsMethodGET parameters:nil progress:nil
-                           success:successHandler
-                              fail:^(NSString *err) {
-                                  //开启后台线程处理
-                                  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT,0), ^{
-                                      NSLog(@"服务器错误:%@", err);
-                                      complete(@"服务器异常，请稍后再试!");
-                                  });
-                              }];
+        } fail:^(NSString *err) {
+            NSLog(@"服务器错误:%@", err);
+            complete(@"服务器忙,请稍后再试!");
+        }];
     }];
 }
 

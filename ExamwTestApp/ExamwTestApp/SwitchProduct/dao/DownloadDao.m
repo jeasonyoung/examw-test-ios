@@ -11,7 +11,7 @@
 
 #import "AppClientSync.h"
 
-#import "HttpUtils.h"
+#import "DigestHTTPJSONProvider.h"
 #import "AppConstants.h"
 #import "JSONCallback.h"
 
@@ -19,8 +19,8 @@
 
 //下载服务器数据成员变量
 @interface DownloadDao (){
-    DaoHelpers *_daoHelpers;
-    
+    FMDatabaseQueue *_dbQueue;
+    DigestHTTPJSONProvider *_provider;
 }
 @end
 
@@ -30,7 +30,14 @@
 #pragma mark 重载初始化
 -(instancetype)init{
     if(self = [super init]){
-        _daoHelpers = [[DaoHelpers alloc]init];
+        //1.初始化数据操作
+        DaoHelpers *daoHelpers = [[DaoHelpers alloc]init];
+        _dbQueue = [daoHelpers createDatabaseQueue];
+        if(!_dbQueue){
+            NSLog(@"数据库访问队列初始化失败!");
+        }
+        //2.初始化网络提供者
+        _provider = [DigestHTTPJSONProvider shareProvider];
     }
     return self;
 }
@@ -39,111 +46,57 @@
 -(void)downloadWithIgnoreCode:(BOOL)ignoreCode
                     andResult:(void (^)(BOOL, NSString *))handler{
     //数据库访问队列
-    FMDatabaseQueue *queue = [_daoHelpers createDatabaseQueue];
-    if(!queue){
+    if(!_dbQueue){
         NSLog(@"数据库访问队列初始化失败!");
         if(handler)handler(NO, @"初始化本地数据库错误!");
         return;
     }
-    
     NSLog(@"准备开始下载服务器数据...");
-    //初始化请求参数
-    AppClientSync *reqParameters = [[AppClientSync alloc]init];
-    reqParameters.ignoreCode = ignoreCode;
-    
-    //服务器错误处理块
-    void(^servErrorHandler)(NSString *) = ^(NSString *err){
-        NSLog(@"服务器异常:%@", err);
-        if(!handler)return;
-        //开启新线程处理服务器错误
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            handler(NO,err);
-        });
-    };
-    
-    //试卷下载成功处理块
-    void(^paperSuccessHandler)(NSDictionary *) = ^(NSDictionary *data){
-        //在主线程中开启子线程处理
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            __block NSString *msg;
-            @try {
-                //反馈数据反序列化
-                JSONCallback *callback = [JSONCallback callbackWithDict:data];
-                if(!callback.success){
-                    NSLog(@"下载试卷错误:%@", callback.msg);
-                    if(handler)handler(NO,callback.msg);
-                    return;
-                }
-                NSLog(@"开始解析试卷数据...");
-                NSArray *arrays = callback.data;
-                if(arrays && arrays.count > 0){
-                    NSLog(@"准备将试卷数据写入本地数据库...");
-                    [queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
-                        @try {
-                            NSLog(@"共有[%d]条试卷数据更新...", (int)arrays.count);
-                            for(NSDictionary *dict in arrays){
-                                if(!dict || dict.count == 0) continue;
-                                [self updatePaperWithDb:db andData:dict];
-                            }
-                        }
-                        @catch (NSException *exception) {
-                            *rollback = YES;
-                            msg = [NSString stringWithFormat:@"试卷数据写入本地数据库异常:%@",exception];
-                            NSLog(@"%@",msg);
-                            if(handler)handler(NO, msg);
-                        }
-                    }];
-                }
-                if(handler)handler(YES,nil);
-            }
-            @catch (NSException *exception) {
-                msg = [NSString stringWithFormat:@"异常:%@", exception];
-                NSLog(@"%@", msg);
-                if(handler)handler(NO,msg);
-            }
-        });
-    };
-    //科目下载消息处理
-    void(^subjectDownloadMsgHandler)(BOOL, NSString *) = ^(BOOL result, NSString *msg){
-        if(!result){//
-            if(handler)handler(result,msg);
+    //检查网络
+    [_provider checkNetworkStatus:^(BOOL statusValue) {
+        if(!statusValue){
+            handler(NO,@"请检查网络!");
             return;
         }
-        //下载试题数据
-        NSLog(@"准备开始下载试题数据...");
-        @try {
-            static NSString *query_sql = @"select createTime from tbl_papers order by createTime desc limit 0,1";
-            FMDatabase *db = [FMDatabase databaseWithPath:queue.path];
-            [db open];
-            reqParameters.startTime = [db stringForQuery:query_sql];
-            [db close];
-        }
-        @catch (NSException *exception) {
-            NSLog(@"查询最后同步时间异常:%@", exception);
-        }
-        //下载试题数据
-        [HttpUtils JSONDataWithUrl:_kAPP_API_PAPERS_URL method:HttpUtilsMethodPOST parameters:[reqParameters serialize]
-                          progress:nil success:paperSuccessHandler fail:servErrorHandler];
-    };
-    //科目下载成功处理块
-    void(^subjectSuccessHandler)(NSDictionary *) = ^(NSDictionary *data){
-        //在主线程中开启子线程处理
-        dispatch_sync(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            __block NSString *msg;
+        //0.初始化请求参数
+        AppClientSync *reqParameters = [[AppClientSync alloc]init];
+        reqParameters.ignoreCode = ignoreCode;
+        //1.下载考试科目
+        [self downloadSubjectWithParameter:reqParameters andResult:^(BOOL status, NSString *msg) {
+            if(!status){//下载科目失败
+                handler(status, msg);
+                return;
+            }
+            //2.下载试卷
+            [self downloadPapersWithParameter:reqParameters andResult:handler];
+        }];
+    }];
+}
+//下载科目
+-(void)downloadSubjectWithParameter:(AppClientSync *)reqParameters andResult:(void (^)(BOOL status, NSString *msg))handler{
+    @try {
+        NSParameterAssert(reqParameters);
+        if(!_dbQueue)return;
+        NSLog(@"开始下载科目数据...");
+        //网络下载
+        [_provider postDataWithUrl:_kAPP_API_SUBJECTS_URL parameters:[reqParameters serialize] success:^(NSDictionary *result) {
+            __block NSString *msg = @"";
             @try {
-                //
-                JSONCallback *callback = [JSONCallback callbackWithDict:data];
+                JSONCallback *callback = [JSONCallback callbackWithDict:result];
                 if(!callback.success){
                     NSLog(@"服务器发生错误:%@", callback.msg);
-                    subjectDownloadMsgHandler(NO, callback.msg);
+                    if(handler){handler(NO, callback.msg);}
                     return;
                 }
                 NSLog(@"开始解析科目数据...");
-                NSDictionary *examDict = callback.data;
+                NSDictionary *examDict;
+                if(callback.data && [callback.data isKindOfClass:[NSDictionary class]]){
+                    examDict = (NSDictionary *)callback.data;
+                }
                 if(!examDict || examDict.count == 0){
                     msg = @"没有考试数据下载...";
                     NSLog(@"%@",msg);
-                    subjectDownloadMsgHandler(NO, msg);
+                    if(handler){handler(NO, msg);}
                     return;
                 }
                 //所属考试代码
@@ -152,21 +105,17 @@
                 if(!examCodeValue || examCodeValue == [NSNull null]){
                     msg = @"未能获取考试代码!";
                     NSLog(@"%@",msg);
-                    subjectDownloadMsgHandler(NO, msg);
+                    if(handler){handler(NO, msg);}
                     return;
                 }
                 if([examCodeValue isKindOfClass:[NSNumber class]]){
-                    
                     examCode = (NSNumber *)examCodeValue;
-                    
                 }else if([examCodeValue isKindOfClass:[NSString class]]){
-                    
                     examCode = [NSNumber numberWithInteger:[((NSString *)examCodeValue) integerValue]];
-                    
                 }else{
                     msg = @"未能获取考试代码失败!";
                     NSLog(@"格式转换失败:%@",msg);
-                    subjectDownloadMsgHandler(NO, msg);
+                    if(handler){handler(NO, msg);}
                     return;
                 }
                 //科目数据集合
@@ -174,11 +123,11 @@
                 if(!subjectArrays || subjectArrays.count == 0){
                     msg = @"未能获取科目数据!";
                     NSLog(@"%@", msg);
-                    subjectDownloadMsgHandler(NO, msg);
+                    if(handler){handler(NO, msg);}
                     return;
                 }
                 //数据库操作
-                [queue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+                [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
                     @try {
                         //重置科目状态
                         [db executeUpdate:@"update tbl_subjects set status = 0 "];
@@ -193,32 +142,26 @@
                         *rollback = YES;
                         msg = [NSString stringWithFormat:@"科目数据写入本地数据库异常:%@",exception];
                         NSLog(@"%@",msg);
-                        subjectDownloadMsgHandler(NO, msg);
+                        if(handler){handler(NO, msg);}
                     }
                 }];
                 //完成
-                subjectDownloadMsgHandler(YES, nil);
+                if(handler){handler(YES, nil);}
             }
             @catch (NSException *exception) {
                 msg = [NSString stringWithFormat:@"异常:%@", exception];
                 NSLog(@"%@", msg);
-                subjectDownloadMsgHandler(NO, msg);
+                if(handler){handler(NO, msg);}
             }
-        });
-    };
-    //开始检查网络
-    [HttpUtils checkNetWorkStatus:^(BOOL statusValue) {
-        NSLog(@"检查网络[%d]...",statusValue);
-        if(!statusValue){
-            servErrorHandler(@"请检查网络!");
-            return;
-        }else{
-            //下载考试科目
-            NSLog(@"开始下载考试科目...");
-            [HttpUtils JSONDataWithUrl:_kAPP_API_SUBJECTS_URL method:HttpUtilsMethodPOST parameters:[reqParameters serialize]
-                              progress:nil success:subjectSuccessHandler fail:servErrorHandler];
-        }
-    }];
+        } fail:^(NSString *err) {
+            NSLog(@"下载科目失败:%@", err);
+            if(handler){handler(NO,@"下载科目失败!");};
+        }];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"下载科目异常:%@", exception);
+        if(handler){handler(NO,@"下载科目失败!");};
+    }
 }
 
 //更新科目数据
@@ -245,6 +188,67 @@
     }
 }
 
+//下载试卷
+-(void)downloadPapersWithParameter:(AppClientSync *)reqParameters andResult:(void (^)(BOOL status, NSString *msg))handler{
+    @try {
+        NSParameterAssert(reqParameters);
+        if(!_dbQueue)return;
+        //下载试卷数据
+        NSLog(@"准备开始下载试卷数据...");
+        //从试卷表中查询最新的试卷发布时间
+        __block NSString *lastTime = @"";
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            static NSString *query_sql = @"select createTime from tbl_papers order by createTime desc limit 0,1";
+            lastTime = [db stringForQuery:query_sql];
+        }];
+        reqParameters.startTime = lastTime;
+        //下载试卷数据
+        [_provider postDataWithUrl:_kAPP_API_PAPERS_URL parameters:[reqParameters serialize] success:^(NSDictionary *result) {
+            @try {
+                JSONCallback *callback = [JSONCallback callbackWithDict:result];
+                if(!callback.success){
+                    NSLog(@"下载试卷失败:%@", callback.msg);
+                    if(handler)handler(NO,callback.msg);
+                    return;
+                }
+                NSLog(@"开始解析试卷数据...");
+                NSArray *arrays = nil;
+                if(callback.data && [callback.data isKindOfClass:[NSArray class]]){
+                    arrays = (NSArray *)callback.data;
+                }
+                if(arrays && arrays.count > 0){
+                    NSLog(@"准备将试卷数据写入本地数据库...");
+                    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+                        @try {
+                            NSLog(@"共有[%d]条试卷数据更新...", (int)arrays.count);
+                            for(NSDictionary *dict in arrays){
+                                if(!dict || dict.count == 0) continue;
+                                [self updatePaperWithDb:db andData:dict];
+                            }
+                        }
+                        @catch (NSException *exception) {
+                            *rollback = YES;
+                            NSLog(@"试卷数据写入本地数据库异常:%@",exception);
+                            if(handler)handler(NO, @"试卷本地存储失败!");
+                        }
+                    }];
+                }
+                if(handler)handler(YES,nil);
+            }
+            @catch (NSException *exception) {
+                NSLog(@"下载试卷异常:%@", exception);
+                if(handler){handler(NO,@"下载试卷异常,请稍后再试!");};
+            }
+        } fail:^(NSString *err) {
+            NSLog(@"下载试卷失败:%@", err);
+            if(handler){handler(NO,@"服务器忙,请稍后再试!");};
+        }];
+    }
+    @catch (NSException *exception) {
+        NSLog(@"下载试卷异常:%@", exception);
+        if(handler){handler(NO,@"下载试卷失败!");};
+    }
+}
 //更新试卷数据
 -(void)updatePaperWithDb:(FMDatabase *)db andData:(NSDictionary *)dict{
     //查询数据存在数据

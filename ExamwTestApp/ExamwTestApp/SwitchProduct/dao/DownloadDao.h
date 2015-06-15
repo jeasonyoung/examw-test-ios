@@ -13,5 +13,4 @@
 //下载处理
 -(void)downloadWithIgnoreCode:(BOOL)ignoreCode
                     andResult:(void(^)(BOOL,NSString *))handler;
-
 @end

@@ -15,7 +15,7 @@
 #import "UserAccount.h"
 #import "AppSettings.h"
 
-#import "HttpUtils.h"
+#import "DigestHTTPJSONProvider.h"
 #import "ProductRegisterModel.h"
 #import "JSONCallback.h"
 #import "AppConstants.h"
@@ -143,8 +143,6 @@
     //异步线程处理
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"异步线程验证注册码[%@]处理...",_regCode);
-        //初始化数据模型
-        ProductRegisterModel *model = [[ProductRegisterModel alloc] initWithCode:_regCode];
         //反馈处理
         void(^callbackShowMessage)(NSString *) = ^(NSString *msg){
             //UpdateUI
@@ -156,43 +154,45 @@
             });
         };
         //网络处理
-        [HttpUtils checkNetWorkStatus:^(BOOL statusValue) {
+        DigestHTTPJSONProvider *prvoider = [DigestHTTPJSONProvider shareProvider];
+        //检查网络
+        [prvoider checkNetworkStatus:^(BOOL statusValue) {
             if(!statusValue){
                 callbackShowMessage(@"请检查网络状态!");
                 return;
             }
-            [HttpUtils JSONDataWithUrl:_kAPP_API_REGCODECHECK_URL method:HttpUtilsMethodPOST
-                            parameters:[model serialize] progress:nil
-                               success:^(NSDictionary *callback) {
-                                   @try {
-                                       NSLog(@"callback:%@",callback);
-                                       JSONCallback *back = [[JSONCallback alloc] initWithDict:callback];
-                                       if(!back.success && (back.msg && back.msg.length > 0)){
-                                           callbackShowMessage(back.msg);
-                                           return;
-                                       }
-                                       //保存注册码到本地
-                                       UserAccount *ua = (_app ? _app.currentUser : nil);
-                                       if(ua){
-                                           [ua updateRegCode:_regCode];
-                                           [_app changedCurrentUser:ua];
-                                       }
-                                       //UpdateUI
-                                       dispatch_async(dispatch_get_main_queue(), ^{
-                                           //关闭等待动画
-                                           if(_waitHud){[_waitHud hide:YES];};
-                                           //跳转控制器
-                                           [self.navigationController popViewControllerAnimated:YES];
-                                       });
-                                   }
-                                   @catch (NSException *exception) {
-                                       NSLog(@"发生异常:%@", exception);
-                                       callbackShowMessage(@"错误，请稍后重试!");
-                                   }
-                               } fail:^(NSString *err) {
-                                   NSLog(@"callback:%@", err);
-                                   callbackShowMessage(err);
-                               }];
+            //传输数据
+            //初始化数据模型
+            ProductRegisterModel *model = [[ProductRegisterModel alloc] initWithCode:_regCode];
+            [prvoider postDataWithUrl:_kAPP_API_REGCODECHECK_URL parameters:[model serialize] success:^(NSDictionary *result) {
+                @try {
+                    JSONCallback *callback = [[JSONCallback alloc] initWithDict:result];
+                    if(!callback.success && (callback.msg && callback.msg.length > 0)){
+                        callbackShowMessage(callback.msg);
+                        return;
+                    }
+                    //保存注册码到本地
+                    UserAccount *ua = (_app ? _app.currentUser : nil);
+                    if(ua){
+                        [ua updateRegCode:_regCode];
+                        [_app changedCurrentUser:ua];
+                    }
+                    //UpdateUI
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        //关闭等待动画
+                        if(_waitHud){[_waitHud hide:YES];};
+                        //跳转控制器
+                        [self.navigationController popViewControllerAnimated:YES];
+                    });
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"发生异常:%@", exception);
+                    callbackShowMessage(@"错误，请稍后重试!");
+                }
+            } fail:^(NSString *err) {
+                NSLog(@"服务器失败:%@", err);
+                callbackShowMessage(@"服务器，请稍后重试!");
+            }];
         }];
     });
 }

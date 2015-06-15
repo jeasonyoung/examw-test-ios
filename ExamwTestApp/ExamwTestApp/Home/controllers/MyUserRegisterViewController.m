@@ -12,7 +12,7 @@
 #import "MBProgressHUD.h"
 #import "UIColor+Hex.h"
 
-#import "HttpUtils.h"
+#import "DigestHTTPJSONProvider.h"
 #import "AppConstants.h"
 #import "JSONCallback.h"
 
@@ -88,38 +88,39 @@
                 [_alertView show];
             });
         };
-        //NSLog(@"====>提交数据:%@......",[_userRegisterModel serialize]);
-        [HttpUtils JSONDataWithUrl:_kAPP_API_REGISTER_URL
-                            method:HttpUtilsMethodPOST
-                        parameters:[model serialize]
-                          progress:nil
-                           success:^(NSDictionary *callback) {
-                               NSLog(@"返回:%@",callback);
-                               dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-                                   @try {
-                                       JSONCallback *back = [[JSONCallback alloc] initWithDict:callback];
-                                       if(back.success){//UpdateUI
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               //隐藏等待动画
-                                               if(_waitHud){ [_waitHud hide:YES];}
-                                               //跳转到登录
-                                               MyUserLoginViewController *controller = [[MyUserLoginViewController alloc] initWithAccount:model.account];
-                                               [self.navigationController pushViewController:controller animated:YES];
-                                           });
-                                       }else{
-                                           callbackShowMessage(back.msg);
-                                       }
-                                   }
-                                   @catch (NSException *exception) {
-                                       NSLog(@"反馈数据转换时发生异常:%@",exception);
-                                       callbackShowMessage(@"错误，请稍后重试!");
-                                   }
-                               });
-                           }
-                              fail:^(NSString *err){
-                                  NSLog(@"返回:%@",err);
-                                  callbackShowMessage(err);
-                              }];
+        DigestHTTPJSONProvider *provider = [DigestHTTPJSONProvider shareProvider];
+        //检查网络
+        [provider checkNetworkStatus:^(BOOL statusValue) {
+            if(!statusValue){
+                NSLog(@"网络不可用!");
+                callbackShowMessage(@"请检查网络!");
+                return;
+            }
+            //网络访问
+            [provider postDataWithUrl:_kAPP_API_REGISTER_URL parameters:[model serialize] success:^(NSDictionary *result) {
+                @try {
+                    JSONCallback *callback = [[JSONCallback alloc] initWithDict:result];
+                    if(callback.success){//UpdateUI
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            //隐藏等待动画
+                            if(_waitHud){ [_waitHud hide:YES];}
+                            //跳转到登录
+                            MyUserLoginViewController *controller = [[MyUserLoginViewController alloc] initWithAccount:model.account];
+                            [self.navigationController pushViewController:controller animated:YES];
+                        });
+                    }else{
+                        callbackShowMessage(callback.msg);
+                    }
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"发生错误:%@",exception);
+                    callbackShowMessage(@"错误，请稍后重试!");
+                }
+            } fail:^(NSString *err) {
+                NSLog(@"服务器错误:%@",err);
+                callbackShowMessage(@"服务器忙,请稍后再试!");
+            }];
+        }];
     });
 }
 #pragma mark 内存告警

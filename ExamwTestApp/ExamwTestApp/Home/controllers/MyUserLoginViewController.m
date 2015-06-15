@@ -12,7 +12,7 @@
 #import "UserLoginModel.h"
 
 #import "AppConstants.h"
-#import "HttpUtils.h"
+#import "DigestHTTPJSONProvider.h"
 #import "JSONCallback.h"
 
 #import "AppDelegate.h"
@@ -100,24 +100,30 @@
                 [_alertView show];
             });
         };
+        //验证成功
+        void(^validSuccessUpdate)(UserAccount *) = ^(UserAccount *ua){
+            //更新当前用户
+            if(_app && ua){
+                [_app changedCurrentUser:ua];
+            }
+            //updateUI
+            dispatch_async(dispatch_get_main_queue(), ^{
+                //关闭等待动画
+                if(_waitHud){[_waitHud hide:YES];};
+                //跳转控制器
+                [self.navigationController popToRootViewControllerAnimated:YES];
+            });
+        };
+        
+        //初始化网络操作
+        DigestHTTPJSONProvider *provider = [DigestHTTPJSONProvider shareProvider];
         //检查网络
-        [HttpUtils checkNetWorkStatus:^(BOOL statusValue) {
-            if(!statusValue){
-                //本地登录验证
+        [provider checkNetworkStatus:^(BOOL statusValue) {
+            if(!statusValue){//本地验证
                 UserAccount *ua = [UserAccount accountWithUsername:account];
                 if(ua){
                     if([ua validateWithPassword:pwd]){
-                        //更新当前用户
-                        if(_app){
-                            [_app changedCurrentUser:ua];
-                        }
-                        //updateUI
-                        dispatch_async(dispatch_get_main_queue(), ^{
-                            //关闭等待动画
-                            if(_waitHud){[_waitHud hide:YES];};
-                            //跳转控制器
-                            [self.navigationController popToRootViewControllerAnimated:YES];
-                        });
+                        validSuccessUpdate(ua);
                     }else{
                         callbackShowMessage(@"密码错误!");
                     }
@@ -126,46 +132,30 @@
                 }
                 return;
             }
-            //初始化数据模型
+            //网络验证
             UserLoginModel *model = [[UserLoginModel alloc] initWIthAccount:account password:pwd];
-            [HttpUtils JSONDataWithUrl:_kAPP_API_LOGIN_URL
-                                method:HttpUtilsMethodPOST
-                            parameters:[model serialize]
-                              progress:nil
-                               success:^(NSDictionary *callback) {
-                                   //异步线程处理
-                                   dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                                       @try {
-                                           NSLog(@"callback:%@",callback);
-                                           JSONCallback *back = [[JSONCallback alloc] initWithDict:callback];
-                                           if(!back.success){
-                                               callbackShowMessage(back.msg);
-                                               return;
-                                           }
-                                           //登录成功,记录当前用户
-                                           UserAccount *userAccount = [[UserAccount alloc] initWithUserId:back.data
-                                                                                             withUsername:model.account];
-                                           [userAccount updatePassword:model.password];
-                                           if(_app){
-                                               [_app changedCurrentUser:userAccount];
-                                           }
-                                           //updateUI
-                                           dispatch_async(dispatch_get_main_queue(), ^{
-                                               //关闭等待动画
-                                               if(_waitHud){[_waitHud hide:YES];};
-                                               //跳转控制器
-                                               [self.navigationController popToRootViewControllerAnimated:YES];
-                                           });
-                                       }
-                                       @catch (NSException *exception) {
-                                           NSLog(@"发生异常:%@", exception);
-                                           callbackShowMessage(@"错误，请稍后重试!");
-                                       }
-                                   });
-                               } fail:^(NSString *err) {
-                                   NSLog(@"callback:%@", err);
-                                   callbackShowMessage(err);
-                               }];
+            [provider postDataWithUrl:_kAPP_API_LOGIN_URL parameters:[model serialize] success:^(NSDictionary *result) {
+                @try {
+                    JSONCallback *callback = [[JSONCallback alloc] initWithDict:result];
+                    if(!callback.success){
+                        callbackShowMessage(callback.msg);
+                        return;
+                    }
+                    //登录成功,记录当前用户
+                    UserAccount *userAccount = [[UserAccount alloc] initWithUserId:callback.data
+                                                                      withUsername:model.account];
+                    [userAccount updatePassword:model.password];
+                    //updateUI
+                    validSuccessUpdate(userAccount);
+                }
+                @catch (NSException *exception) {
+                    NSLog(@"发生异常:%@", exception);
+                    callbackShowMessage(@"错误，请稍后重试!");
+                }
+            } fail:^(NSString *err) {
+                NSLog(@"验证失败:%@", err);
+                callbackShowMessage(@"服务器忙,请稍后再试!");
+            }];
         }];
     });
 }

@@ -54,6 +54,7 @@
         _shareProvider = [[self alloc] init];
         NSLog(@"初始化网络访问对象...");
     });
+    _shareProvider.shouldExecuteAsBackgroundTask = NO;
     return _shareProvider;
 }
 
@@ -104,8 +105,9 @@
     NSParameterAssert(method);
     //afn请求成功处理block
     void(^afnSuccessHandler)(AFHTTPRequestOperation *,id) = ^(AFHTTPRequestOperation *operation,id responseObject){
-        if(!successHandler)return;
         @try {
+            if(!successHandler)return;
+            
             NSString *response = operation.responseString;
             NSLog(@"response:%@", response);
             if(responseObject && [responseObject isKindOfClass:[NSDictionary class]]){
@@ -113,19 +115,20 @@
             }
         }
         @catch (NSException *exception) {
-            NSLog(@"转换为JSON异常:%@", exception);
+            NSLog(@"请求成功处理发生异常:%@", exception);
         }
     };
     //afn请求失败处理block
     void(^afnFailHandler)(AFHTTPRequestOperation *,NSError *) = ^(AFHTTPRequestOperation *operation,NSError *error){
-        if(!failHandler)return;
         @try {
+            if(!failHandler)return;
+            
             NSLog(@"response:%@", operation.responseString);
             NSLog(@"error:%@", error);
             failHandler(error.localizedDescription);
         }
         @catch (NSException *exception) {
-            NSLog(@"解析失败消息时异常:%@", exception);
+            NSLog(@"请求失败处理发生异常:%@", exception);
         }
     };
     //转化为大写
