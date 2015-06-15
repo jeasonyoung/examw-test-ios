@@ -195,6 +195,10 @@
 		A1CA97E81B0F81C6003006F2 /* DAPagesContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CA97E41B0F81C6003006F2 /* DAPagesContainer.m */; };
 		A1CA97E91B0F81C6003006F2 /* DAPagesContainerTopBar.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CA97E61B0F81C6003006F2 /* DAPagesContainerTopBar.m */; };
 		A1CA97EC1B0F874F003006F2 /* PaperInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CA97EB1B0F874F003006F2 /* PaperInfoViewController.m */; };
+		A1CCE6121B2F0D3900E20999 /* ZWIntroductionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1CCE6111B2F0D3900E20999 /* ZWIntroductionViewController.m */; };
+		A1CCE6171B2F0E5900E20999 /* guide_1.png in Resources */ = {isa = PBXBuildFile; fileRef = A1CCE6141B2F0E5900E20999 /* guide_1.png */; };
+		A1CCE6181B2F0E5900E20999 /* guide_2.png in Resources */ = {isa = PBXBuildFile; fileRef = A1CCE6151B2F0E5900E20999 /* guide_2.png */; };
+		A1CCE6191B2F0E5900E20999 /* guide_3.png in Resources */ = {isa = PBXBuildFile; fileRef = A1CCE6161B2F0E5900E20999 /* guide_3.png */; };
 		A1D968871B2BC5B600264B57 /* ESTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D968861B2BC5B600264B57 /* ESTextAttachment.m */; };
 		A1D9688A1B2BD01E00264B57 /* UIImage+Scale.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D968891B2BD01E00264B57 /* UIImage+Scale.m */; };
 		A1D9688D1B2BDFDE00264B57 /* NSMutableAttributedString+ImageAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = A1D9688C1B2BDFDE00264B57 /* NSMutableAttributedString+ImageAttachment.m */; };
@@ -593,6 +597,11 @@
 		A1CA97E61B0F81C6003006F2 /* DAPagesContainerTopBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DAPagesContainerTopBar.m; path = libs/DAPagesContainer/DAPagesContainerTopBar.m; sourceTree = "<group>"; };
 		A1CA97EA1B0F874F003006F2 /* PaperInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperInfoViewController.h; path = Home/controllers/PaperInfoViewController.h; sourceTree = "<group>"; };
 		A1CA97EB1B0F874F003006F2 /* PaperInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperInfoViewController.m; path = Home/controllers/PaperInfoViewController.m; sourceTree = "<group>"; };
+		A1CCE6101B2F0D3900E20999 /* ZWIntroductionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ZWIntroductionViewController.h; path = libs/ZWIntroduction/ZWIntroductionViewController.h; sourceTree = "<group>"; };
+		A1CCE6111B2F0D3900E20999 /* ZWIntroductionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ZWIntroductionViewController.m; path = libs/ZWIntroduction/ZWIntroductionViewController.m; sourceTree = "<group>"; };
+		A1CCE6141B2F0E5900E20999 /* guide_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = guide_1.png; path = images/guide_1.png; sourceTree = "<group>"; };
+		A1CCE6151B2F0E5900E20999 /* guide_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = guide_2.png; path = images/guide_2.png; sourceTree = "<group>"; };
+		A1CCE6161B2F0E5900E20999 /* guide_3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = guide_3.png; path = images/guide_3.png; sourceTree = "<group>"; };
 		A1D968851B2BC5B600264B57 /* ESTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ESTextAttachment.h; path = ExamwTestApp/Utils/ESTextAttachment.h; sourceTree = "<group>"; };
 		A1D968861B2BC5B600264B57 /* ESTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ESTextAttachment.m; path = ExamwTestApp/Utils/ESTextAttachment.m; sourceTree = "<group>"; };
 		A1D968881B2BD01E00264B57 /* UIImage+Scale.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIImage+Scale.h"; path = "ExamwTestApp/Utils/UIImage+Scale.h"; sourceTree = "<group>"; };
@@ -1122,6 +1131,25 @@
 			name = DAPagesContainer;
 			sourceTree = "<group>";
 		};
+		A1CCE60F1B2F0CEF00E20999 /* ZWIntroduction */ = {
+			isa = PBXGroup;
+			children = (
+				A1CCE6101B2F0D3900E20999 /* ZWIntroductionViewController.h */,
+				A1CCE6111B2F0D3900E20999 /* ZWIntroductionViewController.m */,
+			);
+			name = ZWIntroduction;
+			sourceTree = "<group>";
+		};
+		A1CCE6131B2F0D6E00E20999 /* introduction */ = {
+			isa = PBXGroup;
+			children = (
+				A1CCE6141B2F0E5900E20999 /* guide_1.png */,
+				A1CCE6151B2F0E5900E20999 /* guide_2.png */,
+				A1CCE6161B2F0E5900E20999 /* guide_3.png */,
+			);
+			name = introduction;
+			sourceTree = "<group>";
+		};
 		A1D968911B2C05AC00264B57 /* DataService */ = {
 			isa = PBXGroup;
 			children = (
@@ -1202,6 +1230,7 @@
 		A1F7241C1B02F88A0023A3C8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				A1CCE6131B2F0D6E00E20999 /* introduction */,
 				A1A478F01B169676000B7E22 /* images */,
 				A1AE08371B21261200F6E877 /* Info.plist */,
 				A1936C951B0F0A4500C59A06 /* mainBottomMenus.plist */,
@@ -1233,6 +1262,7 @@
 			isa = PBXGroup;
 			children = (
 				A1F724CA1B033AAC0023A3C8 /* libsqlite3.dylib */,
+				A1CCE60F1B2F0CEF00E20999 /* ZWIntroduction */,
 				A1F724461B02FB600023A3C8 /* FMDB */,
 				A1F724671B02FD000023A3C8 /* AFNetworking */,
 				A1F724AD1B02FD8A0023A3C8 /* MBProgressHUD */,
@@ -1460,9 +1490,12 @@
 				A1B8277E1B1EAC8600DA9CC2 /* head.png in Resources */,
 				A1A478F91B169687000B7E22 /* option_multy_selected.png in Resources */,
 				A1A478FB1B169687000B7E22 /* option_single_normal.png in Resources */,
+				A1CCE6181B2F0E5900E20999 /* guide_2.png in Resources */,
 				A1F7242D1B02F88A0023A3C8 /* Images.xcassets in Resources */,
+				A1CCE6171B2F0E5900E20999 /* guide_1.png in Resources */,
 				A1A528DA1B1C592100A8637F /* btnFavoriteNormal.png in Resources */,
 				A1AC68EA1B2292F5002AF34A /* iconRegister.png in Resources */,
+				A1CCE6191B2F0E5900E20999 /* guide_3.png in Resources */,
 				A1AC68E71B2292F5002AF34A /* iconAbout.png in Resources */,
 				A1A528CB1B1BEBC300A8637F /* btnSubmit.png in Resources */,
 				A1936C961B0F0A4500C59A06 /* mainBottomMenus.plist in Resources */,
@@ -1667,6 +1700,7 @@
 				A1B7F6A41B1362E700DF8834 /* PaperButtonModel.m in Sources */,
 				A1A479021B16BF69000B7E22 /* PaperItemTitleTableViewCell.m in Sources */,
 				A1D968A21B2C1DFE00264B57 /* FavoriteSync.m in Sources */,
+				A1CCE6121B2F0D3900E20999 /* ZWIntroductionViewController.m in Sources */,
 				A13BB7981B0B38B00063C64B /* ExamModelCellFrame.m in Sources */,
 				A1AC68E11B2291C7002AF34A /* MoreMenuModelTableViewCell.m in Sources */,
 				A1BD6FF81B199ED400A754B7 /* AnswerCardSectionCollectionReusableView.m in Sources */,

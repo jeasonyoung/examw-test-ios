@@ -10,10 +10,20 @@
 #import "AppSettings.h"
 #import "UserAccount.h"
 
+#import "ZWIntroductionViewController.h"
+
 #import "SwitchViewController.h"
 #import "MainViewController.h"
 
 #import "UploadDataService.h"
+
+//入口代理成员变量
+@interface AppDelegate ()
+
+//
+@property(nonatomic,strong) ZWIntroductionViewController *introductionView;
+
+@end
 //入口代理实现
 @implementation AppDelegate
 
@@ -26,8 +36,23 @@
     _window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen] bounds]];
     //设置主窗体背景色
     _window.backgroundColor = [UIColor whiteColor];
-    //加载根控制器
-    [self resetRootController];
+    //启动显示
+    [_window makeKeyAndVisible];
+    
+    //Added Introduction View Controller
+    NSArray *backgroundImages = @[@"guide_1.png",@"guide_2.png",@"guide_3.png"];
+    self.introductionView = [[ZWIntroductionViewController alloc] initWithCoverImageNames:backgroundImages
+                                                                     backgroundImageNames:backgroundImages];
+    [_window addSubview:self.introductionView.view];
+    
+    __weak AppDelegate *weakSelf = self;
+    _introductionView.didSelectedEnter = ^(){
+        [weakSelf.introductionView.view removeFromSuperview];
+        weakSelf.introductionView = nil;
+        
+        //加载根控制器
+        [weakSelf resetRootController];
+    };
     //
     return YES;
 }
@@ -98,8 +123,6 @@ void uncaughtExceptionHandler(NSException *exception){
                 NSLog(@"将加载根控制器:%@", root);
                 //设置根控制器
                 _window.rootViewController = root;
-                //启动显示
-                [_window makeKeyAndVisible];
             }
         });
     });
