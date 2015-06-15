@@ -16,6 +16,7 @@ typedef NS_ENUM(NSUInteger, HttpUtilsMethod){
 };
 //HTTP操作工具
 @interface HttpUtils : NSObject
+
 //检测网络状态
 +(void)checkNetWorkStatus:(void(^)(BOOL statusValue))handler;
 //JSON数据请求

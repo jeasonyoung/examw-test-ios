@@ -207,6 +207,7 @@
 		A1DF97EA1B1220F3000F2B73 /* PaperService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DF97E91B1220F3000F2B73 /* PaperService.m */; };
 		A1DF97ED1B12AC01000F2B73 /* PaperInfoModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DF97EC1B12AC01000F2B73 /* PaperInfoModelCellFrame.m */; };
 		A1DF97F01B12BF20000F2B73 /* PaperInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DF97EF1B12BF20000F2B73 /* PaperInfoTableViewCell.m */; };
+		A1F1C94A1B2E87D8004A8CC7 /* DigestHTTPJSONProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F1C9491B2E87D8004A8CC7 /* DigestHTTPJSONProvider.m */; };
 		A1F7241F1B02F88A0023A3C8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F7241E1B02F88A0023A3C8 /* main.m */; };
 		A1F724221B02F88A0023A3C8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724211B02F88A0023A3C8 /* AppDelegate.m */; };
 		A1F7242D1B02F88A0023A3C8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1F7242C1B02F88A0023A3C8 /* Images.xcassets */; };
@@ -617,6 +618,8 @@
 		A1DF97EC1B12AC01000F2B73 /* PaperInfoModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperInfoModelCellFrame.m; path = Home/models/PaperInfoModelCellFrame.m; sourceTree = "<group>"; };
 		A1DF97EE1B12BF20000F2B73 /* PaperInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperInfoTableViewCell.h; path = Home/views/PaperInfoTableViewCell.h; sourceTree = "<group>"; };
 		A1DF97EF1B12BF20000F2B73 /* PaperInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperInfoTableViewCell.m; path = Home/views/PaperInfoTableViewCell.m; sourceTree = "<group>"; };
+		A1F1C9481B2E87D8004A8CC7 /* DigestHTTPJSONProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DigestHTTPJSONProvider.h; path = ExamwTestApp/Utils/DigestHTTPJSONProvider.h; sourceTree = "<group>"; };
+		A1F1C9491B2E87D8004A8CC7 /* DigestHTTPJSONProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DigestHTTPJSONProvider.m; path = ExamwTestApp/Utils/DigestHTTPJSONProvider.m; sourceTree = "<group>"; };
 		A1F724191B02F88A0023A3C8 /* ExamwTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamwTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1F7241E1B02F88A0023A3C8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		A1F724201B02F88A0023A3C8 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -1327,6 +1330,8 @@
 				A13BB7871B0AD6270063C64B /* JSONCallback.m */,
 				A1F724B51B02FEED0023A3C8 /* HttpUtils.h */,
 				A1F724B61B02FEED0023A3C8 /* HttpUtils.m */,
+				A1F1C9481B2E87D8004A8CC7 /* DigestHTTPJSONProvider.h */,
+				A1F1C9491B2E87D8004A8CC7 /* DigestHTTPJSONProvider.m */,
 				A1F724D51B0342330023A3C8 /* SecureUtils.h */,
 				A1F724D61B0342330023A3C8 /* SecureUtils.m */,
 				A10F5FBD1B0E383000BD0491 /* PaperUtils.h */,
@@ -1549,6 +1554,7 @@
 				A141145B1B204BEA00179630 /* AppClient.m in Sources */,
 				A1C074381B21D9B10046F388 /* MoreMenuModel.m in Sources */,
 				A121F2501B140BE2004EC63C /* PaperDetailsModelCellFrame.m in Sources */,
+				A1F1C94A1B2E87D8004A8CC7 /* DigestHTTPJSONProvider.m in Sources */,
 				A1A478DF1B15FDB0000B7E22 /* PaperItemTitleModelCellFrame.m in Sources */,
 				A1BD6FF51B19947A00A754B7 /* AnswerCardCollectionViewCell.m in Sources */,
 				A10F5FBF1B0E383000BD0491 /* PaperUtils.m in Sources */,

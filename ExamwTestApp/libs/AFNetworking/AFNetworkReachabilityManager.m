@@ -212,8 +212,12 @@ static void AFNetworkReachabilityReleaseCallback(const void *info) {
                 SCNetworkReachabilityFlags flags;
                 SCNetworkReachabilityGetFlags(self.networkReachability, &flags);
                 AFNetworkReachabilityStatus status = AFNetworkReachabilityStatusForFlags(flags);
+                
+                //将网络检测结果回调Block从主线程中移出到此处(当主线程暂停时不影响)
+                callback(status);
+                
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    callback(status);
+                    //callback(status);
                     
                     NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
                     [notificationCenter postNotificationName:AFNetworkingReachabilityDidChangeNotification object:nil userInfo:@{ AFNetworkingReachabilityNotificationStatusItem: @(status) }];

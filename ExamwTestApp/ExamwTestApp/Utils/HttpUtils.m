@@ -29,14 +29,14 @@
 #pragma mark 检测网络状态
 +(void)checkNetWorkStatus:(void (^)(BOOL status))handler{
     NSLog(@"检测网络状态...");
-    //如果要检测网络状态的变化，必须用检测管理器的单列的StartMonitoring
-    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
     //检测网络连接的单例，网络变化时的回调方法
     [[AFNetworkReachabilityManager sharedManager] setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
         if(handler){
             handler(status > AFNetworkReachabilityStatusNotReachable);
         }
     }];
+    //如果要检测网络状态的变化，必须用检测管理器的单列的StartMonitoring
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
 }
 //Digest headers
 static NSDictionary *digestHeaders;
@@ -82,6 +82,7 @@ static NSDictionary *digestHeaders;
     url = [url stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     //初始化AF网络请求
     AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    manager.completionQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
     //POST请求时JSON的设置
     if(method == HttpUtilsMethodPOST){
         manager.requestSerializer = [AFJSONRequestSerializer serializer];
@@ -159,7 +160,6 @@ static NSDictionary *digestHeaders;
                                progress:progressHandler
                                 success:successHandler fail:failHandler];
         }else if(failHandler){
-            //userInfo[NSLocalizedDescriptionKey]
             failHandler([NSString stringWithFormat:@"%@", error.localizedDescription]);
         }
     };

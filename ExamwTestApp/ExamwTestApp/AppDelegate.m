@@ -117,11 +117,13 @@ void uncaughtExceptionHandler(NSException *exception){
 }
 #pragma mark app将进入后台模式
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    //等待N秒后将线程放入队列中处理
-    dispatch_time_t when = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5 * NSEC_PER_SEC));
     //进入后台模式时上传同步数据
-    dispatch_after(when, dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         @try {
+            if(![self currentUser]){
+                NSLog(@"未登录不上传数据!");
+                return;
+            }
             NSLog(@"进入后台模式时上传同步数据...");
             UploadDataService *uploadService = [[UploadDataService alloc] init];
             [uploadService upload];
