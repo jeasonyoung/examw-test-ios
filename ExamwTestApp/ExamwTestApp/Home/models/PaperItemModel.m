@@ -145,47 +145,39 @@
 
 //查找并替换图片路径
 -(NSString *)findAndReplaceImgPathsWithText:(NSString *)text imgUrlHandler:(void(^)(NSString *))handler{
-    if(text && text.length > 0){
-        NSRegularExpression *imgRegexExpression = [[NSRegularExpression alloc] initWithPattern:@"(<[img|IMG].+?[/]?>)"
-                                                                                       options:NSRegularExpressionCaseInsensitive
-                                                                                         error:nil];
-        NSArray *imgResults = [imgRegexExpression matchesInString:text options:NSMatchingWithTransparentBounds range:NSMakeRange(0, text.length)];
-        if(imgResults && imgResults.count > 0){
-            NSLog(@"匹配的ImgUrl结果:%@", imgResults);
-            NSMutableString *resultText = [NSMutableString stringWithString:text];
-            for(NSTextCheckingResult * result in imgResults){
-                NSRange range = result.range;
-                if(range.location == NSNotFound) continue;
-                //img标签数据
-                NSString *imgContent = [text substringWithRange:range];
-                if(imgContent && imgContent.length > 0){
-                    NSRange srcRange = [imgContent rangeOfString:@"[src|SRC]=\"(.+?)\"" options:NSRegularExpressionSearch];
-                    if(srcRange.location == NSNotFound) continue;
-                    NSString *imgUrl = [imgContent substringWithRange:srcRange];
-                    NSRange r = [imgUrl rangeOfString:@"="];
-                    if(r.location != NSNotFound){
-                        imgUrl = [imgUrl substringFromIndex:(r.location + 2)];
-                    }else{
-                        imgUrl = [imgUrl substringFromIndex:5];
-                    }
-                    imgUrl = [imgUrl substringToIndex:(imgUrl.length - 1)];
-                    if([imgUrl hasPrefix:@"/"]){
-                        imgUrl = [_kAPP_API_HOST stringByAppendingString:imgUrl];
-                    }
-                    //下载图片
-                    [self downloadImgWithUrl:imgUrl];
-                    //替换为空
-                    [resultText replaceCharactersInRange:range withString:@""];
-                    //block处理
-                    if(handler){
-                        handler(imgUrl);
-                    }
-                }
-            }
-            return resultText;
+    if(!text || text.length == 0)return text;
+    NSMutableString *resultText = [NSMutableString stringWithString:text];
+    NSRange range = [resultText rangeOfString:@"(<[img|IMG].+?[/]?>)" options:NSRegularExpressionSearch];
+    if(range.location == NSNotFound){
+        return resultText;
+    }
+    //img标签数据
+    NSString *img = [text substringWithRange:range];
+    NSRange imgRange = [img rangeOfString:@"[src|SRC]=\"(.+?)\"" options:NSRegularExpressionSearch];
+    if(imgRange.location != NSNotFound){
+        NSString *imgUrl = [img substringWithRange:imgRange];
+        NSRange r = [imgUrl rangeOfString:@"="];
+        if(r.location != NSNotFound){
+            imgUrl = [imgUrl substringFromIndex:(r.location + 2)];
+        }else{
+            imgUrl = [imgUrl substringFromIndex:5];
+        }
+        imgUrl = [imgUrl substringToIndex:(imgUrl.length - 1)];
+        if([imgUrl hasPrefix:@"/"]){
+            imgUrl = [_kAPP_API_HOST stringByAppendingString:imgUrl];
+        }
+        //下载图片
+        [self downloadImgWithUrl:imgUrl];
+        //block处理
+        if(handler){
+            handler(imgUrl);
         }
     }
-    return text;
+    //替换
+    NSLog(@"替换[%@]=>[%@]", [resultText substringWithRange:range], @"");
+    [resultText replaceCharactersInRange:range withString:@""];
+    //递归查找替换
+    return [self findAndReplaceImgPathsWithText:resultText imgUrlHandler:handler];
 }
 
 //下载图片
