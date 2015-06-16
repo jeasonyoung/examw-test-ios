@@ -32,10 +32,8 @@
         _nameFont = [AppConstants globalListFont];
         //产品简介字体
         _contentFont = [AppConstants globalListThirdFont];
-        //UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
         //所属地区字体
-        _areaFont = [AppConstants globalListSubFont];
-        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _areaFont = [AppConstants globalListThirdFont];
         //原价字体
         _originalPriceFont = _areaFont;
         //优惠价字体
@@ -69,7 +67,7 @@
         CGSize nameSize = [_name boundingRectWithSize:CGSizeMake(maxWidth - x, CGFLOAT_MAX) options:STR_SIZE_OPTIONS
                                            attributes:@{NSFontAttributeName : _nameFont} context:nil].size;
         _nameFrame = CGRectMake(x, y, nameSize.width, nameSize.height);
-        y = CGRectGetMaxY(_nameFrame);
+        y = CGRectGetMaxY(_nameFrame) + __kProductModelCellFrame_marginV;
     }
     //产品简介(第2行)
     if(_content && _content.length > 0){
@@ -77,25 +75,22 @@
                                                  attributes:@{NSFontAttributeName : _contentFont} context:nil].size;
         y = (y <= __kProductModelCellFrame_top ? __kProductModelCellFrame_top : y + __kProductModelCellFrame_marginV);
         _contentFrame = CGRectMake(x, y, contentSize.width, contentSize.height);
-        y = CGRectGetMaxY(_contentFrame);
+        y = CGRectGetMaxY(_contentFrame) + __kProductModelCellFrame_marginV;
     }
     //所属地区(第3行)
     if(_area && _area.length > 0){
         _area = [NSString stringWithFormat:__kProductModelCellFrame_area,_area];
         CGSize areaSize = [_area boundingRectWithSize:CGSizeMake(maxWidth - x, CGFLOAT_MAX) options:STR_SIZE_OPTIONS
                                            attributes:@{NSFontAttributeName : _areaFont} context:nil].size;
-        y = (y <= __kProductModelCellFrame_top ? __kProductModelCellFrame_top : y + __kProductModelCellFrame_marginV);
         _areaFrame = CGRectMake(x, y, areaSize.width, areaSize.height);
-        y = CGRectGetMaxY(_areaFrame);
+        y = CGRectGetMaxY(_areaFrame) + __kProductModelCellFrame_marginV;
     }
     //固定y坐标(第4行)
     x = __kProductModelCellFrame_left;
-    y = (y <= __kProductModelCellFrame_top ? __kProductModelCellFrame_top : y + __kProductModelCellFrame_marginV);
     maxHeight = 0;
     //试卷总数(第1列)
     if(_model.papers && _model.papers.integerValue > 0){
         _papersTotal = [NSString stringWithFormat:__kProductModelCellFrame_papers, _model.papers.intValue];
-        //x = (x <= __kProductModelCellFrame_left ? __kProductModelCellFrame_left : x + __kProductModelCellFrame_marginH);
         CGSize papersTotalSize = [_papersTotal boundingRectWithSize:CGSizeMake(maxWidth - x, CGFLOAT_MAX)
                                                             options:STR_SIZE_OPTIONS
                                                          attributes:@{NSFontAttributeName : _papersTotalFont}
@@ -104,12 +99,11 @@
             maxHeight = papersTotalSize.height;
         }
         _papersTotalFrame = CGRectMake(x, y, papersTotalSize.width, papersTotalSize.height);
-        x = CGRectGetMaxX(_papersTotalFrame);
+        x = CGRectGetMaxX(_papersTotalFrame) + __kProductModelCellFrame_marginH;
     }
     //试题总数(第2列)
     if(_model.items && _model.items.integerValue > 0){
         _itemsTotal = [NSString stringWithFormat:__kProductModelCellFrame_items,_model.items.intValue];
-        x = (x <= __kProductModelCellFrame_left ? __kProductModelCellFrame_left : x + __kProductModelCellFrame_marginH);
         CGSize itemsTotalSize = [_itemsTotal boundingRectWithSize:CGSizeMake(maxWidth - x, CGFLOAT_MAX)
                                                           options:STR_SIZE_OPTIONS
                                                        attributes:@{NSFontAttributeName : _itemsTotalFont}
@@ -118,12 +112,11 @@
             maxHeight = itemsTotalSize.height;
         }
         _itemsTotalFrame = CGRectMake(x, y, itemsTotalSize.width, itemsTotalSize.height);
-        x = CGRectGetMaxX(_itemsTotalFrame);
+        x = CGRectGetMaxX(_itemsTotalFrame) + __kProductModelCellFrame_marginH;
     }
     //原价(第3列)
     if(_model.price && _model.price.floatValue >= 0){
         _originalPrice = [NSString stringWithFormat:__kProductModelCellFrame_originalPrice, _model.price.floatValue];
-        x = (x <= __kProductModelCellFrame_left ? __kProductModelCellFrame_left : x + __kProductModelCellFrame_marginH);
         CGSize originalPriceSize = [_originalPrice boundingRectWithSize:CGSizeMake(maxWidth - x, CGFLOAT_MAX)
                                                                 options:STR_SIZE_OPTIONS
                                                              attributes:@{NSFontAttributeName : _originalPriceFont}
@@ -132,12 +125,11 @@
             maxHeight = originalPriceSize.height;
         }
         _originalPriceFrame = CGRectMake(x, y, originalPriceSize.width, originalPriceSize.height);
-        x =  CGRectGetMaxX(_originalPriceFrame);
+        x =  CGRectGetMaxX(_originalPriceFrame) + __kProductModelCellFrame_marginH;
     }
     //优惠价(第4列)
     if(_model.discount && _model.discount.floatValue >= 0){
         _discountPrice = [NSString stringWithFormat:__kProductModelCellFrame_discountPrice,model.discount.floatValue];
-        x = (x <= __kProductModelCellFrame_left ? __kProductModelCellFrame_left : x + __kProductModelCellFrame_marginH);
         CGSize discountPriceSize = [_discountPrice boundingRectWithSize:CGSizeMake(maxWidth - x, CGFLOAT_MAX)
                                                                 options:STR_SIZE_OPTIONS
                                                              attributes:@{NSFontAttributeName : _discountPriceFont}

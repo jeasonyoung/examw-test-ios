@@ -66,7 +66,7 @@
             NSLog(@"检测网络状态...");
             //设置网络状态回调block
             [_reachabilityMgr setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
-                NSLog(@"当前网络状态:%d", status);
+                NSLog(@"当前网络状态:%d", (int)status);
                 handler(status > AFNetworkReachabilityStatusNotReachable);
             }];
             //开始监控网络状态

@@ -12,22 +12,22 @@
 
 #pragma mark 全局列表字体
 +(UIFont *)globalListFont{
-    return GLOBAL_FONT;
+    return [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
 }
 
 #pragma mark 全局列表二级字体
 +(UIFont *)globalListSubFont{
-    return [UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+    return [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
 }
 
 #pragma mark 全局列表三级字体
 +(UIFont *)globalListThirdFont{
-    return [UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+    return [UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
 }
 
 #pragma mark 试卷试题字体
 +(UIFont *)globalPaperItemFont{
-    return GLOBAL_FONT;
+    return [UIFont preferredFontForTextStyle:UIFontTextStyleBody];
 }
 
 #pragma mark 全局行距

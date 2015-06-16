@@ -259,7 +259,7 @@
 
 #pragma mark ESTimerViewDelegate
 -(void)timerView:(ESTimerView *)view autoStop:(BOOL)isAuto totalUseTimes:(NSUInteger)useTimes{
-    NSLog(@">>>共用时[auto:%d]:%d's", isAuto, useTimes);
+    NSLog(@">>>共用时[auto:%d]:%d's", (int)isAuto, (int)useTimes);
     _totalUseTimes = useTimes;
     if(isAuto){//倒计时结束自动提交试卷
         [self submitPaperHandler];

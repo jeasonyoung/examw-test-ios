@@ -147,6 +147,18 @@
     });
 }
 
+#pragma mark 重载视图将载入
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    NSLog(@"视图将载入...");
+    //隐藏导航条
+    [self.navigationController setToolbarHidden:YES];
+}
+
+#pragma mark 重载视图将卸载
+-(void)viewWillDisappear:(BOOL)animated{
+    NSLog(@"视图将卸载...");
+}
 
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {

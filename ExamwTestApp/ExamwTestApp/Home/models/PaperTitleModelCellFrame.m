@@ -29,10 +29,8 @@
     if(self = [super init]){
         //设置试卷标题字体
         _titleFont = [AppConstants globalListFont];
-        //[UIFont preferredFontForTextStyle:UIFontTextStyleSubheadline];
         //设置所属科目字体
-        _subjectFont = [AppConstants globalListThirdFont];
-        //[UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+        _subjectFont = [AppConstants globalListSubFont];
     }
     return self;
 }

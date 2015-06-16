@@ -56,6 +56,11 @@
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //bar头颜色设置
+    UIColor *color = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = color;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : color}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
     //设置标题
     self.title = __kCategoryViewController_title;
     //查询Bar

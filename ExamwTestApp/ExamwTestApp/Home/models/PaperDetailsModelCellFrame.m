@@ -43,8 +43,7 @@
 -(instancetype)init{
     if(self = [super init]){
         //字体
-        _font = [AppConstants globalListThirdFont];
-        //[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
+        _font = [AppConstants globalListFont];
         //试卷来源字体
         _sourceFont = _font;
         //所属地区字体

@@ -52,6 +52,8 @@
                 [imgUrlArrays addObject:imgUrl];
             }];
             _itemContentImgUrls = (imgUrlArrays.count > 0 ? [imgUrlArrays copy] : nil);
+            //html标签处理
+            _itemContent = [self findReplaceHtmlWithContent:_itemContent];
         }
         //试题答案
         if([keys containsObject:__kPaperItemModel_keys_answer]){
@@ -68,6 +70,8 @@
                 [imgUrlArrays addObject:imgUrl];
             }];
             _itemAnalysisImgUrls = (imgUrlArrays.count > 0 ? [imgUrlArrays copy] : nil);
+            //html标签处理
+            _itemAnalysis = [self findReplaceHtmlWithContent:_itemAnalysis];
         }
         //试题难度值
         if([keys containsObject:__kPaperItemModel_keys_level]){
@@ -114,10 +118,35 @@
     return nil;
 }
 
+//查找替换HTML
+-(NSString *)findReplaceHtmlWithContent:(NSString *)content{
+    if(!content || content.length == 0)return content;
+    //HTMl替换
+    content = [self findReplaceWithContent:content andHtmlTagRegex:@"<[^>]*>" replace:@""];
+    //&nbsp;替换为空格
+    content = [self findReplaceWithContent:content andHtmlTagRegex:@"&nbsp;" replace:@" "];
+    return content;
+}
+
+-(NSString *)findReplaceWithContent:(NSString *)content andHtmlTagRegex:(NSString *)tagRegex replace:(NSString *)replace{
+    if(!content || content.length == 0)return content;
+    NSMutableString *resultText = [NSMutableString stringWithString:content];
+    NSRange range = [resultText rangeOfString:tagRegex options:NSRegularExpressionSearch];
+    if(range.location == NSNotFound){
+        return resultText;
+    }
+    //HTMl替换
+    NSLog(@"替换[%@]=>[%@]", [resultText substringWithRange:range], replace);
+    [resultText replaceCharactersInRange:range withString:replace];
+    //递归替换
+    return [self findReplaceHtmlWithContent:resultText];
+}
+
+
 //查找并替换图片路径
 -(NSString *)findAndReplaceImgPathsWithText:(NSString *)text imgUrlHandler:(void(^)(NSString *))handler{
     if(text && text.length > 0){
-        NSRegularExpression *imgRegexExpression = [[NSRegularExpression alloc] initWithPattern:@"(<img.+?/>)"
+        NSRegularExpression *imgRegexExpression = [[NSRegularExpression alloc] initWithPattern:@"(<[img|IMG].+?[/]?>)"
                                                                                        options:NSRegularExpressionCaseInsensitive
                                                                                          error:nil];
         NSArray *imgResults = [imgRegexExpression matchesInString:text options:NSMatchingWithTransparentBounds range:NSMakeRange(0, text.length)];
@@ -130,12 +159,17 @@
                 //img标签数据
                 NSString *imgContent = [text substringWithRange:range];
                 if(imgContent && imgContent.length > 0){
-                    NSRange srcRange = [imgContent rangeOfString:@"src=\"(.+?)\"" options:NSRegularExpressionSearch];
+                    NSRange srcRange = [imgContent rangeOfString:@"[src|SRC]=\"(.+?)\"" options:NSRegularExpressionSearch];
                     if(srcRange.location == NSNotFound) continue;
                     NSString *imgUrl = [imgContent substringWithRange:srcRange];
-                    imgUrl = [imgUrl substringFromIndex:5];
+                    NSRange r = [imgUrl rangeOfString:@"="];
+                    if(r.location != NSNotFound){
+                        imgUrl = [imgUrl substringFromIndex:(r.location + 2)];
+                    }else{
+                        imgUrl = [imgUrl substringFromIndex:5];
+                    }
                     imgUrl = [imgUrl substringToIndex:(imgUrl.length - 1)];
-                    if(![imgUrl hasPrefix:@"http"]){
+                    if([imgUrl hasPrefix:@"/"]){
                         imgUrl = [_kAPP_API_HOST stringByAppendingString:imgUrl];
                     }
                     //下载图片

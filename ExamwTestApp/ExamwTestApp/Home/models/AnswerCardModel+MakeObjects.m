@@ -22,7 +22,7 @@
     if(paperService && paperRecordId && itemsArrays && itemsArrays.count > self.order){
         PaperItemModel *itemModel = [itemsArrays objectAtIndex:self.order];
         if(!itemModel)return;
-        NSLog(@"加载试题[%@$%d]做题状态...",itemModel.itemId, (int)itemModel.index);
+        NSLog(@"加载试题[(%d)%@$%d]做题状态...", (int)(self.order + 1),itemModel.itemId, (int)itemModel.index);
         self.status = [paperService exitRecordWithPaperRecordId:paperRecordId itemModel:itemModel];
     }
 }

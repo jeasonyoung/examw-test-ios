@@ -223,33 +223,6 @@
 }
 
 #pragma mark PaperViewControllerDelegate
-//考试时长
--(NSUInteger)timeOfPaperView{
-    if(_service && _paperId && _paperId.length > 0){
-        PaperModel *paperModel = [_service loadPaperModelWithPaperId:_paperId];
-        if(paperModel){
-            return paperModel.time;
-        }
-    }
-    return 0;
-}
-//加载的当前试题题序(异步线程中调用)
--(NSUInteger)currentOrderOfPaperView{
-    if(!_displayAnswer && _service && _paperRecordId && _paperRecordId.length > 0 && _itemsArrays && _itemsArrays.count > 0){
-        NSString *lastItemId = [_service loadNewsItemIndexWithPaperRecordId:_paperRecordId];
-        if(lastItemId && lastItemId.length > 0){
-            for(NSUInteger i = 0; i < _itemsArrays.count; i++){
-                PaperItemModel *itemModel = [_itemsArrays objectAtIndex:i];
-                if(!itemModel) continue;
-                NSString *itemId = [NSString stringWithFormat:@"%@$%d", itemModel.itemId, (int)itemModel.index];
-                if([itemId isEqualToString:lastItemId]){
-                    return i;
-                }
-            }
-        }
-    }
-    return 0;
-}
 //加载数据源(PaperItemModel数组,异步线程调用)
 -(NSArray *)dataSourceOfPaperView{
     NSLog(@"加载试卷[%@/%@]数据...",_paperId,_paperRecordId);
@@ -306,6 +279,33 @@
     }
     return nil;
 }
+//加载的当前试题题序(异步线程中调用)
+-(NSUInteger)currentOrderOfPaperView{
+    if(!_displayAnswer && _service && _paperRecordId && _paperRecordId.length > 0 && _itemsArrays && _itemsArrays.count > 0){
+        NSString *lastItemId = [_service loadNewsItemIndexWithPaperRecordId:_paperRecordId];
+        if(lastItemId && lastItemId.length > 0){
+            for(NSUInteger i = 0; i < _itemsArrays.count; i++){
+                PaperItemModel *itemModel = [_itemsArrays objectAtIndex:i];
+                if(!itemModel) continue;
+                NSString *itemId = [NSString stringWithFormat:@"%@$%d", itemModel.itemId, (int)itemModel.index];
+                if([itemId isEqualToString:lastItemId]){
+                    return i;
+                }
+            }
+        }
+    }
+    return 0;
+}
+//考试时长
+-(NSUInteger)timeOfPaperView{
+    if(_service && _paperId && _paperId.length > 0){
+        PaperModel *paperModel = [_service loadPaperModelWithPaperId:_paperId];
+        if(paperModel){
+            return paperModel.time;
+        }
+    }
+    return 0;
+}
 //加载试题答案(异步线程中调用)
 -(NSString *)loadMyAnswerWithModel:(PaperItemModel *)itemModel{
     if(_service && itemModel && _paperRecordId && _paperRecordId.length > 0){
@@ -314,6 +314,13 @@
     }
     return nil;
 }
+//更新做题记录到SQL(异步线程中调用)
+-(void)updateRecordAnswerWithModel:(PaperItemModel *)itemModel myAnswers:(NSString *)myAnswers useTimes:(NSUInteger)times{
+    if(_service && itemModel && myAnswers){
+        NSLog(@"更新做题[%@$%d]记录到数据库...",itemModel.itemId, (int)itemModel.index);
+        [_service addRecordWithPaperRecordId:_paperRecordId itemModel:itemModel myAnswers:myAnswers useTimes:times];
+    }
+}
 //更新收藏记录(异步线程中被调用)
 -(BOOL)updateFavoriteWithModel:(PaperItemModel *)itemModel{
     if(_service && itemModel && _mySubjectModel && _mySubjectModel.subjectCode){
@@ -321,6 +328,15 @@
         return [_service updateFavoriteWithSubjectCode:_mySubjectModel.subjectCode itemModel:itemModel];
     }
     return NO;
+}
+//交卷处理(异步线程中被调用)
+-(void)submitPaperWithUseTimes:(NSUInteger)useTimes resultHandler:(void (^)(NSString *))resultController{
+    if(_service){
+        NSLog(@"交卷处理[%@]...", _paperRecordId);
+        [_service submitWithPaperRecordId:_paperRecordId andUseTimes:useTimes];
+        //试卷记录ID
+        resultController(_paperRecordId);
+    }
 }
 //加载答题卡数据(异步线程中被调用)
 -(void)loadAnswerCardDataWithSection:(NSArray *__autoreleasing *)sections andAllData:(NSDictionary *__autoreleasing *)dict{

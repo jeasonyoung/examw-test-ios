@@ -13,6 +13,9 @@
 #import "ExamModelCellFrame.h"
 #import "ExamTableViewCell.h"
 
+#import "AppConstants.h"
+#import "UIColor+Hex.h"
+
 #import "ProductViewController.h"
 
 #define __kExamViewController_title @"选择考试"
@@ -41,6 +44,11 @@
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //bar头颜色设置
+    UIColor *color = [UIColor whiteColor];
+    self.navigationController.navigationBar.tintColor = color;
+    [self.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : color}];
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithHex:GLOBAL_REDCOLOR_HEX];
     //设置标题
     self.title = __kExamViewController_title;
     //初始化数据源

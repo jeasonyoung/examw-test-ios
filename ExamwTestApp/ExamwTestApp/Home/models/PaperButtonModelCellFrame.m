@@ -31,7 +31,7 @@
 #define __kPaperButtonModelCellFrame_tag_reset 0x03//重新开始
 #define __kPaperButtonModelCellFrame_tag_review 0x04//查看成绩
 
-#define __kPaperButtonModelCellFrame_btnHeight 30//按钮高度
+#define __kPaperButtonModelCellFrame_btnHeight 40//按钮高度
 
 //试卷按钮数据模型实现
 @implementation PaperButtonModelCellFrame
@@ -40,8 +40,7 @@
 -(instancetype)init{
     if(self = [super init]){
         //按钮字体
-        _btnFont = [AppConstants globalListSubFont];
-        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+        _btnFont = [AppConstants globalListFont];
     }
     return self;
 }

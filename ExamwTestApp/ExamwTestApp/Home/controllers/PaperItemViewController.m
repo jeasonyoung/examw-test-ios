@@ -137,8 +137,10 @@
                 //添加到数据源
                 [_itemsDataSource addObject:titleFrame];
                 //判断选项初始化
-                PaperItemModel *optRightModel = [[PaperItemModel alloc] initWithDict:@{@"id":[NSNumber numberWithInteger:PaperItemJudgeAnswerRight],@"content":[PaperItemModel nameWithItemJudgeAnswer:PaperItemJudgeAnswerRight]}],
-                *optWrongModel = [[PaperItemModel alloc] initWithDict:@{@"id":[NSNumber numberWithInteger:PaperItemJudgeAnswerWrong],@"content":[PaperItemModel nameWithItemJudgeAnswer:PaperItemJudgeAnswerWrong]}];
+                PaperItemModel *optRightModel = [[PaperItemModel alloc] initWithDict:@{@"id":[NSString stringWithFormat:@"%d", (int)PaperItemJudgeAnswerRight],
+                                                                                       @"content":[PaperItemModel nameWithItemJudgeAnswer:PaperItemJudgeAnswerRight]}],
+                *optWrongModel = [[PaperItemModel alloc] initWithDict:@{@"id":[NSString stringWithFormat:@"%d",(int)PaperItemJudgeAnswerWrong],
+                                                                        @"content":[PaperItemModel nameWithItemJudgeAnswer:PaperItemJudgeAnswerWrong]}];
                 //选项
                 NSArray *optFrames = [self createCellOptions:@[optRightModel, optWrongModel]
                                                     itemType:PaperItemTypeSingle
