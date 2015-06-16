@@ -6,7 +6,7 @@
 		<key>name</key>
 		<string>首页</string>
 		<key>controller</key>
-		<string>PaperListController</string>
+		<string>SubjectViewController</string>
 		<key>imgNormalName</key>
 		<string>iconHome.png</string>
 		<key>imgHighlightName</key>

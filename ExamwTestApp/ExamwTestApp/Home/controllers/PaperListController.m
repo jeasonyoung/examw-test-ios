@@ -20,6 +20,7 @@
 #import "PaperService.h"
 //首页视图控制器成员变量
 @interface PaperListController (){
+    NSString *_subjectCode;
     DAPagesContainer *_pagesContainer;
     MBProgressHUD *_waitHud;
     BOOL _isReload;
@@ -28,6 +29,14 @@
 
 //首页视图控制器实现
 @implementation PaperListController
+
+#pragma mark 初始化
+-(instancetype)initWithSubjectCode:(NSString *)subjectCode{
+    if(self = [super init]){
+        _subjectCode = subjectCode;
+    }
+    return self;
+}
 
 #pragma mark UI入口
 - (void)viewDidLoad {
@@ -73,7 +82,7 @@
             NSLog(@"初始化数据服务...");
         }
         //加载试卷类型
-        NSArray *arrays = [_service findPaperTypes];
+        NSArray *arrays = [_service findPaperTypesWithSubjectCode:_subjectCode];
         //updateUI
         dispatch_async(dispatch_get_main_queue(), ^{
             //试卷类型
@@ -82,7 +91,9 @@
                 for(NSNumber *typeNum in arrays){
                     if(!typeNum)continue;
                     PaperType paperTypeValue = (PaperType)typeNum.integerValue;
-                    PaperInfoViewController *infoController = [PaperInfoViewController infoControllerWithType:paperTypeValue parentViewController:self];
+                    PaperInfoViewController *infoController = [PaperInfoViewController infoControllerWithType:paperTypeValue
+                                                                                               andSubjectCode:_subjectCode
+                                                                                         parentViewController:self];
                     infoController.title = [PaperModel nameWithPaperType:paperTypeValue];
                     [controllers addObject:infoController];
                 }

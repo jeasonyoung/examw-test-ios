@@ -18,11 +18,15 @@
 //分页数据
 @property(nonatomic,assign,readonly)NSUInteger pageOfRows;
 
+//统计科目试卷
+-(NSArray *)totalSubjects;
+
 //加载试卷类型集合
--(NSArray *)findPaperTypes;
+-(NSArray *)findPaperTypesWithSubjectCode:(NSString *)subjectCode;
 
 //按试卷类型分页查找试卷信息数据
--(NSArray *)findPapersInfoWithPaperType:(NSUInteger)paperType andPageIndex:(NSUInteger)pageIndex;
+-(NSArray *)findPapersInfoWithPaperType:(NSUInteger)paperType andSubjectCode:(NSString *)subjectCode
+                           andPageIndex:(NSUInteger)pageIndex;
 
 //加载试卷
 -(PaperModel *)loadPaperModelWithPaperId:(NSString *)paperId;

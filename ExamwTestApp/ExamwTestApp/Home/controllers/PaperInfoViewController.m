@@ -24,6 +24,7 @@
 
 //真题视图控制器成员变量
 @interface PaperInfoViewController (){
+    NSString *_subjectCode;
     NSUInteger _type;
     //试卷服务
     PaperService *_service;
@@ -41,8 +42,9 @@
 @implementation PaperInfoViewController
 
 #pragma mark 初始化
--(instancetype)initWithType:(NSUInteger)type parentViewController:(UIViewController *)parent{
+-(instancetype)initWithType:(NSUInteger)type andSubjectCode:(NSString *)subjectCode parentViewController:(UIViewController *)parent{
     if(self = [super initWithStyle:UITableViewStylePlain]){
+        _subjectCode = subjectCode;
         _type = type;
         _parent = parent;
     }
@@ -50,9 +52,10 @@
 }
 
 #pragma mark 静态初始化
-+(instancetype)infoControllerWithType:(NSUInteger)type parentViewController:(UIViewController *)parent{
++(instancetype)infoControllerWithType:(NSUInteger)type andSubjectCode:(NSString *)subjectCode
+                 parentViewController:(UIViewController *)parent{
     NSLog(@"静态初始化...");
-    return [[PaperInfoViewController alloc] initWithType:type parentViewController:parent];
+    return [[PaperInfoViewController alloc] initWithType:type andSubjectCode:subjectCode parentViewController:parent];
 }
 
 #pragma mark UI入口
@@ -74,16 +77,16 @@
     //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"异步线程加载指定类型[%d]页页码[%d]数据...",(int)_type, (int)_pageIndex);
-        NSArray *arrays = [_service findPapersInfoWithPaperType:_type andPageIndex:_pageIndex];
+        NSArray *arrays = [_service findPapersInfoWithPaperType:_type andSubjectCode:_subjectCode andPageIndex:_pageIndex];
         if(!arrays || arrays.count == 0){//没有加载到数据
-            if(_pageIndex > 0){_pageIndex -= 1;}
-            //更新UI
-            dispatch_async(dispatch_get_main_queue(), ^{
-                //显示没有加载到更多数据
-                if(_pageIndex > 0){
+            if(_pageIndex > 0){
+                _pageIndex -= 1;
+                //更新UI
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //显示没有加载到更多数据
                     [self.tableView.footer noticeNoMoreData];
-                }
-            });
+                });
+            }
             return;
         }
         //数据转换
@@ -111,7 +114,7 @@
                 __weak PaperInfoViewController *weakSelf = self;
                 [self.tableView addLegendFooterWithRefreshingBlock:^{
                     weakSelf.pageIndex += 1;
-                    NSLog(@"上拉刷新...");
+                    NSLog(@"上拉刷新[%d]...", (int)weakSelf.pageIndex);
                     [weakSelf loadData];
                 }];
             }

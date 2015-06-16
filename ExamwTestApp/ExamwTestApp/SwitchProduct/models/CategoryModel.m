@@ -137,7 +137,7 @@
     for(NSDictionary *dict in arrays){
         if(dict && dict.count > 0){
             CategoryModel *cm = [[CategoryModel alloc]initWithDict:dict];
-            if(cm){
+            if(cm && cm.exams && cm.exams.count > 0){
                 [categoriesArrays addObject:cm];
             }
         }

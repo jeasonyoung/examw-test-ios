@@ -11,4 +11,7 @@
 //首页视图控制器
 @interface PaperListController : UIViewController
 
+//初始化
+-(instancetype)initWithSubjectCode:(NSString *)subjectCode;
+
 @end

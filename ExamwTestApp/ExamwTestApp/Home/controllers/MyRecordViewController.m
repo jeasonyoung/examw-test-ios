@@ -35,15 +35,17 @@
     //数据源
     NSMutableArray *_dataSource,*_itemsArrays,*_cardSectionArrays;
     NSMutableDictionary *_cardAllDataDict;
-    //当前页码
-    NSUInteger _pageIndex;
     //
-    BOOL _isAddedRefresh,_displayAnswer;
+    BOOL _displayAnswer;
     //
     PaperService *_service;
     //
     UIAlertView *_alertView;
 }
+
+//页码
+@property(nonatomic,assign)NSUInteger pageIndex;
+
 @end
 //试卷记录视图控制器实现
 @implementation MyRecordViewController
@@ -52,7 +54,6 @@
 -(instancetype)initWithModel:(MySubjectModel *)model{
     if(self = [super initWithStyle:UITableViewStylePlain]){
         _mySubjectModel = model;
-        _isAddedRefresh = NO;
         _displayAnswer = YES;
     }
     return self;
@@ -63,71 +64,63 @@
     [super viewDidLoad];
     //初始化页码
     _pageIndex = 0;
+    //初始化服务
+    _service = [[PaperService alloc] init];
+    //初始化数据源
+    _dataSource = [NSMutableArray arrayWithCapacity:_service.pageOfRows];
     //加载数据
-    [self loadDataWithPageIndex:_pageIndex];
+    [self loadData];
 }
-//加载第一次数据
--(void)loadDataWithPageIndex:(NSUInteger)index{
+
+//加载数据
+-(void)loadData{
     //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"开始异步线程加载试卷记录数据...");
-        //数据服务
-        if(!_service){
-            NSLog(@"初始化试卷数据服务...");
-            _service = [[PaperService alloc] init];
-        }
         //加载数据
-        NSString *subjectCode = @"";
-        if(_mySubjectModel && _mySubjectModel.subjectCode){
-            subjectCode = _mySubjectModel.subjectCode;
-        }
-        NSArray *models = [_service loadPaperRecordsWithSubjectCode:subjectCode andPageIndex:index];
-        NSUInteger count = 0;
-        if(!models || (count = models.count) == 0){
-            if(_pageIndex > 0)_pageIndex -= 1;//页码回退
+        NSArray *arrays = [_service loadPaperRecordsWithSubjectCode:(_mySubjectModel ? _mySubjectModel.subjectCode : @"")
+                                                       andPageIndex:_pageIndex];
+        if(!arrays || arrays.count == 0){
+            if(_pageIndex > 0){
+                _pageIndex -= 1;
+                //updateUI
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    //没有更多数据
+                    [self.tableView.footer noticeNoMoreData];
+                });
+            }
             return;
         }
-        //初始化数据源
-        NSUInteger row = 0;
-        if(!_dataSource){
-            _dataSource = [NSMutableArray arrayWithCapacity:count];
-        }else{
-            row = _dataSource.count;
-        }
-        NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity:count];
-        for(NSUInteger i = 0; i < count; i++){
-            PaperRecordModel *model = [models objectAtIndex:i];
-            if(!model)continue;
-            
+        NSUInteger pos = _dataSource.count;
+        NSMutableArray *indexPaths = [NSMutableArray arrayWithCapacity:arrays.count];
+        for(NSUInteger i = 0; i < arrays.count; i++){
             PaperRecordModelCellFrame *frame = [[PaperRecordModelCellFrame alloc] init];
-            frame.model = model;
+            frame.model = [arrays objectAtIndex:i];
             [_dataSource addObject:frame];
-            
-            if(index > 0){
-                [indexPaths addObject:[NSIndexPath indexPathForRow:(row + i) inSection:0]];
+            if(pos > 0 && _pageIndex > 0){
+                [indexPaths addObject:[NSIndexPath indexPathForRow:(pos + i) inSection:0]];
             }
         }
         //updateUI
         dispatch_async(dispatch_get_main_queue(), ^{
-            if(index == 0){
-                if(!_isAddedRefresh &&(_dataSource.count == _service.pageOfRows)){
-                    _isAddedRefresh = YES;
-                    //添加传统上拉
-                    [self.tableView addLegendFooterWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-                }
-                [self.tableView reloadData];
-            }else if(indexPaths.count > 0){
+            //刷新数据
+            if(indexPaths.count > 0){
                 [self.tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+                [self.tableView.footer endRefreshing];
+            }else{
+                [self.tableView reloadData];
+            }
+            //加载的数据等于分页数据量，添加上拉加载数据
+            if(arrays.count >= _service.pageOfRows){
+                __weak MyRecordViewController *weakSelf = self;
+                [self.tableView addLegendFooterWithRefreshingBlock:^{
+                    weakSelf.pageIndex += 1;
+                    NSLog(@"上拉刷新[%d]...", (int)weakSelf.pageIndex);
+                    [weakSelf loadData];
+                }];
             }
         });
     });
-}
-
-//加载更多数据
--(void)loadMoreData{
-    NSLog(@"加载更多数据...");
-    _pageIndex += 1;
-    [self loadDataWithPageIndex:_pageIndex];
 }
 
 #pragma mark UITableViewDataSource

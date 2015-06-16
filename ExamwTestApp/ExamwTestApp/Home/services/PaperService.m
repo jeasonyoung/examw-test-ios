@@ -17,6 +17,7 @@
 #import "PaperResultModel.h"
 
 #import "MySubjectModel.h"
+#import "SubjectModel.h"
 
 #import "PaperUtils.h"
 
@@ -41,16 +42,39 @@
     return self;
 }
 
+#pragma mark 统计科目试卷
+-(NSArray *)totalSubjects{
+    NSLog(@"统计科目试卷...");
+    if(_dbQueue){
+        static NSString *query_sql = @"SELECT a.code,a.name,COUNT(b.id) AS total FROM tbl_subjects a LEFT OUTER JOIN tbl_papers b ON b.subjectCode = a.code WHERE a.status = 1 GROUP BY a.code,a.name";
+        NSMutableArray *arrays = [NSMutableArray array];
+        NSLog(@"exec-sql:%@", query_sql);
+        [_dbQueue inDatabase:^(FMDatabase *db) {
+            FMResultSet *rs = [db executeQuery:query_sql];
+            while ([rs next]) {
+                SubjectModel *model = [[SubjectModel alloc] init];
+                model.code = [rs stringForColumn:@"code"];
+                model.name = [rs stringForColumn:@"name"];
+                model.total = [rs intForColumn:@"total"];
+                [arrays addObject:model];
+            }
+            [rs close];
+        }];
+        return arrays;
+    }
+    return nil;
+}
+
 #pragma mark 加载试卷类型集合。
--(NSArray *)findPaperTypes{
+-(NSArray *)findPaperTypesWithSubjectCode:(NSString *)subjectCode{
     NSLog(@"加载试卷类型集合数据...");
     if(_dbQueue){
-        static NSString *query_sql = @"select type from tbl_papers group by type order by type desc";
+        static NSString *query_sql = @"select type from tbl_papers where subjectCode = ? group by type order by type desc";
         NSMutableArray *arrays = [NSMutableArray array];
         //
         NSLog(@"exec-sql:%@", query_sql);
         [_dbQueue inDatabase:^(FMDatabase *db) {
-            FMResultSet *rs = [db executeQuery:query_sql];
+            FMResultSet *rs = [db executeQuery:query_sql, subjectCode];
             while ([rs next]){
                 [arrays addObject:[NSNumber numberWithInt:[rs intForColumn:@"type"]]];
             }
@@ -62,32 +86,28 @@
 }
 
 #pragma mark 按试卷类型分页查找试卷信息数据
--(NSArray *)findPapersInfoWithPaperType:(NSUInteger)paperType andPageIndex:(NSUInteger)pageIndex{
+-(NSArray *)findPapersInfoWithPaperType:(NSUInteger)paperType andSubjectCode:(NSString *)subjectCode
+                           andPageIndex:(NSUInteger)pageIndex{
     NSLog(@"按试卷类型[%d]分页[%d]查找试卷数据...", (int)paperType, (int)pageIndex);
     if(_dbQueue){
-        static NSString *querySubjectNameSql = @"SELECT name FROM tbl_subjects WHERE code = ? limit 0,1";
         //拼接SQL
         NSMutableString *query_sql = [NSMutableString string];
-        [query_sql appendString:@" SELECT id, title, total, createTime, subjectCode FROM tbl_papers "];
-        [query_sql appendFormat:@" WHERE type = ? order by createTime desc limit %d,%d;",
+        [query_sql appendString:@" SELECT a.id, a.title, a.total, a.createTime, b.name AS subjectName FROM tbl_papers a "];
+        [query_sql appendString:@" LEFT OUTER JOIN tbl_subjects b ON b.code = a.subjectCode "];
+        [query_sql appendFormat:@" WHERE a.type = ? and a.subjectCode = ? order by a.createTime desc limit %d,%d;",
          (int)(pageIndex * __kPaperService_pageOfRows), (int)__kPaperService_pageOfRows];
         __block NSMutableArray *arrays = [NSMutableArray arrayWithCapacity:__kPaperService_pageOfRows];
         //查询数据
         [_dbQueue inDatabase:^(FMDatabase *db) {
             NSLog(@"exec-sql:%@", query_sql);
-            FMResultSet *rs = [db executeQuery:query_sql, [NSNumber numberWithInteger:paperType]];
+            FMResultSet *rs = [db executeQuery:query_sql, [NSNumber numberWithInteger:paperType], subjectCode];
             while ([rs next]) {
-                //科目
-                NSString *subjectCode = [rs stringForColumn:@"subjectCode"], *subjectName = @"";
-                if(subjectCode && subjectCode.length > 0){
-                    subjectName = [db stringForQuery:querySubjectNameSql, subjectCode];
-                }
                 //创建试卷信息模型
                 PaperInfoModel *model = [[PaperInfoModel alloc] init];
                 model.Id = [rs stringForColumn:@"id"];
                 model.name = [rs stringForColumn:@"title"];
                 model.total = [rs intForColumn:@"total"];
-                model.subject = subjectName;
+                model.subject = [rs stringForColumn:@"subjectName"];
                 model.createTime = [rs stringForColumn:@"createTime"];
                 //添加到集合
                 [arrays addObject:model];
