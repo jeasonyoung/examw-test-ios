@@ -24,15 +24,18 @@
 
 //真题视图控制器成员变量
 @interface PaperInfoViewController (){
-    //当前页码
-    NSUInteger _pageIndex,_type;;
+    NSUInteger _type;
     //试卷服务
     PaperService *_service;
     //试卷数据源
     NSMutableArray *_dataSource;
     //父控制器
     UIViewController *_parent;
+    BOOL _isReload;
 }
+//页码
+@property(nonatomic,assign)NSUInteger pageIndex;
+
 @end
 
 @implementation PaperInfoViewController
@@ -55,6 +58,8 @@
 #pragma mark UI入口
 - (void)viewDidLoad {
     [super viewDidLoad];
+    //初始化重新加载
+    _isReload = NO;
     //初始化服务
     _service = [[PaperService alloc] init];
     //初始化数据源
@@ -62,52 +67,55 @@
     //初始化页码
     _pageIndex = 0;
     //加载初始化数据
-    [self loadFirstData];
+    [self loadData];
 }
 //加载初始化数据
--(void)loadFirstData{
-    //异步加载第一页数据
+-(void)loadData{
+    //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        __block NSArray *arrays = nil;
-        //加载更多的数据
-        void(^loadMoreData)() = ^(){
-            NSLog(@"准备开始异步加载上拉刷新数据...");
-            arrays = [_service findPapersInfoWithPaperType:(NSUInteger)_type andPageIndex:_pageIndex];
-            if(!arrays || arrays.count == 0){
-                if(_pageIndex > 0){
-                    _pageIndex -= 1;
-                    //更新前台UI
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [self.tableView.footer noticeNoMoreData];
-                    });
-                }
-                return;
-            }
-            //数据转换
-            for(PaperInfoModel *model in arrays){
-                if(model){
-                    PaperInfoModelCellFrame *cellFrame = [[PaperInfoModelCellFrame alloc] init];
-                    cellFrame.model = model;
-                    [_dataSource addObject:cellFrame];
-                }
-            }
-            //更新前台UI刷新数据
+        NSLog(@"异步线程加载指定类型[%d]页页码[%d]数据...",(int)_type, (int)_pageIndex);
+        NSArray *arrays = [_service findPapersInfoWithPaperType:_type andPageIndex:_pageIndex];
+        if(!arrays || arrays.count == 0){//没有加载到数据
+            if(_pageIndex > 0){_pageIndex -= 1;}
+            //更新UI
             dispatch_async(dispatch_get_main_queue(), ^{
-                //刷新TableView数据
-                [self.tableView reloadData];
-                //
+                //显示没有加载到更多数据
                 if(_pageIndex > 0){
-                    [self.tableView.footer endRefreshing];
-                }
-                //加载的数据等于分页数据量，添加上拉加载数据
-                if(arrays.count == [_service pageOfRows]){
-                     _pageIndex += 1;
-                    [self.tableView addLegendFooterWithRefreshingBlock:loadMoreData];
+                    [self.tableView.footer noticeNoMoreData];
                 }
             });
-        };
-        //调用程序块
-        loadMoreData();
+            return;
+        }
+        //数据转换
+        NSUInteger pos = _dataSource.count;
+        NSMutableArray *indexPathArrays = [NSMutableArray arrayWithCapacity:arrays.count];
+        for(NSUInteger i = 0; i < arrays.count; i++){
+            PaperInfoModelCellFrame *cellFrame = [[PaperInfoModelCellFrame alloc] init];
+            cellFrame.model = [arrays objectAtIndex:i];
+            [_dataSource addObject:cellFrame];
+            if(pos > 0 && _pageIndex > 0){
+                [indexPathArrays addObject:[NSIndexPath indexPathForRow:(pos + i) inSection:0]];
+            }
+        }
+        //更新UI
+        dispatch_async(dispatch_get_main_queue(), ^{
+            //刷新TableView数据
+            if(indexPathArrays.count > 0){
+                [self.tableView insertRowsAtIndexPaths:indexPathArrays withRowAnimation:UITableViewRowAnimationFade];
+                [self.tableView.footer endRefreshing];
+            }else{
+                [self.tableView reloadData];
+            }
+            //加载的数据等于分页数据量，添加上拉加载数据
+            if(arrays.count >= _service.pageOfRows){
+                __weak PaperInfoViewController *weakSelf = self;
+                [self.tableView addLegendFooterWithRefreshingBlock:^{
+                    weakSelf.pageIndex += 1;
+                    NSLog(@"上拉刷新...");
+                    [weakSelf loadData];
+                }];
+            }
+        });
     });
 }
 #pragma mark tableViewDataSource
@@ -158,6 +166,23 @@
         [_parent.navigationController pushViewController:detailsController animated:YES];
     }
 }
+
+#pragma mark View可见
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if(_isReload){
+        _isReload = NO;
+        [_dataSource removeAllObjects];
+        [self loadData];
+    }
+}
+
+#pragma mark View不可见
+-(void)viewWillDisappear:(BOOL)animated{
+    _isReload = YES;
+    [super viewWillDisappear:animated];
+}
+
 
 #pragma mark 内存告警
 - (void)didReceiveMemoryWarning {

@@ -81,14 +81,16 @@ static NSArray *localCategoriesCache;
                     msg = [NSString stringWithFormat:@"下载数据失败:%@",callback.msg];
                     NSLog(@"%@",msg);
                 }
+                //完成数据下载
+                if(complete){complete(msg);}
             }
             @catch (NSException *exception) {
                 NSLog(@"发生解析异常:%@", exception);
-                complete(@"解析异常,请稍后再试!");
+                if(complete){ complete(@"解析异常,请稍后再试!");}
             }
         } fail:^(NSString *err) {
             NSLog(@"服务器错误:%@", err);
-            complete(@"服务器忙,请稍后再试!");
+            if(complete){ complete(@"服务器忙,请稍后再试!");}
         }];
     }];
 }

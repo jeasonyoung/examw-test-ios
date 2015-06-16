@@ -6,7 +6,7 @@
 //  Copyright (c) 2015年 com.examw. All rights reserved.
 //
 
-#import "HomeViewController.h"
+#import "PaperListController.h"
 
 #import "AppConstants.h"
 
@@ -19,7 +19,7 @@
 #import "PaperModel.h"
 #import "PaperService.h"
 //首页视图控制器成员变量
-@interface HomeViewController (){
+@interface PaperListController (){
     DAPagesContainer *_pagesContainer;
     MBProgressHUD *_waitHud;
     BOOL _isReload;
@@ -27,7 +27,7 @@
 @end
 
 //首页视图控制器实现
-@implementation HomeViewController
+@implementation PaperListController
 
 #pragma mark UI入口
 - (void)viewDidLoad {

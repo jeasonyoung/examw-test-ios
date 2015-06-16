@@ -73,7 +73,7 @@
 		A1936C941B0ED80900C59A06 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936C931B0ED80900C59A06 /* MainViewController.m */; };
 		A1936C961B0F0A4500C59A06 /* mainBottomMenus.plist in Resources */ = {isa = PBXBuildFile; fileRef = A1936C951B0F0A4500C59A06 /* mainBottomMenus.plist */; };
 		A1936C991B0F0CD700C59A06 /* BottomMenuModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936C981B0F0CD700C59A06 /* BottomMenuModel.m */; };
-		A1936C9F1B0F1B6E00C59A06 /* HomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936C9E1B0F1B6E00C59A06 /* HomeViewController.m */; };
+		A1936C9F1B0F1B6E00C59A06 /* PaperListController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936C9E1B0F1B6E00C59A06 /* PaperListController.m */; };
 		A1936CA21B0F1BDF00C59A06 /* FavoritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936CA11B0F1BDF00C59A06 /* FavoritesViewController.m */; };
 		A1936CA51B0F1C4900C59A06 /* MyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936CA41B0F1C4900C59A06 /* MyViewController.m */; };
 		A1936CA81B0F1C7F00C59A06 /* MoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A1936CA71B0F1C7F00C59A06 /* MoreViewController.m */; };
@@ -367,8 +367,8 @@
 		A1936C951B0F0A4500C59A06 /* mainBottomMenus.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = mainBottomMenus.plist; sourceTree = "<group>"; };
 		A1936C971B0F0CD700C59A06 /* BottomMenuModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BottomMenuModel.h; path = Home/models/BottomMenuModel.h; sourceTree = "<group>"; };
 		A1936C981B0F0CD700C59A06 /* BottomMenuModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BottomMenuModel.m; path = Home/models/BottomMenuModel.m; sourceTree = "<group>"; };
-		A1936C9D1B0F1B6E00C59A06 /* HomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeViewController.h; path = Home/controllers/HomeViewController.h; sourceTree = "<group>"; };
-		A1936C9E1B0F1B6E00C59A06 /* HomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeViewController.m; path = Home/controllers/HomeViewController.m; sourceTree = "<group>"; };
+		A1936C9D1B0F1B6E00C59A06 /* PaperListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperListController.h; path = Home/controllers/PaperListController.h; sourceTree = "<group>"; };
+		A1936C9E1B0F1B6E00C59A06 /* PaperListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperListController.m; path = Home/controllers/PaperListController.m; sourceTree = "<group>"; };
 		A1936CA01B0F1BDF00C59A06 /* FavoritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FavoritesViewController.h; path = Home/controllers/FavoritesViewController.h; sourceTree = "<group>"; };
 		A1936CA11B0F1BDF00C59A06 /* FavoritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FavoritesViewController.m; path = Home/controllers/FavoritesViewController.m; sourceTree = "<group>"; };
 		A1936CA31B0F1C4900C59A06 /* MyViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MyViewController.h; path = Home/controllers/MyViewController.h; sourceTree = "<group>"; };
@@ -926,8 +926,8 @@
 			children = (
 				A1936C921B0ED80900C59A06 /* MainViewController.h */,
 				A1936C931B0ED80900C59A06 /* MainViewController.m */,
-				A1936C9D1B0F1B6E00C59A06 /* HomeViewController.h */,
-				A1936C9E1B0F1B6E00C59A06 /* HomeViewController.m */,
+				A1936C9D1B0F1B6E00C59A06 /* PaperListController.h */,
+				A1936C9E1B0F1B6E00C59A06 /* PaperListController.m */,
 				A1CA97EA1B0F874F003006F2 /* PaperInfoViewController.h */,
 				A1CA97EB1B0F874F003006F2 /* PaperInfoViewController.m */,
 				A1185F9C1B12F6B00099F910 /* PaperDetailsViewController.h */,
@@ -1606,7 +1606,7 @@
 				A1C6AD7F1B0C74770002BE81 /* AFSecurityPolicy.m in Sources */,
 				A1A478D61B15F3D0000B7E22 /* PaperItemTitleModel.m in Sources */,
 				A1BE0B391B254D0E0056CCE1 /* ExamBaseModel.m in Sources */,
-				A1936C9F1B0F1B6E00C59A06 /* HomeViewController.m in Sources */,
+				A1936C9F1B0F1B6E00C59A06 /* PaperListController.m in Sources */,
 				A1CA97EC1B0F874F003006F2 /* PaperInfoViewController.m in Sources */,
 				A101CD411B2679E1000C11BE /* ESTimerView.m in Sources */,
 				A1A528D11B1C0AAF00A8637F /* PaperResultModelCellFrame.m in Sources */,

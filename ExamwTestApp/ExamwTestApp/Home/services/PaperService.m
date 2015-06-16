@@ -45,7 +45,7 @@
 -(NSArray *)findPaperTypes{
     NSLog(@"加载试卷类型集合数据...");
     if(_dbQueue){
-        static NSString *query_sql = @"select type from tbl_papers group by type order by type";
+        static NSString *query_sql = @"select type from tbl_papers group by type order by type desc";
         NSMutableArray *arrays = [NSMutableArray array];
         //
         NSLog(@"exec-sql:%@", query_sql);
