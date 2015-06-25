@@ -42,6 +42,12 @@
 //试卷数据API
 #define _kAPP_API_PAPERS_URL _kAPP_API_HOST@"/examw-test/api/m/sync/papers"
 
+//上传试题收藏API
+#define _kAPP_API_FAVORITES_URL _kAPP_API_HOST@"/examw-test/api/m/sync/favorites"//
+//上传试卷记录API
+#define _kAPP_API_PAPERRECORDS_URL _kAPP_API_HOST@"/examw-test/api/m/sync/records/papers"//
+//上传试题记录API
+#define _kAPP_API_PAPERITEMRECORDS_URL _kAPP_API_HOST@"/examw-test/api/m/sync/records/items"//
 
 //默认分页数据
 #define _kAPP_DEFAULT_PAGEROWS 10
@@ -63,7 +69,7 @@
 //红色值
 #define GLOBAL_REDCOLOR_HEX 0xBA2121
 //全局字体
-#define GLOBAL_FONT [UIFont preferredFontForTextStyle:UIFontTextStyleBody]
+//#define GLOBAL_FONT [UIFont preferredFontForTextStyle:UIFontTextStyleBody]
 
 #endif
 
