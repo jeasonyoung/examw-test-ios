@@ -79,7 +79,7 @@
         //1.提示
         [_dataSource addObject:[self addTitle:@"提示:"]];
         //2.内容
-        [_dataSource addObject:[self addTitle:@" 下载最新发布的试卷，使用者须登录并进行产品注册码的绑定."]];
+        [_dataSource addObject:[self addTitle:@" 下载最新发布的试卷..."]];
         
         //updateUI
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -123,10 +123,10 @@
         AppDelegate *app = [[UIApplication sharedApplication] delegate];
         if(app && app.currentUser){//已登录
             //检查注册码
-            NSString *regCode = app.currentUser.regCode;
-            if(regCode && regCode.length > 0){//注册码存在
+            //NSString *regCode = app.currentUser.regCode;
+            //if(regCode && regCode.length > 0){//注册码存在
                 SwitchService *service = [[SwitchService alloc] init];
-                [service syncDownloadWithIgnoreRegCode:NO resultHandler:^(BOOL result, NSString *err) {
+                [service syncDownloadWithIgnoreRegCode:YES resultHandler:^(BOOL result, NSString *err) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         //关闭等待动画
                         if(_waitHud){[_waitHud hide:YES];}
@@ -140,7 +140,9 @@
                         }
                     });
                 }];
-            }else{//注册码不存在
+            //}
+            /*
+            else{//注册码不存在
                 //控制器跳转到注册码控制器
                 dispatch_async(dispatch_get_main_queue(), ^{
                     //关闭等待动画
@@ -150,7 +152,7 @@
                     regController.hidesBottomBarWhenPushed = YES;
                     [self.navigationController pushViewController:regController animated:YES];
                 });
-            }
+            }*/
         }else{
             //控制器跳转到登录UI
             dispatch_async(dispatch_get_main_queue(), ^{

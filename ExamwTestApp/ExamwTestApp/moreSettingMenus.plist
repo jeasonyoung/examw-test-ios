@@ -24,7 +24,7 @@
 			<key>controller</key>
 			<string>MyProductRegViewController</string>
 			<key>status</key>
-			<true/>
+			<false/>
 			<key>order</key>
 			<integer>1</integer>
 		</dict>

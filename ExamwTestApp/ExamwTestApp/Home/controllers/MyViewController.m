@@ -231,9 +231,9 @@
 //变更注册码
 -(void)changeRegCode:(id)sender{
     NSLog(@"变更注册码:%@...",sender);
-    MyProductRegViewController *controller = [[MyProductRegViewController alloc] init];
-    controller.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:controller animated:YES];
+    //MyProductRegViewController *controller = [[MyProductRegViewController alloc] init];
+    //controller.hidesBottomBarWhenPushed = YES;
+    //[self.navigationController pushViewController:controller animated:YES];
 }
 
 #pragma mark 内存告警

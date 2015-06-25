@@ -25,7 +25,7 @@
 #define __kMyUserModelCellFrame_title @"您还没有登录"//未登录标题
 #define __kMyUserModelCellFrame_btnRegister @"注册"//注册
 #define __kMyUserModelCellFrame_btnLogin @"登录"//登录
-#define __kMyUserModelCellFrame_noRegCode @"当前产品未注册"//
+#define __kMyUserModelCellFrame_noRegCode @"当前产品免费使用"//
 
 #define __kMyUserModelCellFrame_btnWidth 100//按钮宽度
 #define __kMyUserModelCellFrame_btnHeight 32//按钮高度
