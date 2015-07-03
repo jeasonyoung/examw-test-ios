@@ -108,7 +108,9 @@
         //初始化数据源
         _dataSource = [NSMutableArray arrayWithCapacity:3];
         //初始化试卷服务
-        _service = [[PaperService alloc] init];
+        if(!_service){
+            _service = [[PaperService alloc] init];
+        }
         //加载数据
         _paperModel = [_service loadPaperModelWithPaperId:_infoModel.Id];
         NSLog(@"paperModel=>%@",_paperModel);

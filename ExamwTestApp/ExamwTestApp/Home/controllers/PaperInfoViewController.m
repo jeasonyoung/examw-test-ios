@@ -63,8 +63,6 @@
     [super viewDidLoad];
     //初始化重新加载
     _isReload = NO;
-    //初始化服务
-    _service = [[PaperService alloc] init];
     //初始化数据源
     _dataSource = [NSMutableArray arrayWithCapacity:_service.pageOfRows];
     //初始化页码
@@ -77,6 +75,11 @@
     //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"异步线程加载指定类型[%d]页页码[%d]数据...",(int)_type, (int)_pageIndex);
+        //初始化服务
+        if(!_service){
+            _service = [[PaperService alloc] init];
+        }
+        //加载数据
         NSArray *arrays = [_service findPapersInfoWithPaperType:_type andSubjectCode:_subjectCode andPageIndex:_pageIndex];
         if(!arrays || arrays.count == 0){//没有加载到数据
             if(_pageIndex > 0){

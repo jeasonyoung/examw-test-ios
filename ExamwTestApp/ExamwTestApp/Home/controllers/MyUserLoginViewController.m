@@ -94,9 +94,24 @@
         void(^callbackShowMessage)(NSString *) = ^(NSString *msg){
             //UpdateUI
             dispatch_async(dispatch_get_main_queue(), ^{
+                //初始化
+                NSString *message = msg;
+                NSLog(@"反馈原始数据:%@", message);
+                //匹配中文正则表达式
+                //^[\u4e00-\u9fa5]+$
+                NSRange range = [msg rangeOfString:@"[\u4e00-\u9fa5]+" options:NSRegularExpressionSearch];
+                if(range.location == NSNotFound){
+                    message = @"服务器忙，请稍后重试!";
+                }else{
+                    range = [message rangeOfString:@"未知"];
+                    if(range.location != NSNotFound){
+                        message = @"网络延时,请稍后重试!";
+                    }
+                }
+                NSLog(@"反馈修改后数据:%@", message);
                 //隐藏等待动画
                 if(_waitHud){ [_waitHud hide:YES];}
-                _alertView = [[UIAlertView alloc] initWithTitle:nil message:msg delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                _alertView = [[UIAlertView alloc] initWithTitle:nil message:message delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                 [_alertView show];
             });
         };

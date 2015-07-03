@@ -88,7 +88,7 @@
     //固定y坐标(第4行)
     x = __kProductModelCellFrame_left;
     maxHeight = 0;
-    //试卷总数(第1列)
+    //试卷总数(第4-1列)
     if(_model.papers && _model.papers.integerValue > 0){
         _papersTotal = [NSString stringWithFormat:__kProductModelCellFrame_papers, _model.papers.intValue];
         CGSize papersTotalSize = [_papersTotal boundingRectWithSize:CGSizeMake(maxWidth - x, CGFLOAT_MAX)
@@ -101,7 +101,7 @@
         _papersTotalFrame = CGRectMake(x, y, papersTotalSize.width, papersTotalSize.height);
         x = CGRectGetMaxX(_papersTotalFrame) + __kProductModelCellFrame_marginH;
     }
-    //试题总数(第2列)
+    //试题总数(第4-2列)
     if(_model.items && _model.items.integerValue > 0){
         _itemsTotal = [NSString stringWithFormat:__kProductModelCellFrame_items,_model.items.intValue];
         CGSize itemsTotalSize = [_itemsTotal boundingRectWithSize:CGSizeMake(maxWidth - x, CGFLOAT_MAX)
@@ -114,7 +114,14 @@
         _itemsTotalFrame = CGRectMake(x, y, itemsTotalSize.width, itemsTotalSize.height);
         x = CGRectGetMaxX(_itemsTotalFrame) + __kProductModelCellFrame_marginH;
     }
-    //原价(第3列)
+    //固定y坐标(第5行)
+    x = __kProductModelCellFrame_left;
+    if(maxHeight > 0){
+        y += maxHeight + __kProductModelCellFrame_marginV;
+    }
+    maxHeight = 0;
+    
+    //原价(第5-1列)
     if(_model.price && _model.price.floatValue >= 0){
         _originalPrice = [NSString stringWithFormat:__kProductModelCellFrame_originalPrice, _model.price.floatValue];
         CGSize originalPriceSize = [_originalPrice boundingRectWithSize:CGSizeMake(maxWidth - x, CGFLOAT_MAX)
@@ -127,7 +134,7 @@
         _originalPriceFrame = CGRectMake(x, y, originalPriceSize.width, originalPriceSize.height);
         x =  CGRectGetMaxX(_originalPriceFrame) + __kProductModelCellFrame_marginH;
     }
-    //优惠价(第4列)
+    //优惠价(第5-2列)
     if(_model.discount && _model.discount.floatValue >= 0){
         _discountPrice = [NSString stringWithFormat:__kProductModelCellFrame_discountPrice,model.discount.floatValue];
         CGSize discountPriceSize = [_discountPrice boundingRectWithSize:CGSizeMake(maxWidth - x, CGFLOAT_MAX)

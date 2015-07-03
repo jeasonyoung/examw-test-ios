@@ -64,8 +64,6 @@
     [super viewDidLoad];
     //初始化页码
     _pageIndex = 0;
-    //初始化服务
-    _service = [[PaperService alloc] init];
     //初始化数据源
     _dataSource = [NSMutableArray arrayWithCapacity:_service.pageOfRows];
     //加载数据
@@ -77,6 +75,10 @@
     //异步线程加载数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSLog(@"开始异步线程加载试卷记录数据...");
+        //初始化服务
+        if(!_service){
+            _service = [[PaperService alloc] init];
+        }
         //加载数据
         NSArray *arrays = [_service loadPaperRecordsWithSubjectCode:(_mySubjectModel ? _mySubjectModel.subjectCode : @"")
                                                        andPageIndex:_pageIndex];

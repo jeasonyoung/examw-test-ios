@@ -22,6 +22,7 @@
 @interface PaperListController (){
     NSString *_subjectCode;
     DAPagesContainer *_pagesContainer;
+    PaperService *_service;
     MBProgressHUD *_waitHud;
     BOOL _isReload;
 }
@@ -76,10 +77,8 @@
     //异步加载试卷类型数据
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         //初始化服务
-        static PaperService *_service;
         if(!_service){
             _service = [[PaperService alloc] init];
-            NSLog(@"初始化数据服务...");
         }
         //加载试卷类型
         NSArray *arrays = [_service findPaperTypesWithSubjectCode:_subjectCode];
