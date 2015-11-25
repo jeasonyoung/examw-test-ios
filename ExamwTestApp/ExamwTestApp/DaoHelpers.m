@@ -152,17 +152,30 @@
 }
 //创建表结构脚本
 -(NSArray *)createDbTableSQL{
-    //1.创建科目表[status(0-不可用,1-可用)]
-    NSString *tblSubjects_sql = @"CREATE TABLE tbl_subjects(code TEXT,name TEXT,status INTEGER DEFAULT 1,examCode INTEGER DEFAULT 0, CONSTRAINT PK_tbl_subjects PRIMARY KEY(code,examCode));";
-    //2.创建试卷表
-    NSString *tblPapers_sql = @"CREATE TABLE tbl_papers(id TEXT PRIMARY KEY,title TEXT,type INTEGER DEFAULT 0,total INTEGER DEFAULT 0,content TEXT,createTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),subjectCode TEXT);";
-    //3.创建试题收藏表[status(0-删除，1-收藏)]
-    NSString *tblFavorites_sql = @"CREATE TABLE tbl_favorites(id TEXT PRIMARY KEY,subjectCode TEXT,itemId TEXT,itemType INTEGER DEFAULT 0,content TEXT,status INTEGER DEFAULT 1,createTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),sync INTEGER DEFAULT 0);";
-    //4.创建做卷记录表[status(0-未做完，1-已做完)][sync(0-未同步,1-已同步)]
-    NSString *tblPaperRecords_sql = @"CREATE TABLE tbl_paperRecords(id TEXT PRIMARY KEY,paperId TEXT,status INTEGER DEFAULT 0,score FLOAT DEFAULT 0,rights INTEGER DEFAULT 0,useTimes INTEGER DEFAULT 0,createTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),lastTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),sync INTEGER DEFAULT 0);";
-    //5.创建做题记录表[status(0-错误，1-正确)]
-    NSString *tblItemRecords_sql = @"CREATE TABLE tbl_itemRecords(id TEXT PRIMARY KEY,paperRecordId TEXT,structureId TEXT,itemId TEXT,itemType INTEGER DEFAULT 0,content TEXT,answer TEXT,status INTEGER DEFAULT 0,score FLOAT DEFAULT 0,useTimes INTEGER DEFAULT 0,createTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),lastTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),sync INTEGER DEFAULT 0);";
-    
-    return @[tblSubjects_sql,tblPapers_sql,tblFavorites_sql,tblPaperRecords_sql,tblItemRecords_sql];
+    //create sql
+    return @[
+             //1.创建科目表[status(0-不可用,1-可用)]
+             @"CREATE TABLE tbl_subjects(code TEXT,name TEXT,status INTEGER DEFAULT 1,examCode INTEGER DEFAULT 0, CONSTRAINT PK_tbl_subjects PRIMARY KEY(code,examCode));",
+             
+             //2.创建试卷表
+             @"CREATE TABLE tbl_papers(id TEXT PRIMARY KEY,title TEXT,type INTEGER DEFAULT 0,total INTEGER DEFAULT 0,content TEXT,createTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),subjectCode TEXT);",
+             //2.1创建索引
+             @"CREATE INDEX tbl_papers_subjectCode_idx ON  tbl_papers(subjectCode);",
+             
+             //3.创建试题收藏表[status(0-删除，1-收藏)]
+             @"CREATE TABLE tbl_favorites(id TEXT PRIMARY KEY,subjectCode TEXT,itemId TEXT,itemType INTEGER DEFAULT 0,content TEXT,status INTEGER DEFAULT 1,createTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),sync INTEGER DEFAULT 0);",
+             //3.1创建索引
+             @"CREATE INDEX tbl_favorites_subjectCode_idx ON tbl_favorites(subjectCode)",
+             
+             //4.创建做卷记录表[status(0-未做完，1-已做完)][sync(0-未同步,1-已同步)]
+             @"CREATE TABLE tbl_paperRecords(id TEXT PRIMARY KEY,paperId TEXT,status INTEGER DEFAULT 0,score FLOAT DEFAULT 0,rights INTEGER DEFAULT 0,useTimes INTEGER DEFAULT 0,createTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),lastTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),sync INTEGER DEFAULT 0);",
+             //4.1创建索引
+             @"CREATE INDEX tbl_paperRecords_paperId_idx ON tbl_paperRecords(paperId)",
+             
+             //5.创建做题记录表[status(0-错误，1-正确)]
+             @"CREATE TABLE tbl_itemRecords(id TEXT PRIMARY KEY,paperRecordId TEXT,structureId TEXT,itemId TEXT,itemType INTEGER DEFAULT 0,content TEXT,answer TEXT,status INTEGER DEFAULT 0,score FLOAT DEFAULT 0,useTimes INTEGER DEFAULT 0,createTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),lastTime TIMESTAMP DEFAULT (datetime('now', 'localtime')),sync INTEGER DEFAULT 0);",
+             //5.1创建索引
+             @"CREATE INDEX tbl_itemRecords_paperRecordId_idx ON tbl_itemRecords(paperRecordId)"
+            ];
 }
 @end

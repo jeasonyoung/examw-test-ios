@@ -20,15 +20,15 @@
 #define __kAPP_TYPECODE 7
 
 //服务器认证用户名
-#define __kAPP_API_USERNAME @"admin"
+#define __kAPP_API_USERNAME @"__iap-apk_accessUser"
 //服务器认证密码
-#define __kAPP_API_PASSWORD @"123456"
+#define __kAPP_API_PASSWORD @"__iap-apk_accessUser"
 //频道(用户登录/注册)
 #define __kAPP_API_CHANNEL @"jzs1"
 
 
 //服务器数据API
-#define _kAPP_API_HOST @"http://127.0.0.1"//
+#define _kAPP_API_HOST @"http://tiku.examw.com"//
 //注册API
 #define _kAPP_API_REGISTER_URL _kAPP_API_HOST@"/examw-test/api/m/user/register"
 //登陆API
