@@ -219,7 +219,6 @@
 		A1F7241F1B02F88A0023A3C8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F7241E1B02F88A0023A3C8 /* main.m */; };
 		A1F724221B02F88A0023A3C8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724211B02F88A0023A3C8 /* AppDelegate.m */; };
 		A1F7242D1B02F88A0023A3C8 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1F7242C1B02F88A0023A3C8 /* Images.xcassets */; };
-		A1F7243C1B02F88A0023A3C8 /* ExamwTestAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F7243B1B02F88A0023A3C8 /* ExamwTestAppTests.m */; };
 		A1F724C51B0305C00023A3C8 /* FMResultSet.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724BA1B0305BF0023A3C8 /* FMResultSet.m */; };
 		A1F724C61B0305C00023A3C8 /* FMDatabaseQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724BD1B0305BF0023A3C8 /* FMDatabaseQueue.m */; };
 		A1F724C71B0305C00023A3C8 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724BF1B0305BF0023A3C8 /* FMDatabasePool.m */; };
@@ -646,8 +645,6 @@
 		A1F724211B02F88A0023A3C8 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		A1F7242C1B02F88A0023A3C8 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		A1F724351B02F88A0023A3C8 /* ExamwTestAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExamwTestAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		A1F7243A1B02F88A0023A3C8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A1F7243B1B02F88A0023A3C8 /* ExamwTestAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ExamwTestAppTests.m; sourceTree = "<group>"; };
 		A1F724BA1B0305BF0023A3C8 /* FMResultSet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMResultSet.m; path = libs/FMDB_v2.5/FMResultSet.m; sourceTree = "<group>"; };
 		A1F724BB1B0305BF0023A3C8 /* FMResultSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMResultSet.h; path = libs/FMDB_v2.5/FMResultSet.h; sourceTree = "<group>"; };
 		A1F724BC1B0305BF0023A3C8 /* FMDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDB.h; path = libs/FMDB_v2.5/FMDB.h; sourceTree = "<group>"; };
@@ -1209,7 +1206,6 @@
 				A1F7241B1B02F88A0023A3C8 /* ExamwTestApp */,
 				A1F724B41B02FE440023A3C8 /* Utils */,
 				A1F724451B02FABD0023A3C8 /* libs */,
-				A1F724381B02F88A0023A3C8 /* ExamwTestAppTests */,
 				A1F7241A1B02F88A0023A3C8 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -1257,23 +1253,6 @@
 				A1C074341B21D7850046F388 /* moreSettingMenus.plist */,
 				A1F7241E1B02F88A0023A3C8 /* main.m */,
 				A1AE08341B21246300F6E877 /* Localizable.strings */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		A1F724381B02F88A0023A3C8 /* ExamwTestAppTests */ = {
-			isa = PBXGroup;
-			children = (
-				A1F7243B1B02F88A0023A3C8 /* ExamwTestAppTests.m */,
-				A1F724391B02F88A0023A3C8 /* Supporting Files */,
-			);
-			path = ExamwTestAppTests;
-			sourceTree = "<group>";
-		};
-		A1F724391B02F88A0023A3C8 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				A1F7243A1B02F88A0023A3C8 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -1451,7 +1430,7 @@
 		A1F724111B02F88A0023A3C8 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0630;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = com.examw;
 				TargetAttributes = {
 					A1F724181B02F88A0023A3C8 = {
@@ -1736,7 +1715,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1F7243C1B02F88A0023A3C8 /* ExamwTestAppTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1793,6 +1771,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1858,10 +1837,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Changsha Changheng information technology Co., Ltd. (V272W7YD5Y)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = ExamwTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.examw.test.ios.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1872,10 +1852,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Changsha Changheng information technology Co., Ltd. (V272W7YD5Y)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = ExamwTestApp/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.examw.test.ios.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1895,6 +1876,7 @@
 				);
 				INFOPLIST_FILE = ExamwTestAppTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.examw.test.ios.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ExamwTestApp.app/ExamwTestApp";
 			};
@@ -1910,6 +1892,7 @@
 				);
 				INFOPLIST_FILE = ExamwTestAppTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.examw.test.ios.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ExamwTestApp.app/ExamwTestApp";
 			};

@@ -49,8 +49,8 @@
     if(self = [super init]){
         //字体
         _font = [AppConstants globalPaperItemFont];//[UIFont preferredFontForTextStyle:UIFontTextStyleCaption1];
-        _rightAnswersFont = _font;
-        _myAnswersFont = _font;//[UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
+        _rightAnswersFont = [AppConstants globalListThirdFont];//_font;
+        _myAnswersFont = _rightAnswersFont;//[UIFont preferredFontForTextStyle:UIFontTextStyleCaption2];
     }
     return self;
 }
@@ -76,7 +76,7 @@
 //设置答案
 -(void)setupAnswersWithOutY:(NSNumber **)outy{
     if(!_model.options || _model.options.count == 0)return;
-    
+    //坐标
     CGFloat x = __kPaperItemAnalysisModelCellFrame_left, y = (*outy).floatValue,maxHeight = 0;
     //参考答案
     if(_model.rightAnswers && _model.options.count > 0){
@@ -106,17 +106,20 @@
             }
             _rightAnswersFrame = CGRectMake(x, y, rightAnswersSize.width, rightAnswersSize.height);
             x = CGRectGetMaxX(_rightAnswersFrame);
+            //
+           // NSLog(@"_rightAnswers=>%@,rect=>%@,maxWith=>%f",_rightAnswers,NSStringFromCGRect(_rightAnswersFrame),_maxWith);
         }
     }
     //我的答案
     BOOL isMyRight = NO;
     if(_model.myAnswers && _model.myAnswers.length > 0 && _model.rightAnswers){
-        //多个答案以,分隔
+        //多个答案以,分隔(我的答案在参考答案中是否存在)
         NSArray *arrays = [_model.myAnswers componentsSeparatedByString:@","];
         for(NSString *strValue in arrays){
             if(!strValue || strValue.length == 0)continue;
             NSRange range = [_model.rightAnswers rangeOfString:strValue];
             isMyRight = (range.location != NSNotFound);
+            if(!isMyRight) break;
         }
     }
     _myAnswers = isMyRight ? __kPaperItemAnalysisModelCellFrame_my_Right : __kPaperItemAnalysisModelCellFrame_my_Wrong;

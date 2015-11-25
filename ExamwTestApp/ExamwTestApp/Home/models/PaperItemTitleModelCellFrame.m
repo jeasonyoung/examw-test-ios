@@ -47,6 +47,10 @@
     if(_model.order > 0){
         titleContent = [NSString stringWithFormat:@"%d.%@", (int)_model.order, titleContent];
     }
+    //去掉字符串前后空格
+    if(titleContent && [titleContent length] > 0){
+        titleContent = [titleContent stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+    }
     //默认字体
     [EMStringStylingConfiguration sharedInstance].defaultFont = _font;
     //尺寸

@@ -35,6 +35,8 @@
 #define __kDownViewController_btnHeight 30//按钮高度
 
 #define __kDownViewController_cellIdentifer @"cell"//
+
+#import "DownloadDao.h"
 //下载视图控制器成员变量
 @interface DownViewController (){
     BOOL _isReload;
@@ -80,6 +82,11 @@
         [_dataSource addObject:[self addTitle:@"提示:"]];
         //2.内容
         [_dataSource addObject:[self addTitle:@" 下载最新发布的试卷..."]];
+        //3.最新下载时间
+        NSString *lastTime = [[[DownloadDao alloc] init] loadDownloadLastTime];
+        if(lastTime && lastTime.length > 0){
+            [_dataSource addObject:[self addTitle:[NSString stringWithFormat:@"更新时间:%@", lastTime]]];
+        }
         
         //updateUI
         dispatch_async(dispatch_get_main_queue(), ^{

@@ -126,7 +126,7 @@
         //加载结果数据
         PaperResultModel *resultModel = [_service loadPaperResultWithPaperRecordId:_paperRecordId];
         if(resultModel){
-            _dataSource = [NSMutableDictionary dictionaryWithCapacity:3];
+            _dataSource = [NSMutableDictionary dictionary];
             //1.分数
             PaperResultModelCellFrame *scoreCellFrame = [[PaperResultModelCellFrame alloc] init];
             [scoreCellFrame loadScoreWithModel:resultModel];

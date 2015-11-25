@@ -130,10 +130,16 @@ void uncaughtExceptionHandler(NSException *exception){
 }
 
 #pragma mark 屏幕旋转支持处理
--(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
+-(UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
     //固定竖屏
-    return  UIInterfaceOrientationMaskPortrait;
+    return UIInterfaceOrientationMaskPortrait;
 }
+
+
+//-(NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
+//    //固定竖屏
+//    return  UIInterfaceOrientationMaskPortrait;
+//}
 
 #pragma mark app将进入非激活状态
 - (void)applicationWillResignActive:(UIApplication *)application {

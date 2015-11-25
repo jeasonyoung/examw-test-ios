@@ -42,6 +42,23 @@
     return self;
 }
 
+#pragma mark 加载下载试卷的最后时间
+-(NSString *)loadDownloadLastTime{
+    //数据库访问队列
+    if(!_dbQueue){
+        NSLog(@"数据库访问队列初始化失败!");
+        return nil;
+    }
+    //从试卷表中查询最新的试卷发布时间
+    __block NSString *lastTime = @"";
+    [_dbQueue inDatabase:^(FMDatabase *db) {
+        static NSString *query_sql = @"select createTime from tbl_papers order by createTime desc limit 0,1";
+        lastTime = [db stringForQuery:query_sql];
+    }];
+    //返回试卷发布时间
+    return lastTime;
+}
+
 #pragma mark 下载处理
 -(void)downloadWithIgnoreCode:(BOOL)ignoreCode
                     andResult:(void (^)(BOOL, NSString *))handler{
@@ -196,12 +213,12 @@
         //下载试卷数据
         NSLog(@"准备开始下载试卷数据...");
         //从试卷表中查询最新的试卷发布时间
-        __block NSString *lastTime = @"";
-        [_dbQueue inDatabase:^(FMDatabase *db) {
-            static NSString *query_sql = @"select createTime from tbl_papers order by createTime desc limit 0,1";
-            lastTime = [db stringForQuery:query_sql];
-        }];
-        reqParameters.startTime = lastTime;
+//        __block NSString *lastTime = @"";
+//        [_dbQueue inDatabase:^(FMDatabase *db) {
+//            static NSString *query_sql = @"select createTime from tbl_papers order by createTime desc limit 0,1";
+//            lastTime = [db stringForQuery:query_sql];
+//        }];
+        reqParameters.startTime = [self loadDownloadLastTime]; //lastTime;
         //下载试卷数据
         [_provider postDataWithUrl:_kAPP_API_PAPERS_URL parameters:[reqParameters serialize] success:^(NSDictionary *result) {
             @try {

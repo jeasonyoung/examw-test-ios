@@ -32,6 +32,8 @@
 @interface PaperItemViewController (){
     //试题数据模型
     PaperItemModel *_itemModel;
+    //当前题我的答案
+    NSString *_myAnswers;
     //当前序号
     NSUInteger _order;
     //做题开始时间
@@ -87,10 +89,10 @@
         //初始化数据源
         _itemsDataSource = [NSMutableArray array];
         //加载我的答案
-        NSString *myAnswers = nil;
+        //NSString *myAnswers = nil;
         //加载已做题目答案
         if(_delegate && [_delegate respondsToSelector:@selector(itemViewController:loadMyAnswerWithModel:)]){
-            myAnswers = [_delegate itemViewController:self loadMyAnswerWithModel:_itemModel];
+            _myAnswers = [_delegate itemViewController:self loadMyAnswerWithModel:_itemModel];
         }
         NSArray *optModelArrays;
         //加载试题
@@ -110,7 +112,7 @@
                 NSArray *optFrames = [self createCellOptions:_itemModel.children
                                                     itemType:_itemModel.itemType
                                                 rightAnswers:_itemModel.itemAnswer
-                                                   myAnswers:myAnswers
+                                                   myAnswers:_myAnswers
                                                 outOptModels:&optModelArrays];
                 //添加到数据源
                 if(optFrames && optFrames.count > 0){
@@ -120,7 +122,7 @@
                 if(_displayAnswer && optModelArrays){
                     PaperItemAnalysisModel *analysisModel = [[PaperItemAnalysisModel alloc] initWithItemModel:_itemModel];
                     analysisModel.options = optModelArrays;
-                    analysisModel.myAnswers = myAnswers;
+                    analysisModel.myAnswers = _myAnswers;
                     PaperItemAnalysisModelCellFrame *analysisFrame = [[PaperItemAnalysisModelCellFrame alloc] init];
                     analysisFrame.model = analysisModel;
                     //添加到数据源
@@ -145,7 +147,7 @@
                 NSArray *optFrames = [self createCellOptions:@[optRightModel, optWrongModel]
                                                     itemType:PaperItemTypeSingle
                                                 rightAnswers:_itemModel.itemAnswer
-                                                   myAnswers:myAnswers
+                                                   myAnswers:_myAnswers
                                                 outOptModels:&optModelArrays];
                 //添加到数据源
                 if(optFrames && optFrames.count > 0){
@@ -155,7 +157,7 @@
                 if(_displayAnswer && optModelArrays){
                     PaperItemAnalysisModel *analysisModel = [[PaperItemAnalysisModel alloc] initWithItemModel:_itemModel];
                     analysisModel.options = optModelArrays;
-                    analysisModel.myAnswers = myAnswers;
+                    analysisModel.myAnswers = _myAnswers;
                     PaperItemAnalysisModelCellFrame *analysisFrame = [[PaperItemAnalysisModelCellFrame alloc] init];
                     analysisFrame.model = analysisModel;
                     //添加到数据源
@@ -174,7 +176,7 @@
                 //答案解析
                 if(_displayAnswer && optModelArrays){
                     PaperItemAnalysisModel *analysisModel = [[PaperItemAnalysisModel alloc] initWithItemModel:_itemModel];
-                    analysisModel.myAnswers = myAnswers;
+                    analysisModel.myAnswers = _myAnswers;
                     PaperItemAnalysisModelCellFrame *analysisFrame = [[PaperItemAnalysisModelCellFrame alloc] init];
                     analysisFrame.model = analysisModel;
                     //添加到数据源
@@ -205,7 +207,7 @@
                         NSArray *optFrames = [self createCellOptions:child.children
                                                             itemType:child.itemType
                                                         rightAnswers:child.itemAnswer
-                                                           myAnswers:myAnswers
+                                                           myAnswers:_myAnswers
                                                         outOptModels:&optModelArrays];
                         //添加到数据源
                         if(optFrames && optFrames.count > 0){
@@ -215,7 +217,7 @@
                         if(_displayAnswer && optModelArrays){
                             PaperItemAnalysisModel *analysisModel = [[PaperItemAnalysisModel alloc] initWithItemModel:child];
                             analysisModel.options = optModelArrays;
-                            analysisModel.myAnswers = myAnswers;
+                            analysisModel.myAnswers = _myAnswers;
                             PaperItemAnalysisModelCellFrame *analysisFrame = [[PaperItemAnalysisModelCellFrame alloc] init];
                             analysisFrame.model = analysisModel;
                             //添加到数据源
@@ -265,7 +267,7 @@
                             //选项
                             NSArray *optFrames = [self createCellOptions:optItemModels
                                                                 itemType:subItemModel.itemType
-                                                            rightAnswers: subItemModel.itemAnswer                                                               myAnswers:myAnswers
+                                                            rightAnswers:subItemModel.itemAnswer                                                               myAnswers:_myAnswers
                                                             outOptModels:&optModelArrays];
                             //添加到数据源
                             if(optFrames && optFrames.count > 0){
@@ -275,7 +277,7 @@
                             if(_displayAnswer && optModelArrays){
                                 PaperItemAnalysisModel *analysisModel = [[PaperItemAnalysisModel alloc] initWithItemModel:subItemModel];
                                 analysisModel.options = optModelArrays;
-                                analysisModel.myAnswers = myAnswers;
+                                analysisModel.myAnswers = _myAnswers;
                                 PaperItemAnalysisModelCellFrame *analysisFrame = [[PaperItemAnalysisModelCellFrame alloc] init];
                                 analysisFrame.model = analysisModel;
                                 //添加到数据源
@@ -401,103 +403,69 @@
         //选项
         if([cellFrame isKindOfClass:[PaperItemOptModelCellFrame class]]){
             NSLog(@"异步线程处理点击选择试题[%d]-%@", (int)_order, indexPath);
+            //获取数据模型
             PaperItemOptModel *optModel = ((PaperItemOptModelCellFrame *)cellFrame).model;
-            if(optModel.itemType == PaperItemTypeSingle){//单选
-                //单选重复选择，忽略
-                if(((PaperItemOptModelCellFrame *)cellFrame).isSelected) return;
-                //更新数据库
-                [self updateItemRecordWithMyAnswers:@[optModel.Id]];
-                //本地
-                NSMutableArray *reloadIndexPaths = [NSMutableArray array];
-                for(NSUInteger i = 0; i < _itemsDataSource.count; i++){
-                    id frame = [_itemsDataSource objectAtIndex:i];
-                    //选项处理
-                    if([frame isKindOfClass:[PaperItemOptModelCellFrame class]]){
-                        PaperItemOptModel *opt = ((PaperItemOptModelCellFrame *)frame).model;
-                        if(((PaperItemOptModelCellFrame *)frame).isSelected || [opt.Id isEqualToString:optModel.Id]){
-                            opt.myAnswers = optModel.Id;
-                            ((PaperItemOptModelCellFrame *)frame).model = opt;
-                            [reloadIndexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
-                        }
-                    }else if([frame isKindOfClass:[PaperItemAnalysisModelCellFrame class]]){//答案解析处理
-                        PaperItemAnalysisModel *analysisModel = ((PaperItemAnalysisModelCellFrame *)frame).model;
-                        analysisModel.myAnswers = optModel.Id;
-                        ((PaperItemAnalysisModelCellFrame *)frame).model = analysisModel;
+            //是否为单选
+            BOOL isSingle = (optModel.itemType == PaperItemTypeSingle);
+            //选中答案数组
+            NSMutableArray *selectArrays = (_myAnswers) ? [NSMutableArray arrayWithArray:[_myAnswers componentsSeparatedByString:@","]] : [NSMutableArray array];
+            //是否重复选中
+            if(((PaperItemOptModelCellFrame *)cellFrame).isSelected){
+                //单选重复选择则忽略
+                if(isSingle){
+                    return;
+                }else{//多选则从答案中移除
+                    [selectArrays removeObject:optModel.Id];
+                }
+            }else{//添加答案
+                if(isSingle && [selectArrays count] > 0){
+                    //单选须清空选中的答案后添加
+                    [selectArrays removeAllObjects];
+                }
+                //添加答案
+                [selectArrays addObject:optModel.Id];
+            }
+            //更新答案到数据库
+            [self updateItemRecordWithMyAnswers:selectArrays];
+            //答案拼接成字符串
+            _myAnswers = [selectArrays componentsJoinedByString:@","];
+            //重载数据索引集合
+            NSMutableArray *reloadIndexPaths = [NSMutableArray array];
+            //循环数据源
+            for(NSUInteger i = 0; i < _itemsDataSource.count; i++){
+                id frame = [_itemsDataSource objectAtIndex:i];
+                //选项处理
+                if([frame isKindOfClass:[PaperItemOptModelCellFrame class]]){
+                    PaperItemOptModel *opt = ((PaperItemOptModelCellFrame *)frame).model;
+                    if(((PaperItemOptModelCellFrame *)frame).isSelected || [opt.Id isEqualToString:optModel.Id]){
+                        opt.myAnswers = _myAnswers;
+                        ((PaperItemOptModelCellFrame *)frame).model = opt;
                         [reloadIndexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
                     }
+                    continue;
                 }
-                //UpdateUI
-                if(reloadIndexPaths.count > 0){
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        //刷新UI
-                        [tableView reloadRowsAtIndexPaths:reloadIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-                        //触发单选代理
-                        if(_delegate && [_delegate respondsToSelector:@selector(itemViewController:singleClickOrder:)]){
-                            [_delegate itemViewController:self singleClickOrder:_order];
-                        }
-                    });
+                //答案处理
+                if([frame isKindOfClass:[PaperItemAnalysisModelCellFrame class]]){//答案解析处理
+                    PaperItemAnalysisModel *analysisModel = ((PaperItemAnalysisModelCellFrame *)frame).model;
+                    analysisModel.myAnswers = _myAnswers;
+                    ((PaperItemAnalysisModelCellFrame *)frame).model = analysisModel;
+                    [reloadIndexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
                 }
-            }else{//多选
-                NSMutableArray *arrays = [NSMutableArray arrayWithArray:[optModel.myAnswers componentsSeparatedByString:@","]];
-                NSMutableArray *reloadIndexPaths = [NSMutableArray array];
-                //再次选中则取消
-                if(((PaperItemOptModelCellFrame *)cellFrame).isSelected){
-                    if(!arrays || arrays.count == 0)return;
-                    //移除选项
-                    [arrays removeObject:optModel.Id];
-                    //从数据库中取消
-                    [self updateItemRecordWithMyAnswers:arrays];
-                    //选项处理
-                    optModel.myAnswers = [arrays componentsJoinedByString:@","];
-                    ((PaperItemOptModelCellFrame *)cellFrame).model = optModel;
-                    [reloadIndexPaths addObject:indexPath];
-                    //答案解析处理
-                    NSIndexPath *analysisIndexPath = [self updateItemAnalysisModelWithMyAnswers:optModel.myAnswers];
-                    if(analysisIndexPath){
-                        [reloadIndexPaths addObject:analysisIndexPath];
-                    }
-                    //UpdateUI
-                    dispatch_async(dispatch_get_main_queue(), ^{
-                        [tableView reloadRowsAtIndexPaths:reloadIndexPaths withRowAnimation:UITableViewRowAnimationFade];
-                    });
-                    return;
-                }
-                //添加到我的答案
-                [arrays addObject:optModel.Id];
-                //添加到数据库
-                [self updateItemRecordWithMyAnswers:arrays];
-                //更新到数据源
-                optModel.myAnswers = [arrays componentsJoinedByString:@","];
-                ((PaperItemOptModelCellFrame *)cellFrame).model = optModel;
-                [reloadIndexPaths addObject:indexPath];
-                //答案解析处理
-                NSIndexPath *analysisIndexPath = [self updateItemAnalysisModelWithMyAnswers:optModel.myAnswers];
-                if(analysisIndexPath){
-                    [reloadIndexPaths addObject:analysisIndexPath];
-                }
-                //UpdateUI
-                dispatch_async(dispatch_get_main_queue(), ^{
+            }
+            //更新UI
+            if([reloadIndexPaths count] > 0){
+                //主线程更新UI
+                dispatch_async(dispatch_get_main_queue(),^{
+                    //刷新UI
                     [tableView reloadRowsAtIndexPaths:reloadIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+                    if(isSingle && _delegate && [_delegate respondsToSelector:@selector(itemViewController:singleClickOrder:)]){
+                        //触发单选下一题
+                        [_delegate itemViewController:self singleClickOrder:_order];
+                    }
                 });
             }
         }
     });
-}
-
-//答案解析处理
--(NSIndexPath *)updateItemAnalysisModelWithMyAnswers:(NSString *)myAnswers{
-    if(_displayAnswer && _itemsDataSource && _itemsDataSource.count > 0){
-        for(NSUInteger i = 0; i < _itemsDataSource.count; i++){
-            id frame = [_itemsDataSource objectAtIndex:i];
-            if([frame isKindOfClass:[PaperItemAnalysisModelCellFrame class]]){
-                PaperItemAnalysisModel *analysisModel = ((PaperItemAnalysisModelCellFrame *)frame).model;
-                analysisModel.myAnswers = myAnswers;
-                ((PaperItemAnalysisModelCellFrame *)frame).model = analysisModel;
-                return [NSIndexPath indexPathForRow:i inSection:0];
-            }
-        }
-    }
-    return nil;
 }
 
 //更新试题记录
