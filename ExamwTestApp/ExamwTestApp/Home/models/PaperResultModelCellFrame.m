@@ -33,12 +33,6 @@
         
         _attriDict = @{NSFontAttributeName : [AppConstants globalListFont]};
         
-//        _titleFont = [AppConstants globalListFont];
-//        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
-//        _titleFrame = CGRectZero;
-        
-//        _contentFont = _titleFont;
-//        _contentFontColor = nil;
         _contentFrame = CGRectZero;
         
         _cellHeight = 0;
