@@ -14,19 +14,24 @@
 @class PaperResultModel;
 @interface PaperResultModelCellFrame : NSObject<DataModelCellFrame>
 
-//标题
-@property(nonatomic,copy,readonly)NSString *title;
-//标题字体
-@property(nonatomic,readonly)UIFont *titleFont;
-//标题Frame
-@property(nonatomic,assign,readonly)CGRect titleFrame;
+////标题
+//@property(nonatomic,copy,readonly)NSString *title;
+////标题字体
+//@property(nonatomic,readonly)UIFont *titleFont;
+////标题Frame
+//@property(nonatomic,assign,readonly)CGRect titleFrame;
+
+////内容
+//@property(nonatomic,copy,readonly)NSString *content;
+////内容字体
+//@property(nonatomic,readonly)UIFont *contentFont;
+////内容字体颜色
+//@property(nonatomic,readonly)UIColor *contentFontColor;
+
 
 //内容
-@property(nonatomic,copy,readonly)NSString *content;
-//内容字体
-@property(nonatomic,readonly)UIFont *contentFont;
-//内容字体颜色
-@property(nonatomic,readonly)UIColor *contentFontColor;
+@property(nonatomic,copy,readonly)NSAttributedString *contentAttributedString;
+
 //内容Frame
 @property(nonatomic,assign,readonly)CGRect contentFrame;
 

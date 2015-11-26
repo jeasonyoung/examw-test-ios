@@ -19,6 +19,7 @@
 //试卷结果模型Cell Frame成员变量
 @interface PaperResultModelCellFrame (){
     CGFloat _width,_maxWidth;
+    NSDictionary *_attriDict;
 }
 @end
 //试卷结果模型Cell Frame实现
@@ -30,12 +31,14 @@
         _width = SCREEN_WIDTH;
         _maxWidth = _width - __kPaperResultModelCellFrame_right;
         
-        _titleFont = [AppConstants globalListFont];
-        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
-        _titleFrame = CGRectZero;
+        _attriDict = @{NSFontAttributeName : [AppConstants globalListFont]};
         
-        _contentFont = _titleFont;
-        _contentFontColor = nil;
+//        _titleFont = [AppConstants globalListFont];
+//        //[UIFont preferredFontForTextStyle:UIFontTextStyleFootnote];
+//        _titleFrame = CGRectZero;
+        
+//        _contentFont = _titleFont;
+//        _contentFontColor = nil;
         _contentFrame = CGRectZero;
         
         _cellHeight = 0;
@@ -45,34 +48,17 @@
 
 //加载数据Frame
 -(void)loadDataFrame{
-    CGFloat x=__kPaperResultModelCellFrame_left, y=__kPaperResultModelCellFrame_top,maxHeight=0;
-    CGSize titleSize = CGSizeZero, contentSize = CGSizeZero;
-    //标题尺寸
-    if(_title && _title.length > 0){
-        titleSize = [_title boundingRectWithSize:CGSizeMake(_maxWidth - x, CGFLOAT_MAX)
-                                         options:STR_SIZE_OPTIONS
-                                      attributes:@{NSFontAttributeName : _titleFont}
-                                         context:nil].size;
-        if(maxHeight < titleSize.height){ maxHeight = titleSize.height;}
-    }
-    //内容尺寸
-    if(_content && _content.length > 0){
-        contentSize = [_content boundingRectWithSize:CGSizeMake(_maxWidth - x, CGFLOAT_MAX)
-                                             options:STR_SIZE_OPTIONS
-                                          attributes:@{NSFontAttributeName : _contentFont} context:nil].size;
-        if(maxHeight < contentSize.height){ maxHeight = contentSize.height;}
-    }
-    //标题frame
-    if(!CGSizeEqualToSize(titleSize, CGSizeZero)){
-        x = _width/2 - titleSize.width;
-        y = __kPaperResultModelCellFrame_top + (maxHeight - titleSize.height);
-        _titleFrame = CGRectMake(x, y, titleSize.width, titleSize.height);
-        x = CGRectGetMaxX(_titleFrame);
-    }
-    //内容frame
-    if(!CGSizeEqualToSize(contentSize, CGSizeZero)){
-        y = __kPaperResultModelCellFrame_top + (maxHeight - contentSize.height)/2;
-        _contentFrame = CGRectMake(x, y, contentSize.width, contentSize.height);
+    CGFloat x = __kPaperResultModelCellFrame_left, y = __kPaperResultModelCellFrame_top, maxHeight = 0;
+    
+    if(_contentAttributedString){
+        CGRect contentSize = [_contentAttributedString boundingRectWithSize:CGSizeMake(_maxWidth - x, CGFLOAT_MAX)
+                                                                    options:STR_SIZE_OPTIONS
+                                                                    context:nil];
+        maxHeight = CGRectGetHeight(contentSize);
+        contentSize.origin.x = (_maxWidth - x)/2 - CGRectGetWidth(contentSize)/2;
+        contentSize.origin.y = y;
+        
+        _contentFrame = contentSize;
     }
     //行高
     _cellHeight = y + maxHeight + __kPaperResultModelCellFrame_bottom;
@@ -82,15 +68,24 @@
 -(void)loadScoreWithModel:(PaperResultModel *)model{
     if(!model || !model.score)return;
     NSLog(@"加载分数...");
-    _title = @"得分:";
     float score = model.score.floatValue;
-    _content = [NSString stringWithFormat:@"%0.1f", score];
-    _contentFont = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
-    if(score > 60){
-        _contentFontColor = [UIColor greenColor];
-    }else{
-        _contentFontColor = [UIColor redColor];
-    }
+    NSString *title = @"得分:";
+    NSString *content = [NSString stringWithFormat:@"%@%0.1f",title,score];
+    
+    NSMutableAttributedString *attrString = [[NSMutableAttributedString alloc] initWithString:content attributes:_attriDict];
+    
+    UIFont *font = [UIFont preferredFontForTextStyle:UIFontTextStyleHeadline];
+    UIColor *color = [UIColor redColor];
+    
+    if(score > 60) color = [UIColor greenColor];
+    
+    NSUInteger titleLen = title.length, contentLen = content.length;
+    //添加分数字体/颜色
+    [attrString addAttributes:@{NSFontAttributeName : font, NSForegroundColorAttributeName : color}
+                        range:NSMakeRange(titleLen, contentLen - titleLen)];
+    //
+    _contentAttributedString = attrString;
+    //计算尺寸
     [self loadDataFrame];
 }
 
@@ -98,8 +93,11 @@
 -(void)loadTotalWithModel:(PaperResultModel *)model{
     if(!model)return;
     NSLog(@"加载总题数...");
-    _title = @"共:";
-    _content = [NSString stringWithFormat:@"%d题",(int)model.total];
+    NSString *content = [NSString stringWithFormat:@"共:%3d题",(int)model.total];
+    //
+    _contentAttributedString = [[NSAttributedString alloc] initWithString:content
+                                                               attributes:_attriDict];
+    //
     [self loadDataFrame];
 }
 
@@ -107,8 +105,11 @@
 -(void)loadRightsWithModel:(PaperResultModel *)model{
     if(!model)return;
     NSLog(@"加载做对题数...");
-    _title = @"做对:";
-    _content = [NSString stringWithFormat:@"%d题", (int)model.rights];
+    NSString *content = [NSString stringWithFormat:@"做对:%3d题",(int)model.rights];
+    //
+    _contentAttributedString = [[NSAttributedString alloc] initWithString:content
+                                                               attributes:_attriDict];
+    //
     [self loadDataFrame];
 }
 
@@ -116,8 +117,11 @@
 -(void)loadErrorsWithModel:(PaperResultModel *)model{
     if(!model)return;
     NSLog(@"加载做错题数...");
-    _title = @"做错:";
-    _content = [NSString stringWithFormat:@"%d题", (int)model.errors];
+    NSString *content = [NSString stringWithFormat:@"做错:%3d题",(int)model.errors];
+    //
+    _contentAttributedString = [[NSAttributedString alloc] initWithString:content
+                                                               attributes:_attriDict];
+    //
     [self loadDataFrame];
 }
 
@@ -125,8 +129,11 @@
 -(void)loadNotsWithModel:(PaperResultModel *)model{
     if(!model)return;
     NSLog(@"加载未做题数...");
-    _title = @"未做:";
-    _content = [NSString stringWithFormat:@"%d题", (int)model.nots];
+    NSString *content = [NSString stringWithFormat:@"未做:%3d题",(int)model.nots];
+    //
+    _contentAttributedString = [[NSAttributedString alloc] initWithString:content
+                                                               attributes:_attriDict];
+    //
     [self loadDataFrame];
 }
 
@@ -155,16 +162,24 @@
     if(s > 0){
         [times appendFormat:@"%d\"",(int)s];
     }
-    _title = @"共用时:";
-    _content = times;
+    //
+    NSString *content = [NSString stringWithFormat:@"共用时:%@",times];
+    //
+    _contentAttributedString = [[NSAttributedString alloc] initWithString:content
+                                                               attributes:_attriDict];
+    //
     [self loadDataFrame];
 }
 
 #pragma mark 加载完成时间
 -(void)loadTimeWithModel:(PaperResultModel *)model{
     if(!model || !model.lastTime || model.lastTime.length == 0)return;
-    _title = @"完成时间:";
-    _content = model.lastTime;
+    //
+    NSString *content = [NSString stringWithFormat:@"完成时间:%@",model.lastTime];
+    //
+    _contentAttributedString = [[NSAttributedString alloc] initWithString:content
+                                                               attributes:_attriDict];
+    //
     [self loadDataFrame];
 }
 @end
