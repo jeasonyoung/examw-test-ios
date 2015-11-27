@@ -215,6 +215,13 @@
 		A1DF97EA1B1220F3000F2B73 /* PaperService.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DF97E91B1220F3000F2B73 /* PaperService.m */; };
 		A1DF97ED1B12AC01000F2B73 /* PaperInfoModelCellFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DF97EC1B12AC01000F2B73 /* PaperInfoModelCellFrame.m */; };
 		A1DF97F01B12BF20000F2B73 /* PaperInfoTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A1DF97EF1B12BF20000F2B73 /* PaperInfoTableViewCell.m */; };
+		A1EAC2811C08074E000C90C0 /* ioapi.c in Sources */ = {isa = PBXBuildFile; fileRef = A1EAC2791C08074E000C90C0 /* ioapi.c */; };
+		A1EAC2821C08074E000C90C0 /* mztools.c in Sources */ = {isa = PBXBuildFile; fileRef = A1EAC27B1C08074E000C90C0 /* mztools.c */; };
+		A1EAC2831C08074E000C90C0 /* unzip.c in Sources */ = {isa = PBXBuildFile; fileRef = A1EAC27D1C08074E000C90C0 /* unzip.c */; };
+		A1EAC2841C08074E000C90C0 /* zip.c in Sources */ = {isa = PBXBuildFile; fileRef = A1EAC27F1C08074E000C90C0 /* zip.c */; };
+		A1EAC2881C08075C000C90C0 /* SSZipArchive.m in Sources */ = {isa = PBXBuildFile; fileRef = A1EAC2871C08075C000C90C0 /* SSZipArchive.m */; };
+		A1EAC28D1C0809EA000C90C0 /* libz.1.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EAC28B1C0809BF000C90C0 /* libz.1.dylib */; };
+		A1EAC28F1C080BC1000C90C0 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1EAC28E1C080BC1000C90C0 /* libsqlite3.dylib */; };
 		A1F1C94A1B2E87D8004A8CC7 /* DigestHTTPJSONProvider.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F1C9491B2E87D8004A8CC7 /* DigestHTTPJSONProvider.m */; };
 		A1F7241F1B02F88A0023A3C8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F7241E1B02F88A0023A3C8 /* main.m */; };
 		A1F724221B02F88A0023A3C8 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724211B02F88A0023A3C8 /* AppDelegate.m */; };
@@ -224,7 +231,6 @@
 		A1F724C71B0305C00023A3C8 /* FMDatabasePool.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724BF1B0305BF0023A3C8 /* FMDatabasePool.m */; };
 		A1F724C81B0305C00023A3C8 /* FMDatabaseAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724C11B0305C00023A3C8 /* FMDatabaseAdditions.m */; };
 		A1F724C91B0305C00023A3C8 /* FMDatabase.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724C31B0305C00023A3C8 /* FMDatabase.m */; };
-		A1F724CB1B033AAC0023A3C8 /* libsqlite3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = A1F724CA1B033AAC0023A3C8 /* libsqlite3.dylib */; };
 		A1F724D11B033F4A0023A3C8 /* AppSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724D01B033F4A0023A3C8 /* AppSettings.m */; };
 		A1F724D71B0342330023A3C8 /* SecureUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724D61B0342330023A3C8 /* SecureUtils.m */; };
 		A1F724DD1B03470B0023A3C8 /* NSData+Hex.m in Sources */ = {isa = PBXBuildFile; fileRef = A1F724DC1B03470B0023A3C8 /* NSData+Hex.m */; };
@@ -637,6 +643,20 @@
 		A1DF97EC1B12AC01000F2B73 /* PaperInfoModelCellFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperInfoModelCellFrame.m; path = Home/models/PaperInfoModelCellFrame.m; sourceTree = "<group>"; };
 		A1DF97EE1B12BF20000F2B73 /* PaperInfoTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PaperInfoTableViewCell.h; path = Home/views/PaperInfoTableViewCell.h; sourceTree = "<group>"; };
 		A1DF97EF1B12BF20000F2B73 /* PaperInfoTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PaperInfoTableViewCell.m; path = Home/views/PaperInfoTableViewCell.m; sourceTree = "<group>"; };
+		A1EAC2781C08074E000C90C0 /* crypt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = crypt.h; path = libs/SSZipArchive/minizip/crypt.h; sourceTree = "<group>"; };
+		A1EAC2791C08074E000C90C0 /* ioapi.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = ioapi.c; path = libs/SSZipArchive/minizip/ioapi.c; sourceTree = "<group>"; };
+		A1EAC27A1C08074E000C90C0 /* ioapi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ioapi.h; path = libs/SSZipArchive/minizip/ioapi.h; sourceTree = "<group>"; };
+		A1EAC27B1C08074E000C90C0 /* mztools.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = mztools.c; path = libs/SSZipArchive/minizip/mztools.c; sourceTree = "<group>"; };
+		A1EAC27C1C08074E000C90C0 /* mztools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = mztools.h; path = libs/SSZipArchive/minizip/mztools.h; sourceTree = "<group>"; };
+		A1EAC27D1C08074E000C90C0 /* unzip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = unzip.c; path = libs/SSZipArchive/minizip/unzip.c; sourceTree = "<group>"; };
+		A1EAC27E1C08074E000C90C0 /* unzip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = unzip.h; path = libs/SSZipArchive/minizip/unzip.h; sourceTree = "<group>"; };
+		A1EAC27F1C08074E000C90C0 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = zip.c; path = libs/SSZipArchive/minizip/zip.c; sourceTree = "<group>"; };
+		A1EAC2801C08074E000C90C0 /* zip.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = zip.h; path = libs/SSZipArchive/minizip/zip.h; sourceTree = "<group>"; };
+		A1EAC2851C08075C000C90C0 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Common.h; path = libs/SSZipArchive/Common.h; sourceTree = "<group>"; };
+		A1EAC2861C08075C000C90C0 /* SSZipArchive.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSZipArchive.h; path = libs/SSZipArchive/SSZipArchive.h; sourceTree = "<group>"; };
+		A1EAC2871C08075C000C90C0 /* SSZipArchive.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSZipArchive.m; path = libs/SSZipArchive/SSZipArchive.m; sourceTree = "<group>"; };
+		A1EAC28B1C0809BF000C90C0 /* libz.1.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.dylib; path = /usr/lib/libz.1.dylib; sourceTree = "<absolute>"; };
+		A1EAC28E1C080BC1000C90C0 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = /usr/lib/libsqlite3.dylib; sourceTree = "<absolute>"; };
 		A1F1C9481B2E87D8004A8CC7 /* DigestHTTPJSONProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DigestHTTPJSONProvider.h; path = ExamwTestApp/Utils/DigestHTTPJSONProvider.h; sourceTree = "<group>"; };
 		A1F1C9491B2E87D8004A8CC7 /* DigestHTTPJSONProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DigestHTTPJSONProvider.m; path = ExamwTestApp/Utils/DigestHTTPJSONProvider.m; sourceTree = "<group>"; };
 		A1F724191B02F88A0023A3C8 /* ExamwTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ExamwTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -656,7 +676,6 @@
 		A1F724C21B0305C00023A3C8 /* FMDatabaseAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabaseAdditions.h; path = libs/FMDB_v2.5/FMDatabaseAdditions.h; sourceTree = "<group>"; };
 		A1F724C31B0305C00023A3C8 /* FMDatabase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FMDatabase.m; path = libs/FMDB_v2.5/FMDatabase.m; sourceTree = "<group>"; };
 		A1F724C41B0305C00023A3C8 /* FMDatabase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FMDatabase.h; path = libs/FMDB_v2.5/FMDatabase.h; sourceTree = "<group>"; };
-		A1F724CA1B033AAC0023A3C8 /* libsqlite3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.dylib; path = usr/lib/libsqlite3.dylib; sourceTree = SDKROOT; };
 		A1F724CD1B033E260023A3C8 /* AppConstants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppConstants.h; sourceTree = "<group>"; };
 		A1F724CF1B033F4A0023A3C8 /* AppSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppSettings.h; sourceTree = "<group>"; };
 		A1F724D01B033F4A0023A3C8 /* AppSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppSettings.m; sourceTree = "<group>"; };
@@ -677,7 +696,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A1F724CB1B033AAC0023A3C8 /* libsqlite3.dylib in Frameworks */,
+				A1EAC28F1C080BC1000C90C0 /* libsqlite3.dylib in Frameworks */,
+				A1EAC28D1C0809EA000C90C0 /* libz.1.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1200,6 +1220,33 @@
 			name = models;
 			sourceTree = "<group>";
 		};
+		A1EAC2761C080703000C90C0 /* SSZipArchive */ = {
+			isa = PBXGroup;
+			children = (
+				A1EAC2851C08075C000C90C0 /* Common.h */,
+				A1EAC2861C08075C000C90C0 /* SSZipArchive.h */,
+				A1EAC2871C08075C000C90C0 /* SSZipArchive.m */,
+				A1EAC2771C08071B000C90C0 /* minizip */,
+			);
+			name = SSZipArchive;
+			sourceTree = "<group>";
+		};
+		A1EAC2771C08071B000C90C0 /* minizip */ = {
+			isa = PBXGroup;
+			children = (
+				A1EAC2781C08074E000C90C0 /* crypt.h */,
+				A1EAC2791C08074E000C90C0 /* ioapi.c */,
+				A1EAC27A1C08074E000C90C0 /* ioapi.h */,
+				A1EAC27B1C08074E000C90C0 /* mztools.c */,
+				A1EAC27C1C08074E000C90C0 /* mztools.h */,
+				A1EAC27D1C08074E000C90C0 /* unzip.c */,
+				A1EAC27E1C08074E000C90C0 /* unzip.h */,
+				A1EAC27F1C08074E000C90C0 /* zip.c */,
+				A1EAC2801C08074E000C90C0 /* zip.h */,
+			);
+			name = minizip;
+			sourceTree = "<group>";
+		};
 		A1F724101B02F88A0023A3C8 = {
 			isa = PBXGroup;
 			children = (
@@ -1260,7 +1307,9 @@
 		A1F724451B02FABD0023A3C8 /* libs */ = {
 			isa = PBXGroup;
 			children = (
-				A1F724CA1B033AAC0023A3C8 /* libsqlite3.dylib */,
+				A1EAC28E1C080BC1000C90C0 /* libsqlite3.dylib */,
+				A1EAC28B1C0809BF000C90C0 /* libz.1.dylib */,
+				A1EAC2761C080703000C90C0 /* SSZipArchive */,
 				A1CCE60F1B2F0CEF00E20999 /* ZWIntroduction */,
 				A1F724461B02FB600023A3C8 /* FMDB */,
 				A1F724671B02FD000023A3C8 /* AFNetworking */,
@@ -1597,12 +1646,14 @@
 				A141145E1B204FE300179630 /* MHTextField.m in Sources */,
 				A1C6AD841B0C74770002BE81 /* UIActivityIndicatorView+AFNetworking.m in Sources */,
 				A1A1A49C1B286AFE00141BAC /* SDWebImageDownloader.m in Sources */,
+				A1EAC2841C08074E000C90C0 /* zip.c in Sources */,
 				A1936CA21B0F1BDF00C59A06 /* FavoritesViewController.m in Sources */,
 				A19D5B541B064706009F7360 /* CategoryModel.m in Sources */,
 				A1CA97E81B0F81C6003006F2 /* DAPagesContainer.m in Sources */,
 				A1A1A49D1B286AFE00141BAC /* SDWebImageDownloaderOperation.m in Sources */,
 				A1C51B0F1B1F4B9F000F172B /* MyRecordViewController.m in Sources */,
 				A121F2531B1422A6004EC63C /* PaperTitleTableViewCell.m in Sources */,
+				A1EAC2811C08074E000C90C0 /* ioapi.c in Sources */,
 				A1D968871B2BC5B600264B57 /* ESTextAttachment.m in Sources */,
 				A1C6AD7F1B0C74770002BE81 /* AFSecurityPolicy.m in Sources */,
 				A1A478D61B15F3D0000B7E22 /* PaperItemTitleModel.m in Sources */,
@@ -1647,6 +1698,7 @@
 				A1F724E01B034E950023A3C8 /* NSString+Reversed.m in Sources */,
 				A13BB78B1B0AE6A40063C64B /* CategoryModelCellFrame.m in Sources */,
 				A1A1A4A21B286AFE00141BAC /* UIImage+MultiFormat.m in Sources */,
+				A1EAC2821C08074E000C90C0 /* mztools.c in Sources */,
 				A1B5AF391B0399780086F421 /* UIColor+Hex.m in Sources */,
 				A1B067CE1B2FCFC10049C1B1 /* SubjectTableViewCell.m in Sources */,
 				A18BA4D61B2330D7008C52C5 /* TitleTableViewCell.m in Sources */,
@@ -1660,6 +1712,7 @@
 				A1A1A4A31B286AFE00141BAC /* UIImage+WebP.m in Sources */,
 				A1C6AD881B0C74770002BE81 /* UIProgressView+AFNetworking.m in Sources */,
 				A141146A1B20608700179630 /* ESTextField.m in Sources */,
+				A1EAC2881C08075C000C90C0 /* SSZipArchive.m in Sources */,
 				A1A1A49E1B286AFE00141BAC /* SDWebImageManager.m in Sources */,
 				A1A1A4A41B286AFE00141BAC /* UIImageView+HighlightedWebCache.m in Sources */,
 				A121F24D1B13FBE8004EC63C /* PaperButtonModelCellFrame.m in Sources */,
@@ -1700,6 +1753,7 @@
 				A17098F11B0581C00083AF01 /* UIScrollView+MJRefresh.m in Sources */,
 				A1C6AD4F1B0C0EC60002BE81 /* ProductModelCellFrame.m in Sources */,
 				A1B7F6A41B1362E700DF8834 /* PaperButtonModel.m in Sources */,
+				A1EAC2831C08074E000C90C0 /* unzip.c in Sources */,
 				A1A479021B16BF69000B7E22 /* PaperItemTitleTableViewCell.m in Sources */,
 				A1D968A21B2C1DFE00264B57 /* FavoriteSync.m in Sources */,
 				A1B067CB1B2FC58C0049C1B1 /* SubjectModelCellFrame.m in Sources */,

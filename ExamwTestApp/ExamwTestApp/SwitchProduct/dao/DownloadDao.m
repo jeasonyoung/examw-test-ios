@@ -213,31 +213,17 @@
         //下载试卷数据
         NSLog(@"准备开始下载试卷数据...");
         //从试卷表中查询最新的试卷发布时间
-//        __block NSString *lastTime = @"";
-//        [_dbQueue inDatabase:^(FMDatabase *db) {
-//            static NSString *query_sql = @"select createTime from tbl_papers order by createTime desc limit 0,1";
-//            lastTime = [db stringForQuery:query_sql];
-//        }];
         reqParameters.startTime = [self loadDownloadLastTime]; //lastTime;
-        //下载试卷数据
-        [_provider postDataWithUrl:_kAPP_API_PAPERS_URL parameters:[reqParameters serialize] success:^(NSDictionary *result) {
-            @try {
-                JSONCallback *callback = [JSONCallback callbackWithDict:result];
-                if(!callback.success){
-                    NSLog(@"下载试卷失败:%@", callback.msg);
-                    if(handler)handler(NO,callback.msg);
-                    return;
-                }
-                NSLog(@"开始解析试卷数据...");
-                NSArray *arrays = nil;
-                if(callback.data && [callback.data isKindOfClass:[NSArray class]]){
-                    arrays = (NSArray *)callback.data;
-                }
+        //下载试卷数据成功
+        void(^successHandler)(id) = ^(id result){
+            NSLog(@"准备解析下载试卷...");
+            if(result && [result isKindOfClass:[NSArray class]]){
+                NSArray *arrays = (NSArray *)result;
                 if(arrays && arrays.count > 0){
+                    NSLog(@"共下载[%d]套试卷...", arrays.count);
                     NSLog(@"准备将试卷数据写入本地数据库...");
-                    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback) {
+                    [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback){
                         @try {
-                            NSLog(@"共有[%d]条试卷数据更新...", (int)arrays.count);
                             for(NSDictionary *dict in arrays){
                                 if(!dict || dict.count == 0) continue;
                                 [self updatePaperWithDb:db andData:dict];
@@ -249,17 +235,31 @@
                             if(handler)handler(NO, @"试卷本地存储失败!");
                         }
                     }];
+                    if(handler)handler(YES,nil);
+                }else{
+                    NSLog(@"没有下载到试卷!");
+                    if(handler)handler(NO,@"没有下载到试卷!");
                 }
-                if(handler)handler(YES,nil);
+            }else{
+                NSLog(@"JSON数据格式不正确，无法解析!");
+                if(handler)handler(NO,@"下载数据格式不正确，无法解析!");
             }
-            @catch (NSException *exception) {
-                NSLog(@"下载试卷异常:%@", exception);
-                if(handler){handler(NO,@"下载试卷异常,请稍后再试!");};
-            }
-        } fail:^(NSString *err) {
+        };
+        //下载进度
+        void(^downloadProcessHandler)(CGFloat) = ^(CGFloat precent){
+            NSLog(@"下载进度=>%f", (precent * 100));
+        };
+        //下载试卷数据失败
+        void(^failHandler)(NSString *) = ^(NSString *err){
             NSLog(@"下载试卷失败:%@", err);
             if(handler){handler(NO,@"服务器忙,请稍后再试!");};
-        }];
+        };
+        //下载试卷数据ZIP压缩文件包
+        [_provider postDownloadZipWithUrl:_kAPP_API_PAPERS_URL
+                               parameters:[reqParameters serialize]
+                                 progress:downloadProcessHandler
+                                  success:successHandler
+                                     fail:failHandler];
     }
     @catch (NSException *exception) {
         NSLog(@"下载试卷异常:%@", exception);

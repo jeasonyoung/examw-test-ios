@@ -40,7 +40,8 @@
 //科目数据API
 #define _kAPP_API_SUBJECTS_URL _kAPP_API_HOST@"/examw-test/api/m/sync/exams"
 //试卷数据API
-#define _kAPP_API_PAPERS_URL _kAPP_API_HOST@"/examw-test/api/m/sync/papers"
+//#define _kAPP_API_PAPERS_URL _kAPP_API_HOST@"/examw-test/api/m/sync/papers"
+#define _kAPP_API_PAPERS_URL _kAPP_API_HOST@"/examw-test/api/m/download/papers"
 
 //上传试题收藏API
 #define _kAPP_API_FAVORITES_URL _kAPP_API_HOST@"/examw-test/api/m/sync/favorites"//

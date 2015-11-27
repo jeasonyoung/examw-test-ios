@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 //摘要认证的HTTPJSON数据请求提供者
 @interface DigestHTTPJSONProvider : NSObject
 
@@ -29,5 +30,12 @@
 -(void)getDataWithUrl:(NSString *)url
            parameters:(NSDictionary *)dict
               success:(void(^)(NSDictionary *result))successHandler
+                 fail:(void(^)(NSString *err))failHandler;
+
+//post下载Zip请求
+-(void)postDownloadZipWithUrl:(NSString *)url
+                   parameters:(NSDictionary *)dict
+                     progress:(void(^)(CGFloat precent))processHandler
+              success:(void(^)(id result))successHandler
                  fail:(void(^)(NSString *err))failHandler;
 @end
