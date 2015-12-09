@@ -166,11 +166,19 @@
                         });
                     }else{
                         NSLog(@"解析JSON失败＝>%@", err);
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                            if(failHandler) failHandler([err localizedDescription]);
+                        });
                     }
                 }
                 //删除解压目录
                 BOOL delUnzipDirResult = [fileMgr removeItemAtPath:unzipPath error:nil];
                 NSLog(@"删除解压目录[%@]%@!", unzipPath, (delUnzipDirResult ? @"成功" : @"失败"));
+            }else{
+                NSLog(@"文件解压失败=>%@",zipPath);
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if(failHandler) failHandler(@"没有更新!");
+                });
             }
             //删除下载压缩文件
             BOOL delZipFileResult = [fileMgr removeItemAtPath:zipPath error:nil];

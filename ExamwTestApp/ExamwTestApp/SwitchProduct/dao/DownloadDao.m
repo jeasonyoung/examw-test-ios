@@ -220,7 +220,7 @@
             if(result && [result isKindOfClass:[NSArray class]]){
                 NSArray *arrays = (NSArray *)result;
                 if(arrays && arrays.count > 0){
-                    NSLog(@"共下载[%d]套试卷...", arrays.count);
+                    NSLog(@"共下载[%d]套试卷...", (int)arrays.count);
                     NSLog(@"准备将试卷数据写入本地数据库...");
                     [_dbQueue inTransaction:^(FMDatabase *db, BOOL *rollback){
                         @try {
@@ -252,7 +252,7 @@
         //下载试卷数据失败
         void(^failHandler)(NSString *) = ^(NSString *err){
             NSLog(@"下载试卷失败:%@", err);
-            if(handler){handler(NO,@"服务器忙,请稍后再试!");};
+            if(handler){handler(NO,err);};
         };
         //下载试卷数据ZIP压缩文件包
         [_provider postDownloadZipWithUrl:_kAPP_API_PAPERS_URL

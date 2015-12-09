@@ -141,7 +141,7 @@
                             if(app){ [app resetRootController];}
                         }else{//下载失败
                             //初始化弹出框
-                            _alertView = [[UIAlertView alloc] initWithTitle:@"下载失败" message:err delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                            _alertView = [[UIAlertView alloc] initWithTitle:@"提示" message:err delegate:nil cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                             //弹出
                             [_alertView show];
                         }
